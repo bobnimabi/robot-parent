@@ -1,8 +1,8 @@
 package com.robot.center.interceptor;
 
-import com.bbin.common.constant.CommonConsts;
+import com.bbin.common.constant.CommonConstant;
 import com.bbin.common.pojo.AuthToken;
-import com.bbin.common.utils.RequestUtils;
+import com.bbin.utils.project.RequestUtils;
 import com.bbin.utils.project.XcTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class LoginLogInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 							 HttpServletResponse response, Object handler) throws Exception {
-		if (environment.equals(CommonConsts.PROD) || environment.equals(CommonConsts.TEST)) {
+		if (environment.equals(CommonConstant.PROD) || environment.equals(CommonConstant.TEST)) {
 			//记录用户行为
 			AuthToken userInfo = XcTokenUtil.getUserInfo(request, environment, redis);
 			log.info("IP:" + RequestUtils.getIpAddress(request) + " userName:" + userInfo.getUsername() + " 动作：" + request.getRequestURI());

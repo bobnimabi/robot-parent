@@ -2,12 +2,12 @@ package com.robot.center.pool;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bbin.common.response.ResponseResult;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.center.execute.IExecute;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.httpclient.AbstractHttpClientFactory;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobot;
-import com.bbin.utils.project.MyBeanUtils;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
             return robotResult;
         }
         TenantRobot robot = (TenantRobot) robotResult.getObj();
-        RobotWrapper robotWrapper = MyBeanUtils.copyProperties(robot, RobotWrapper.class);
+        RobotWrapper robotWrapper = MyBeanUtil.copyProperties(robot, RobotWrapper.class);
         robotWrapper.setIdCard(UUID.randomUUID().toString());
         robotWrapper.setCookieStore(new BasicCookieStore());
         CloseableHttpClient httpClient = clientFactory.createHttpClient(robotId);

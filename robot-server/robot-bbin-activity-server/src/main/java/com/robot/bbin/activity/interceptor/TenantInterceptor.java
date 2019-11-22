@@ -3,7 +3,7 @@ package com.robot.bbin.activity.interceptor;
 import com.bbin.common.constant.TenantConstant;
 import com.bbin.common.pojo.AuthToken;
 import com.bbin.common.response.ResponseResult;
-import com.bbin.common.utils.ResponseUtils;
+import com.bbin.utils.project.ResponseUtils;
 import com.bbin.utils.project.XcTokenUtil;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.tenant.RobotThreadLocalUtils;
@@ -43,7 +43,7 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
             }
         }
         log.info("tenantId:{} channelId:{}",RobotThreadLocalUtils.getTenantId(),RobotThreadLocalUtils.getChannelId());
-        RobotThreadLocalUtils.setPlatformId(2L);
+        RobotThreadLocalUtils.setPlatformId(RobotConsts.PLATFORM_ID.BBIN);
         RobotThreadLocalUtils.setFunction(RobotConsts.FUNCTION_CODE.ACTIVITY);
         return true;
     }

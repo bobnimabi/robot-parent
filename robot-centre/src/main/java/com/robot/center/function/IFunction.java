@@ -18,7 +18,7 @@ public interface IFunction<T> {
     ResponseResult doFunction(ParamWrapper<T> paramWrapper) throws Exception;
 
     /**
-     * 执行功能：供同步调用
+     * 执行功能：供同步登录调用
      * @param paramWrapper
      * @return
      * @throws Exception
@@ -26,13 +26,15 @@ public interface IFunction<T> {
     ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception;
 
     /**
-     * 执行功能：
+     * 执行功能：异步调用
      * @param paramWrapper
      * @param robotWrapper
+     * @param action
+     * @param isSync 是否是同步
      * @return
      * @throws Exception
      */
-    ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception;
+    ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action,Boolean isSync) throws Exception;
 
     /**
      * 获取动作编码：异步使用

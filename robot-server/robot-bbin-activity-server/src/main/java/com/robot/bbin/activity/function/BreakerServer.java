@@ -2,6 +2,7 @@ package com.robot.bbin.activity.function;
 
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.DateUtils;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.bbin.activity.dto.GameChild;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.dto.TotalBetGameDTO;
@@ -14,7 +15,6 @@ import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import com.bbin.utils.project.MyBeanUtils;
 import com.robot.bbin.activity.basic.ActionEnum;
 import com.robot.bbin.activity.vo.QueryBalanceVO;
 import org.jsoup.Jsoup;
@@ -55,14 +55,18 @@ public class BreakerServer extends FunctionBase<OrderNoQueryDTO> {
         }
         JuQueryVO juQueryVO = (JuQueryVO) juResponse.getObj();
         if (StringUtils.isEmpty(juQueryVO.getPageId())) {
-            return ResponseResult.FAIL("订单已过期");
+            return ResponseResult.FAIL("订单已过期,订单号："+juQueryVO.getPlatFormOrderNo());
         }
+        if (!queryDTO.getUserName().equals(juQueryVO.getUserName())) {
+            return ResponseResult.FAIL("会员账号不匹配，传入：" + queryDTO.getUserName() + " 实际：" + juQueryVO.getUserName());
+        }
+
         // 组装局查询细节所需参数
         ResponseResult addParamsResult = addParams(queryDTO, juQueryVO);
         if (!addParamsResult.isSuccess()) {
             return addParamsResult;
         }
-        BreakerQueryVO breakerQueryVO = MyBeanUtils.copyProperties(juQueryVO, BreakerQueryVO.class);
+        BreakerQueryVO breakerQueryVO = MyBeanUtil.copyProperties(juQueryVO, BreakerQueryVO.class);
 
         // 查询闯关情况
         ResponseResult juDetailResult = juQueryDetailServer.doFunctionFinal(paramWrapper, robotWrapper, getAction(ActionEnum.JU_QUERY_DETAIL));
@@ -97,7 +101,7 @@ public class BreakerServer extends FunctionBase<OrderNoQueryDTO> {
             return ResponseResult.FAIL("未查询到游戏对应的总投注金额");
         }
         breakerQueryVO.setTotalBetAmount(totalBetGameVO.getTotalBetByGame());
-        return juResponse;
+        return ResponseResult.SUCCESS(breakerQueryVO);
     }
 
     // 附加局查询参数
@@ -114,7 +118,7 @@ public class BreakerServer extends FunctionBase<OrderNoQueryDTO> {
             }
         }
         if (!flag) {
-            return ResponseResult.FAIL("List<GameChild>未包含此游戏：" + gameName);
+            return ResponseResult.FAIL("未包含此游戏：" + gameName);
         }
         return ResponseResult.SUCCESS();
     }

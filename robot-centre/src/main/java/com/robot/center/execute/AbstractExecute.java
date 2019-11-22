@@ -3,7 +3,6 @@ package com.robot.center.execute;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.bbin.common.response.ResponseResult;
-import com.bbin.common.utils.FastJsonUtils;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.httpclient.*;
 import com.robot.center.pool.IRobotManager;
@@ -43,7 +42,6 @@ public abstract class AbstractExecute implements IExecute{
     private Map<Long, CloseableHttpClient> httpClientMap = new HashMap<>();
     private ReentrantLock lock = new ReentrantLock();
 
-
     /**
      * 请求
      * @param robotWrapper 机器人包装类
@@ -55,9 +53,8 @@ public abstract class AbstractExecute implements IExecute{
      * @param resultParse 响应结果转换
      * @return
      * 返回null的情况
-     * 1.登录状态失效
-     * 2.请求无响应
-     * 3.请求过程出现异常
+     * 1.请求无响应
+     * 2.请求过程出现异常
      */
     @Override
     public StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
@@ -77,6 +74,7 @@ public abstract class AbstractExecute implements IExecute{
             httpContext.setCookieStore(robotWrapper.getCookieStore());
         }
         StanderHttpResponse standerHttpResponse = requestDetail(httpClient, url, customEntity, headers, method, httpContext);
+        standerHttpResponse.setRecordId(idStr);
         // 请求后：日志、响应解析
         return afterProcess(standerHttpResponse, idStr, robotWrapper, resultParse);
     }
@@ -129,9 +127,11 @@ public abstract class AbstractExecute implements IExecute{
             // 请求结果转对象
             ResponseResult parse = resultParse.parse(entityStr);
             standarHttpResponse.setResponseResult(parse);
-            log.info("响应结果：" + JSON.toJSONString(parse));
+            if (!(null != parse.getObj() && parse.getObj() instanceof String)) {
+                log.info("响应结果：" + JSON.toJSONString(parse));
+            }
         }else {
-            log.error("响应结果：未响应Entity...");
+            log.error("响应结果：未响应Entity:{}",JSON.toJSONString(standarHttpResponse));
             standarHttpResponse.setResponseResult(ResponseResult.FAIL("未响应Entity..."));
         }
         // 请求后：日志记录

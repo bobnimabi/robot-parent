@@ -20,4 +20,6 @@ public class StanderHttpResponse {
     private String entityStr;
     // 转换后的响应体
     private ResponseResult responseResult;
+    // 机器人订单号
+    private String recordId;
 }

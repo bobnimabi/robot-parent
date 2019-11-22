@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <!--引入bbin的jar包管理-->
     <parent>
-        <groupId>com.bbin</groupId>
         <artifactId>bbin-parent</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <groupId>com.bbin</groupId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.bbin</groupId>
     <artifactId>robot-parent</artifactId>
@@ -22,5 +22,19 @@
     </modules>
 
     <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.bbin</groupId>
+            <artifactId>bbin-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bbin</groupId>
+            <artifactId>bbin-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

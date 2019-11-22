@@ -10,7 +10,8 @@ public enum FunctionEnum implements IFunctionEnum {
     JU_QUERY_SERVER("juQueryServer"),
     LOGIN_IN_SERVER("loginInServer"),
     LUCK_ORDER_SERVER("luckOrderServer"),
-    QUERY_BALANCE_SERVER("queryBalanceServer");
+    QUERY_BALANCE_SERVER("queryBalanceServer"),
+    PAY_SERVER("payServer");
 
     private String serverName;
 

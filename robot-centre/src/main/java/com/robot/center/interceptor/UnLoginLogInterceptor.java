@@ -1,6 +1,6 @@
 package com.robot.center.interceptor;
 
-import com.bbin.common.utils.RequestUtils;
+import com.bbin.utils.project.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

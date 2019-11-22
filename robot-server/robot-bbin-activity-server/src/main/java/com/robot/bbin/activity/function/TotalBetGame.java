@@ -55,17 +55,19 @@ public class TotalBetGame extends FunctionBase<TotalBetGameDTO> {
         return ActionEnum.TOTAL_BET_BY_GAME;
     }
 
-    //组装局查询
+    /**
+     * 注释掉的参数，点击“查询”按钮的时候会全部带上，点击“BB电子”是没有的，为了方便临时先去掉
+     * //                .add("BarID", gameDTO.getBarId())
+     * //                .add("GameKind", gameDTO.getGameKind())
+     * //                .add("GameType", "-1") // -1表示全部
+     * //                .add("Limit", "100")
+     * //                .add("Sort", "DESC")
+     */
     private UrlCustomEntity createBodyParams(TotalBetGameDTO gameDTO) throws Exception{
         return UrlCustomEntity.custom()
                 .add("SearchData", "MemberBets")
-                .add("BarID", gameDTO.getBarId())
-                .add("GameKind", gameDTO.getGameKind())
                 .add("date_start", gameDTO.getDateStart())
                 .add("date_end", gameDTO.getDateEnd())
-                .add("GameType", "-1") // -1表示全部
-                .add("Limit", "100")
-                .add("Sort", "DESC")
                 .add("UserID", gameDTO.getUserID());
     }
 

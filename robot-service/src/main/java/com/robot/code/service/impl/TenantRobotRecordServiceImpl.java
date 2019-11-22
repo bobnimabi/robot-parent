@@ -41,7 +41,6 @@ public class TenantRobotRecordServiceImpl extends ServiceImpl<TenantRobotRecordM
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void updateRecordAsync(String id, String respInfo, int status) {
-        log.info("recordId:{},响应信息：{}，状态：{}", id, respInfo, status);
         TenantRobotRecord record = new TenantRobotRecord();
         record.setId(id);
         record.setRespInfo(respInfo);

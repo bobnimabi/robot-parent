@@ -36,7 +36,7 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
         HttpEntity entity = response.getEntity();
         if (statusLine.getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
             EntityUtils.consume(entity);
-            throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
+            throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getStatusCode()+" "+statusLine.getReasonPhrase());
         } else {
             StanderHttpResponse standerHttpResponse = new StanderHttpResponse();
             standerHttpResponse.setStatusLine(response.getStatusLine());

@@ -45,7 +45,11 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
     public RobotWrapper cacheRobotGet() {
         String robotJson = stringRedis.opsForList().rightPop(createCacheRobotPoolKey());
         RobotWrapper robotWrapper = deserializationRobot(robotJson);
-        return isLegal(robotWrapper) ? robotWrapper : null;
+        if (!isLegal(robotWrapper)) {
+            return null;
+        }
+        log.info("获取机器人成功：robotId:{}", robotWrapper.getId());
+        return robotWrapper;
     }
 
     @Override
@@ -59,7 +63,6 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
                 closeRobot(robot.getId());
             }
         }
-        robot = null;
     }
 
     protected boolean cacheRobotAdd(RobotWrapper robot) {

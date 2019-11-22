@@ -1,6 +1,8 @@
 package com.robot.bbin.activity.function;
 
 import com.bbin.common.response.ResponseResult;
+import com.bbin.utils.project.MyBeanUtil;
+import com.robot.bbin.activity.dto.GameChild;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.vo.JuQueryVO;
 import com.robot.bbin.activity.vo.LuckOrderQueryVO;
@@ -9,7 +11,6 @@ import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import com.bbin.utils.project.MyBeanUtils;
 import com.robot.bbin.activity.basic.ActionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,16 @@ public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
 
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        OrderNoQueryDTO queryDTO = paramWrapper.getObj();
         ResponseResult responseResult = juQueryServer.doFunctionFinal(paramWrapper, robotWrapper, action);
         if (!responseResult.isSuccess()) {
             return responseResult;
         }
         JuQueryVO juQueryVO = (JuQueryVO) responseResult.getObj();
-        LuckOrderQueryVO luckOrderQueryVO = MyBeanUtils.copyProperties(juQueryVO, LuckOrderQueryVO.class);
+        if (!queryDTO.getUserName().equals(juQueryVO.getUserName())) {
+            return ResponseResult.FAIL("会员账号不匹配，传入：" + queryDTO.getUserName() + " 实际：" + juQueryVO.getUserName());
+        }
+        LuckOrderQueryVO luckOrderQueryVO = MyBeanUtil.copyProperties(juQueryVO, LuckOrderQueryVO.class);
         return ResponseResult.SUCCESS(luckOrderQueryVO);
     }
 
@@ -39,4 +44,5 @@ public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
     public IActionEnum getActionEnum() {
         return ActionEnum.JU_QUERY;
     }
+
 }

@@ -7,12 +7,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bbin.common.response.ResponseResult;
-import com.bbin.robot.api.vo.TenantRobotVO;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.mapper.TenantRobotMapper;
 import com.robot.code.service.ITenantRobotService;
-import com.bbin.utils.project.MyBeanUtils;
+import com.robot.code.vo.TenantRobotVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +50,7 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
         // DB：强制下线
         forcedOfflineByDB(robotDTO.getId());
         // 修改
-        TenantRobot robot = MyBeanUtils.copyProperties(robotDTO, TenantRobot.class);
+        TenantRobot robot = MyBeanUtil.copyProperties(robotDTO, TenantRobot.class);
         boolean isUpdate = updateById(robot);
         if (!isUpdate) {
             throw new IllegalStateException("表:修改机器人失败");
@@ -65,14 +65,14 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
         if (isRobotRepetByAdd(robotDTO.getPlatformAccount())) {
             return ResponseResult.FAIL("账号已存在");
         }
-        TenantRobot robot = MyBeanUtils.copyProperties(robotDTO, TenantRobot.class);
+        TenantRobot robot = MyBeanUtil.copyProperties(robotDTO, TenantRobot.class);
         return save(robot) ? ResponseResult.SUCCESS() : ResponseResult.FAIL();
     }
 
     @Override
     public ResponseResult pageRobot(TenantRobotDTO robotDTO){
         IPage page = page(robotDTO, new LambdaQueryWrapper<TenantRobot>().orderByDesc(TenantRobot::getGmtCreateTime));
-        Page<TenantRobotVO> voPage = MyBeanUtils.copyPageToPage(page, TenantRobotVO.class);
+        Page<TenantRobotVO> voPage = MyBeanUtil.copyPageToPage(page, TenantRobotVO.class);
         return ResponseResult.SUCCESS(voPage);
     }
 

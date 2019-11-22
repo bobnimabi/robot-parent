@@ -1,16 +1,33 @@
 package com.robot.bbin.activity.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
+import com.bbin.common.util.ThreadLocalUtils;
+import com.bbin.utils.project.MyBeanUtil;
+import com.rabbitmq.client.Channel;
 import com.robot.bbin.activity.basic.FunctionEnum;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
+import com.robot.bbin.activity.dto.PayMoneyDTO;
 import com.robot.center.controller.RobotControllerBase;
+import com.robot.center.dispatch.ITaskPool;
+import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.ParamWrapper;
+import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.util.MoneyUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Duration;
 
 /**
  * Created by mrt on 11/14/2019 3:59 PM
@@ -18,6 +35,19 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class BbinActivityController extends RobotControllerBase {
+    @Autowired
+    private ITaskPool taskPool;
+    private BigDecimal AMOUNT_LIMIT = new BigDecimal(2000);
+
+    //查询用户是否存在
+    @GetMapping("/isExist")
+    public ResponseResult isExist(@RequestParam String username) throws Exception {
+        ResponseResult result = distribute(new ParamWrapper<String>(username), FunctionEnum.QUERY_BALANCE_SERVER);
+        if (result.isSuccess()) {
+            return ResponseResult.SUCCESS_MES("用户存在");
+        }
+        return result;
+    }
 
     /**
      * 幸运注单
@@ -28,8 +58,6 @@ public class BbinActivityController extends RobotControllerBase {
     public ResponseResult queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
         if (null == orderNoQueryDTO
                 || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
-                || null == orderNoQueryDTO.getStartDate()
-                || null == orderNoQueryDTO.getEndDate()
                 || StringUtils.isEmpty(orderNoQueryDTO.getGameCode())//平台编码
         ) return ResponseResult.FAIL("参数不全");
         return distribute(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.LUCK_ORDER_SERVER);
@@ -41,12 +69,53 @@ public class BbinActivityController extends RobotControllerBase {
      * @return
      * @throws Exception
      */
-    @PostMapping("/getEliminateToLe")
+    @PostMapping("/getEliminateToLe2")
     public ResponseResult getEliminateToLe(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
+        if (null == queryDTO
+                || StringUtils.isEmpty(queryDTO.getOrderNo())
+                || null == queryDTO.getStartDate()
+                || null == queryDTO.getEndDate()
+                || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
+        ) return ResponseResult.FAIL("参数不全");
         return distribute(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_SERVER);
     }
 
+    @ApiOperation("机器人：mq打款")
+    @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_BBIN)
+    @RabbitHandler
+    public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
+        tenantDispatcher();
+        try {
+            if (null == payMoneyDTO
+                    || StringUtils.isEmpty(payMoneyDTO.getUsername())
+                    || null == payMoneyDTO.getPaidAmount()
+                    || StringUtils.isEmpty(payMoneyDTO.getMemo())
+                    || StringUtils.isEmpty(payMoneyDTO.getOutPayNo())
+            ) ResponseResult.FAIL("参数不全");
+            log.info("mq打款入参：{}", JSON.toJSONString(payMoneyDTO));
 
+            if (payMoneyDTO.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
+                ResponseResult.FAIL("金额不能小于等于0");
+            }
 
+            if (payMoneyDTO.getPaidAmount().compareTo(AMOUNT_LIMIT) > 0) {
+                ResponseResult.FAIL("打款金额不能超过：" + AMOUNT_LIMIT.toString() + "元");
+            }
+
+            payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
+            payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());
+            TaskWrapper taskWrapper = new TaskWrapper(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_SERVER, payMoneyDTO.getUsername(), Duration.ofSeconds(12));
+            taskPool.taskAdd(taskWrapper);
+        } catch (Exception e) {
+            log.info("机器人：MQ打款异常", e);
+        }finally {
+            try {
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            } catch (IOException e) {
+                log.error("teantId:{},channelId:{},mq的Ack异常", RobotThreadLocalUtils.getTenantId(), RobotThreadLocalUtils.getChannelId(), e);
+            }
+            RobotThreadLocalUtils.clean();
+        }
+    }
 
 }

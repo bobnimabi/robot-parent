@@ -29,16 +29,16 @@ public abstract class FunctionBase<T> implements IFunction<T>{
 
     @Override
     public ResponseResult doFunction(ParamWrapper<T> paramWrapper) throws Exception {
-        return doFunction(paramWrapper, null, null);
+        return doFunction(paramWrapper, null, null,true);
     }
 
     @Override
     public ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        return doFunction(paramWrapper, robotWrapper, null);
+        return doFunction(paramWrapper, robotWrapper, null, true);
     }
 
     @Override
-    public ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+    public ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action,Boolean isSync) throws Exception {
 
         IActionEnum actionEnum = null;
         // 获取Action
@@ -72,7 +72,7 @@ public abstract class FunctionBase<T> implements IFunction<T>{
         try {
             return doFunctionFinal(paramWrapper, robotWrapper, action);
         } finally {
-            if (null != robotWrapper && actionEnum != CommonActionEnum.LOGIN) {
+            if (isSync && null != robotWrapper && actionEnum != CommonActionEnum.LOGIN) {
                 robotManager.cacheGiveBack(robotWrapper);
             }
         }

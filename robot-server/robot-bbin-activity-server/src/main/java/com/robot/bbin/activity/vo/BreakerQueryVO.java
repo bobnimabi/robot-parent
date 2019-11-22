@@ -14,4 +14,6 @@ public class BreakerQueryVO extends JuQueryVO{
     private BigDecimal totalBetAmount;
     // 消消除：闯关局数
     private Integer accumulativeWins;
+
+
 }

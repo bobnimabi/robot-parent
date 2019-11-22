@@ -77,7 +77,7 @@ public class ReactorImpl implements Reactor {
                             // 分布式并发下，这里有可能拿不出任务
                             TaskWrapper taskWrapperGo = taskPool.taskGet();
                             if (null != taskWrapperGo) {
-                                iFunction.doFunction(taskWrapperGo.getParamWrapper(), robotWrapper, action);
+                                iFunction.doFunction(taskWrapperGo.getParamWrapper(), robotWrapper, action, false);
                             }
                         } catch (Exception e) {
                             log.info("单执行异常", e);

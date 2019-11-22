@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robotWrapper-bbin-pay-server
+    name: robot-bbin-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖

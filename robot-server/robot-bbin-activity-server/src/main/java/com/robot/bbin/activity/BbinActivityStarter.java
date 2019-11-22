@@ -1,13 +1,16 @@
 package com.robot.bbin.activity;
 
-import com.bbin.common.interceptor.FeignClientInterceptor;
+import com.bbin.common.feignInterceptor.FeignClientInterceptor;
 import com.robot.center.tenant.FeignTenantInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
@@ -21,7 +24,13 @@ import org.springframework.web.client.RestTemplate;
         "com.robot.bbin.activity",
     }
 )
+@ComponentScan(excludeFilters = @ComponentScan.Filter(
+        type = FilterType.REGEX,
+        pattern = "com.bbin.common.rabbitmq.sms.*"),
+        basePackages={"com.bbin.common"})
 @MapperScan("com.robot.code.mapper")
+@EnableEurekaClient
+@EnableFeignClients
 @SpringBootApplication
 public class BbinActivityStarter {
     public static void main(String[] args) {

@@ -53,7 +53,9 @@ public abstract class MybatisPlusConfigBase {
         CHANNEL_PERMIT.add("tenant_platform");
         CHANNEL_PERMIT.add("tenant_robot_resp_log");
         PLATFORM_PERMIT.add("tenant_robot_resp_log");
+        PLATFORM_PERMIT.add("tenant_channel");
         FUNCTION_PERMIT.add("tenant_robot_resp_log");
+        FUNCTION_PERMIT.add("tenant_channel");
         IS_VALID_PERMIT.add("tenant_robot_resp_log");
     }
 

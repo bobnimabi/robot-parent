@@ -16,6 +16,7 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.httpclient.CustomHttpMethod;
 import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.httpclient.UrlCustomEntity;
+import com.robot.center.mq.MqSenter;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.code.entity.TenantRobotAction;
@@ -37,7 +38,8 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
     @Autowired
     private QueryBalanceServer queryBalanceServer;
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private MqSenter mqSenter;
+
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<PayMoneyDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         PayMoneyDTO gameDTO = paramWrapper.getObj();
@@ -114,7 +116,7 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
         }
     }
 
-    // 话题发布
+    // 组装响应对象并发布
     private void topicPublic(String robotRecordId,String outPayNo,boolean isSuccess,String errorMes,String theme,BigDecimal paidAmount) {
         //构建响应信息
         PayResponseVo payResponseVo = new PayResponseVo(robotRecordId,outPayNo,paidAmount);
@@ -125,10 +127,8 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
         } else {
             resp = new ResponseResult(CommonCode.PAY_SUCCESS, JSON.toJSONString(payResponseVo));
         }
-        log.info("执行打款流程响应：" + resp);
-        ThreadLocalUtils.setTenantId(RobotThreadLocalUtils.getTenantId());
-        ThreadLocalUtils.setChannelId(RobotThreadLocalUtils.getChannelId());
-        // 内部打款回调，不变化
-        rabbitTemplate.convertAndSend(RabbitMqConstants.ROBOT_SUCCESS_EXCHANGE_NAME, RabbitMqConstants.ROBOT_SUCCESS_ROUTE_KEY, resp);
+        mqSenter.sendMessage(RabbitMqConstants.ROBOT_SUCCESS_EXCHANGE_NAME, RabbitMqConstants.ROBOT_SUCCESS_ROUTE_KEY, resp);
     }
+
+
 }

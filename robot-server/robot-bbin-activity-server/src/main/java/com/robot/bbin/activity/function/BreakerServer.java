@@ -79,6 +79,9 @@ public class BreakerServer extends FunctionBase<OrderNoQueryDTO> {
             return parseResult;
         }
         breakerQueryVO.setAccumulativeWins((Integer) parseResult.getObj());
+        if (!queryDTO.getIs_BBIN()) {
+            return ResponseResult.SUCCESS(breakerQueryVO);
+        }
 
         // 查询余额：查询UserID
         ResponseResult balanceResponse = queryBalanceServer.doFunctionFinal(new ParamWrapper<String>(juQueryVO.getUserName()), robotWrapper, getAction(ActionEnum.QUERY_BALANCE));

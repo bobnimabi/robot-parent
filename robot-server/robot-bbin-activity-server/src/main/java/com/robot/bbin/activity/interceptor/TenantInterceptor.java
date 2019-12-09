@@ -1,5 +1,6 @@
 package com.robot.bbin.activity.interceptor;
 
+import com.bbin.common.constant.CommonConstant;
 import com.bbin.common.constant.TenantConstant;
 import com.bbin.common.pojo.AuthToken;
 import com.bbin.common.response.ResponseResult;
@@ -22,10 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@Order(10)
 @Service
 public class TenantInterceptor extends HandlerInterceptorAdapter {
-
     @Value("${spring.profiles.active}")
     private String environment;
 
@@ -34,12 +33,17 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        boolean setTenantId = set(request, TenantConstant.TENANT_ID);
-        boolean setChannel = set(request, TenantConstant.CHANNEL_ID);
-        if (!setTenantId || !setChannel) {
-            boolean init = init(request, response);
-            if (!init) {
-                return init;
+        if (environment.equals(CommonConstant.DEV)) {
+            RobotThreadLocalUtils.setTenantId(6L);
+            RobotThreadLocalUtils.setChannelId(2L);
+        } else {
+            boolean setTenantId = set(request, TenantConstant.TENANT_ID);
+            boolean setChannel = set(request, TenantConstant.CHANNEL_ID);
+            if (!setTenantId || !setChannel) {
+                boolean init = init(request, response);
+                if (!init) {
+                    return init;
+                }
             }
         }
         log.info("tenantId:{} channelId:{}",RobotThreadLocalUtils.getTenantId(),RobotThreadLocalUtils.getChannelId());

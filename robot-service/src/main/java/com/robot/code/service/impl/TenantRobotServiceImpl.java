@@ -9,11 +9,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.MyBeanUtil;
 import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.entity.TenantChannel;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.mapper.TenantRobotMapper;
+import com.robot.code.service.ITenantChannelService;
 import com.robot.code.service.ITenantRobotService;
 import com.robot.code.vo.TenantRobotVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -25,6 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapper, TenantRobot> implements ITenantRobotService {
+    @Autowired
+    private ITenantChannelService channelService;
+
     @Transactional
     @Override
     public ResponseResult deleteRobot(long robotId) {
@@ -73,6 +79,12 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
     public ResponseResult pageRobot(TenantRobotDTO robotDTO){
         IPage page = page(robotDTO, new LambdaQueryWrapper<TenantRobot>().orderByDesc(TenantRobot::getGmtCreateTime));
         Page<TenantRobotVO> voPage = MyBeanUtil.copyPageToPage(page, TenantRobotVO.class);
+        for (TenantRobotVO robotVO : voPage.getRecords()) {
+            TenantChannel channel = channelService.getById(robotVO.getChannelId());
+            if (null != channel) {
+                robotVO.setChannelName(channel.getChannelName());
+            }
+        }
         return ResponseResult.SUCCESS(voPage);
     }
 

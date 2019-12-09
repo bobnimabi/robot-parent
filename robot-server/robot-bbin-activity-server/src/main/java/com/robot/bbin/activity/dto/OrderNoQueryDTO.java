@@ -33,6 +33,8 @@ public class OrderNoQueryDTO implements Serializable {
     //游戏编码
     private List<GameChild> children;
 
+    // 参数：是否是BBIN
+    private Boolean is_BBIN;
 
     /**
      * 携带的参数

@@ -1,5 +1,6 @@
 package com.robot.center.project.config;
 
+import com.robot.center.interceptor.FlushTokenInterceptor;
 import com.robot.center.interceptor.LoginLogInterceptor;
 import com.robot.center.interceptor.UnLoginLogInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -37,10 +38,17 @@ public abstract class WebConfig implements WebMvcConfigurer {
         return new UnLoginLogInterceptor();
     }
 
+    @Bean
+    public FlushTokenInterceptor getFlushTokenInterceptor(){
+        return new FlushTokenInterceptor();
+    }
+
     //添加拦截器
     public void addInterceptors(InterceptorRegistry registry) {
         String[] path = {"/**/addRobot", "/**/deleteRobot", "/**/updateRobot", "/**/pageRobot", "/**/getRobotById", "/**/closeRobot"};
         registry.addInterceptor(getLoginLogInterceptor())
+                .addPathPatterns(path);
+        registry.addInterceptor(getFlushTokenInterceptor())
                 .addPathPatterns(path);
         registry.addInterceptor(getUnLoginLogInterceptor())
                 .addPathPatterns("/**")

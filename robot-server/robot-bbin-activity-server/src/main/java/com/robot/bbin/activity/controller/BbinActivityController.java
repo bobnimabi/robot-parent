@@ -8,6 +8,7 @@ import com.bbin.common.util.ThreadLocalUtils;
 import com.bbin.utils.project.MyBeanUtil;
 import com.rabbitmq.client.Channel;
 import com.robot.bbin.activity.basic.FunctionEnum;
+import com.robot.bbin.activity.dto.GameChild;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.dto.PayMoneyDTO;
 import com.robot.center.controller.RobotControllerBase;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mrt on 11/14/2019 3:59 PM
@@ -54,7 +57,7 @@ public class BbinActivityController extends RobotControllerBase {
      * 1.会员在【PT电子、SG电子、RT电子、JDB电子、CQ9】中进行投注
      * 2.此活动仅限老虎机与经典老虎机游戏中产生的注单
      */
-    @PostMapping("queryOrderNo")
+    @PostMapping("/queryOrderNo")
     public ResponseResult queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
         if (null == orderNoQueryDTO
                 || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
@@ -64,12 +67,12 @@ public class BbinActivityController extends RobotControllerBase {
     }
 
     /**
-     * 消消乐查询
+     * 消消乐查询OG专用
      * @param queryDTO
      * @return
      * @throws Exception
      */
-    @PostMapping("/getEliminateToLe2")
+    @PostMapping("/getEliminateToLe")
     public ResponseResult getEliminateToLe(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
         if (null == queryDTO
                 || StringUtils.isEmpty(queryDTO.getOrderNo())
@@ -77,6 +80,36 @@ public class BbinActivityController extends RobotControllerBase {
                 || null == queryDTO.getEndDate()
                 || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
         ) return ResponseResult.FAIL("参数不全");
+        queryDTO.setIs_BBIN(false);
+        queryDTO.setGameCode("5");
+        List<GameChild> list = new ArrayList<>();
+        list.add(new GameChild(null, "5902", "糖果派对"));
+        list.add(new GameChild(null, "5908", "糖果派对2"));
+        list.add(new GameChild(null, "5143", "糖果派对3"));
+        list.add(new GameChild(null, "5901", "连环夺宝"));
+        list.add(new GameChild(null, "5912", "连环夺宝2"));
+        list.add(new GameChild(null, "5911", "宝石派对"));
+        list.add(new GameChild(null, "5907", "趣味台球"));
+        queryDTO.setChildren(list);
+        return distribute(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_SERVER);
+    }
+
+
+    /**
+     * 消消乐查询BBIN专用
+     * @param queryDTO
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/getEliminateToLe2")
+    public ResponseResult getEliminateToLe2(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
+        if (null == queryDTO
+                || StringUtils.isEmpty(queryDTO.getOrderNo())
+                || null == queryDTO.getStartDate()
+                || null == queryDTO.getEndDate()
+                || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
+        ) return ResponseResult.FAIL("参数不全");
+        queryDTO.setIs_BBIN(true);
         return distribute(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_SERVER);
     }
 
@@ -84,7 +117,11 @@ public class BbinActivityController extends RobotControllerBase {
     @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_BBIN)
     @RabbitHandler
     public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
-        tenantDispatcher();
+        try {
+            tenantDispatcher();
+        } catch (Exception e) {
+            log.info("未获取到tenant,");
+        }
         try {
             if (null == payMoneyDTO
                     || StringUtils.isEmpty(payMoneyDTO.getUsername())
@@ -101,11 +138,10 @@ public class BbinActivityController extends RobotControllerBase {
             if (payMoneyDTO.getPaidAmount().compareTo(AMOUNT_LIMIT) > 0) {
                 ResponseResult.FAIL("打款金额不能超过：" + AMOUNT_LIMIT.toString() + "元");
             }
-
             payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
             payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());
             TaskWrapper taskWrapper = new TaskWrapper(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_SERVER, payMoneyDTO.getUsername(), Duration.ofSeconds(12));
-            taskPool.taskAdd(taskWrapper);
+            taskPool.taskAdd(taskWrapper,payMoneyDTO.getOutPayNo());
         } catch (Exception e) {
             log.info("机器人：MQ打款异常", e);
         }finally {

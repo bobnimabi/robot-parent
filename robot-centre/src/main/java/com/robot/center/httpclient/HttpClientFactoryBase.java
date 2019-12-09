@@ -1,17 +1,19 @@
 package com.robot.center.httpclient;
 
-import com.robot.center.constant.RobotConsts;
 import com.robot.center.pool.RobotManager;
-import com.robot.center.pool.RobotWrapper;
 import com.netflix.http4.NFHttpMethodRetryHandler;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
-import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ConnectionKeepAliveStrategy;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -26,11 +28,13 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -77,7 +81,9 @@ public abstract class HttpClientFactoryBase {
         httpClientBuilder.evictIdleConnections(config.getMaxIdleTime(), TimeUnit.SECONDS);
 
         // SSL 信任所有的证书,防止自制证书无法使用的问题
-//        httpClientBuilder.setSSLContext(createSSLContext());
+//        httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);//设置不生效，以后解决
+//        httpClientBuilder.setSSLContext(createSSLContext());//设置不生效，以后解决
+        httpClientBuilder.setConnectionManager(SslHttpClientBuild());
 
         // 重试开启，默认3次
         httpClientBuilder.setRetryHandler(createHttpRequestRetryHandler("未定义httpclientName", config.getRetryCount(), true, 1000));
@@ -150,8 +156,49 @@ public abstract class HttpClientFactoryBase {
      * @throws KeyManagementException
      */
     private SSLContext createSSLContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-        return SSLContexts.custom().loadTrustMaterial(KeyStore.getInstance(KeyStore.getDefaultType()), new TrustAllStrategy()).build();
+        return SSLContexts.custom().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build();
     }
+
+    public static PoolingHttpClientConnectionManager SslHttpClientBuild() {
+        Registry<ConnectionSocketFactory> socketFactoryRegistry =
+                RegistryBuilder.<ConnectionSocketFactory>create()
+                        .register("http", PlainConnectionSocketFactory.INSTANCE)
+                        .register("https", trustAllHttpsCertificates()).build();
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        return connectionManager;
+    }
+
+    private static SSLConnectionSocketFactory trustAllHttpsCertificates() {
+        SSLConnectionSocketFactory socketFactory = null;
+        TrustManager[] trustAllCerts = new TrustManager[1];
+        trustAllCerts[0] = TrustCheck.INSTANCE;
+        SSLContext sc = null;
+        try {
+            sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, null);
+            socketFactory = new SSLConnectionSocketFactory(sc, NoopHostnameVerifier.INSTANCE);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        return socketFactory;
+    }
+    private static class TrustCheck implements TrustManager, X509TrustManager {
+        public static final TrustCheck INSTANCE = new TrustCheck();
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            //don't check
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            //don't check
+        }
+    }
+
 
     /**
      * 请求配置

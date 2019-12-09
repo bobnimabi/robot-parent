@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -27,7 +26,8 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(excludeFilters = @ComponentScan.Filter(
         type = FilterType.REGEX,
         pattern = "com.bbin.common.rabbitmq.sms.*"),
-        basePackages={"com.bbin.common"})
+        basePackages={"com.bbin.common"}
+        )
 @MapperScan("com.robot.code.mapper")
 @EnableEurekaClient
 @EnableFeignClients
@@ -43,7 +43,7 @@ public class BbinActivityStarter {
         return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
     }
 
-    @Bean//通过拦截器给微服务间调用前带上令牌
+    @Bean //通过拦截器给微服务间调用前带上令牌
     public FeignClientInterceptor getFeignClientInterceptor(){
         return new FeignClientInterceptor();
     }

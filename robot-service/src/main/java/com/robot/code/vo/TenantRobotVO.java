@@ -70,5 +70,8 @@ public class TenantRobotVO implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime gmtCreateTime;
 
+    // 自定义参数
+    private String channelName;
+
 
 }

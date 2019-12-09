@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//激活方法上的PreAuthorize注解
 public class AuthConfigProd extends ResourceServerConfigurerAdapter {
-    @Value("PERMIT_URL}")
+    @Value("${PERMIT_URL}")
     private String permitUrl;
     //公钥(这里只识别txt，cer不识别)
     private static final String PUBLIC_KEY = "publickey.txt";

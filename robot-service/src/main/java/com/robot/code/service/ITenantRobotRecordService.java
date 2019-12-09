@@ -31,4 +31,10 @@ public interface ITenantRobotRecordService extends IService<TenantRobotRecord> {
      * @param status 状态 1发送中 2响应成功 -1 响应失败
      */
     void updateRecordAsync(String id, String respInfo, int status);
+
+    /**
+     * 获取流水记录（根据外部订单号）
+     * @param externalOrderNo
+     */
+    TenantRobotRecord getRecordByExternalOrderNo(String externalOrderNo);
 }

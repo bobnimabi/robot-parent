@@ -1,6 +1,7 @@
 package com.robot.code.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.robot.code.entity.TenantRobotRecord;
 import com.robot.code.mapper.TenantRobotRecordMapper;
@@ -49,5 +50,13 @@ public class TenantRobotRecordServiceImpl extends ServiceImpl<TenantRobotRecordM
         if (!isUpdate) {
             log.error("流水日志更新失败：{}", JSON.toJSONString(record));
         }
+    }
+
+    @Override
+    public TenantRobotRecord getRecordByExternalOrderNo(String externalOrderNo) {
+        return getOne(
+                new LambdaQueryWrapper<TenantRobotRecord>()
+                        .eq(TenantRobotRecord::getExternalOrderNo, externalOrderNo)
+        );
     }
 }

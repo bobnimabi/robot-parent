@@ -13,7 +13,7 @@ public interface ITaskPool {
      * 1.会添加时间戳
      * @param taskWrapper
      */
-    void taskAdd(TaskWrapper taskWrapper);
+    void taskAdd(TaskWrapper taskWrapper,String externalNo);
 
     /**
      * 获取队列的大小

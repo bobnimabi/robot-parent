@@ -42,7 +42,6 @@ public class BbinActivityController extends RobotControllerBase {
     private ITaskPool taskPool;
     private BigDecimal AMOUNT_LIMIT = new BigDecimal(2000);
 
-
     //查询用户是否存在
     @GetMapping("/isExist")
     public ResponseResult isExist(@RequestParam String username) throws Exception {

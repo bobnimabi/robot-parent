@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
 
+
     @Autowired
     private JuQueryServer juQueryServer;
 

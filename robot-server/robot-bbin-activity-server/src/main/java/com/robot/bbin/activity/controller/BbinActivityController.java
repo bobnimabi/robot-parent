@@ -121,6 +121,7 @@ public class BbinActivityController extends RobotControllerBase {
             tenantDispatcher();
         } catch (Exception e) {
             log.info("未获取到tenant,");
+            return;
         }
         try {
             if (null == payMoneyDTO

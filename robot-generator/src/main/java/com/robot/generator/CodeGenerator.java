@@ -36,7 +36,8 @@ public class CodeGenerator {
                 "tenant_robot_request",
                 "tenant_robot_resp_log",
                 "tenant_robot_template",
-                "tenant_robot_dict"
+                "tenant_robot_dict",
+                "tenant_robot_drop"
         };
         MyCodeGenUtils.genCode(projectPath, driverClassName,url, username, password, modelName, parentName, tables);
     }

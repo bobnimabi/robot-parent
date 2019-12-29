@@ -54,9 +54,9 @@ spring:
     addresses: node1:5672 , node2:5672 , node3:5672
 
 server:
-  port: 8212
+  port: 8214
   servlet:
-    context-path: /jiuwu_activity_Robot
+    context-path: /jiuwuActivityRobot
 
 eureka:
   instance:

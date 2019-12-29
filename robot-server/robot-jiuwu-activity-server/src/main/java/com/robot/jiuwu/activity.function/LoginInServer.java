@@ -2,6 +2,7 @@ package com.robot.jiuwu.activity.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
+import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.CommonActionEnum;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
@@ -94,7 +95,7 @@ public class LoginInServer extends FunctionBase<TenantRobotDTO> {
     // 创建机器人的登录TOKEN
     public static String createCacheKeyLoginToken(long robotId) {
         return new StringBuilder(50)
-                .append(Constant.LOGIN_TOKEN)
+                .append(RobotConsts.LOGIN_TOKEN)
                 .append(RobotThreadLocalUtils.getTenantId()).append(":")
                 .append(RobotThreadLocalUtils.getChannelId()).append(":")
                 .append(RobotThreadLocalUtils.getPlatformId()).append(":")

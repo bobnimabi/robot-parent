@@ -20,24 +20,24 @@ public class CodeGenerator {
 
         //配置数据库信息
         String driverClassName = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://database.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
+        String url = "jdbc:mysql://mysql.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
         String username = "root";
         String password = "0PKpK0JJD?mM";
 
         //生成表的名称
         String[] tables={
-                "tenant_channel",
-                "tenant_platform",
-                "tenant_robot",
-                "tenant_robot_action",
-                "tenant_robot_head",
-                "tenant_robot_proxy",
-                "tenant_robot_record",
-                "tenant_robot_request",
-                "tenant_robot_resp_log",
+//                "tenant_channel",
+//                "tenant_platform",
+//                "tenant_robot",
+//                "tenant_robot_action",
+//                "tenant_robot_head",
+//                "tenant_robot_proxy",
+//                "tenant_robot_record",
+//                "tenant_robot_request",
+//                "tenant_robot_resp_log",
                 "tenant_robot_template",
-                "tenant_robot_dict",
-                "tenant_robot_drop"
+//                "tenant_robot_dict",
+//                "tenant_robot_drop"
         };
         MyCodeGenUtils.genCode(projectPath, driverClassName,url, username, password, modelName, parentName, tables);
     }

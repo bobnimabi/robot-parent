@@ -88,7 +88,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：分页查询")
     @PostMapping("/pageRobot")
-    public ResponseResult pageRobot(@RequestBody Object robotDTO) throws Exception {
+    public ResponseResult pageRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
         return robotManager.pageRobot(robotDTO);
     }
 

@@ -57,6 +57,10 @@ public class RobotConsts {
     // 机器人ID
     public static final String ROBOT_ID = "ROBOT_ID";
 
+    // 图片验证码缓存14
+    public static final String CAPTCHA_TOKEN = ROBOT_PROJECT_PERFIX + "CAPTCHA_TOKEN:";
 
+    // 登录后Token缓存
+    public static final String LOGIN_TOKEN = ROBOT_PROJECT_PERFIX + "LOGIN_TOKEN:";
 
 }

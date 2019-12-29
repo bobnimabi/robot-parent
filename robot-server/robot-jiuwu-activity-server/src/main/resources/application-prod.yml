@@ -50,9 +50,9 @@ spring:
         multiplier: 5 #应用于前一重试间隔的乘法器
 
 server:
-  port: 8212
+  port: 8214
   servlet:
-    context-path: /jiuwu_activity_Robot
+    context-path: /jiuwuActivityRobot
 
 eureka:
   instance:

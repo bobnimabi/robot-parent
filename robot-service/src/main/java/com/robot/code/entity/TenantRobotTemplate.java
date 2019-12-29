@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2019-11-18
+ * @since 2019-12-29
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -55,8 +55,7 @@ public class TenantRobotTemplate implements Serializable {
     private Integer filedOrder;
 
     /**
-     * 
-1. 输入框   2. 图片验证码
+     * 1. 输入框   2. 图片验证码
      */
     private Integer fieldType;
 
@@ -74,6 +73,11 @@ public class TenantRobotTemplate implements Serializable {
      * 账号：platformAccount  密码：platformPassword 图片验证码：imageCode   OPT：opt
      */
     private String filedName;
+
+    /**
+     * 链接地址
+     */
+    private String filedUrl;
 
     /**
      * 是否有效 1有效  0无效

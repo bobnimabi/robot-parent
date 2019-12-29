@@ -40,8 +40,8 @@ public class JiuWuActivityController extends RobotControllerBase {
     private ITaskPool taskPool;
 
     @ApiOperation("机器人：获取图片验证码")
-    @GetMapping("/getImageCodeStr2")
-    public ResponseResult getImageCodeStr2( @RequestParam Long robotId, HttpServletResponse response) throws Exception {
+    @GetMapping("/getImageCode")
+    public ResponseResult getImageCode( @RequestParam Long robotId, HttpServletResponse response) throws Exception {
         if (null == robotId) {
             return ResponseResult.FAIL("未传入robotId");
         }
@@ -91,7 +91,7 @@ public class JiuWuActivityController extends RobotControllerBase {
     }
 
     @ApiOperation("机器人：mq打款")
-    @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_BBIN)
+    @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_95_CARD)
     @RabbitHandler
     public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
         // 如果tenant相关的设置失败则不进行ack
@@ -136,5 +136,4 @@ public class JiuWuActivityController extends RobotControllerBase {
             RobotThreadLocalUtils.clean();
         }
     }
-
 }

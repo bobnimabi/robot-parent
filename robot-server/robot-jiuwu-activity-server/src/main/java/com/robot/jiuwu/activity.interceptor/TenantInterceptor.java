@@ -33,8 +33,8 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (environment.equals(CommonConstant.DEV)) {
-            RobotThreadLocalUtils.setTenantId(6L);
-            RobotThreadLocalUtils.setChannelId(2L);
+            RobotThreadLocalUtils.setTenantId(7L);
+            RobotThreadLocalUtils.setChannelId(7L);
         } else {
             boolean setTenantId = set(request, TenantConstant.TENANT_ID);
             boolean setChannel = set(request, TenantConstant.CHANNEL_ID);

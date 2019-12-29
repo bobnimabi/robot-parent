@@ -2,6 +2,7 @@ package com.robot.jiuwu.activity.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
+import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
@@ -75,7 +76,7 @@ public class ImageCodeServer extends FunctionBase<Object> {
     // 创建图片验证码的缓存标志
     static String createCacheKeyCaptchaToken(long robotId) {
         return new StringBuilder(50)
-                .append(Constant.CAPTCHA_TOKEN)
+                .append(RobotConsts.CAPTCHA_TOKEN)
                 .append(RobotThreadLocalUtils.getTenantId()).append(":")
                 .append(RobotThreadLocalUtils.getChannelId()).append(":")
                 .append(RobotThreadLocalUtils.getPlatformId()).append(":")

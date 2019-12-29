@@ -5,10 +5,8 @@ package com.robot.center.constant;
  */
 public class RobotConsts {
 
-    // 本项目前缀
+    // 本项目前缀8
     public static final String ROBOT_PROJECT_PERFIX = "S_ROBOT:";
-
-
 
     /**
      * 请求响应状态：1发送中 2响应成功 0 响应失败
@@ -50,10 +48,14 @@ public class RobotConsts {
         public static final long HONG_BO = 4;
         public static final long GPK = 5;
         public static final long YUN_SHAN_FU = 6;
+        public static final long JIU_WU_CARD = 7;
 
         //状态集合
         public static final long[] statusArr = {OG, BBIN, FU_CAI, HONG_BO, GPK, YUN_SHAN_FU};
     }
+
+    // 机器人ID
+    public static final String ROBOT_ID = "ROBOT_ID";
 
 
 

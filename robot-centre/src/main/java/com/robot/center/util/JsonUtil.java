@@ -1,5 +1,6 @@
 package com.robot.center.util;
 
+import com.robot.center.execute.TaskWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -10,6 +11,8 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Description：
@@ -122,6 +125,14 @@ public class JsonUtil {
             return null;
         }
     }
+    public static void main(String[] args) throws IOException {
+        String text = "[{\"paramWrapper\":{\"obj\":{\"isAudit\":true,\"memo\":\"电子PT好运金 租户+激励用户+100272:1843\",\"outPayNo\":\"6:2:1843\",\"theme\":\"promotion-pay-topic\",\"paidAmount\":2.00,\"taskId\":0,\"username\":\"88888\"}},\"waitField\":\"88888\",\"functionEnum\":\"PAY_SERVER\",\"waitTime\":\"PT12S\"}]";
+        Set<TaskWrapper> taskWrappers = objectMapper.readValue(text, new TypeReference<Set<TaskWrapper>>() {
+
+        });
+
+        System.out.println(taskWrappers);
+    }
 
     /**
      * 进行复杂类型反序列化工作（可变类型数量的）
@@ -141,4 +152,6 @@ public class JsonUtil {
             return null;
         }
     }
+
+
 }

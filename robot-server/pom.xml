@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>robot-bbin-activity-server</module>
+        <module>robot-jiuwu-activity-server</module>
     </modules>
     <dependencies>
         <dependency>

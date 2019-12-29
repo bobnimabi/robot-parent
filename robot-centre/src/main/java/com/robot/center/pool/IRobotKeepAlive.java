@@ -12,8 +12,7 @@ public interface IRobotKeepAlive {
 
     /**
      * 登录机器人
-     * @param robotId
      * @return
      */
-    ResponseResult login(long robotId, TenantRobotDTO robotDTO) throws Exception;
+    ResponseResult login(TenantRobotDTO robotDTO) throws Exception;
 }

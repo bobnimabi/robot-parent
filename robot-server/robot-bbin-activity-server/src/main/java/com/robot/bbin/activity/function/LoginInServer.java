@@ -13,7 +13,7 @@ import com.robot.center.httpclient.CustomHttpMethod;
 import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.httpclient.UrlCustomEntity;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.dto.Object;
 import com.robot.code.entity.TenantRobotAction;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -30,11 +30,11 @@ import java.net.URI;
  */
 @Slf4j
 @Service
-public class LoginInServer extends FunctionBase<TenantRobotDTO> {
+public class LoginInServer extends FunctionBase<Object> {
 
     @Override
-    protected ResponseResult doFunctionFinal(ParamWrapper<TenantRobotDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        TenantRobotDTO robotDTO = paramWrapper.getObj();
+    protected ResponseResult doFunctionFinal(ParamWrapper<Object> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        Object robotDTO = paramWrapper.getObj();
         // 执行
         StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null, createLoginParams(robotWrapper, robotDTO), null, LoginParse.INSTANCE);
         ResponseResult loginResponse = standerHttpResponse.getResponseResult();
@@ -61,7 +61,7 @@ public class LoginInServer extends FunctionBase<TenantRobotDTO> {
     }
 
     // 组装登录参数
-    private UrlCustomEntity createLoginParams(RobotWrapper robot, TenantRobotDTO robotDTO) {
+    private UrlCustomEntity createLoginParams(RobotWrapper robot, Object robotDTO) {
         UrlCustomEntity entity = UrlCustomEntity.custom()
                 .add("username", robot.getPlatformAccount())
                 .add("password", robot.getPlatformPassword());

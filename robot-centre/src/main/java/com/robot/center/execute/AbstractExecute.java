@@ -72,6 +72,7 @@ public abstract class AbstractExecute implements IExecute{
         HttpClientContext httpContext = HttpClientContext.create();
         if (null != robotWrapper) {
             httpContext.setCookieStore(robotWrapper.getCookieStore());
+            httpContext.setAttribute(RobotConsts.ROBOT_ID, robotWrapper.getId());
         }
         StanderHttpResponse standerHttpResponse = requestDetail(httpClient, url, customEntity, headers, method, httpContext);
         standerHttpResponse.setRecordId(idStr);
@@ -102,7 +103,7 @@ public abstract class AbstractExecute implements IExecute{
         log.info("RecordId:{} RobotId:{} \r\n Method:{} Url:{} ExternalOrderNo:{} \r\n 请求参数:{}",
                 idStr,robotWrapper.getId(),method.name(),url,externalOrderNo,customEntity.toString());
         // 请求前：校验参数合法性
-        validate(httpClient, url, customEntity, method, resultParse);
+        validate(httpClient, url, method, resultParse);
         // 请求前：日志记录
         recordService.addRecordAsync(idStr, robotWrapper.getId(), externalOrderNo, actionCode, RobotConsts.RobotRecord.SENDING, JSON.toJSONString(customEntity));
     }
@@ -191,9 +192,8 @@ public abstract class AbstractExecute implements IExecute{
      * 校验
      * @param httpClient
      * @param url
-     * @param customeEntity
      */
-    private void validate(CloseableHttpClient httpClient, String url, ICustomEntity customeEntity, CustomHttpMethod method, IResultParse resultParse) {
+    private void validate(CloseableHttpClient httpClient, String url, CustomHttpMethod method, IResultParse resultParse) {
         Assert.notNull(httpClient, "HttpClient为null");
         Assert.hasText(url, "URL为空");
         Assert.notNull(resultParse, "ResultParse为null");

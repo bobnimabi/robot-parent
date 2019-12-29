@@ -40,7 +40,6 @@ import java.util.List;
 public class BbinActivityController extends RobotControllerBase {
     @Autowired
     private ITaskPool taskPool;
-    private BigDecimal AMOUNT_LIMIT = new BigDecimal(2000);
 
     //查询用户是否存在
     @GetMapping("/isExist")
@@ -61,7 +60,7 @@ public class BbinActivityController extends RobotControllerBase {
     public ResponseResult queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
         if (null == orderNoQueryDTO
                 || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
-                || StringUtils.isEmpty(orderNoQueryDTO.getGameCode())//平台编码
+                || StringUtils.isEmpty(orderNoQueryDTO.getGameCode()) // 平台编码
         ) return ResponseResult.FAIL("参数不全");
         return distribute(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.LUCK_ORDER_SERVER);
     }
@@ -94,7 +93,6 @@ public class BbinActivityController extends RobotControllerBase {
         return distribute(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_SERVER);
     }
 
-
     /**
      * 消消乐查询BBIN专用
      * @param queryDTO
@@ -117,10 +115,9 @@ public class BbinActivityController extends RobotControllerBase {
     @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_BBIN)
     @RabbitHandler
     public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
-        try {
-            tenantDispatcher();
-        } catch (Exception e) {
-            log.info("未获取到tenant,");
+        // 如果tenant相关的设置失败则不进行ack
+        // 如果是消息本身不具有tenant,只能人工进行删除
+        if (!tenantDispatcher()) {
             return;
         }
         try {
@@ -136,12 +133,18 @@ public class BbinActivityController extends RobotControllerBase {
                 ResponseResult.FAIL("金额不能小于等于0");
             }
 
-            if (payMoneyDTO.getPaidAmount().compareTo(AMOUNT_LIMIT) > 0) {
-                ResponseResult.FAIL("打款金额不能超过：" + AMOUNT_LIMIT.toString() + "元");
-            }
             payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
             payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());
             TaskWrapper taskWrapper = new TaskWrapper(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_SERVER, payMoneyDTO.getUsername(), Duration.ofSeconds(12));
+
+            String externalNo = payMoneyDTO.getOutPayNo();
+            if (StringUtils.isNotBlank(externalNo)) {
+                boolean isRedo = isRedo(externalNo);
+                if (isRedo) {
+                    log.info("该外部订单号已经存在,将不执行,externalNo:{},功能参数:{}", externalNo, JSON.toJSONString(taskWrapper));
+                    return;
+                }
+            }
             taskPool.taskAdd(taskWrapper,payMoneyDTO.getOutPayNo());
         } catch (Exception e) {
             log.info("机器人：MQ打款异常", e);

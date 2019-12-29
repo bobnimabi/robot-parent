@@ -22,7 +22,7 @@ spring:
     username: root
     password: '0PKpK0JJD?mM'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -84,14 +84,6 @@ ribbon:
 logging:
   config: classpath:log4j2-dev.xml
 
-#项目参数
-BBIN:
-  #  permitUrl:  /test,/payAmount,/getBetDetail,/getBetDetai2,/getImageCodeStr,/getImageCode #测试放行
-
-  redisTopic: rebate-topic
-  signVerifyUrl: payAmount,getBetDetail
-  aspectPermit: /addRobot,/updateRobot
-  signUrl: /test1
 PERMIT_URL: /** #测试放行
 
 

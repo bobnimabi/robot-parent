@@ -29,9 +29,4 @@ public class KeepAlive extends RobotKeepAliveBase {
     protected LambdaQueryWrapper<TenantRobot> get() {
         return null;
     }
-
-    @Override
-    protected boolean isRobotAlive(TenantRobot robot) {
-        return false;
-    }
 }

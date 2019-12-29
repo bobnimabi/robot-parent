@@ -11,14 +11,18 @@ import com.robot.center.pool.IRobotKeepAlive;
 import com.robot.center.pool.RobotManager;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.entity.TenantRobotRecord;
+import com.robot.code.service.ITenantRobotRecordService;
 import com.robot.code.service.ITenantRobotTemplateService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.Map;
 
 /**
@@ -26,6 +30,8 @@ import java.util.Map;
  */
 @Slf4j
 public class RobotControllerBase {
+    private static final String EXTERNAL_NO = RobotConsts.ROBOT_PROJECT_PERFIX + "EXTERNAL_NO:";
+
     @Autowired
     private Map<String, IFunction> functionMap;
     @Autowired
@@ -34,6 +40,10 @@ public class RobotControllerBase {
     private IRobotKeepAlive robotKeepAlive;
     @Autowired
     private ITenantRobotTemplateService templateService;
+    @Autowired
+    private ITenantRobotRecordService robotRecordService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @ApiOperation("机器人：登录")
     @PostMapping("/robotLogin")
@@ -41,7 +51,7 @@ public class RobotControllerBase {
         if (null == robotDTO || null == robotDTO.getId()) {
             return ResponseResult.FAIL("未传入参数");
         }
-        return robotKeepAlive.login(robotDTO.getId(),robotDTO);
+        return robotKeepAlive.login(robotDTO);
     }
 
     @ApiOperation("机器人：增加")
@@ -78,7 +88,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：分页查询")
     @PostMapping("/pageRobot")
-    public ResponseResult pageRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult pageRobot(@RequestBody Object robotDTO) throws Exception {
         return robotManager.pageRobot(robotDTO);
     }
 
@@ -111,6 +121,13 @@ public class RobotControllerBase {
         return "ok";
     }
 
+    /**
+     * 任务分发
+     * @param paramWrapper 参数
+     * @param functionEnum 功能枚举
+     * @return
+     * @throws Exception
+     */
     protected ResponseResult distribute(ParamWrapper paramWrapper, IFunctionEnum functionEnum) throws Exception{
         IFunction iFunction = functionMap.get(functionEnum.getFunctionServer());
         Assert.notNull(iFunction, "获取Function失败，FunctionServer:" + functionEnum.getFunctionServer());
@@ -121,14 +138,61 @@ public class RobotControllerBase {
         return responseResult;
     }
 
-    protected void tenantDispatcher() {
+    /**
+     * 租户id等信息填充
+     * @return
+     */
+    protected boolean tenantDispatcher() {
         try {
             RobotThreadLocalUtils.setTenantId(ThreadLocalUtils.getTenantIdOption().get());
             RobotThreadLocalUtils.setChannelId(ThreadLocalUtils.getChannelIdOption().get());
             RobotThreadLocalUtils.setPlatformId(RobotConsts.PLATFORM_ID.BBIN);
             RobotThreadLocalUtils.setFunction(RobotConsts.FUNCTION_CODE.ACTIVITY);
+            return true;
+        } catch (Exception e) {
+            log.info("未获取到tenant相关,{},{},{},{}",RobotThreadLocalUtils.getTenantId(),RobotThreadLocalUtils.getChannelId(),RobotThreadLocalUtils.getPlatformId(),RobotThreadLocalUtils.getFunction());
         } finally {
             ThreadLocalUtils.clean();
         }
+        return false;
+    }
+
+    /**
+     * 外部订单号重复性检查
+     * @param externalNo 外部订单号
+     * @return
+     */
+    protected boolean isRedo(String externalNo) {
+        // redis检查
+        String cacheKey = createExteralNoCacheKey(externalNo);
+        Boolean isSave = stringRedisTemplate.opsForValue().setIfAbsent(cacheKey, "", Duration.ofDays(10));
+        if (!isSave) {
+            log.info("redis:该外部订单已经存在：{}", externalNo);
+            return true;
+        }
+
+        // mysql检查
+        TenantRobotRecord robotRecord = robotRecordService.getRecordByExternalOrderNo(externalNo);
+        if (null != robotRecord) {
+            log.info("mysql:该外部订单已经存在：{}", externalNo);
+            return true;
+        }
+        return false;
+    }
+
+    // 组装redis-key：外部订单号
+    private String createExteralNoCacheKey(String externalNo) {
+        Long tenantId = RobotThreadLocalUtils.getTenantId();
+        Long channelId = RobotThreadLocalUtils.getChannelId();
+        Long platformId = RobotConsts.PLATFORM_ID.BBIN;
+        Long functionCode = RobotConsts.FUNCTION_CODE.ACTIVITY;
+        return new StringBuilder(30)
+                .append(EXTERNAL_NO)
+                .append(tenantId).append(":")
+                .append(channelId).append(":")
+                .append(platformId).append(":")
+                .append(functionCode).append(":")
+                .append(externalNo)
+                .toString();
     }
 }

@@ -80,17 +80,6 @@ ribbon:
   ConnectTimeout: 5000  #请求连接的超时时间
   ReadTimeout: 6000 #请求处理的超时时间
 
-
-
-#项目参数
-BBIN:
-  #  permitUrl:  /test,/payAmount,/getBetDetail,/getBetDetai2,/getImageCodeStr,/getImageCode #测试放行
-  permitUrl:  /** #测试放行
-  redisTopic: rebate-topic
-  signVerifyUrl: payAmount,getBetDetail
-  aspectPermit: /addRobot,/updateRobot
-  signUrl: /test1
-
 PERMIT_URL: /** #测试放行
 
 #日志文件路径

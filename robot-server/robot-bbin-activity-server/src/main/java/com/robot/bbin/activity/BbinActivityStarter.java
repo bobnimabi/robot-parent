@@ -21,11 +21,12 @@ import org.springframework.web.client.RestTemplate;
         "com.robot.code",
         "com.robot.center",
         "com.robot.bbin.activity",
+//        "com.bbin.common.redis"
     }
 )
 @ComponentScan(excludeFilters = @ComponentScan.Filter(
         type = FilterType.REGEX,
-        pattern = "com.bbin.common.rabbitmq.sms.*"),
+        pattern = {"com.bbin.common.rabbitmq.sms.*","com.bbin.common.redis.*"}),
         basePackages={"com.bbin.common"}
         )
 @MapperScan("com.robot.code.mapper")

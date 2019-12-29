@@ -25,4 +25,6 @@ public class TaskWrapper implements Serializable {
     private String waitField;
     // 执行等待时间,单位：秒,null表示不等待
     private Duration waitTime;
+
+
 }

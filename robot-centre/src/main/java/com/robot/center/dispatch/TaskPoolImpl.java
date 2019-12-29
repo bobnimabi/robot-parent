@@ -1,6 +1,8 @@
 package com.robot.center.dispatch;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.TypeReference;
 import com.bbin.common.util.ThreadLocalUtils;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.TaskWrapper;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.Duration;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +39,7 @@ public class TaskPoolImpl implements ITaskPool {
     private static final String CLASS_NAME = "任务池";
     private static final String CACHE_TASK_QUEUE = RobotConsts.ROBOT_PROJECT_PERFIX + "TASK:QUEUE:";
     private static final String CACHE_TASK_LIMIT = RobotConsts.ROBOT_PROJECT_PERFIX + "TASK:TIME_LIMIT:";
-    private static final String EXTERNAL_NO = RobotConsts.ROBOT_PROJECT_PERFIX + "EXTERNAL_NO:";
+
     @Resource
     private RedisTemplate<String,TaskWrapper> redisTemplate;
     @Autowired
@@ -45,20 +48,12 @@ public class TaskPoolImpl implements ITaskPool {
     private TaskTimeCalculate timeCalculate;
     @Autowired
     private Reactor reactor;
-    @Autowired
-    private ITenantRobotRecordService robotRecordService;
+
 
 
     // 同一会员高并发会导致时间戳计算问题
     @Override
     public void taskAdd(TaskWrapper taskWrapper, String externalNo) {
-        if (StringUtils.isNotBlank(externalNo)) {
-            boolean isRedo = isRedo(externalNo);
-            if (isRedo) {
-                log.info("该外部订单号已经存在,将不执行,externalNo:{},功能参数:{}", externalNo, JSON.toJSONString(taskWrapper));
-                return;
-            }
-        }
 
         // 时间的计算
         long timeStamp = timeCalculate.calcTaskTimeStamp(taskWrapper);
@@ -105,25 +100,6 @@ public class TaskPoolImpl implements ITaskPool {
         return 0 == range.size() ? null : range.iterator().next();
     }
 
-
-    protected boolean isRedo(String externalNo) {
-        // redis检查
-        String cacheKey = createExteralNoCacheKey(externalNo);
-        Boolean isSave = stringRedisTemplate.opsForValue().setIfAbsent(cacheKey, "", Duration.ofDays(10));
-        if (!isSave) {
-            log.info("redis:该外部订单已经存在：{}", externalNo);
-            return true;
-        }
-
-        // mysql检查
-        TenantRobotRecord robotRecord=robotRecordService.getRecordByExternalOrderNo(externalNo);
-        if (null != robotRecord) {
-            log.info("mysql:该外部订单已经存在：{}", externalNo);
-            return true;
-        }
-        return false;
-    }
-
     // CACHE：创建任务缓冲队列
     private static String createCacheQueueKey() {
         return new StringBuilder(30)
@@ -142,21 +118,5 @@ public class TaskPoolImpl implements ITaskPool {
                 RobotThreadLocalUtils.getPlatformId(),
                 RobotThreadLocalUtils.getFunction()
         );
-    }
-
-
-    private String createExteralNoCacheKey(String externalNo) {
-        Long tenantId = ThreadLocalUtils.getTenantIdOption().get();
-        Long channelId = ThreadLocalUtils.getChannelIdOption().get();
-        Long platformId = RobotConsts.PLATFORM_ID.BBIN;
-        Long functionCode = RobotConsts.FUNCTION_CODE.ACTIVITY;
-        return new StringBuilder(30)
-                .append(EXTERNAL_NO)
-                .append(tenantId).append(":")
-                .append(channelId).append(":")
-                .append(platformId).append(":")
-                .append(functionCode).append(":")
-                .append(externalNo)
-                .toString();
     }
 }

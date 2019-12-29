@@ -27,7 +27,8 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
     private IExecute execute;
 
     @Transactional
-    public ResponseResult login(long robotId, TenantRobotDTO robotDTO) throws Exception{
+    public ResponseResult login(TenantRobotDTO robotDTO) throws Exception{
+        long robotId = robotDTO.getId();
         // 获取机器人
         ResponseResult robotResult = robotManager.getRobotById(robotId);
         if (!robotResult.isSuccess()) {
@@ -41,7 +42,7 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
         // 将新httpclient放入执行器里备用
         execute.setHttpClient(robotId,httpClient);
         // 登录获取Cookie
-        ResponseResult loginResult = loginExe(new ParamWrapper<TenantRobotDTO>(robotDTO),robotWrapper);
+        ResponseResult loginResult = loginExe(new ParamWrapper<Object>(robotDTO),robotWrapper);
         if (!loginResult.isSuccess()) {
             return loginResult;
         }
@@ -75,9 +76,4 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
      */
     protected abstract LambdaQueryWrapper<TenantRobot> get();
 
-    /**
-     * 是否机器人存活
-     * @return
-     */
-    protected abstract boolean isRobotAlive(TenantRobot robot);
 }

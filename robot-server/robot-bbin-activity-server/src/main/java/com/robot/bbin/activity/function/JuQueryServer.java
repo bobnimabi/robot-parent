@@ -29,17 +29,23 @@ import java.util.Map;
 
 /**
  * Created by mrt on 11/15/2019 12:29 PM
- * 局查询
+ * 局查询：注单查询
+ * 注意：注单只能是bbin平台产生的注单
+ * 注意：以下电子注单不能查询
+ *  CQ9电子（按CQ9注单查询）
+ *  申博电子（按场次查询，场次即是申博电子的注单）
  */
 @Service
 public class JuQueryServer extends FunctionBase<OrderNoQueryDTO> {
     @Autowired
     private ITenantRobotDictService dictService;
+    // 字典表：获取注单查询的barID的前缀
+    private String DICT_BAR_ID = "BBIN:ORDER_QUERY:";
 
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
-        String barId = dictService.getValue("PLATFORM:" + queryDTO.getGameCode());
+        String barId = dictService.getValue(DICT_BAR_ID + queryDTO.getGameCode());
         queryDTO.setBarId(barId);
         action.setActionUrl(action.getActionUrl() + queryDTO.getGameCode());
         // 执行
@@ -81,7 +87,7 @@ public class JuQueryServer extends FunctionBase<OrderNoQueryDTO> {
                 return ResponseResult.FAIL("记录不存在");
             }
 
-            // 获取显示值
+            // 获取显示值table table-hover text-middle table-bordered
             JuQueryVO juQueryVO = new JuQueryVO();
             juQueryVO.setOrderTime(DateUtils.format(tds.get(0).text()));
             juQueryVO.setPlatFormOrderNo(tds.get(1).text());

@@ -27,6 +27,8 @@ public class JuQueryVO {
     private BigDecimal rebateAmount;
     // 总派彩（订单），单位元
     private BigDecimal sendAmount;
+    // 场次（申博电子）
+    private String round;
 
     // 隐藏参数
     private String pageId;

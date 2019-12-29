@@ -21,12 +21,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
 
-
     @Autowired
     private JuQueryServer juQueryServer;
+    @Autowired
+    private JuQueryRoundServer juQueryRoundServer;
 
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        OrderNoQueryDTO queryDTO = paramWrapper.getObj();
+        switch (queryDTO.getGameCode()) {
+            case "42": // 申博电子
+                return shenBoNo(paramWrapper,robotWrapper,action);
+            case "52": // CQ9电子
+                return cq9QueryNo(paramWrapper,robotWrapper,action);
+            default: // 其他电子：BB电子、PT电子、JDB电子、SG电子
+                return otherNo(paramWrapper, robotWrapper, action);
+        }
+    }
+
+    /**
+     * 注单查询
+     * 其他电子：BB电子、PT电子、JDB电子、SG电子
+     */
+    private ResponseResult otherNo(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
         ResponseResult responseResult = juQueryServer.doFunctionFinal(paramWrapper, robotWrapper, action);
         if (!responseResult.isSuccess()) {
@@ -39,6 +56,32 @@ public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
         LuckOrderQueryVO luckOrderQueryVO = MyBeanUtil.copyProperties(juQueryVO, LuckOrderQueryVO.class);
         return ResponseResult.SUCCESS(luckOrderQueryVO);
     }
+
+    /**
+     * 申博电子场次查询（场次为申博平台的注单号）
+     */
+    private ResponseResult shenBoNo(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        OrderNoQueryDTO queryDTO = paramWrapper.getObj();
+        ResponseResult responseResult = juQueryRoundServer.doFunctionFinal(paramWrapper, robotWrapper, action);
+        if (!responseResult.isSuccess()) {
+            return responseResult;
+        }
+        JuQueryVO juQueryVO = (JuQueryVO) responseResult.getObj();
+        if (!queryDTO.getUserName().equals(juQueryVO.getUserName())) {
+            return ResponseResult.FAIL("会员账号不匹配，传入：" + queryDTO.getUserName() + " 实际：" + juQueryVO.getUserName());
+        }
+        LuckOrderQueryVO luckOrderQueryVO = MyBeanUtil.copyProperties(juQueryVO, LuckOrderQueryVO.class);
+        luckOrderQueryVO.setPlatFormOrderNo(queryDTO.getOrderNo());
+        return ResponseResult.SUCCESS(luckOrderQueryVO);
+    }
+
+    /**
+     * CQ9电子注单查询
+     */
+    private ResponseResult cq9QueryNo(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) {
+        return null;
+    }
+
 
     @Override
     public IActionEnum getActionEnum() {

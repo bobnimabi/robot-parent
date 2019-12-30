@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.interceptor;
+package com.robot.jiuwu.login.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;

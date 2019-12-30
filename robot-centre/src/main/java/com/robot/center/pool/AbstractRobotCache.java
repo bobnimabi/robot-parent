@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
+import java.time.Duration;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by mrt on 2019/7/5 0005 下午 11:49
@@ -71,7 +73,7 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
             return false;
         }
         // 更新标志
-        stringRedis.opsForValue().set(createCacheRobotIdCardKey(robot.getId()), robot.getIdCard());
+        stringRedis.opsForValue().set(createCacheRobotIdCardKey(robot.getId()), robot.getIdCard(), Duration.ofDays(3));
         // 入队
         Long aLong = stringRedis.opsForList().leftPush(createCacheRobotPoolKey(), serializationRobot(robot));
         return aLong > 0;
@@ -97,10 +99,17 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
             log.info("{}:校验机器人合法性：参数不全，将销毁：{}", POOL_CLASS_NAME, JSON.toJSONString(robotWrapper));
             return false;
         }
-        String idCard = stringRedis.opsForValue().get(createCacheRobotIdCardKey(robotWrapper.getId()));
+        String cacheRobotIdCardKey = createCacheRobotIdCardKey(robotWrapper.getId());
+        String idCard = stringRedis.opsForValue().get(cacheRobotIdCardKey);
         boolean isLegal = !StringUtils.isEmpty(idCard) && idCard.equals(robotWrapper.getIdCard());
         if (!isLegal) {
             log.info("{}:校验机器人合法性：ID_CARD不合法，将销毁：{}", POOL_CLASS_NAME, JSON.toJSONString(robotWrapper));
+        } else {
+            // 刷新机器人IDCard合法时间
+            Boolean expire = stringRedis.expire(cacheRobotIdCardKey, 3L, TimeUnit.DAYS);
+            if (!expire) {
+                log.info("{}:刷新机器人：ID_CARD有效期失败：{}", POOL_CLASS_NAME, JSON.toJSONString(robotWrapper));
+            }
         }
         return isLegal;
     }
@@ -117,7 +126,7 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
     }
 
     // 创建机器人标志的缓存key
-    private static String createCacheRobotIdCardKey(long robotId) {
+    public static String createCacheRobotIdCardKey(long robotId) {
         return new StringBuilder(35)
                 .append(CACHE_ROBOT_ID_CARD_PREFIX)
                 .append(RobotThreadLocalUtils.getTenantId()).append(":")

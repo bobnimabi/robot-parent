@@ -19,7 +19,6 @@ public class MqSenter {
     private RabbitTemplate rabbitTemplate;
 
     public void sendMessage(String exchange, String route, ResponseResult responseResult) {
-        log.info("执行打款流程响应：" + JSON.toJSONString(responseResult));
         ThreadLocalUtils.setTenantId(RobotThreadLocalUtils.getTenantId());
         ThreadLocalUtils.setChannelId(RobotThreadLocalUtils.getChannelId());
         try {

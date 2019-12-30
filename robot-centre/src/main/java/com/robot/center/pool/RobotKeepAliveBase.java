@@ -13,6 +13,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,6 +28,7 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
     @Autowired
     private IExecute execute;
 
+
     @Transactional
     public ResponseResult login(TenantRobotDTO robotDTO) throws Exception{
         long robotId = robotDTO.getId();
@@ -34,25 +37,17 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
         if (!robotResult.isSuccess()) {
             return robotResult;
         }
-        TenantRobot robot = (TenantRobot) robotResult.getObj();
-        RobotWrapper robotWrapper = MyBeanUtil.copyProperties(robot, RobotWrapper.class);
-        robotWrapper.setIdCard(UUID.randomUUID().toString());
-        robotWrapper.setCookieStore(new BasicCookieStore());
-        CloseableHttpClient httpClient = clientFactory.createHttpClient(robotId);
-        // 将新httpclient放入执行器里备用
-        execute.setHttpClient(robotId,httpClient);
+        RobotWrapper robotWrapper = wrapper((TenantRobot) robotResult.getObj());
+
         // 登录获取Cookie
         ResponseResult loginResult = loginExe(new ParamWrapper<Object>(robotDTO),robotWrapper);
         if (!loginResult.isSuccess()) {
             return loginResult;
         }
-
         // 更新DB状态
         robotManager.onlineRobotByDB(robotId);
 
         // 入缓存
-        robotWrapper.setIsOnline(true);
-        robotWrapper.setInfo("运行中...");
         boolean isCacheAddSuccess = robotManager.cacheRobotAdd(robotWrapper);
         if (!isCacheAddSuccess) {
             throw new IllegalStateException("Cookie入缓存失败:robotId:" + robotId);
@@ -60,7 +55,15 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
         return loginResult;
     }
 
-    // 自动刷新Cookie的方法
+    // 包装机器人
+    private RobotWrapper wrapper(TenantRobot robot) {
+        RobotWrapper robotWrapper = MyBeanUtil.copyProperties(robot, RobotWrapper.class);
+        robotWrapper.setIdCard(UUID.randomUUID().toString());
+        robotWrapper.setCookieStore(new BasicCookieStore());
+        robotWrapper.setIsOnline(true);
+        robotWrapper.setInfo("运行中...");
+        return robotWrapper;
+    }
 
     /**
      * 登录细节:本质获取Cookie

@@ -19,6 +19,7 @@
         <module>robot-centre</module>
         <module>robot-server</module>
         <module>robot-gateway</module>
+        <module>robot-login</module>
     </modules>
 
     <packaging>pom</packaging>

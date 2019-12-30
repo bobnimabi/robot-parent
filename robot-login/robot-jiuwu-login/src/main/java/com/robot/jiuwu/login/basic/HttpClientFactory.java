@@ -1,8 +1,8 @@
-package com.robot.jiuwu.activity.basic;
+package com.robot.jiuwu.login.basic;
 
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.httpclient.AbstractHttpClientFactory;
-import com.robot.jiuwu.activity.function.LoginInServer;
+import com.robot.jiuwu.login.function.LoginInServer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by mrt on 11/18/2019 12:45 PM
+ * 注意：95棋牌的所有请求都需要带上token（token来自于登录响应）
  */
 @Slf4j
 @Service

@@ -6,14 +6,11 @@ import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.CustomHttpMethod;
-import com.robot.center.httpclient.StanderHttpResponse;
-import com.robot.center.httpclient.UrlCustomEntity;
+import com.robot.center.httpclient.*;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.jiuwu.activity.basic.ActionEnum;
-import com.robot.jiuwu.activity.common.Constant;
-import com.robot.jiuwu.activity.vo.ImageCodeResultVO;
+import com.robot.jiuwu.login.basic.ActionEnum;
+import com.robot.jiuwu.login.common.Constant;
 import com.robot.jiuwu.activity.vo.QueryUserResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,8 +46,8 @@ public class QueryUserServer extends FunctionBase<String> {
     }
 
     // 组装登录参数
-    private UrlCustomEntity createQueryUserParams(String userId) {
-        return UrlCustomEntity.custom().add("gameid", userId);
+    private ICustomEntity createQueryUserParams(String userId) {
+        return JsonCustomEntity.custom().add("gameid", userId);
     }
 
     // 响应结果转换

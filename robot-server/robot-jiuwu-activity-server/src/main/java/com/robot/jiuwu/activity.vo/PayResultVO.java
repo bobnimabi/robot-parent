@@ -1,5 +1,6 @@
 package com.robot.jiuwu.activity.vo;
 
+import com.robot.jiuwu.login.vo.ParentResultVO;
 import lombok.Data;
 
 /**

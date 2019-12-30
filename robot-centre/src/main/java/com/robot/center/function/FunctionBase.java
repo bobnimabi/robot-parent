@@ -72,7 +72,7 @@ public abstract class FunctionBase<T> implements IFunction<T>{
         try {
             return doFunctionFinal(paramWrapper, robotWrapper, action);
         } finally {
-            if (isSync && null != robotWrapper && actionEnum != CommonActionEnum.LOGIN) {
+            if (isSync && null != robotWrapper && actionEnum != CommonActionEnum.LOGIN && actionEnum != CommonActionEnum.IMAGE_CODE) {
                 robotManager.cacheGiveBack(robotWrapper);
             }
         }

@@ -10,10 +10,12 @@ import com.robot.center.constant.RobotConsts;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -45,9 +47,13 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
-        log.info("tenantId:{} channelId:{}",RobotThreadLocalUtils.getTenantId(),RobotThreadLocalUtils.getChannelId());
-        RobotThreadLocalUtils.setPlatformId(RobotConsts.PLATFORM_ID.BBIN);
+        RobotThreadLocalUtils.setPlatformId(RobotConsts.PLATFORM_ID.JIU_WU_CARD);
         RobotThreadLocalUtils.setFunction(RobotConsts.FUNCTION_CODE.ACTIVITY);
+        // log4j2设置租户日志
+        ThreadContext.put("TENANT_ID",RobotThreadLocalUtils.getTenantId()+"");
+        ThreadContext.put("CHANNEL_ID",RobotThreadLocalUtils.getChannelId()+"");
+        ThreadContext.put("PLATFORM_ID", RobotConsts.PLATFORM_ID.JIU_WU_CARD + "");
+        ThreadContext.put("FUNCTION_CODE", RobotConsts.FUNCTION_CODE.ACTIVITY + "");
         return true;
     }
 
@@ -78,7 +84,8 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         RobotThreadLocalUtils.clean(); //  清理线程
+        ThreadContext.clearMap();
     }
 }

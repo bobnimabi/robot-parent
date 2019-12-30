@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.basic;
+package com.robot.jiuwu.login.basic;
 
 import com.robot.center.execute.IActionEnum;
 
@@ -10,7 +10,6 @@ import com.robot.center.execute.IActionEnum;
 public enum ActionEnum implements IActionEnum {
     QUERY_USER("query_user","查询用户"),
     PAY("pay","充值"),
-    IMAGE_CODE("image_code","图片验证码"),
     ;
     private final String actionCode;
     private final String message;

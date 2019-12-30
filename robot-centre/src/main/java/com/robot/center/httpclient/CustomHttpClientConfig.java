@@ -53,23 +53,23 @@ public class CustomHttpClientConfig extends DefaultHttpClientConfig {
             return;
         }
         if (null != request.getMaxTotal()) {
-            log.info("MaxTotal:{}", request.getMaxTotal());
+            log.info("配置：MaxTotal:{}", request.getMaxTotal());
             config.setMaxTotal(request.getMaxTotal());
         }
         if (null != request.getDefaultMaxPerRoute()) {
-            log.info("DefaultMaxPerRoute:{}",request.getDefaultMaxPerRoute());
+            log.info("配置：DefaultMaxPerRoute:{}",request.getDefaultMaxPerRoute());
             config.setDefaultMaxPerRoute(request.getDefaultMaxPerRoute());
         }
         if (null != request.getSocketTimeout()) {
-            log.info("SocketTimeout:{}",request.getSocketTimeout());
+            log.info("配置：SocketTimeout:{}",request.getSocketTimeout());
             config.setSocketTimeout(request.getSocketTimeout());
         }
         if (null != request.getConnectTimeout()) {
-            log.info("ConnectTimeout:{}",request.getConnectTimeout());
+            log.info("配置：ConnectTimeout:{}",request.getConnectTimeout());
             config.setConnectTimeout(request.getConnectTimeout());
         }
         if (null != request.getConnectRequestTimeout()) {
-            log.info("ConnectionRequestTimeout:{}",request.getConnectRequestTimeout());
+            log.info("配置：ConnectionRequestTimeout:{}",request.getConnectRequestTimeout());
             config.setConnectionRequestTimeout(request.getConnectRequestTimeout());
         }
         Assert.isTrue(config.getMaxTotal() > 0, "MaxTotal非法");

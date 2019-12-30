@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.vo;
+package com.robot.jiuwu.login.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;

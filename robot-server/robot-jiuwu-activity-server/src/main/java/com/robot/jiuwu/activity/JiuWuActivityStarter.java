@@ -17,16 +17,16 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by mrt on 11/13/2019 7:51 PM
  */
-@ComponentScan(basePackages = {
-        "com.robot.code",
-        "com.robot.center",
-        "com.robot.jiuwu.activity",
-    }
-)
 @ComponentScan(excludeFilters = @ComponentScan.Filter(
         type = FilterType.REGEX,
         pattern = {"com.bbin.common.rabbitmq.sms.*","com.bbin.common.redis.*"}),
-        basePackages={"com.bbin.common"}
+        basePackages={
+                "com.bbin.common",
+                "com.robot.code",
+                "com.robot.center",
+                "com.robot.jiuwu.login",
+                "com.robot.jiuwu.activity",
+            }
         )
 @MapperScan("com.robot.code.mapper")
 @EnableEurekaClient

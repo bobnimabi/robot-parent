@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.basic;
+package com.robot.jiuwu.login.basic;
 
 import com.robot.center.function.IFunctionEnum;
 

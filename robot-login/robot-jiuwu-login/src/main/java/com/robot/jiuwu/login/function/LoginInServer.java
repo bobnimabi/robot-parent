@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.function;
+package com.robot.jiuwu.login.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
@@ -8,15 +8,13 @@ import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.CustomHttpMethod;
-import com.robot.center.httpclient.StanderHttpResponse;
-import com.robot.center.httpclient.UrlCustomEntity;
+import com.robot.center.httpclient.*;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.jiuwu.activity.common.Constant;
-import com.robot.jiuwu.activity.vo.LoginResultVO;
+import com.robot.jiuwu.login.common.Constant;
+import com.robot.jiuwu.login.vo.LoginResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -42,7 +40,7 @@ public class LoginInServer extends FunctionBase<TenantRobotDTO> {
         // 获取验证码的的CaptchaToken
         String captchaToken = redis.opsForValue().get(ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
         if (StringUtils.isEmpty(captchaToken)) {
-            return ResponseResult.FAIL("验证码过期");
+            return ResponseResult.FAIL("缓存验证码过期");
         }
         // 执行
         StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createLoginParams(robotWrapper, robotDTO,captchaToken), null, LoginParse.INSTANCE);
@@ -65,8 +63,8 @@ public class LoginInServer extends FunctionBase<TenantRobotDTO> {
     }
 
     // 组装登录参数
-    private UrlCustomEntity createLoginParams(RobotWrapper robot, TenantRobotDTO robotDTO,String captchaToken) {
-        UrlCustomEntity entity = UrlCustomEntity.custom()
+    private ICustomEntity createLoginParams(RobotWrapper robot, TenantRobotDTO robotDTO, String captchaToken) {
+        ICustomEntity entity = JsonCustomEntity.custom()
                 .add("username", robot.getPlatformAccount())
                 .add("password", DigestUtils.md5DigestAsHex(robot.getPlatformPassword().getBytes()))
                 .add("captcha", robotDTO.getImageCode())

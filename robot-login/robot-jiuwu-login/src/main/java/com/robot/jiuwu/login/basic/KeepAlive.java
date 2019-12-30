@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.basic;
+package com.robot.jiuwu.login.basic;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bbin.common.response.ResponseResult;
@@ -6,7 +6,7 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotKeepAliveBase;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobot;
-import com.robot.jiuwu.activity.function.LoginInServer;
+import com.robot.jiuwu.login.function.LoginInServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

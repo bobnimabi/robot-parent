@@ -1,8 +1,9 @@
-package com.robot.jiuwu.activity.function;
+package com.robot.jiuwu.login.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
 import com.robot.center.constant.RobotConsts;
+import com.robot.center.execute.CommonActionEnum;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
@@ -12,9 +13,9 @@ import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.jiuwu.activity.basic.ActionEnum;
-import com.robot.jiuwu.activity.common.Constant;
-import com.robot.jiuwu.activity.vo.ImageCodeResultVO;
+import com.robot.jiuwu.login.basic.KeepAlive;
+import com.robot.jiuwu.login.common.Constant;
+import com.robot.jiuwu.login.vo.ImageCodeResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -30,7 +31,8 @@ import java.time.Duration;
 @Slf4j
 @Service
 public class ImageCodeServer extends FunctionBase<Object> {
-
+    @Autowired
+    private KeepAlive keepAlive;
     @Autowired
     private StringRedisTemplate redis;
 
@@ -47,12 +49,12 @@ public class ImageCodeServer extends FunctionBase<Object> {
             return ResponseResult.FAIL(entity.getMsg());
         }
         redis.opsForValue().set(createCacheKeyCaptchaToken(robotWrapper.getId()), entity.getData().getCaptchaToken(), Duration.ofMinutes(5));
-        return ResponseResult.SUCCESS(entity.getData().getCaptchaToken());
+        return ResponseResult.SUCCESS(entity.getData().getImg());
     }
 
     @Override
     public IActionEnum getActionEnum() {
-        return ActionEnum.IMAGE_CODE;
+        return CommonActionEnum.IMAGE_CODE;
     }
 
     // 响应结果转换

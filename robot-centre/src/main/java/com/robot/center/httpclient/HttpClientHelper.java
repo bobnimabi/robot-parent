@@ -48,7 +48,6 @@ public class HttpClientHelper {
 			setHeaders(httpGet, headers);
 			result = httpClient.execute(httpGet, CustomeResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
-			log.error("url : {}, params :{}", url, customEntity.toString(), e);
 			httpGet.abort();
 			throw e;
 		}
@@ -74,7 +73,6 @@ public class HttpClientHelper {
 			setHeaders(httpPost, headers);
 			result = httpClient.execute(httpPost, CustomeResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
-			log.error("url : " + url + ", msg : " + e.getMessage());
 			httpPost.abort();
 			throw e;
 		}
@@ -94,14 +92,13 @@ public class HttpClientHelper {
 		StanderHttpResponse result = null;
 		HttpPost httpPost = new HttpPost(url);
 		try {
-			if (null != customEntity && CollectionUtils.isEmpty(customEntity.getEntity())) {
+			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
 				StringEntity entity = new StringEntity(JSON.toJSONString(customEntity.getEntity()), ContentType.APPLICATION_JSON);
 				httpPost.setEntity(entity);
 			}
 			setHeaders(httpPost, headers);
 			result = httpClient.execute(httpPost, CustomeResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
-			log.error("url:{}, param:{}", url, JSON.toJSONString(customEntity), e);
 			httpPost.abort();
 			throw e;
 		}

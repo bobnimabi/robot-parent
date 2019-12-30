@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.vo;
+package com.robot.jiuwu.login.vo;
 
 import lombok.Data;
 

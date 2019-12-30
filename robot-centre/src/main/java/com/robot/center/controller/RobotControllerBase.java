@@ -3,14 +3,17 @@ package com.robot.center.controller;
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.ThreadLocalUtils;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.function.IFunction;
 import com.robot.center.function.IFunctionEnum;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.IRobotKeepAlive;
 import com.robot.center.pool.RobotManager;
+import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.entity.TenantRobot;
 import com.robot.code.entity.TenantRobotRecord;
 import com.robot.code.service.ITenantRobotRecordService;
 import com.robot.code.service.ITenantRobotTemplateService;
@@ -136,6 +139,22 @@ public class RobotControllerBase {
             return ResponseResult.SUCCESS(JSON.toJSONString(responseResult.getObj()));
         }
         return responseResult;
+    }
+
+    protected ResponseResult distributeByRobot(ParamWrapper paramWrapper, IFunctionEnum functionEnum, Long robotId) throws Exception{
+        ResponseResult responseResult = robotManager.getRobotById(robotId);
+        if (!responseResult.isSuccess()) {
+            return responseResult;
+        }
+        TenantRobot robot = (TenantRobot) responseResult.getObj();
+        RobotWrapper robotWrapper = MyBeanUtil.copyProperties(robot, RobotWrapper.class);
+        IFunction iFunction = functionMap.get(functionEnum.getFunctionServer());
+        Assert.notNull(iFunction, "获取Function失败，FunctionServer:" + functionEnum.getFunctionServer());
+        ResponseResult result = iFunction.doFunction(paramWrapper,robotWrapper);
+        if (result.isSuccess()) {
+            return ResponseResult.SUCCESS(JSON.toJSONString(result.getObj()));
+        }
+        return result;
     }
 
     /**

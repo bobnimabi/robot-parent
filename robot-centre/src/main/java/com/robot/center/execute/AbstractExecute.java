@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.bbin.common.response.ResponseResult;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.httpclient.*;
+import com.robot.center.pool.AbstractRobotCache;
 import com.robot.center.pool.IRobotManager;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.code.service.ITenantRobotActionService;
 import com.robot.code.service.ITenantRobotRecordService;
 import com.robot.code.service.ITenantRobotRespLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +40,9 @@ public abstract class AbstractExecute implements IExecute{
     private IRobotManager robotManager;
 
     private Map<Long, CloseableHttpClient> httpClientMap = new HashMap<>();
+    // 本地机器人版本
+    private Map<String, String> robotVersion = new HashMap<>();
+
     private ReentrantLock lock = new ReentrantLock();
 
     /**
@@ -60,7 +63,7 @@ public abstract class AbstractExecute implements IExecute{
     public StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
                                        ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse) {
         // 获取httpClient
-        CloseableHttpClient httpClient = getHttpClient(robotWrapper.getId());
+        CloseableHttpClient httpClient = getHttpClient(robotWrapper.getId(),robotWrapper.getIdCard());
         // 获取请求路径
         String url = action.getActionUrl();
         // 生成流水id
@@ -80,17 +83,6 @@ public abstract class AbstractExecute implements IExecute{
         return afterProcess(standerHttpResponse, idStr, robotWrapper, resultParse);
     }
 
-    @Override
-    public void setHttpClient(long robotId, CloseableHttpClient newClient) {
-        CloseableHttpClient oldClient = httpClientMap.put(robotId, newClient);
-        if (null != oldClient) {
-            try {
-                oldClient.close();
-            } catch (IOException e) {
-                log.error("robotId:{},关闭旧httpClient异常", robotId, e);
-            }
-        }
-    }
     /**
      * 判断是否需要重新登录
      * @param response 响应结果
@@ -100,8 +92,9 @@ public abstract class AbstractExecute implements IExecute{
 
     private <T>void beforeProcess(String idStr,RobotWrapper robotWrapper,CloseableHttpClient httpClient, String url,String externalOrderNo,
                                   String actionCode, ICustomEntity customEntity, CustomHttpMethod method, IResultParse resultParse) {
-        log.info("RecordId:{} RobotId:{} \r\n Method:{} Url:{} ExternalOrderNo:{} \r\n 请求参数:{}",
-                idStr,robotWrapper.getId(),method.name(),url,externalOrderNo,customEntity.toString());
+        log.info("RecordId:{} RobotId:{} \r\n Method:{} Url:{} ExternalOrderNo:{}",
+                idStr,robotWrapper.getId(),method.name(),url,externalOrderNo);
+        log.info("请求体参数：{}", customEntity == null ? "" : customEntity.toString());
         // 请求前：校验参数合法性
         validate(httpClient, url, method, resultParse);
         // 请求前：日志记录
@@ -197,17 +190,20 @@ public abstract class AbstractExecute implements IExecute{
         Assert.notNull(httpClient, "HttpClient为null");
         Assert.hasText(url, "URL为空");
         Assert.notNull(resultParse, "ResultParse为null");
-
     }
 
-    // 获取每个机器人的httpClient客户端
-    private CloseableHttpClient getHttpClient(long robotId) {
+    /**
+     * httpclient的获取
+     * 1.保证机器人新登录后，分布式下所有的httpclient要全部重置
+     */
+    private CloseableHttpClient getHttpClient(long robotId,String idCard) {
         CloseableHttpClient client = httpClientMap.get(robotId);
+        // 首次使用Httpclient，或项目重启
         if (null == client) {
             if (lock.tryLock()) {
                 try {
                     if (null == client) {
-                        // 没有登录或项目重启才会走这一句
+                        // 没有登录或项目重启或分布式其他机器才会走这一句
                         client = clientFactory.createHttpClient(robotId);
                         if (null != client) {
                             httpClientMap.put(robotId, client);
@@ -217,7 +213,29 @@ public abstract class AbstractExecute implements IExecute{
                     lock.unlock();
                 }
             }
+        } else {
+            /**
+             * 已登录过的情况
+             * LOCAL_ID_CARD一定存在
+             *      1.如果ROBOT: ID_CARD不存在，只能来自于登录前,比如图片验证码，不新建
+             *      2.如果ROBOT: ID_CARD存在 --->不相等才创建，新建
+             *          场景：登录（本机）或登录后（其他机器）
+              */
+            if (isVersionNotAgree(robotId, idCard)) {
+                client = clientFactory.createHttpClient(robotId);
+            }
         }
         return client;
+    }
+
+    private boolean isVersionNotAgree(long robotId, String idCard) {
+        String idCardKey = AbstractRobotCache.createCacheRobotIdCardKey(robotId);
+        String localIdCard = robotVersion.get(idCardKey);
+        // 只要线上不是空，都应该重置本地的ID_CARD
+        if (!StringUtils.isEmpty(idCard)) {
+            robotVersion.put(idCardKey, idCard);
+        }
+        // 只有不相等的时候才需要重建
+        return !StringUtils.isEmpty(idCard) && !StringUtils.isEmpty(localIdCard) && !idCard.equals(localIdCard);
     }
 }

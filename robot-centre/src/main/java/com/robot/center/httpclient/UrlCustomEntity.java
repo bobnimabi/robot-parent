@@ -17,6 +17,7 @@ import java.util.List;
  * HttpClientHelper#postForm()
  * HttpClientHelper#uploadFile()
  * 方法的时候用
+ * 注意：url的key是可以重复的
  */
 @Data
 @Slf4j

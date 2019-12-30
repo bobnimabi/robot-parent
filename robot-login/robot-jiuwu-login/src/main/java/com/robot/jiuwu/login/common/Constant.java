@@ -1,4 +1,4 @@
-package com.robot.jiuwu.activity.common;
+package com.robot.jiuwu.login.common;
 
 import com.robot.center.constant.RobotConsts;
 
@@ -8,5 +8,8 @@ import com.robot.center.constant.RobotConsts;
 public class Constant {
     // 九五棋牌响应成功状态
     public static final String SUCCESS = "0";
+
+    // 九五棋牌掉线
+    public static final String LOSE = "-1";
 
 }

@@ -21,6 +21,11 @@
             <artifactId>bbin-utils</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+            <dependency>
+                <groupId>com.bbin</groupId>
+                <artifactId>robot-centre</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
     </dependencies>
     <build>
         <plugins>

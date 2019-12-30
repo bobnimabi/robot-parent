@@ -4,38 +4,28 @@ import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.CommonActionEnum;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.CustomHttpMethod;
-import com.robot.center.httpclient.StanderHttpResponse;
-import com.robot.center.httpclient.UrlCustomEntity;
+import com.robot.center.httpclient.*;
 import com.robot.center.mq.MqSenter;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.center.util.MoneyUtil;
-import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.jiuwu.activity.basic.ActionEnum;
-import com.robot.jiuwu.activity.common.Constant;
+import com.robot.jiuwu.login.basic.ActionEnum;
+import com.robot.jiuwu.login.common.Constant;
 import com.robot.jiuwu.activity.dto.PayMoneyDTO;
-import com.robot.jiuwu.activity.vo.LoginResultVO;
 import com.robot.jiuwu.activity.vo.PayResponseVo;
 import com.robot.jiuwu.activity.vo.PayResultVO;
 import com.robot.jiuwu.activity.vo.QueryUserResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -55,7 +45,10 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
 
         // 查询余额：查询UserID
         ResponseResult balanceResponse = queryUserServer.doFunctionFinal(new ParamWrapper<String>(gameDTO.getUsername()), robotWrapper, getAction(ActionEnum.QUERY_USER));
+
+        // 用户不存在的情况
         if (!balanceResponse.isSuccess()) {
+            topicPublic("", gameDTO.getOutPayNo(),false,balanceResponse.getMessage() , gameDTO.getTheme(), gameDTO.getPaidAmount());
             return balanceResponse;
         }
         QueryUserResultVO queryUserResultVO = (QueryUserResultVO) balanceResponse.getObj();
@@ -65,9 +58,16 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
                 createBodyParams(gameDTO, queryUserResultVO,robotWrapper), null, ResultParse.INSTANCE);
         ResponseResult responseResult = response.getResponseResult();
         PayResultVO payResultVO = (PayResultVO) responseResult.getObj();
-        boolean isSuccess = responseResult.isSuccess() && Constant.SUCCESS.equals(payResultVO.getCode());
-        // 发布
-        topicPublic(response.getRecordId(), gameDTO.getOutPayNo(), responseResult.isSuccess(), isSuccess ? "打款成功" : responseResult.getMessage() + ":" + payResultVO.getMsg(), gameDTO.getTheme(), gameDTO.getPaidAmount());
+        // response失败的情况
+        if (!responseResult.isSuccess()) {
+            topicPublic(response.getRecordId(), gameDTO.getOutPayNo(), false, responseResult.getMessage(), gameDTO.getTheme(), gameDTO.getPaidAmount());
+        }
+        // 响应失败的情况
+        if (!Constant.SUCCESS.equals(payResultVO.getCode())) {
+            topicPublic(response.getRecordId(), gameDTO.getOutPayNo(), false, payResultVO.getMsg(), gameDTO.getTheme(), gameDTO.getPaidAmount());
+        }
+        // 成功
+        topicPublic(response.getRecordId(), gameDTO.getOutPayNo(), true, "打款成功", gameDTO.getTheme(), gameDTO.getPaidAmount());
         return responseResult;
     }
 
@@ -80,8 +80,8 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
      * 注释掉的参数，点击“查询”按钮的时候会全部带上，点击“BB电子”是没有的，为了方便临时先去掉
      *
      */
-    private UrlCustomEntity createBodyParams(PayMoneyDTO moneyDTO, QueryUserResultVO resultVO, RobotWrapper robotWrapper) throws Exception {
-        UrlCustomEntity customEntity = UrlCustomEntity.custom()
+    private ICustomEntity createBodyParams(PayMoneyDTO moneyDTO, QueryUserResultVO resultVO, RobotWrapper robotWrapper) throws Exception {
+        ICustomEntity customEntity = JsonCustomEntity.custom()
                 .add("amount", MoneyUtil.convertToFen(moneyDTO.getPaidAmount()).toString()) // 金额
                 .add("codingDouble","0") // 打码量倍数
                 .add("gameids", resultVO.getData().getGameid() + "") // 游戏ids

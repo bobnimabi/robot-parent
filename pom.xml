@@ -20,6 +20,7 @@
         <module>robot-server</module>
         <module>robot-gateway</module>
         <module>robot-login</module>
+        <module>robot-jiuwu-pay-server</module>
     </modules>
 
     <packaging>pom</packaging>

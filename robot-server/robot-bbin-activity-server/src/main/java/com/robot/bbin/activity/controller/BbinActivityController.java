@@ -11,6 +11,7 @@ import com.robot.bbin.activity.basic.FunctionEnum;
 import com.robot.bbin.activity.dto.GameChild;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.dto.PayMoneyDTO;
+import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.RobotControllerBase;
 import com.robot.center.dispatch.ITaskPool;
 import com.robot.center.execute.TaskWrapper;
@@ -117,7 +118,7 @@ public class BbinActivityController extends RobotControllerBase {
     public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
         // 如果tenant相关的设置失败则不进行ack
         // 如果是消息本身不具有tenant,只能人工进行删除
-        if (!tenantDispatcher()) {
+        if (!tenantDispatcher(RobotConsts.PLATFORM_ID.BBIN,RobotConsts.FUNCTION_CODE.ACTIVITY)) {
             return;
         }
         try {

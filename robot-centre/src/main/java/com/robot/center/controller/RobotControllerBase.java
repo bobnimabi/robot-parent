@@ -161,12 +161,12 @@ public class RobotControllerBase {
      * 租户id等信息填充
      * @return
      */
-    protected boolean tenantDispatcher() {
+    protected boolean tenantDispatcher(long platformId,long function) {
         try {
             RobotThreadLocalUtils.setTenantId(ThreadLocalUtils.getTenantIdOption().get());
             RobotThreadLocalUtils.setChannelId(ThreadLocalUtils.getChannelIdOption().get());
-            RobotThreadLocalUtils.setPlatformId(RobotConsts.PLATFORM_ID.BBIN);
-            RobotThreadLocalUtils.setFunction(RobotConsts.FUNCTION_CODE.ACTIVITY);
+            RobotThreadLocalUtils.setPlatformId(platformId);
+            RobotThreadLocalUtils.setFunction(function);
             return true;
         } catch (Exception e) {
             log.info("未获取到tenant相关,{},{},{},{}",RobotThreadLocalUtils.getTenantId(),RobotThreadLocalUtils.getChannelId(),RobotThreadLocalUtils.getPlatformId(),RobotThreadLocalUtils.getFunction());

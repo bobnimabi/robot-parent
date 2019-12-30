@@ -1,5 +1,6 @@
 package com.robot.center.dispatch;
 
+import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.IFunction;
 import com.robot.center.pool.RobotManager;
@@ -8,6 +9,7 @@ import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.code.service.ITenantRobotActionService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -40,16 +42,18 @@ public class ReactorImpl implements Reactor {
     @Override
     @PostConstruct
     public void handleEvents() {
-        new Thread(() -> {
+        new Thread(new PayThread()).start();
+    }
+
+    private class PayThread implements Runnable {
+        @Override
+        public void run() {
             while (true) {
                 Iterator<RegisterBody> iterator = register.keySet().iterator();
                 while (iterator.hasNext()) {
                     RegisterBody registerBody = iterator.next();
                     try {
-                        RobotThreadLocalUtils.setTenantId(registerBody.getTenantId());
-                        RobotThreadLocalUtils.setChannelId(registerBody.getChannelId());
-                        RobotThreadLocalUtils.setPlatformId(registerBody.getPlatformId());
-                        RobotThreadLocalUtils.setFunction(registerBody.getFunction());
+                        handTenant(registerBody);
                         // 从注册表中剔除空队列
                         if (0 == taskPool.size()) {
                             iterator.remove();
@@ -97,8 +101,22 @@ public class ReactorImpl implements Reactor {
                     }
                 }
             }
-        }).start();
+        }
     }
+
+    private void handTenant(RegisterBody registerBody) {
+        RobotThreadLocalUtils.setTenantId(registerBody.getTenantId());
+        RobotThreadLocalUtils.setChannelId(registerBody.getChannelId());
+        RobotThreadLocalUtils.setPlatformId(registerBody.getPlatformId());
+        RobotThreadLocalUtils.setFunction(registerBody.getFunction());
+        // log4j2设置租户日志
+        ThreadContext.put("TENANT_ID",RobotThreadLocalUtils.getTenantId()+"");
+        ThreadContext.put("CHANNEL_ID",RobotThreadLocalUtils.getChannelId()+"");
+        ThreadContext.put("PLATFORM_ID", RobotConsts.PLATFORM_ID.JIU_WU_CARD + "");
+        ThreadContext.put("FUNCTION_CODE", RobotConsts.FUNCTION_CODE.ACTIVITY + "");
+    }
+
+
 
     @Override
     public void registerEvents(RegisterBody registerBody) {

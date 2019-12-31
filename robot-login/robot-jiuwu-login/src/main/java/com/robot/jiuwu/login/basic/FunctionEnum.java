@@ -8,6 +8,7 @@ import com.robot.center.function.IFunctionEnum;
  */
 public enum FunctionEnum implements IFunctionEnum {
     Image_CODE_SERVER("imageCodeServer"),
+    QUERY_TOTAL_RECHARGE_SERVER("queryTotalRechargeServer"),
     QUERY_USER_SERVER("queryUserServer"),
     PAY_SERVER("payServer"),
     ;

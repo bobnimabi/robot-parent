@@ -116,8 +116,6 @@ public class ReactorImpl implements Reactor {
         ThreadContext.put("FUNCTION_CODE", RobotConsts.FUNCTION_CODE.ACTIVITY + "");
     }
 
-
-
     @Override
     public void registerEvents(RegisterBody registerBody) {
         Assert.notNull(registerBody,"注册:体为空");

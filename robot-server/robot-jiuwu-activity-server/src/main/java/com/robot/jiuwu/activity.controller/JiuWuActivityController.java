@@ -11,6 +11,7 @@ import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.center.util.MoneyUtil;
+import com.robot.jiuwu.activity.dto.TotalRechargeDTO;
 import com.robot.jiuwu.login.basic.FunctionEnum;
 import com.robot.jiuwu.activity.dto.PayMoneyDTO;
 import io.swagger.annotations.ApiOperation;
@@ -54,8 +55,23 @@ public class JiuWuActivityController extends RobotControllerBase {
         return result;
     }
 
+    //查询总打码量
+    @GetMapping("/QueryTotalRecharge")
+    public ResponseResult QueryTotalRecharge(@RequestParam TotalRechargeDTO totalRechargeDTO) throws Exception {
+        if (StringUtils.isEmpty(totalRechargeDTO.getGameId())) {
+            return ResponseResult.FAIL("未传入gameid");
+        }
+        if (StringUtils.isEmpty(totalRechargeDTO.getEndTime())) {
+            return ResponseResult.FAIL("未传入gameid");
+        }
+        if (StringUtils.isEmpty(totalRechargeDTO.getStartTime())) {
+            return ResponseResult.FAIL("未传入gameid");
+        }
+        return distribute(new ParamWrapper<TotalRechargeDTO>(totalRechargeDTO), FunctionEnum.QUERY_TOTAL_RECHARGE_SERVER);
+    }
+
     // 测试打款
-    @PostMapping("/testPay")
+//    @PostMapping("/testPay")
     public ResponseResult testPay(@RequestBody PayMoneyDTO payMoneyDTO) throws Exception {
         if (null == payMoneyDTO
                 || StringUtils.isEmpty(payMoneyDTO.getUsername())
@@ -102,10 +118,6 @@ public class JiuWuActivityController extends RobotControllerBase {
                     || StringUtils.isEmpty(payMoneyDTO.getOutPayNo())
             ) ResponseResult.FAIL("参数不全");
             log.info("mq打款入参：{}", JSON.toJSONString(payMoneyDTO));
-
-            if (payMoneyDTO.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
-                ResponseResult.FAIL("金额不能小于等于0");
-            }
 
             payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
             payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());

@@ -42,7 +42,10 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<PayMoneyDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         PayMoneyDTO gameDTO = paramWrapper.getObj();
-
+        if (gameDTO.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            topicPublic("", gameDTO.getOutPayNo(),false,"金额不能小于0元" , gameDTO.getTheme(), gameDTO.getPaidAmount());
+            return ResponseResult.FAIL("金额不能小于0元");
+        }
         // 查询余额：查询UserID
         ResponseResult balanceResponse = queryUserServer.doFunctionFinal(new ParamWrapper<String>(gameDTO.getUsername()), robotWrapper, getAction(ActionEnum.QUERY_USER));
 

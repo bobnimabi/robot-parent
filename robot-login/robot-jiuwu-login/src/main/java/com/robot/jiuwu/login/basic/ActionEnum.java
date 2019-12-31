@@ -8,9 +8,10 @@ import com.robot.center.execute.IActionEnum;
  * 登录使用 CommonActionEnum
  */
 public enum ActionEnum implements IActionEnum {
-    QUERY_TOTAL_RECHARGE_SERVER("QUERY_TOTAL_RECHARGE_SERVER","查询用户"),
+    TOTAL_RECHARGE_DETAIL("total_recharge_detail","查询打码明细"),
     QUERY_USER("query_user","查询用户"),
     PAY("pay","充值"),
+    QUERY_USER_DETAIL("query_user_detail","查询用户明细"),
     ;
     private final String actionCode;
     private final String message;

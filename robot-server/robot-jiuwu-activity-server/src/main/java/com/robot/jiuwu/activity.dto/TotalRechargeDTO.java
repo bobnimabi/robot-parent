@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class TotalRechargeDTO {
-    private String gameId;
-    private String startTime;
-    private String endTime;
+    private String userName;
+    private String beginDate;
+    private String endDate;
 }

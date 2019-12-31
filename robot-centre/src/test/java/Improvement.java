@@ -12,6 +12,8 @@ public class Improvement {
      * 5.机器人标志现在是无限期的，可以改进下，可以每次检查时更新下时间------------->已完成
      * 6.由于redis宕机或项目突然挂了，导致机器人没有归还回来
      * 7.ReactorImpl里面如何有多种异步任务在里面，就会出问题，比如除了打款还有其他种类的任务
+     * 8.function多级查询的时候，actionEnum还需要传过去，改进成根据本function自动获取------->已完成
+     * 9.function调用function的时候，如果FunctionBase类里面的action获取报错，会导致机器人无法归还
      */
 
 }

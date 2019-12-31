@@ -88,6 +88,7 @@ public class ReactorImpl implements Reactor {
                         } finally { // 保证归还拿出来的机器人
                             if (null != robotWrapper) {
                                 robotManager.cacheGiveBack(robotWrapper);
+                                robotWrapper = null;
                             }
                         }
                     } catch (Exception e) {

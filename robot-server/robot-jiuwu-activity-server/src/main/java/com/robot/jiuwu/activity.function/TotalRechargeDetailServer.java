@@ -2,6 +2,7 @@ package com.robot.jiuwu.activity.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
@@ -13,7 +14,6 @@ import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.jiuwu.activity.dto.TotalRechargeDTO;
-import com.robot.jiuwu.activity.vo.QueryUserResultVO;
 import com.robot.jiuwu.activity.vo.RechargeResultVO;
 import com.robot.jiuwu.login.basic.ActionEnum;
 import com.robot.jiuwu.login.common.Constant;
@@ -23,22 +23,23 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 查询用户是否存在
+ * 查询打码总量（按游戏来分）
  */
 @Slf4j
 @Service
-public class QueryTotalRechargeServer extends FunctionBase<TotalRechargeDTO> {
+public class TotalRechargeDetailServer extends FunctionBase<TotalRechargeDTO> {
 
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<TotalRechargeDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         TotalRechargeDTO rechargeDTO = paramWrapper.getObj();
+
         // 执行
         StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createParams(rechargeDTO), null, ResultParse.INSTANCE);
         ResponseResult queryUserResponse = standerHttpResponse.getResponseResult();
         if (!queryUserResponse.isSuccess()) {
             return queryUserResponse;
         }
-        QueryUserResultVO entity = (QueryUserResultVO) queryUserResponse.getObj();
+        RechargeResultVO entity = (RechargeResultVO) queryUserResponse.getObj();
         if (!Constant.SUCCESS.equals(entity.getCode())) {
             return ResponseResult.FAIL(entity.getMsg());
         }
@@ -47,7 +48,7 @@ public class QueryTotalRechargeServer extends FunctionBase<TotalRechargeDTO> {
 
     @Override
     public IActionEnum getActionEnum() {
-        return ActionEnum.QUERY_TOTAL_RECHARGE_SERVER;
+        return ActionEnum.TOTAL_RECHARGE_DETAIL;
     }
 
     // 组装登录参数
@@ -62,9 +63,9 @@ public class QueryTotalRechargeServer extends FunctionBase<TotalRechargeDTO> {
      */
     private ICustomEntity createParams(TotalRechargeDTO rechargeDTO) {
         return JsonCustomEntity.custom()
-                .add("gameid", rechargeDTO.getGameId())
-                .add("start", rechargeDTO.getStartTime())
-                .add("end", rechargeDTO.getEndTime())
+                .add("gameid", rechargeDTO.getUserName())
+                .add("start", rechargeDTO.getBeginDate())
+                .add("end", rechargeDTO.getEndDate())
                 .add("total", "0")
                 .add("pageSize", "100")
                 .add("currentPage", "1");

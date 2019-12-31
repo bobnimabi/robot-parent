@@ -10,7 +10,8 @@ import com.robot.code.entity.TenantRobotAction;
  */
 public interface IFunction<T> {
     /**
-     * 执行功能：供同步调用
+     * 执行功能：供普通Function调用
+     * 会自动归还机器人
      * @param paramWrapper
      * @return
      * @throws Exception
@@ -18,7 +19,9 @@ public interface IFunction<T> {
     ResponseResult doFunction(ParamWrapper<T> paramWrapper) throws Exception;
 
     /**
-     * 执行功能：供同步登录调用
+     * 执行功能：供特殊Function调用,或Function之间调用
+     * 适用于不归还机器人的情况
+     * 比如：登录、图片验证码、Function之间的调用
      * @param paramWrapper
      * @return
      * @throws Exception
@@ -26,19 +29,20 @@ public interface IFunction<T> {
     ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception;
 
     /**
-     * 执行功能：异步调用
+     * 执行功能
      * @param paramWrapper
      * @param robotWrapper
      * @param action
-     * @param isSync 是否是同步
+     * @param isGiveBack 是否是同步
      * @return
      * @throws Exception
      */
-    ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action,Boolean isSync) throws Exception;
+    ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action,Boolean isGiveBack) throws Exception;
 
     /**
-     * 获取动作编码：异步使用
+     * 获取Action
      * @return
      */
     IActionEnum getActionEnum();
+
 }

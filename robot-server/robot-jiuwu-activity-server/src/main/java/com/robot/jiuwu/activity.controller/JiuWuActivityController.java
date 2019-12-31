@@ -2,6 +2,7 @@ package com.robot.jiuwu.activity.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.response.ResponseResult;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
@@ -55,19 +56,33 @@ public class JiuWuActivityController extends RobotControllerBase {
         return result;
     }
 
-    //查询总打码量
-    @GetMapping("/QueryTotalRecharge")
-    public ResponseResult QueryTotalRecharge(@RequestParam TotalRechargeDTO totalRechargeDTO) throws Exception {
-        if (StringUtils.isEmpty(totalRechargeDTO.getGameId())) {
+    @PostMapping("/getVipAndTotalAmount")
+    public ResponseResult getVipAndTotalAmount(@RequestBody VipTotalAmountDTO vipTotalAmountDTO) throws Exception{
+        if (StringUtils.isEmpty(vipTotalAmountDTO.getUserName())) {
+            return ResponseResult.FAIL("未传入UserName");
+        }
+        if (StringUtils.isEmpty(vipTotalAmountDTO.getBeginDate())) {
+            return ResponseResult.FAIL("未传入BeginDate");
+        }
+        if (StringUtils.isEmpty(vipTotalAmountDTO.getEndDate())) {
+            return ResponseResult.FAIL("未传入EndDate");
+        }
+        return distribute(new ParamWrapper<VipTotalAmountDTO>(vipTotalAmountDTO), FunctionEnum.QUERY_VIP_AMOUNT_SERVER);
+    }
+
+    // 查询总打码量
+    @PostMapping("/QueryTotalRecharge")
+    public ResponseResult QueryTotalRecharge(@RequestBody VipTotalAmountDTO vipTotalAmountDTO) throws Exception {
+        if (StringUtils.isEmpty(vipTotalAmountDTO.getUserName())) {
             return ResponseResult.FAIL("未传入gameid");
         }
-        if (StringUtils.isEmpty(totalRechargeDTO.getEndTime())) {
-            return ResponseResult.FAIL("未传入gameid");
+        if (StringUtils.isEmpty(vipTotalAmountDTO.getEndDate())) {
+            return ResponseResult.FAIL("未传入endTime");
         }
-        if (StringUtils.isEmpty(totalRechargeDTO.getStartTime())) {
-            return ResponseResult.FAIL("未传入gameid");
+        if (StringUtils.isEmpty(vipTotalAmountDTO.getBeginDate())) {
+            return ResponseResult.FAIL("未传入startTime");
         }
-        return distribute(new ParamWrapper<TotalRechargeDTO>(totalRechargeDTO), FunctionEnum.QUERY_TOTAL_RECHARGE_SERVER);
+        return distribute(new ParamWrapper<VipTotalAmountDTO>(vipTotalAmountDTO), FunctionEnum.TOTAL_RECHARGE_SERVER);
     }
 
     // 测试打款

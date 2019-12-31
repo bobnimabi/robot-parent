@@ -1,7 +1,6 @@
 package com.robot.center.function;
 
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.CommonActionEnum;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IExecute;
 import com.robot.center.pool.IRobotManager;
@@ -34,27 +33,14 @@ public abstract class FunctionBase<T> implements IFunction<T>{
 
     @Override
     public ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        return doFunction(paramWrapper, robotWrapper, null, true);
+        return doFunction(paramWrapper, robotWrapper, null, false);
     }
 
     @Override
-    public ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action,Boolean isSync) throws Exception {
-
-        IActionEnum actionEnum = null;
-        // 获取Action
-        if (null == action) {
-            actionEnum = getActionEnum();
-            action = getAction(actionEnum);
-            if (null == action) {
-                log.error("未配置Action...");
-                return ResponseResult.FAIL("未配置Action...");
-            }
-        }
-
-
+    public ResponseResult doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action,Boolean isGiveBack) throws Exception {
         /**
          * robotWrapper != null的场景
-         * 1.登录(会从数据库获取机器人)
+         * 1.登录或图片验证码(会从数据库获取机器人)
          * 2.异步调用(会从队列提前获取机器人)
          */
         if (null == robotWrapper) {
@@ -67,15 +53,35 @@ public abstract class FunctionBase<T> implements IFunction<T>{
         /**
          * 1.异步：自己保证机器人一定归还
          * 2.同步：上面刚获取到，在这里课程保证机器人一定归还
-         * 3.登录：机器人从表里获取的，无需归还
+         * 3.登录或图片验证码：机器人从表里获取的，无需归还
          */
         try {
-            return doFunctionFinal(paramWrapper, robotWrapper, action);
+            return doAction(paramWrapper, robotWrapper, action);
         } finally {
-            if (isSync && null != robotWrapper && actionEnum != CommonActionEnum.LOGIN && actionEnum != CommonActionEnum.IMAGE_CODE) {
+            if (isGiveBack && null != robotWrapper) {
                 robotManager.cacheGiveBack(robotWrapper);
             }
         }
+    }
+
+    /**
+     * 将获取action放在获取robot下面的考虑是
+     * 1.机器人一定要归还（当需归还的时候）
+     */
+    private  ResponseResult doAction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception{
+        IActionEnum actionEnum = null;
+        // 获取Action
+        if (null == action) {
+            actionEnum = getActionEnum();
+            if (null != actionEnum) {
+                action = getAction(actionEnum);
+                if (null == action) {
+                    log.error("未配置Action...");
+                    return ResponseResult.FAIL("未配置Action...");
+                }
+            }
+        }
+        return doFunctionFinal(paramWrapper, robotWrapper, action);
     }
 
     /**

@@ -7,5 +7,5 @@ import lombok.Data;
  * 打款响应结果
  */
 @Data
-public class PayResultVO extends ParentResultVO {
+public class PayResultVO extends ParentResultVO<Object> {
 }

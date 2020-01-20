@@ -81,6 +81,9 @@ public abstract class FunctionBase<T> implements IFunction<T>{
                 }
             }
         }
+        if (null != action) {
+            log.info("-------------------{}-------------------", action.getActionCode());
+        }
         return doFunctionFinal(paramWrapper, robotWrapper, action);
     }
 

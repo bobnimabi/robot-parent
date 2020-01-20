@@ -24,7 +24,7 @@ import org.springframework.web.client.RestTemplate;
                 "com.bbin.common",
                 "com.robot.code",
                 "com.robot.center",
-                "com.robot.jiuwu.login",
+                "com.robot.jiuwu.base",
                 "com.robot.jiuwu.activity",
             }
         )

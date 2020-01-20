@@ -31,7 +31,6 @@ import java.time.Duration;
  * Created by mrt on 11/14/2019 3:59 PM
  */
 @Slf4j
-@RestController
 public class JiuWuController extends RobotControllerBase {
     @Autowired
     private ITaskPool taskPool;

@@ -7,6 +7,5 @@ import lombok.Data;
  * 查询用户是否存在
  */
 @Data
-public class QueryUserResultVO extends ParentResultVO {
-    private QueryUserData data;
+public class QueryUserResultVO extends ParentResultVO<QueryUserData> {
 }

@@ -1,7 +1,7 @@
 package com.robot.bbin.activity.config;
 
 import com.robot.bbin.activity.interceptor.TenantInterceptor;
-import com.robot.center.project.config.WebConfig;
+import com.robot.center.config.WebConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

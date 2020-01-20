@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
 public class QueryUserServer extends FunctionBase<String> {
 
     @Override
-    protected ResponseResult doFunctionFinal(ParamWrapper<String> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+    public ResponseResult doFunctionFinal(ParamWrapper<String> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         String userId = paramWrapper.getObj();
         // 执行
         StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createQueryUserParams(userId), null, QueryUserParser.INSTANCE);

@@ -14,9 +14,9 @@ public enum FunctionEnum implements IFunctionEnum {
     PAY_SERVER("payServer"),
     QUERY_USER_DETAIL_SERVER("queryUserDetailServer"),
     QUERY_VIP_AMOUNT_SERVER("queryVipAmountServer"),
-
+    PAY_TEMPSERVER("payTempServer"),
+    UPDATE_REMARK2_SERVER("updateRemark2Server"),
     ;
-
     private String serverName;
 
     private FunctionEnum(String serverName) {

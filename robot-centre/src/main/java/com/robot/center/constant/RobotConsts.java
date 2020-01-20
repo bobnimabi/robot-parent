@@ -63,4 +63,11 @@ public class RobotConsts {
     // 登录后Token缓存
     public static final String LOGIN_TOKEN = ROBOT_PROJECT_PERFIX + "LOGIN_TOKEN:";
 
+    // 出款唯一前缀16
+    public static final String WITHDRAW_UNIQUE = ROBOT_PROJECT_PERFIX + "WITHDRAW:UNIQUE:";
+    // 出款账号唯一性10
+    public static final String WITHDRAW_UNIQUE_USERNAME = WITHDRAW_UNIQUE + "USERNAME:";
+    // 出款订单唯一性
+    public static final String WITHDRAW_UNIQUE_ORDER_NO = WITHDRAW_UNIQUE + "ORDER_NO:";
+
 }

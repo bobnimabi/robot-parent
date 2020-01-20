@@ -8,6 +8,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.StringUtils;
 
@@ -22,11 +23,20 @@ import java.util.regex.Pattern;
 
 /**
  * Created by mrt on 10/22/2019 8:52 PM
+ * 响应结果处理类
  */
 @Slf4j
 public class CustomeResponseHandler implements ResponseHandler<StanderHttpResponse> {
     public static final CustomeResponseHandler INSTANCE = new CustomeResponseHandler();
 
+    /**
+     * 无论是正常或异常情况：
+     *      不用手动关闭流，源码里面已经关闭了
+     * @param response
+     * @return
+     * @throws HttpResponseException
+     * @throws IOException
+     */
     @Override
     public StanderHttpResponse handleResponse(HttpResponse response) throws HttpResponseException, IOException {
         if (null == response) {
@@ -35,7 +45,6 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
         StatusLine statusLine = response.getStatusLine();
         HttpEntity entity = response.getEntity();
         if (statusLine.getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
-            EntityUtils.consume(entity);
             throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getStatusCode()+" "+statusLine.getReasonPhrase());
         } else {
             StanderHttpResponse standerHttpResponse = new StanderHttpResponse();
@@ -63,27 +72,24 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
     private String parseToString(HttpEntity httpEntity) throws IOException {
         StringBuilder content = new StringBuilder(httpEntity.getContentLength() != -1L ? (int) httpEntity.getContentLength() : 16);
         ContentType contentType = ContentType.get(httpEntity);
-        String mimeType = null;
         // 最好情况：Content-Type里面有Charset
-        if (null != contentType) {
-            mimeType = contentType.getMimeType();
-            Charset charset = contentType.getCharset();
-            if (null != charset) {
-                content.append(EntityUtils.toString(httpEntity, charset));
-            }
+        Charset charset = null != contentType ? contentType.getCharset() : null;
+        if (null != charset) {
+            content.append(EntityUtils.toString(httpEntity, charset));
+            return content.toString();
         }
+
         // 次好情况：虽然Content-Type无Charset，但MimeType为application/json
-        if (0 == content.length()) {
-            if (!StringUtils.isEmpty(mimeType) && ContentType.APPLICATION_JSON.getMimeType().equalsIgnoreCase(mimeType)) {
-                content.append(EntityUtils.toString(httpEntity, StandardCharsets.UTF_8));
-            }
+        String mimeType = null != contentType ? contentType.getMimeType() : null;
+        if (ContentType.APPLICATION_JSON.getMimeType().equalsIgnoreCase(contentType.getMimeType())) {
+            content.append(EntityUtils.toString(httpEntity, StandardCharsets.UTF_8));
+            return content.toString();
         }
+
         // 最差情况：无Content-Type或Content-Type的MimeType不是application/json（一般来说是html）
-        if (0 == content.length()) {
-            byte[] bytes = EntityUtils.toByteArray(httpEntity);
-            Charset charset = CharsetObtain.getCharset(bytes);
-            content.append(new String(bytes, charset));
-        }
+        byte[] bytes = EntityUtils.toByteArray(httpEntity);
+        charset = CharsetObtain.getCharset(bytes);
+        content.append(new String(bytes, charset));
         return content.toString();
     }
 

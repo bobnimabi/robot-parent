@@ -69,7 +69,7 @@ public class QueryVipAmountServer extends FunctionBase<VipTotalAmountDTO> {
         if (!Constant.SUCCESS.equals(resultVO.getCode())) {
             return ResponseResult.FAIL(resultVO.getMsg());
         }
-        Integer tempCodingNum = resultVO.getData().getAccountsInfoExt().getTempCodingNum();
+        Integer tempCodingNum = resultVO.getData().getInfo().getMemberOrder();
         return ResponseResult.SUCCESS(tempCodingNum);
     }
 

@@ -9,6 +9,5 @@ import java.util.List;
  * 总打码量
  */
 @Data
-public class RechargeResultVO extends ParentResultVO {
-    private List<RechargeData> data;
+public class RechargeResultVO extends ParentResultVO<List<RechargeData>> {
 }

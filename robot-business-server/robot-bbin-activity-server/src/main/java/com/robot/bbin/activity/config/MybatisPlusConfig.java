@@ -3,7 +3,7 @@ package com.robot.bbin.activity.config;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import com.robot.center.constant.RobotConsts;
-import com.robot.center.project.config.MybatisPlusConfigBase;
+import com.robot.center.config.MybatisPlusConfigBase;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import org.springframework.context.annotation.Configuration;

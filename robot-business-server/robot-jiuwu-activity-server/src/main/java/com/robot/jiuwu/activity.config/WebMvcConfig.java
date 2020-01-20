@@ -1,6 +1,6 @@
 package com.robot.jiuwu.activity.config;
 
-import com.robot.center.project.config.WebConfig;
+import com.robot.center.config.WebConfig;
 import com.robot.jiuwu.activity.interceptor.TenantInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

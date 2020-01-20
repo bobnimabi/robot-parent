@@ -18,11 +18,13 @@ import com.robot.jiuwu.base.dto.PayMoneyDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -37,6 +39,7 @@ public class JiuWuActivityController extends JiuWuController {
     @Autowired
     private ITaskPool taskPool;
 
+    // 获取vip和总打码量
     @PostMapping("/getVipAndTotalAmount")
     public ResponseResult getVipAndTotalAmount(@RequestBody VipTotalAmountDTO vipTotalAmountDTO) throws Exception{
         if (StringUtils.isEmpty(vipTotalAmountDTO.getUserName())) {
@@ -67,8 +70,8 @@ public class JiuWuActivityController extends JiuWuController {
     }
 
     // 测试打款
-//    @PostMapping("/testPay")
-    public ResponseResult testPay(@RequestBody PayMoneyDTO payMoneyDTO) throws Exception {
+    @PostMapping("/tempPay")
+    public ResponseResult tempPay(@RequestBody PayMoneyDTO payMoneyDTO) throws Exception {
         if (null == payMoneyDTO
                 || StringUtils.isEmpty(payMoneyDTO.getUsername())
                 || null == payMoneyDTO.getPaidAmount()
@@ -83,17 +86,14 @@ public class JiuWuActivityController extends JiuWuController {
 
         payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
         payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());
-        TaskWrapper taskWrapper = new TaskWrapper(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_SERVER, payMoneyDTO.getUsername(), Duration.ofSeconds(12));
-
         String externalNo = payMoneyDTO.getOutPayNo();
         if (StringUtils.isNotBlank(externalNo)) {
             boolean isRedo = isRedo(externalNo);
             if (isRedo) {
-                log.info("该外部订单号已经存在,将不执行,externalNo:{},功能参数:{}", externalNo, JSON.toJSONString(taskWrapper));
+                log.info("该外部订单号已经存在,将不执行,externalNo:{},功能参数:{}", externalNo, JSON.toJSONString(payMoneyDTO));
                 return ResponseResult.FAIL("重复打款");
             }
         }
-        taskPool.taskAdd(taskWrapper,payMoneyDTO.getOutPayNo());
-        return ResponseResult.SUCCESS();
+        return distribute(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_TEMPSERVER);
     }
 }

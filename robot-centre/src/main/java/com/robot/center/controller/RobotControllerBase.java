@@ -151,9 +151,6 @@ public class RobotControllerBase {
         IFunction iFunction = functionMap.get(functionEnum.getFunctionServer());
         Assert.notNull(iFunction, "获取Function失败，FunctionServer:" + functionEnum.getFunctionServer());
         ResponseResult result = iFunction.doFunction(paramWrapper,robotWrapper);
-        if (result.isSuccess()) {
-            return ResponseResult.SUCCESS(JSON.toJSONString(result.getObj()));
-        }
         return result;
     }
 

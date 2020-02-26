@@ -80,7 +80,8 @@ ribbon:
   ConnectTimeout: 5000  #请求连接的超时时间
   ReadTimeout: 6000 #请求处理的超时时间
 
-PERMIT_URL: /** #测试放行
+#不检查长令牌的URL
+PERMIT_URL: /getVipAndTotalAmount,/QueryTotalRecharge,/tempPay,/isExist
 
 #日志文件路径
 logging:

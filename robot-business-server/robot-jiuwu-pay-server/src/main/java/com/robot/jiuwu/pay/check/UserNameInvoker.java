@@ -26,6 +26,7 @@ import java.util.Set;
 @Slf4j
 @Service
 public class UserNameInvoker extends FilterChainBase.Invoker<WithdrawListRowsData> {
+
     @Autowired
     private StringRedisTemplate redis;
 

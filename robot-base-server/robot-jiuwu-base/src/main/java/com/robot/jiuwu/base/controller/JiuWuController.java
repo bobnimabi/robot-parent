@@ -54,7 +54,6 @@ public class JiuWuController extends RobotControllerBase {
         return result;
     }
 
-
     @ApiOperation("机器人：mq打款")
     @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_95_CARD)
     @RabbitHandler

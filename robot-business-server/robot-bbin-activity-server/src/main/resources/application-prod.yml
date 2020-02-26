@@ -18,7 +18,7 @@ spring:
         minIdle: 10
         maxWait: -1 #连接池最大等行时间 -1没有限制
   datasource:
-    username: 'auto_update1'
+    username: 'auto_update'
     password: 'p7oXaL)(8det*&h^540k**76jfikc*f'
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql.bbin.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true

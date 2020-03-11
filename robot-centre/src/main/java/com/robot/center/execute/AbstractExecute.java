@@ -84,7 +84,7 @@ public abstract class AbstractExecute implements IExecute{
     }
 
     /**
-     * 判断是否需要重新登录
+     * 判断是否需掉线
      * @param response 响应结果
      * @return
      */

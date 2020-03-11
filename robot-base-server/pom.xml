@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>robot-jiuwu-base</module>
+        <module>robot-suxiao-base</module>
     </modules>
 
     <dependencies>

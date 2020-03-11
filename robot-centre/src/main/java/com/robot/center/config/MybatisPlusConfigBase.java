@@ -96,7 +96,9 @@ public abstract class MybatisPlusConfigBase {
         return paginationInterceptor;
     }
 
-    // 自动添加tenantId
+    /**
+     * tenant_id
+     */
     public TenantSqlParser getTenantIdSqlParser() {
         TenantSqlParser tenantSqlParser = new TenantSqlParser();
         tenantSqlParser.setTenantHandler(new TenantHandler() {
@@ -119,7 +121,9 @@ public abstract class MybatisPlusConfigBase {
         return tenantSqlParser;
     }
 
-    // 自动添加channelId
+    /**
+     * channel_id
+     */
     public TenantSqlParser getChannelSqlParser() {
         TenantSqlParser tenantSqlParser = new TenantSqlParser();
         tenantSqlParser.setTenantHandler(new TenantHandler() {
@@ -142,7 +146,9 @@ public abstract class MybatisPlusConfigBase {
         return tenantSqlParser;
     }
 
-    // 自动添加isValid
+    /**
+     * is_valid
+     */
     public TenantSqlParser getIsValidSqlParser() {
         TenantSqlParser tenantSqlParser = new TenantSqlParser();
         tenantSqlParser.setTenantHandler(new TenantHandler() {
@@ -177,7 +183,20 @@ public abstract class MybatisPlusConfigBase {
      */
     protected abstract TenantSqlParser getFunctionSqlParser();
 
-//--------------------------以下为改动源码!=的实现--------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+//--------------------------以下为改动源码!=的实现,暂时不用--------------------------
     /**
      * 重写实现!=
      */

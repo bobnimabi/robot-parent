@@ -28,9 +28,6 @@ public class Executor extends AbstractExecute {
         }
 
         ParentResultVO parentResultVO = JSON.parseObject(entityStr, ParentResultVO.class);
-        if (Constant.LOSE.equals(parentResultVO.getCode())) {
-            return true;
-        }
-        return false;
+        return Constant.LOSE.equals(parentResultVO.getCode());
     }
 }

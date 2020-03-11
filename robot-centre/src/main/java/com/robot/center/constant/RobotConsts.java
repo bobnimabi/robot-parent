@@ -49,6 +49,7 @@ public class RobotConsts {
         public static final long GPK = 5;
         public static final long YUN_SHAN_FU = 6;
         public static final long JIU_WU_CARD = 7;
+        public static final long REN_REN_XIAO_KA = 8;
 
         //状态集合
         public static final long[] statusArr = {OG, BBIN, FU_CAI, HONG_BO, GPK, YUN_SHAN_FU};

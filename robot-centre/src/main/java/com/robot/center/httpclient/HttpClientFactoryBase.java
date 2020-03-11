@@ -74,7 +74,7 @@ public abstract class HttpClientFactoryBase {
         httpClientBuilder.setKeepAliveStrategy(createConnectionKeepAliveStrategy(config));
 
         // 设置请求策略
-        httpClientBuilder.setDefaultRequestConfig(createRequestConfig(config));
+//        httpClientBuilder.setDefaultRequestConfig(createRequestConfig(config));
 
         // 过期和空闲连接策略
         httpClientBuilder.evictExpiredConnections();
@@ -184,6 +184,7 @@ public abstract class HttpClientFactoryBase {
         }
         return socketFactory;
     }
+
     private static class TrustCheck implements TrustManager, X509TrustManager {
         public static final TrustCheck INSTANCE = new TrustCheck();
         public X509Certificate[] getAcceptedIssuers() {
@@ -210,8 +211,8 @@ public abstract class HttpClientFactoryBase {
                 .setConnectionRequestTimeout(config.getConnectionRequestTimeout() * 1000) // 从连接池中取连接的超时时间
                 .setConnectTimeout(config.getConnectTimeout() * 1000) // 连接超时时间
                 .setSocketTimeout(config.getSocketTimeout() * 1000) // 请求超时时间
-                .setRelativeRedirectsAllowed(false)
-                .setRedirectsEnabled(false)
+//                .setRelativeRedirectsAllowed(true)
+//                .setRedirectsEnabled(true)
                 .build();
     }
 

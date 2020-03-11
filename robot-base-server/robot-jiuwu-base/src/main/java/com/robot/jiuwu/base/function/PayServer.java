@@ -85,12 +85,16 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
     private ICustomEntity createBodyParams(PayMoneyDTO moneyDTO, QueryUserResultVO resultVO, RobotWrapper robotWrapper) throws Exception {
         ICustomEntity customEntity = JsonCustomEntity.custom()
                 .add("amount", MoneyUtil.convertToFen(moneyDTO.getPaidAmount()).toString()) // 金额
-                .add("codingDouble","0") // 打码量倍数
                 .add("gameids", resultVO.getData().getGameid() + "") // 游戏ids
                 .add("password", DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes())) // 密码
                 .add("remark", moneyDTO.getMemo()) // 备注
                 .add("type","2") // 0人工充值 1线上补单 2活动彩金 3补单 6其他
                 ;
+        if (moneyDTO.getIsAudit()) {
+            customEntity.add("codingDouble", "1"); // 打码量倍数,1表示稽核
+        } else {
+            customEntity.add("codingDouble", "0"); // 打码量倍数，0表示不稽核
+        }
         return customEntity;
     }
 

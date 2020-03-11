@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantChannel;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.mapper.TenantRobotMapper;
@@ -48,7 +48,7 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
 
     @Transactional
     @Override
-    public ResponseResult updateRobot(TenantRobotDTO robotDTO) {
+    public ResponseResult updateRobot(LoginDTO robotDTO) {
         // 是否重复添加
         if (isRobotRepetByUpdate(robotDTO.getId(),robotDTO.getPlatformAccount())) {
             return ResponseResult.FAIL("账号重复");
@@ -66,7 +66,7 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
         return ResponseResult.SUCCESS();
     }
     @Override
-    public ResponseResult addRobot(TenantRobotDTO robotDTO) {
+    public ResponseResult addRobot(LoginDTO robotDTO) {
         //是否重复添加
         if (isRobotRepetByAdd(robotDTO.getPlatformAccount())) {
             return ResponseResult.FAIL("账号已存在");
@@ -76,7 +76,7 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
     }
 
     @Override
-    public ResponseResult pageRobot(TenantRobotDTO robotDTO){
+    public ResponseResult pageRobot(LoginDTO robotDTO){
         IPage page = page(robotDTO, new LambdaQueryWrapper<TenantRobot>().orderByDesc(TenantRobot::getGmtCreateTime));
         Page<TenantRobotVO> voPage = MyBeanUtil.copyPageToPage(page, TenantRobotVO.class);
         for (TenantRobotVO robotVO : voPage.getRecords()) {

@@ -6,15 +6,16 @@ import com.bbin.utils.project.MyBeanUtil;
 import com.robot.center.execute.IExecute;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.httpclient.AbstractHttpClientFactory;
-import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobot;
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -30,7 +31,7 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
 
 
     @Transactional
-    public ResponseResult login(TenantRobotDTO robotDTO) throws Exception{
+    public ResponseResult login(LoginDTO robotDTO) throws Exception{
         long robotId = robotDTO.getId();
         // 获取机器人
         ResponseResult robotResult = robotManager.getRobotById(robotId);
@@ -47,12 +48,31 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
         // 更新DB状态
         robotManager.onlineRobotByDB(robotId);
 
+        temp(robotWrapper);
         // 入缓存
         boolean isCacheAddSuccess = robotManager.cacheRobotAdd(robotWrapper);
         if (!isCacheAddSuccess) {
             throw new IllegalStateException("Cookie入缓存失败:robotId:" + robotId);
         }
         return loginResult;
+    }
+    private void temp(RobotWrapper robotWrapper) {
+        CookieStore cookieStore = robotWrapper.getCookieStore();
+        BasicClientCookie cookie2 = null;
+        for (Cookie cookie : cookieStore.getCookies()) {
+            if ("renrenxiaoka.com".equalsIgnoreCase(cookie.getDomain())) {
+                cookie2 = new BasicClientCookie(cookie.getName(), cookie.getValue());
+                cookie2.setDomain("api.renrenxiaoka.com");
+                cookie2.setPath(cookie.getPath());
+                cookie2.setExpiryDate(cookie.getExpiryDate());
+                cookie2.setSecure(cookie.isSecure());
+                cookie2.setVersion(cookie.getVersion());
+            }
+        }
+        if (cookie2 != null) {
+            cookieStore.addCookie(cookie2);
+        }
+
     }
 
     // 包装机器人

@@ -81,7 +81,7 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
 
         // 次好情况：虽然Content-Type无Charset，但MimeType为application/json
         String mimeType = null != contentType ? contentType.getMimeType() : null;
-        if (ContentType.APPLICATION_JSON.getMimeType().equalsIgnoreCase(contentType.getMimeType())) {
+        if (ContentType.APPLICATION_JSON.getMimeType().equalsIgnoreCase(mimeType)) {
             content.append(EntityUtils.toString(httpEntity, StandardCharsets.UTF_8));
             return content.toString();
         }

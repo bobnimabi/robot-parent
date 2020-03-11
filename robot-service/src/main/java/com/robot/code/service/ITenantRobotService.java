@@ -3,7 +3,7 @@ package com.robot.code.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bbin.common.response.ResponseResult;
 
-import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobot;
 
 /**
@@ -18,7 +18,7 @@ public interface ITenantRobotService extends IService<TenantRobot> {
     /**
      * 机器人：增加
      */
-    ResponseResult addRobot(TenantRobotDTO robot);
+    ResponseResult addRobot(LoginDTO robot);
 
     /**
      * 机器人：删除
@@ -28,12 +28,12 @@ public interface ITenantRobotService extends IService<TenantRobot> {
     /**
      * 机器人：修改
      */
-    ResponseResult updateRobot(TenantRobotDTO robot);
+    ResponseResult updateRobot(LoginDTO robot);
 
     /**
      * 机器人：分页查询
      */
-    ResponseResult pageRobot(TenantRobotDTO robotDTO);
+    ResponseResult pageRobot(LoginDTO robotDTO);
 
     /**
      * 机器人：根据id查询

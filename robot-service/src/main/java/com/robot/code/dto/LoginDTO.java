@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="TenantRobot对象", description="机器人表")
-public class TenantRobotDTO extends Page implements Serializable {
+public class LoginDTO extends Page implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

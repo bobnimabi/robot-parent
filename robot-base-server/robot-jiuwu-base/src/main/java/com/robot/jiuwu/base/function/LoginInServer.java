@@ -11,7 +11,7 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.httpclient.*;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
-import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.vo.LoginResultVO;
@@ -30,13 +30,13 @@ import java.time.Duration;
  */
 @Slf4j
 @Service
-public class LoginInServer extends FunctionBase<TenantRobotDTO> {
+public class LoginInServer extends FunctionBase<LoginDTO> {
     @Autowired
     private StringRedisTemplate redis;
 
     @Override
-    protected ResponseResult doFunctionFinal(ParamWrapper<TenantRobotDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        TenantRobotDTO robotDTO = paramWrapper.getObj();
+    protected ResponseResult doFunctionFinal(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        LoginDTO robotDTO = paramWrapper.getObj();
         // 获取验证码的的CaptchaToken
         String captchaToken = redis.opsForValue().get(ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
         if (StringUtils.isEmpty(captchaToken)) {
@@ -63,7 +63,7 @@ public class LoginInServer extends FunctionBase<TenantRobotDTO> {
     }
 
     // 组装登录参数
-    private ICustomEntity createLoginParams(RobotWrapper robot, TenantRobotDTO robotDTO, String captchaToken) {
+    private ICustomEntity createLoginParams(RobotWrapper robot, LoginDTO robotDTO, String captchaToken) {
         ICustomEntity entity = JsonCustomEntity.custom()
                 .add("username", robot.getPlatformAccount())
                 .add("password", DigestUtils.md5DigestAsHex(robot.getPlatformPassword().getBytes()))

@@ -12,7 +12,7 @@ import com.robot.center.pool.IRobotKeepAlive;
 import com.robot.center.pool.RobotManager;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
-import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.entity.TenantRobotRecord;
 import com.robot.code.service.ITenantRobotRecordService;
@@ -50,7 +50,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：登录")
     @PostMapping("/robotLogin")
-    public ResponseResult robotLogin(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult robotLogin(@RequestBody LoginDTO robotDTO) throws Exception {
         if (null == robotDTO || null == robotDTO.getId()) {
             return ResponseResult.FAIL("未传入参数");
         }
@@ -59,7 +59,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：增加")
     @PostMapping("/addRobot")
-    public ResponseResult addRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult addRobot(@RequestBody LoginDTO robotDTO) throws Exception {
         if (null == robotDTO
                 || StringUtils.isEmpty(robotDTO.getPlatformAccount())
                 || StringUtils.isEmpty(robotDTO.getPlatformPassword())) {
@@ -70,7 +70,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：删除")
     @PostMapping("/deleteRobot")
-    public ResponseResult deleteRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult deleteRobot(@RequestBody LoginDTO robotDTO) throws Exception {
         if (null == robotDTO || null == robotDTO.getId()) {
             return ResponseResult.FAIL("请传入机器人ID");
         }
@@ -79,7 +79,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：修改")
     @PostMapping("/updateRobot")
-    public ResponseResult updateRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult updateRobot(@RequestBody LoginDTO robotDTO) throws Exception {
         if (null == robotDTO
                 || null == robotDTO.getId()
                 || StringUtils.isEmpty(robotDTO.getPlatformAccount())
@@ -91,7 +91,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：分页查询")
     @PostMapping("/pageRobot")
-    public ResponseResult pageRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult pageRobot(@RequestBody LoginDTO robotDTO) throws Exception {
         return robotManager.pageRobot(robotDTO);
     }
 
@@ -106,7 +106,7 @@ public class RobotControllerBase {
 
     @ApiOperation("机器人：强制下线")
     @PostMapping("/closeRobot")
-    public ResponseResult closeRobot(@RequestBody TenantRobotDTO robotDTO) throws Exception {
+    public ResponseResult closeRobot(@RequestBody LoginDTO robotDTO) throws Exception {
         if (null == robotDTO || null == robotDTO.getId()) {
             return ResponseResult.FAIL("请传入机器人ID");
         }

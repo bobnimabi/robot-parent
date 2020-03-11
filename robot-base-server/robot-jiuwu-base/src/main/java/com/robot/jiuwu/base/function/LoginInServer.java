@@ -31,6 +31,7 @@ import java.time.Duration;
 @Slf4j
 @Service
 public class LoginInServer extends FunctionBase<LoginDTO> {
+
     @Autowired
     private StringRedisTemplate redis;
 
@@ -43,7 +44,7 @@ public class LoginInServer extends FunctionBase<LoginDTO> {
             return ResponseResult.FAIL("缓存验证码过期");
         }
         // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createLoginParams(robotWrapper, robotDTO,captchaToken), null, LoginParse.INSTANCE);
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createLoginParams(robotWrapper, robotDTO, captchaToken), null, LoginParse.INSTANCE, false);
         ResponseResult loginResponse = standerHttpResponse.getResponseResult();
         if (!loginResponse.isSuccess()) {
             return loginResponse;

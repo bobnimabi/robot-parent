@@ -55,7 +55,7 @@ public class LoginServer extends FunctionBase<LoginDTO> {
         MainVO mainVO = (MainVO) mainResult.getObj();
 
         // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null, createLoginParams(robotWrapper, mainVO), null, LoginParse.INSTANCE);
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null, createLoginParams(robotWrapper, mainVO), null, LoginParse.INSTANCE, false);
         if (HttpStatus.SC_MOVED_TEMPORARILY == standerHttpResponse.getStatusLine().getStatusCode()) {
             return ResponseResult.SUCCESS();
         }

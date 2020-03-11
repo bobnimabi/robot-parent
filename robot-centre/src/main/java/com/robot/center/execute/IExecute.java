@@ -30,4 +30,7 @@ public interface IExecute {
      */
     StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
                                 ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse);
+
+    StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
+                                ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse,boolean checkLose);
 }

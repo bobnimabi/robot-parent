@@ -36,7 +36,7 @@ public class LoginInServer extends FunctionBase<LoginDTO> {
     protected ResponseResult doFunctionFinal(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         LoginDTO robotDTO = paramWrapper.getObj();
         // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null, createLoginParams(robotWrapper, robotDTO), null, LoginParse.INSTANCE);
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null, createLoginParams(robotWrapper, robotDTO), null, LoginParse.INSTANCE, false);
         ResponseResult loginResponse = standerHttpResponse.getResponseResult();
         if (!loginResponse.isSuccess()) {
             return loginResponse;

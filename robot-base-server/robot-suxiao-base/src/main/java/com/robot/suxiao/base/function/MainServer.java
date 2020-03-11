@@ -45,7 +45,7 @@ public class MainServer extends FunctionBase<LoginDTO> {
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.GET, action, null, null, null, LoginParse.INSTANCE);
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.GET, action, null, null, null, LoginParse.INSTANCE,false);
         ResponseResult result = standerHttpResponse.getResponseResult();
         MainVO mainVO = (MainVO) result.getObj();
         redisTemplate.opsForValue().set(createCacheKeyCsrf(robotWrapper.getId()), mainVO.getCsrf());

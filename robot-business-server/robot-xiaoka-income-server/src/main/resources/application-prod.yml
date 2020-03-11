@@ -7,7 +7,7 @@ spring:
   jackson:
     default-property-inclusion: non_null #不返回空值和null
   redis:
-    host: robot.jiuwu.activity.redis.com
+    host: robot.xiaoka.income.redis.com
     port: 6379
     password: 'nmbW_y1:478!?renminbihenzhiqian'
     timeout: 5000 #连接超时 毫秒
@@ -21,7 +21,7 @@ spring:
     username: 'auto_update'
     password: 'p7oXaL)(8det*&h^540k**76jfikc*f'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://robot.jiuwu.activity.mysql.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://robot.xiaoka.income.mysql.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -32,7 +32,7 @@ spring:
       connection-timeout: 10000
       connection-test-query: SELECT 1
   rabbitmq:
-    host: robot.jiuwu.activity.rabbitmq.com
+    host: robot.xiaoka.income.rabbitmq.com
     port: 5672
     username: admin
     password: qazwsx!
@@ -62,7 +62,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://robot.jiuwu.activity.eureka.com:8761/eureka
+      defaultZone: http://robot.xiaoka.income.eureka.com:8761/eureka
 
 ribbon:
   MaxAutoRetries: 2 #最大重试次数，当Eureka中可以找到服务，但是服务连不上时将会重试

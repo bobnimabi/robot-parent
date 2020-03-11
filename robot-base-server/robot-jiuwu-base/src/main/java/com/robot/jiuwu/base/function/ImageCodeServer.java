@@ -39,7 +39,7 @@ public class ImageCodeServer extends FunctionBase<Object> {
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<Object> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, null, null, ImageCodeParse.INSTANCE);
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, null, null, ImageCodeParse.INSTANCE, false);
         ResponseResult imageResponse = standerHttpResponse.getResponseResult();
         if (!imageResponse.isSuccess()) {
             return imageResponse;

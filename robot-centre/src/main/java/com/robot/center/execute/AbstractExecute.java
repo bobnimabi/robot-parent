@@ -45,6 +45,13 @@ public abstract class AbstractExecute implements IExecute{
 
     private ReentrantLock lock = new ReentrantLock();
 
+    @Override
+    public StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
+                                       ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse) {
+        return this.request(robotWrapper, method, action, externalOrderNo,
+                customEntity, headers, resultParse,false);
+    }
+
     /**
      * 请求
      * @param robotWrapper 机器人包装类
@@ -59,9 +66,8 @@ public abstract class AbstractExecute implements IExecute{
      * 1.请求无响应
      * 2.请求过程出现异常
      */
-    @Override
     public StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
-                                       ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse) {
+                                       ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse,boolean checkLose) {
         // 获取httpClient
         CloseableHttpClient httpClient = getHttpClient(robotWrapper.getId(),robotWrapper.getIdCard());
         // 获取请求路径
@@ -80,7 +86,7 @@ public abstract class AbstractExecute implements IExecute{
         StanderHttpResponse standerHttpResponse = requestDetail(httpClient, url, customEntity, headers, method, httpContext);
         standerHttpResponse.setRecordId(idStr);
         // 请求后：日志、响应解析
-        return afterProcess(standerHttpResponse, idStr, robotWrapper, resultParse);
+        return afterProcess(standerHttpResponse, idStr, robotWrapper, resultParse, checkLose);
     }
 
     /**
@@ -103,29 +109,31 @@ public abstract class AbstractExecute implements IExecute{
 
     /**
      * 请求后处理
+     *
      * @param standarHttpResponse
      * @param idStr
      * @param robotWrapper
      * @param resultParse
      * @return
      */
-    private StanderHttpResponse afterProcess(StanderHttpResponse standarHttpResponse, String idStr, RobotWrapper robotWrapper, IResultParse resultParse) {
+    private StanderHttpResponse afterProcess(StanderHttpResponse standarHttpResponse, String idStr, RobotWrapper robotWrapper,
+                                             IResultParse resultParse, boolean checkLose) {
         // 响应文本：存档
         respLogService.saveRespRecordAsync(idStr, JSON.toJSONString(standarHttpResponse));
         // 检查是否响应为login标志
         String entityStr = standarHttpResponse.getEntityStr();
-        if (isLose(standarHttpResponse)) {
+        if (checkLose && isLose(standarHttpResponse)) {
             robotManager.closeRobot(robotWrapper.getId());
             standarHttpResponse.setResponseResult(ResponseResult.FAIL("机器人失效"));
-        }else if (StringUtils.hasText(entityStr)){
+        } else if (StringUtils.hasText(entityStr)) {
             // 请求结果转对象
             ResponseResult parse = resultParse.parse(entityStr);
             standarHttpResponse.setResponseResult(parse);
             if (!(null != parse.getObj() && parse.getObj() instanceof String)) {
-                log.info("响应结果：" + JSON.toJSONString(parse));
+                log.info("响应结果(已转换)：" + JSON.toJSONString(parse));
             }
-        }else {
-            log.error("响应结果：未响应Entity:{}",JSON.toJSONString(standarHttpResponse));
+        } else {
+            log.error("响应结果：未响应Entity:{}", JSON.toJSONString(standarHttpResponse));
             standarHttpResponse.setResponseResult(ResponseResult.FAIL("未响应Entity..."));
         }
         // 请求后：日志记录

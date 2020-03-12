@@ -91,7 +91,7 @@ public class CancelCardServer extends FunctionBase<CancelCardDTO> {
                 return ResponseResult.FAIL("未成功转换：请检查VO对象：ResultVO");
             }
             return Constant.SUCCESS.equals(doLockVO.getCode())
-                    ? ResponseResult.SUCCESS() : ResponseResult.FAIL(doLockVO.getMessage());
+                    ? ResponseResult.SUCCESS_MES(doLockVO.getMessage()) : ResponseResult.FAIL(doLockVO.getMessage());
         }
     }
 }

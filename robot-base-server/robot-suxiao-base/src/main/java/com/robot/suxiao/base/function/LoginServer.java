@@ -1,6 +1,5 @@
 package com.robot.suxiao.base.function;
 
-import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.CommonActionEnum;
@@ -11,24 +10,24 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.httpclient.*;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.util.CookieUtil;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.suxiao.base.common.Constant;
-import com.robot.suxiao.base.dto.XiaoLoginDTO;
 import com.robot.suxiao.base.vo.MainVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.Header;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-import java.time.Duration;
-import java.util.UUID;
 
 import static com.robot.suxiao.base.function.MainServer.createCacheKeyCsrf;
 
@@ -46,6 +45,8 @@ public class LoginServer extends FunctionBase<LoginDTO> {
     @Autowired
     private StringRedisTemplate redis;
 
+    private static final String DOMAIN = "renrenxiaoka.com";
+
     @Override
     protected ResponseResult doFunctionFinal(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         ResponseResult mainResult = mainServer.doFunction(paramWrapper, robotWrapper);
@@ -53,13 +54,13 @@ public class LoginServer extends FunctionBase<LoginDTO> {
             return mainResult;
         }
         MainVO mainVO = (MainVO) mainResult.getObj();
-
-        // 执行
         StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null, createLoginParams(robotWrapper, mainVO), null, LoginParse.INSTANCE, false);
-        if (HttpStatus.SC_MOVED_TEMPORARILY == standerHttpResponse.getStatusLine().getStatusCode()) {
-            return ResponseResult.SUCCESS();
+        ResponseResult responseResult = standerHttpResponse.getResponseResult();
+        if (responseResult.isSuccess()) {
+            // 修改下cookie
+            addCookie(robotWrapper);
         }
-        return ResponseResult.FAIL("登录失败");
+        return responseResult;
     }
 
     @Override
@@ -82,10 +83,27 @@ public class LoginServer extends FunctionBase<LoginDTO> {
                 .add("error", mainVO.getError());
     }
 
+    /**
+     * 将cookie：b_sessionid的新天加一个域名api.renrenxiaoka.com（原始的为：renrenxiaoka.com）
+      */
+    public void addCookie(RobotWrapper robotWrapper) {
+        CookieStore cookieStore = robotWrapper.getCookieStore();
+        for (Cookie cookie : cookieStore.getCookies()) {
+            if (DOMAIN.equalsIgnoreCase(cookie.getDomain())) {
+                BasicClientCookie addCookie = CookieUtil.createCookie("api.renrenxiaoka.com", cookie.getName(), cookie.getValue(),
+                        cookie.getPath(), cookie.getExpiryDate(), cookie.isSecure(), cookie.getVersion());
+                cookieStore.addCookie(addCookie);
+            }
+        }
+    }
+
     // 响应结果转换
-    private static final class LoginParse implements IResultParse{
+    private static final class LoginParse implements IResultParse {
         private static final LoginParse INSTANCE = new LoginParse();
-        private LoginParse(){}
+
+        private LoginParse() {
+        }
+
         @Override
         public ResponseResult parse(String result) {
             if (StringUtils.isEmpty(result)) {
@@ -101,7 +119,11 @@ public class LoginServer extends FunctionBase<LoginDTO> {
         }
     }
 
-    // 创建机器人的登录TOKEN
+    /**
+     * 创建机器人的登录TOKEN
+     * @param robotId
+     * @return
+     */
     public static String createCacheKeyLoginToken(long robotId) {
         return new StringBuilder(50)
                 .append(RobotConsts.LOGIN_TOKEN)

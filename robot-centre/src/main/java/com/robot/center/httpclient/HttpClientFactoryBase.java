@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
 import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.RedirectStrategy;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -16,6 +18,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeaderElementIterator;
@@ -74,7 +77,8 @@ public abstract class HttpClientFactoryBase {
         httpClientBuilder.setKeepAliveStrategy(createConnectionKeepAliveStrategy(config));
 
         // 设置请求策略
-//        httpClientBuilder.setDefaultRequestConfig(createRequestConfig(config));
+        httpClientBuilder.setDefaultRequestConfig(createRequestConfig(config));
+        httpClientBuilder.setRedirectStrategy(createRedirectStrategy());
 
         // 过期和空闲连接策略
         httpClientBuilder.evictExpiredConnections();
@@ -92,6 +96,7 @@ public abstract class HttpClientFactoryBase {
         if (!CollectionUtils.isEmpty(requestInterceptors)) {
             requestInterceptors.forEach(o->httpClientBuilder.addInterceptorFirst(o));
         }
+
 
         // 设置代理
         if (!StringUtils.isEmpty(config.getProxyIp()) && !StringUtils.isEmpty(config.getProxyPort())) {
@@ -111,6 +116,32 @@ public abstract class HttpClientFactoryBase {
         poolmanager.setDefaultMaxPerRoute(config.getDefaultMaxPerRoute());
         poolmanager.setValidateAfterInactivity(config.getValidateAfterInactivity() * 1000);
         return poolmanager;
+    }
+    /**
+     * Redirect策略
+     * 1.允许post自动重定向（销卡网登录需要）
+     */
+    private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST"};
+    private RedirectStrategy createRedirectStrategy() {
+        DefaultRedirectStrategy defaultRedirectStrategy = new DefaultRedirectStrategy() {
+
+            @Override
+            protected boolean isRedirectable(String method) {
+                String[] arr$ = CUSTOM_REDIRECT_METHODS;
+                int len$ = arr$.length;
+
+                for(int i$ = 0; i$ < len$; ++i$) {
+                    String m = arr$[i$];
+                    if (m.equalsIgnoreCase(method)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+        };
+        return defaultRedirectStrategy;
     }
 
     /**
@@ -211,8 +242,9 @@ public abstract class HttpClientFactoryBase {
                 .setConnectionRequestTimeout(config.getConnectionRequestTimeout() * 1000) // 从连接池中取连接的超时时间
                 .setConnectTimeout(config.getConnectTimeout() * 1000) // 连接超时时间
                 .setSocketTimeout(config.getSocketTimeout() * 1000) // 请求超时时间
-//                .setRelativeRedirectsAllowed(true)
-//                .setRedirectsEnabled(true)
+                .setRelativeRedirectsAllowed(true)
+                .setRedirectsEnabled(true)
+                .setCookieSpec(CookieSpecs.DEFAULT)
                 .build();
     }
 

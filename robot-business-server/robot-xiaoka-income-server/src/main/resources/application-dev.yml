@@ -60,9 +60,9 @@ server:
 
 eureka:
   instance:
-    lease-renewal-interval-in-seconds: 200
-    lease-expiration-duration-in-seconds: 300
-    registry-fetch-interval-seconds: 200 # Eureka Client缓存的定期更新周期
+    lease-renewal-interval-in-seconds: 200000
+    lease-expiration-duration-in-seconds: 300000
+    registry-fetch-interval-seconds: 200000 # Eureka Client缓存的定期更新周期
     prefer-ip-address: true
   client:
     #表示是否将自己注册到Eureka Server，默认为true。测试环境下关闭注册，都在热部署会报错

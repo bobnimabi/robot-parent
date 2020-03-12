@@ -48,7 +48,7 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
         // 更新DB状态
         robotManager.onlineRobotByDB(robotId);
 
-        temp(robotWrapper);
+//        temp(robotWrapper);
         // 入缓存
         boolean isCacheAddSuccess = robotManager.cacheRobotAdd(robotWrapper);
         if (!isCacheAddSuccess) {
@@ -56,24 +56,7 @@ public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
         }
         return loginResult;
     }
-    private void temp(RobotWrapper robotWrapper) {
-        CookieStore cookieStore = robotWrapper.getCookieStore();
-        BasicClientCookie cookie2 = null;
-        for (Cookie cookie : cookieStore.getCookies()) {
-            if ("renrenxiaoka.com".equalsIgnoreCase(cookie.getDomain())) {
-                cookie2 = new BasicClientCookie(cookie.getName(), cookie.getValue());
-                cookie2.setDomain("api.renrenxiaoka.com");
-                cookie2.setPath(cookie.getPath());
-                cookie2.setExpiryDate(cookie.getExpiryDate());
-                cookie2.setSecure(cookie.isSecure());
-                cookie2.setVersion(cookie.getVersion());
-            }
-        }
-        if (cookie2 != null) {
-            cookieStore.addCookie(cookie2);
-        }
 
-    }
 
     // 包装机器人
     private RobotWrapper wrapper(TenantRobot robot) {

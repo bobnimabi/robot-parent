@@ -36,6 +36,10 @@ public class MoneyUtil {
         return yuan.setScale(2, BigDecimal.ROUND_DOWN);
     }
 
+    public static String formatYuan2LongStr(BigDecimal yuan) {
+        return yuan.setScale(0, BigDecimal.ROUND_DOWN).toString();
+    }
+
     /**
      * 格式化分
      * @param fen

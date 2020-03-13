@@ -124,7 +124,7 @@ public abstract class AbstractExecute implements IExecute{
         String entityStr = standarHttpResponse.getEntityStr();
         if (checkLose && isLose(standarHttpResponse)) {
             robotManager.closeRobot(robotWrapper.getId());
-            standarHttpResponse.setResponseResult(ResponseResult.FAIL("机器人失效"));
+            standarHttpResponse.setResponseResult(ResponseResult.LOSE("机器人掉线"));
         } else if (StringUtils.hasText(entityStr)) {
             // 请求结果转对象
             ResponseResult parse = resultParse.parse(entityStr);

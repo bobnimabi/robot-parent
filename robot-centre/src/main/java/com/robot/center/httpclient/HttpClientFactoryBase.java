@@ -78,6 +78,8 @@ public abstract class HttpClientFactoryBase {
 
         // 设置请求策略
         httpClientBuilder.setDefaultRequestConfig(createRequestConfig(config));
+
+        // 设置重定向策略
         httpClientBuilder.setRedirectStrategy(createRedirectStrategy());
 
         // 过期和空闲连接策略

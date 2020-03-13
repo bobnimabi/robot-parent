@@ -68,7 +68,6 @@ public class HttpClientHelper {
 	public static StanderHttpResponse postForm(CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException {
 		StanderHttpResponse result = null;
 		HttpPost httpPost = new HttpPost(url);
-		httpPost.setConfig(RequestConfig.custom().setRedirectsEnabled(true).setRelativeRedirectsAllowed(false).build());
 		try {
 			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
 				HttpEntity entity = new UrlEncodedFormEntity(customEntity.getEntity(), StandardCharsets.UTF_8);

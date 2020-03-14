@@ -22,7 +22,7 @@ spring:
     username: root
     password: '0PKpK0JJD?mM'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -81,7 +81,7 @@ ribbon:
   ReadTimeout: 6000 #请求处理的超时时间
 
 #不检查长令牌的URL
-PERMIT_URL: /getVipAndTotalAmount,/QueryTotalRecharge,/tempPay,/isExist
+PERMIT_URL: /** #测试放行
 
 #日志文件路径
 logging:

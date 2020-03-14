@@ -72,7 +72,7 @@ ribbon:
   ReadTimeout: 6000 #请求处理的超时时间
 
 #不检查长令牌的URL
-PERMIT_URL: /getVipAndTotalAmount,/QueryTotalRecharge,/tempPay,/isExist
+PERMIT_URL: /** #测试放行
 
 #日志文件路径
 logging:

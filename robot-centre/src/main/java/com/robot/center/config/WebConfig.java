@@ -46,12 +46,16 @@ public abstract class WebConfig implements WebMvcConfigurer {
     //添加拦截器
     public void addInterceptors(InterceptorRegistry registry) {
         String[] path = {"/**/addRobot", "/**/deleteRobot", "/**/updateRobot", "/**/pageRobot", "/**/getRobotById", "/**/closeRobot"};
-        registry.addInterceptor(getLoginLogInterceptor())
-                .addPathPatterns(path);
-        registry.addInterceptor(getFlushTokenInterceptor())
-                .addPathPatterns(path);
-        registry.addInterceptor(getUnLoginLogInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(path);
+//        registry.addInterceptor(getLoginLogInterceptor())
+//                .addPathPatterns(path);
+
+//        registry.addInterceptor(getFlushTokenInterceptor())
+//                .addPathPatterns(path);
+//        registry.addInterceptor(getUnLoginLogInterceptor())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(path);
+
+        // 临时
+        registry.addInterceptor(getUnLoginLogInterceptor());
     }
 }

@@ -1,10 +1,9 @@
-package com.robot.center.httpclient;
+package com.robot.center.http;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -68,6 +67,7 @@ public class HttpClientHelper {
 	public static StanderHttpResponse postForm(CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException {
 		StanderHttpResponse result = null;
 		HttpPost httpPost = new HttpPost(url);
+		httpPost.setConfig(RequestConfig.custom().setRedirectsEnabled(true).setRelativeRedirectsAllowed(false).build());
 		try {
 			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
 				HttpEntity entity = new UrlEncodedFormEntity(customEntity.getEntity(), StandardCharsets.UTF_8);

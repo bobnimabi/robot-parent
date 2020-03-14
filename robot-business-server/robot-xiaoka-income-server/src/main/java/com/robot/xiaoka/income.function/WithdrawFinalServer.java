@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-
 /**
  * Created by mrt on 11/14/2019 8:06 PM
  * 查询银行卡结果

@@ -1,12 +1,11 @@
 package com.robot.bbin.activity.basic;
 
 import com.robot.center.execute.AbstractExecute;
-import com.robot.center.httpclient.StanderHttpResponse;
+import com.robot.center.http.StanderHttpResponse;
 import com.robot.center.util.BoyerMoore;
 import com.robot.code.entity.TenantRobotDrop;
 import com.robot.code.service.ITenantRobotDropService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

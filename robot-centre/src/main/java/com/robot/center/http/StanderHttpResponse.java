@@ -1,4 +1,4 @@
-package com.robot.center.httpclient;
+package com.robot.center.http;
 
 import com.bbin.common.response.ResponseResult;
 import lombok.Data;

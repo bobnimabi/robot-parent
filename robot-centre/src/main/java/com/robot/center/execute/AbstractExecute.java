@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.bbin.common.response.ResponseResult;
 import com.robot.center.constant.RobotConsts;
+import com.robot.center.http.*;
 import com.robot.center.httpclient.*;
 import com.robot.center.pool.AbstractRobotCache;
 import com.robot.center.pool.IRobotManager;
@@ -124,7 +125,7 @@ public abstract class AbstractExecute implements IExecute{
         String entityStr = standarHttpResponse.getEntityStr();
         if (checkLose && isLose(standarHttpResponse)) {
             robotManager.closeRobot(robotWrapper.getId());
-            standarHttpResponse.setResponseResult(ResponseResult.LOSE("机器人掉线"));
+            standarHttpResponse.setResponseResult(ResponseResult.FAIL("机器人失效"));
         } else if (StringUtils.hasText(entityStr)) {
             // 请求结果转对象
             ResponseResult parse = resultParse.parse(entityStr);

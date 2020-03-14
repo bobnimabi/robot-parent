@@ -2,7 +2,7 @@ package com.robot.jiuwu.base.basic;
 
 import com.alibaba.fastjson.JSON;
 import com.robot.center.execute.AbstractExecute;
-import com.robot.center.httpclient.StanderHttpResponse;
+import com.robot.center.http.StanderHttpResponse;
 import com.robot.code.service.ITenantRobotDropService;
 import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.vo.ParentResultVO;

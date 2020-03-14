@@ -1,4 +1,4 @@
-package com.robot.center.httpclient;
+package com.robot.center.http;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;

@@ -1,12 +1,11 @@
 package com.robot.center.execute;//package com.bbin.robotWrapper.core.execute;
 
-import com.robot.center.httpclient.CustomHeaders;
-import com.robot.center.httpclient.CustomHttpMethod;
-import com.robot.center.httpclient.ICustomEntity;
-import com.robot.center.httpclient.StanderHttpResponse;
+import com.robot.center.http.CustomHeaders;
+import com.robot.center.http.CustomHttpMethod;
+import com.robot.center.http.ICustomEntity;
+import com.robot.center.http.StanderHttpResponse;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * Created by mrt on 2019/7/10 0010 下午 4:08

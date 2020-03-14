@@ -1,4 +1,4 @@
-package com.robot.center.httpclient;
+package com.robot.center.http;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -8,7 +8,6 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.StringUtils;
 

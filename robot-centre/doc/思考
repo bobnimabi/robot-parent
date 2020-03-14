@@ -1,0 +1,35 @@
+一、都无关的配置
+    1.连接池的配置
+    2.全局requestConfig
+    3.请求requestConfig
+
+二、与platformId有关的配置
+    1.URL
+
+表：
+    1.requestConfig单独一张表
+        属性：
+             expectContinueEnabled;
+             proxy; 代理
+             localAddress; 本地ip和端口
+             staleConnectionCheckEnabled; 连接检查
+             cookieSpec; cookie策略
+             redirectsEnabled; 是否重定向
+             relativeRedirectsAllowed;
+             circularRedirectsAllowed; 是否循环重定向
+             maxRedirects; 最大重定向
+             authenticationEnabled;
+             targetPreferredAuthSchemes;
+             proxyPreferredAuthSchemes;
+             connectionRequestTimeout; 连接池获取请求超时时间
+             connectTimeout; 连接超时时间
+             socketTimeout; socket握手时间
+             contentCompressionEnabled;  是否开启压缩
+        给机器人配置的话，机器人全局走这个requestConfig
+        给单独的接口配置的话，改接口全部走这个
+
+    2.连接池的配置
+
+
+
+

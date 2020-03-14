@@ -21,12 +21,19 @@ public abstract class AbstractHttpClientFactory extends HttpClientFactoryBase{
      */
     public CloseableHttpClient createHttpClient(long robotId)  {
         try {
+
             return createCustomHttpClient(robotId, getRequestInterceptor());
         } catch (Exception e) {
             log.info("创建client异常", e);
         }
         return null;
     }
+
+    /**
+     * 初始化配置参数
+     */
+    public
+
 
     /**
      * 获取请求拦截器

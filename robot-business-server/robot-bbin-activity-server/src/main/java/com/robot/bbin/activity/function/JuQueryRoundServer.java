@@ -1,7 +1,6 @@
 package com.robot.bbin.activity.function;
 
 import com.bbin.common.response.ResponseResult;
-import com.bbin.utils.UrlUtils;
 import com.bbin.utils.project.DateUtils;
 import com.robot.bbin.activity.basic.ActionEnum;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
@@ -10,9 +9,9 @@ import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.CustomHttpMethod;
-import com.robot.center.httpclient.StanderHttpResponse;
-import com.robot.center.httpclient.UrlCustomEntity;
+import com.robot.center.http.CustomHttpMethod;
+import com.robot.center.http.StanderHttpResponse;
+import com.robot.center.http.UrlCustomEntity;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.util.MoneyUtil;
 import com.robot.code.entity.TenantRobotAction;
@@ -23,9 +22,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Map;
 
 /**
  * Created by mrt on 11/15/2019 12:29 PM

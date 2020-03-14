@@ -2,6 +2,7 @@ package com.robot.center.httpclient;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.robot.center.http.CustomHeaders;
 import com.robot.code.entity.TenantRobotHead;
 import com.robot.code.entity.TenantRobotProxy;
 import com.robot.code.entity.TenantRobotRequest;
@@ -27,7 +28,8 @@ import java.util.List;
 @AllArgsConstructor
 @Configuration
 @Slf4j
-public class CustomHttpClientConfig extends DefaultHttpClientConfig {
+public class HttpClientConfig extends DefaultHttpClientConfig {
+
     @Autowired
     private ITenantRobotHeadService headService;
 
@@ -37,15 +39,15 @@ public class CustomHttpClientConfig extends DefaultHttpClientConfig {
     @Autowired
     private ITenantRobotProxyService proxyService;
 
-    public CustomHttpClientConfig getCustomHttpClientConfig(long robotId) {
-        CustomHttpClientConfig config = new CustomHttpClientConfig();
+    public HttpClientConfig getCustomHttpClientConfig(long robotId) {
+        HttpClientConfig config = new HttpClientConfig();
         fillRequestConfig(config);
         fillProxyConfig(config, robotId);
         fillHeadersConfig(config);
         return config;
     }
 
-    private void fillRequestConfig(CustomHttpClientConfig config) {
+    private void fillRequestConfig(HttpClientConfig config) {
         TenantRobotRequest request = requestService.getOne(new LambdaQueryWrapper<TenantRobotRequest>());
 
         if (null == request) {
@@ -80,7 +82,7 @@ public class CustomHttpClientConfig extends DefaultHttpClientConfig {
         Assert.isTrue(request.getConnectRequestTimeout() > 0, "ConnectRequestTimeout非法");
     }
 
-    private void fillProxyConfig(CustomHttpClientConfig config, long robotId) {
+    private void fillProxyConfig(HttpClientConfig config, long robotId) {
         TenantRobotProxy proxy = proxyService.getByRobotId(robotId);
         if (null == proxy) {
             log.info("未配置代理，将不使用代理");
@@ -96,7 +98,7 @@ public class CustomHttpClientConfig extends DefaultHttpClientConfig {
         config.setProxyPort(proxy.getProxyPort());
     }
 
-    private void fillHeadersConfig(CustomHttpClientConfig config) {
+    private void fillHeadersConfig(HttpClientConfig config) {
         List<TenantRobotHead> heads = headService.list();
         if (!CollectionUtils.isEmpty(heads)) {
             CustomHeaders commonHeaders = config.getCommonHeaders();

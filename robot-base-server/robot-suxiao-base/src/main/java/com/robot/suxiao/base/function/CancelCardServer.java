@@ -7,9 +7,11 @@ import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.*;
+import com.robot.center.http.CustomHttpMethod;
+import com.robot.center.http.ICustomEntity;
+import com.robot.center.http.StanderHttpResponse;
+import com.robot.center.http.UrlCustomEntity;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.center.util.MoneyUtil;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.suxiao.base.basic.ActionEnum;
 import com.robot.suxiao.base.common.Constant;
@@ -56,7 +58,7 @@ public class CancelCardServer extends FunctionBase<CancelCardDTO> {
                 // 卡种  1、中国移动快销   2、中国联通快销   3、中国电信快销   5.中国移动慢销   6.中国联通慢销   7、中国电信慢销  26、中国移动（超级快销）  27、中国联通（超级快销）
                 .add("operatorId", cancelCardDTO.getOperatorId())
                 .add("chooseOperatorId", cancelCardDTO.getChooseOperatorId())
-                .add("price", MoneyUtil.formatYuan2LongStr(cancelCardDTO.getPrice())) // 面值
+                .add("price", cancelCardDTO.getPrice().toString()) // 面值
                 // 折扣
                 .add("discount", cancelCardDTO.getDiscount())
                 // 提交方式：1、单卡提交   2、批量提交

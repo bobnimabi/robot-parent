@@ -5,6 +5,7 @@ import com.robot.center.httpclient.HttpClientFilter;
 import com.robot.center.httpclient.HttpClientInvocation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.protocol.HttpContext;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RequestRetryStrategy extends HttpClientFilter<HttpClientInvocation> {
 
     // 重试次数
-    private static final int retryCount = 3;
+    private static final int DEFAULT_RETRY_COUNT = 3;
 
     @Override
     protected boolean dofilter(HttpClientInvocation invocation) throws Exception {
@@ -44,6 +45,8 @@ public class RequestRetryStrategy extends HttpClientFilter<HttpClientInvocation>
             this.idempotentMethods.put("DELETE", Boolean.TRUE);
             this.idempotentMethods.put("OPTIONS", Boolean.TRUE);
             this.idempotentMethods.put("TRACE", Boolean.TRUE);
+            this.idempotentMethods.put("PUT", Boolean.TRUE);
+            this.idempotentMethods.put("POST", Boolean.TRUE);
         }
 
         @Override

@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedirectStrategy extends HttpClientFilter<HttpClientInvocation> {
 
-    private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST"};
+    // 可重定向的方法
+    private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST","DELETE","PUT"};
 
     @Override
     protected boolean dofilter(HttpClientInvocation invocation) throws Exception {

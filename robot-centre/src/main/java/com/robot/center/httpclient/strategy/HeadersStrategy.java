@@ -5,6 +5,7 @@ import com.robot.center.httpclient.HttpClientFilter;
 import com.robot.center.httpclient.HttpClientInvocation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,6 +19,7 @@ public class HeadersStrategy extends HttpClientFilter<HttpClientInvocation> {
 
     @Override
     protected boolean dofilter(HttpClientInvocation invocation) throws Exception {
+        RequestConfig
         List<Header> headers = invocation.getConfig().getCommonHeaders().getHeaders();
         HttpClientBuilder httpClientBuilder = invocation.getHttpClientBuilder();
         httpClientBuilder.setDefaultHeaders(headers);

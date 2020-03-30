@@ -1,34 +1,63 @@
-一、都无关的配置
-    1.连接池的配置
-    2.全局requestConfig
-    3.请求requestConfig
+一、与platformId有关的配置
+    1.httpclient的设定属性
+    	连接池的属性
+            MaxTotal                最大连接数
+            DefaultMaxPerRoute      默认路由数
+            ValidateAfterInactivity 多长时间校验一次
 
-二、与platformId有关的配置
-    1.URL
+    2.requestConfig的设定属性
+         expectContinueEnabled;
+         proxy; 代理
+         localAddress; 本地ip和端口
+         staleConnectionCheckEnabled; 连接检查
+         cookieSpec; cookie策略
+         redirectsEnabled; 是否重定向
+         relativeRedirectsAllowed;
+         circularRedirectsAllowed; 是否循环重定向
+         maxRedirects; 最大重定向
+         authenticationEnabled;
+         targetPreferredAuthSchemes;
+         proxyPreferredAuthSchemes;
+         connectionRequestTimeout; 连接池获取请求超时时间
+         connectTimeout; 连接超时时间
+         socketTimeout; socket握手时间
+         contentCompressionEnabled;  是否开启压缩
 
-表：
-    1.requestConfig单独一张表
-        属性：
-             expectContinueEnabled;
-             proxy; 代理
-             localAddress; 本地ip和端口
-             staleConnectionCheckEnabled; 连接检查
-             cookieSpec; cookie策略
-             redirectsEnabled; 是否重定向
-             relativeRedirectsAllowed;
-             circularRedirectsAllowed; 是否循环重定向
-             maxRedirects; 最大重定向
-             authenticationEnabled;
-             targetPreferredAuthSchemes;
-             proxyPreferredAuthSchemes;
-             connectionRequestTimeout; 连接池获取请求超时时间
-             connectTimeout; 连接超时时间
-             socketTimeout; socket握手时间
-             contentCompressionEnabled;  是否开启压缩
-        给机器人配置的话，机器人全局走这个requestConfig
-        给单独的接口配置的话，改接口全部走这个
 
-    2.连接池的配置
+二、表
+        http_request_config表：
+            is_redirect					是否重定向 1是  0否
+            connect_request_timeout		从连接池获取连接超时，单位：秒
+            connect_timeout 			建立连接超时，单位：秒
+            response_timeout			响应超时，单位：秒
+            cookie_spec					cookie策略 0.default 1.standard 2.standard-strict  3.ignoreCookies
+
+        http_connection_pool表：
+            keep_alive_timeout          连接存活时间
+            max_total                   最大连接数
+            default_max_per_route       默认路由
+            max_idle_time               最大空闲时间
+            is_expired_connection       连接池：是否过期连接 1有效  0无效
+
+
+三、组织
+    1.连接池
+        使用nacos灵活配置pool_id，现在可以先写死
+        一次配置一个租户
+
+    2.requestConfig
+        每个接口都有自己的RequestConfig（包含代理ip+端口，代理池会用到）
+
+    3.代理IP+端口
+        每个机器人都可以配置自己的ip+端口
+
+    4.请求头
+
+    5.domain
+    6.path11
+
+
+
 
 
 

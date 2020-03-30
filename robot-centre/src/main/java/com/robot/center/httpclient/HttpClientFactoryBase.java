@@ -95,6 +95,7 @@ public abstract class HttpClientFactoryBase {
             requestInterceptors.forEach(o->httpClientBuilder.addInterceptorFirst(o));
         }
         return httpClientBuilder.build();
+        RequestConfig
     }
 
     /**

@@ -19,7 +19,6 @@ public class HeadersStrategy extends HttpClientFilter<HttpClientInvocation> {
 
     @Override
     protected boolean dofilter(HttpClientInvocation invocation) throws Exception {
-        RequestConfig
         List<Header> headers = invocation.getConfig().getCommonHeaders().getHeaders();
         HttpClientBuilder httpClientBuilder = invocation.getHttpClientBuilder();
         httpClientBuilder.setDefaultHeaders(headers);

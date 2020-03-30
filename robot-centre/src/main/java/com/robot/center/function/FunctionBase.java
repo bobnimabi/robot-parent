@@ -16,6 +16,7 @@ import java.time.Duration;
  */
 @Slf4j
 public abstract class FunctionBase<T> implements IFunction<T>{
+
     @Autowired
     protected IExecute execute;
     @Autowired

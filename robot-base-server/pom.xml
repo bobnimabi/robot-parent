@@ -14,6 +14,7 @@
     <modules>
         <module>robot-jiuwu-base</module>
         <module>robot-suxiao-base</module>
+        <module>robot-liantong-base</module>
     </modules>
 
     <dependencies>

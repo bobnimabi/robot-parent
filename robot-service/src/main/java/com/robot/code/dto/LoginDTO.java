@@ -94,10 +94,18 @@ public class LoginDTO extends Page implements Serializable {
      */
     private LocalDateTime gmtCreateTime;
 
+/*-------------------------自定义参数-------------------------*/
     /**
-     * 自定义
+     * 动态验证码
      */
     private String opt;
+    /**
+     * 图片验证码
+     */
     private String imageCode;
+    /**
+     * 短信验证码
+     */
+    private String sms;
 
 }

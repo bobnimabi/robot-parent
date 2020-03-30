@@ -31,6 +31,7 @@ import java.time.Duration;
 @Slf4j
 @Service
 public class ImageCodeServer extends FunctionBase<Object> {
+
     @Autowired
     private KeepAlive keepAlive;
     @Autowired

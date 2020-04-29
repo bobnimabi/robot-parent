@@ -25,8 +25,7 @@ import java.util.regex.Pattern;
  * 响应结果处理类
  */
 @Slf4j
-public class CustomeResponseHandler implements ResponseHandler<StanderHttpResponse> {
-    public static final CustomeResponseHandler INSTANCE = new CustomeResponseHandler();
+public abstract class CustomeResponseHandler implements ResponseHandler<StanderHttpResponse> {
 
     /**
      * 无论是正常或异常情况：
@@ -41,22 +40,47 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
         if (null == response) {
             throw new IllegalStateException("数据包：服务器未响应或被中间代理拦截");
         }
+        return handleResonseDetail(response);
+    }
+
+    private StanderHttpResponse handleResonseDetail(HttpResponse response) throws HttpResponseException, IOException{
+        HttpEntity httpEntity = response.getEntity();
         StatusLine statusLine = response.getStatusLine();
-        HttpEntity entity = response.getEntity();
+        StanderHttpResponse standerHttpResponse = new StanderHttpResponse();
+        standerHttpResponse.setStatusLine(statusLine);
+        standerHttpResponse.setHeaders(response.getAllHeaders());
+
         if (statusLine.getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
             throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getStatusCode()+" "+statusLine.getReasonPhrase());
+        } else if (null == httpEntity){
+            return standerHttpResponse;
+        } else if (httpEntity.getContentLength() > (8 << 20)) {
+            throw new IllegalArgumentException("响应大小超过8M");
         } else {
-            StanderHttpResponse standerHttpResponse = new StanderHttpResponse();
-            standerHttpResponse.setStatusLine(response.getStatusLine());
-            standerHttpResponse.setHeaders(response.getAllHeaders());
-            return entity == null ? standerHttpResponse : this.handleEntity(entity,standerHttpResponse);
+
         }
     }
 
-    public StanderHttpResponse handleEntity(HttpEntity httpEntity, StanderHttpResponse standerHttpResponse) throws IOException {
-        if (httpEntity.getContentLength() > (8 << 20)) {
-            throw new IllegalArgumentException("响应大小超过8M");
-        }
+    /**
+     * 将HttpEntity转换成byte[]类型
+     * @param httpEntity
+     * @param standerHttpResponse
+     * @return
+     * @throws IOException
+     */
+    protected StanderHttpResponse handleEntity2Byte(HttpEntity httpEntity, StanderHttpResponse standerHttpResponse) throws IOException {
+        byte[] bytes = EntityUtils.toByteArray(httpEntity);
+        return standerHttpResponse;
+    }
+
+    /**
+     * 将HttpEntity转换成String类型
+     * @param httpEntity
+     * @param standerHttpResponse
+     * @return
+     * @throws IOException
+     */
+    protected StanderHttpResponse handleEntity2String(HttpEntity httpEntity, StanderHttpResponse standerHttpResponse) throws IOException {
         standerHttpResponse.setEntityStr(parseToString(httpEntity));
         return standerHttpResponse;
     }
@@ -93,6 +117,10 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
     }
 
 
+    /**
+     * 内部类：从html里面meta头里面获取字符编码
+     * 处理一些
+     */
     private static final class CharsetObtain {
         private static final Pattern PATTERN = Pattern.compile("charset=[\"]?([\\w-]*)");
         /**

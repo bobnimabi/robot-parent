@@ -85,7 +85,6 @@ public abstract class AbstractExecute implements IExecute{
             httpContext.setAttribute(RobotConsts.ROBOT_ID, robotWrapper.getId());
         }
         StanderHttpResponse standerHttpResponse = requestDetail(httpClient, url, customEntity, headers, method, httpContext);
-        standerHttpResponse.setRecordId(idStr);
         // 请求后：日志、响应解析
         return afterProcess(standerHttpResponse, idStr, robotWrapper, resultParse, checkLose);
     }

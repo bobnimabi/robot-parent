@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,10 +19,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class RobotTimeLimit {
+
     private static final String CACHE_ROBOT_IP_LIMIT = RobotConsts.ROBOT_PROJECT_PERFIX + "DISPATCH:IP_LIMIT:";
     private static final String CACHE_ROBOT_ME_LIMIT = RobotConsts.ROBOT_PROJECT_PERFIX + "DISPATCH:ME_LIMIT:";
+
     @Autowired
     private ITenantRobotProxyService proxyService;
+
     @Autowired
     private StringRedisTemplate redis;
 

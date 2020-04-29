@@ -1,4 +1,4 @@
-package com.robot.center.httpclient.strategy;
+package com.robot.center.httpclient.chain;
 
 import com.robot.center.httpclient.HttpClientFilter;
 import com.robot.center.httpclient.HttpClientInvocation;
@@ -19,17 +19,22 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class KeepAliveStrategy extends HttpClientFilter<HttpClientInvocation> {
+public class KeepAliveChain extends HttpClientFilter<HttpClientInvocation> {
     // keep-alive 超时时间，单位：秒
     private static final int DEFAULT_KEEP_ALIVE = 30;
 
     @Override
-    protected boolean dofilter(HttpClientInvocation invocation) throws Exception {
+    public boolean dofilter(HttpClientInvocation invocation) throws Exception {
         int keepAliveTimeout = invocation.getConfig().getKeepAliveTimeout();
         HttpClientBuilder httpClientBuilder = invocation.getHttpClientBuilder();
         httpClientBuilder.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
         log.info("配置：KeepAliveTimeOut:{}", keepAliveTimeout);
         return true;
+    }
+
+    @Override
+    public int order() {
+        return 0;
     }
 
     private class CustomKeepAliveStrategy implements ConnectionKeepAliveStrategy {

@@ -92,6 +92,7 @@ public abstract class TenantInterceptor extends HandlerInterceptorAdapter {
      * @return
      */
     protected abstract Long getPlatFormId();
+
     /**
      * 获取Function_Code
      * @return

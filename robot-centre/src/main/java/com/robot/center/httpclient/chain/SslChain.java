@@ -1,4 +1,4 @@
-package com.robot.center.httpclient.strategy;
+package com.robot.center.httpclient.chain;
 
 import com.robot.center.httpclient.HttpClientFilter;
 import com.robot.center.httpclient.HttpClientInvocation;
@@ -27,15 +27,20 @@ import java.security.cert.X509Certificate;
  */
 @Slf4j
 @Service
-public class SslStrategy extends HttpClientFilter<HttpClientInvocation> {
+public class SslChain extends HttpClientFilter<HttpClientInvocation> {
 
     @Override
-    protected boolean dofilter(HttpClientInvocation invocation) throws Exception {
+    public boolean dofilter(HttpClientInvocation invocation) throws Exception {
 //        httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);//设置不生效，以后解决
 //        httpClientBuilder.setSSLContext(createSSLContext());//设置不生效，以后解决
         invocation.getHttpClientBuilder().setConnectionManager(SslHttpClientBuild());
         log.info("配置：SSL：放行所有自签名证书");
         return true;
+    }
+
+    @Override
+    public int order() {
+        return 0;
     }
 
 

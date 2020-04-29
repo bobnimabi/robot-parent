@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -41,7 +42,6 @@ public class HttpClientHelper {
 	public static StanderHttpResponse get(CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException, URISyntaxException {
 		StanderHttpResponse result = null;
 		HttpGet httpGet = new HttpGet(url);
-
 		try {
 			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
 				String encodeUrl = URLEncodedUtils.format(customEntity.getEntity(), StandardCharsets.UTF_8);
@@ -91,7 +91,13 @@ public class HttpClientHelper {
 	 * @param headers
 	 * @return
 	 */
-	public static StanderHttpResponse postJson(CloseableHttpClient httpClient, String url, JsonCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException {
+	public static StanderHttpResponse postJson(
+			CloseableHttpClient httpClient,
+			String url,
+			JsonCustomEntity customEntity,
+			CustomHeaders headers,
+			HttpContext httpContext) throws IOException {
+
 		StanderHttpResponse result = null;
 		HttpPost httpPost = new HttpPost(url);
 		try {

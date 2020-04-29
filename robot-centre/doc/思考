@@ -1,4 +1,5 @@
 一、与platformId有关的配置
+
     1.httpclient的设定属性
     	连接池的属性
             MaxTotal                最大连接数
@@ -23,42 +24,53 @@
          socketTimeout; socket握手时间
          contentCompressionEnabled;  是否开启压缩
 
+二、组织
+解决：
+    在配置文件里面写死，以后可以基于nacos灵活配置
+    其实由于现在是专用的机器人，用不到大并发
+    1.连接池（程序员配置）
+        一次配置一个
 
-二、表
-        http_request_config表：
-            is_redirect					是否重定向 1是  0否
-            connect_request_timeout		从连接池获取连接超时，单位：秒
-            connect_timeout 			建立连接超时，单位：秒
-            response_timeout			响应超时，单位：秒
-            cookie_spec					cookie策略 0.default 1.standard 2.standard-strict  3.ignoreCookies
+解决：
+    每次请求都要获取一次配置
+    2.requestConfig（程序员配置）
+        每个接口都有自己的RequestConfig
+        关键：
+            是否重定向
+            机器人限制时间
+            ip限制时间
+            是否重试（支持到请求级别，可能需要修改源码）
+解决：
+    每次获取一次全局的，绑定在requestConfig里面 ===》代理做成拦截器的形式
 
-        http_connection_pool表：
-            keep_alive_timeout          连接存活时间
-            max_total                   最大连接数
-            default_max_per_route       默认路由
-            max_idle_time               最大空闲时间
-            is_expired_connection       连接池：是否过期连接 1有效  0无效
+    ===》表不变
+    3.代理IP+端口（管理员配置，特殊的需要ip池的代码实现）
+        机器人可以绑定+请求也可以绑定
 
+解决：
+    思路：每次请求前获取表里全局的,===》头做成拦截器的形式
 
-三、组织
-    1.连接池
-        使用nacos灵活配置pool_id，现在可以先写死
-        一次配置一个租户
+    ===》表不变
+          请求自己的特殊头分为2种
+          全局头：
+            固定的：配置在表里面
+            动态的：保存在cookie的属性里面，使用请求拦截器携带
+          局部头：
+            固定的：配置在表里面（对全局头有覆盖作用）
+            动态的：保存在cookie的属性里面(对全局头有覆盖作用)
 
-    2.requestConfig
-        每个接口都有自己的RequestConfig（包含代理ip+端口，代理池会用到）
+    4.请求头（程序员配置）
+        全局请求头
 
-    3.代理IP+端口
-        每个机器人都可以配置自己的ip+端口
-
-    4.请求头
+解决：
+    ===》在execute部分在获取
 
     5.domain
-    6.path11
+        tenantId，platform有关系
 
+    6.path
+        只与platform有关系
 
-
-
-
-
-
+    7.cookie
+        写成拦截器的形式
+        a.获取cookie的时候，自动剔除过期的cookie

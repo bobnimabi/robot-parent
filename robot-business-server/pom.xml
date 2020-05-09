@@ -15,6 +15,7 @@
         <module>robot-jiuwu-activity-server</module>
         <module>robot-jiuwu-pay-server</module>
         <module>robot-xiaoka-income-server</module>
+        <module>robot-gpk-activity-server</module>
     </modules>
 
 

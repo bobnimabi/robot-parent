@@ -34,4 +34,13 @@ public class PayMoneyDTO implements Serializable {
     private String theme;
     //是否稽核
     private Boolean isAudit = false;
+
+    /**
+     * 打码倍数
+     */
+    private Integer multipleTransaction;
+    /**
+     * 前台备注
+     */
+    private String frontMemo;
 }

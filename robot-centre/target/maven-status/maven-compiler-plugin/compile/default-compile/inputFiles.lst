@@ -38,6 +38,7 @@ F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\pool\RobotM
 F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\aspect\SysLogAspect.java
 F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\config\RedisConfig.java
 F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\mq\MqSenter.java
+F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\util\RandomUtil.java
 F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\interceptor\FlushTokenInterceptor.java
 F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\execute\CommonActionEnum.java
 F:\javacode\robot-parent\robot-centre\src\main\java\com\robot\center\interceptor\TenantInterceptor.java

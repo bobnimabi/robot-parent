@@ -242,8 +242,8 @@ public abstract class HttpClientFactoryBase {
                 .setConnectionRequestTimeout(config.getConnectionRequestTimeout() * 1000) // 从连接池中取连接的超时时间
                 .setConnectTimeout(config.getConnectTimeout() * 1000) // 连接超时时间
                 .setSocketTimeout(config.getSocketTimeout() * 1000) // 请求超时时间
-                .setRelativeRedirectsAllowed(true)
-                .setRedirectsEnabled(true)
+                .setRelativeRedirectsAllowed(false)
+                .setRedirectsEnabled(false)
                 .setCookieSpec(CookieSpecs.DEFAULT)
                 .build();
     }

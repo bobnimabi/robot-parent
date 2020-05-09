@@ -44,7 +44,7 @@ public class CustomeResponseHandler implements ResponseHandler<StanderHttpRespon
         }
         StatusLine statusLine = response.getStatusLine();
         HttpEntity entity = response.getEntity();
-        if (statusLine.getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
+        if (statusLine.getStatusCode() >= HttpStatus.SC_BAD_REQUEST && statusLine.getStatusCode() != HttpStatus.SC_UNAUTHORIZED) {
             throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getStatusCode()+" "+statusLine.getReasonPhrase());
         } else {
             StanderHttpResponse standerHttpResponse = new StanderHttpResponse();

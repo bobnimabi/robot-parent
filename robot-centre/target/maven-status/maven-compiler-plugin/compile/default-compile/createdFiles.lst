@@ -7,6 +7,7 @@ com\robot\center\httpclient\ICustomEntity.class
 com\robot\center\config\RedisConfig.class
 com\robot\center\execute\IActionEnum.class
 com\robot\center\pool\RobotManager.class
+com\robot\center\util\CookieUtil.class
 com\robot\center\constant\RobotConsts$PLATFORM_ID.class
 com\robot\center\util\JsonUtil$1.class
 com\robot\center\pool\AbstractRobotCache.class
@@ -47,6 +48,7 @@ com\robot\center\tenant\RobotThreadLocalUtils.class
 com\robot\center\execute\IResultParse.class
 com\robot\center\interceptor\UnLoginLogInterceptor.class
 com\robot\center\httpclient\UrlCustomEntity.class
+com\robot\center\httpclient\HttpClientFactoryBase$2.class
 com\robot\center\function\IFunctionEnum.class
 com\robot\center\constant\RobotConsts.class
 com\robot\center\pool\IRobotManager.class
@@ -68,6 +70,7 @@ com\robot\center\config\AuthConfigProd.class
 com\robot\center\httpclient\StanderHttpResponse.class
 com\robot\center\dispatch\ITaskPool.class
 com\robot\center\dispatch\ReactorImpl.class
+com\robot\center\util\RandomUtil.class
 com\robot\center\util\JsonUtil.class
 com\robot\center\config\JacksonConfig.class
 com\robot\center\config\JacksonConfig$LocalDateTimeSerializer.class

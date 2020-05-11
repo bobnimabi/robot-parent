@@ -17,6 +17,8 @@ public enum ActionEnum implements IActionEnum {
     UPDATE_REMARK2("update_remark2", "更新二次备注"),
     DO_LOCK("do_lock", "加入工单"),
     WITHDRAW_SUCCESS("withdraw_success", "出款成功"),
+    OFFLINE_RECHARGE("offline_recharge", "线下充值总金额"),
+    ONLINE_RECHARGE("online_recharge", "线上充值总金额"),
     ;
     private final String actionCode;
     private final String message;

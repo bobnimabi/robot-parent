@@ -51,7 +51,7 @@ public class GpkController extends RobotControllerBase {
     public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
         // 如果tenant相关的设置失败则不进行ack
         // 如果是消息本身不具有tenant,只能人工进行删除
-        if (!tenantDispatcher(RobotConsts.PLATFORM_ID.JIU_WU_CARD,RobotConsts.FUNCTION_CODE.ACTIVITY)) {
+        if (!tenantDispatcher(RobotConsts.PLATFORM_ID.GPK,RobotConsts.FUNCTION_CODE.ACTIVITY)) {
             return;
         }
         try {

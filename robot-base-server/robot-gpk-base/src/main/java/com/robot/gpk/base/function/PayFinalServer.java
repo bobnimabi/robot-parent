@@ -65,7 +65,7 @@ public class PayFinalServer extends FunctionBase<PayMoneyDTO> {
         ICustomEntity entity = JsonCustomEntity.custom()
                 .add("AccountsString", payMoneyDTO.getUsername()) // 存入帐号
                 .add("DepositToken", payMoneyDTO.getDepositToken()) // 应该是防止表单重复提交的
-                .add("Type", "4") // 类型：人工存提：4 优惠活动：5 返水：6 补发派彩：7 其他 99
+                .add("Type", "5") // 类型：人工存提：4 优惠活动：5 返水：6 补发派彩：7 其他 99
                 .add("IsReal", "false") // 实际存提，true或false
                 .add("PortalMemo", payMoneyDTO.getFrontMemo()) // 前台备注
                 .add("Memo", payMoneyDTO.getMemo()) // 后台备注

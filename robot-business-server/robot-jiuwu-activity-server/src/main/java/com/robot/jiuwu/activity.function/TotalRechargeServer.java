@@ -29,6 +29,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class TotalRechargeServer extends FunctionBase<VipTotalAmountDTO> {
+
     @Autowired
     private TotalRechargeDetailServer rechargeDetailServer;
 

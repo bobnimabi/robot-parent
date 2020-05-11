@@ -17,9 +17,11 @@ com\robot\jiuwu\base\function\QueryUserServer$QueryUserParser.class
 com\robot\jiuwu\base\vo\Roles.class
 com\robot\jiuwu\base\controller\JiuWuController.class
 com\robot\jiuwu\base\basic\FunctionEnum.class
+com\robot\jiuwu\base\vo\OfflineRechargeData.class
 com\robot\jiuwu\base\function\LoginInServer$LoginParse.class
 com\robot\jiuwu\base\dto\TotalRechargeDTO.class
 com\robot\jiuwu\base\function\UpdateRemark2Server$Parser.class
+com\robot\jiuwu\base\vo\OfflineRechargeVO.class
 com\robot\jiuwu\base\function\UpdateWithdrawStatusServer.class
 com\robot\jiuwu\base\function\UpdateWithdrawStatusServer$Parser.class
 com\robot\jiuwu\base\vo\PayResponseVo.class
@@ -46,9 +48,12 @@ com\robot\jiuwu\base\dto\WithdrawListDTO.class
 com\robot\jiuwu\base\vo\RechargeResultVO.class
 com\robot\jiuwu\base\basic\Executor.class
 com\robot\jiuwu\base\vo\ParentResultVO.class
+com\robot\jiuwu\base\dto\OfflineDataDTO.class
 com\robot\jiuwu\base\basic\ActionEnum.class
+com\robot\jiuwu\base\function\OfflineRechargeServer$Parser.class
 com\robot\jiuwu\base\vo\PayResultVO.class
 com\robot\jiuwu\base\dto\PayMoneyDTO.class
+com\robot\jiuwu\base\function\OfflineRechargeServer.class
 com\robot\jiuwu\base\function\QueryUserServer.class
 com\robot\jiuwu\base\vo\WithdrawListRowsData.class
 com\robot\jiuwu\base\vo\ImageCodeResultVO.class

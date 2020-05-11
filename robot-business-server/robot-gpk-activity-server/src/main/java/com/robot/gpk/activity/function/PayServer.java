@@ -57,6 +57,6 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
 
     @Override
     public IActionEnum getActionEnum() {
-        return null;
+        return ActionEnum.PAY;
     }
 }

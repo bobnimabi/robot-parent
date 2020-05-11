@@ -1,5 +1,7 @@
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\TotalRechargeDTO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\Roles.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\OfflineRechargeServer.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\OfflineDataDTO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\UpdateWithdrawStatusServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\ParentResultVO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\UserInfoDetailData.java
@@ -22,6 +24,7 @@ F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\ro
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\ImageCodeServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\controller\JiuWuController.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\UpdateRemark2DTO.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\OfflineRechargeData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\basic\Executor.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\WithdrawListRowsData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\DoLockServer.java
@@ -34,6 +37,7 @@ F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\ro
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\WithdrawSuccessServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\RechargeResultVO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\WithdrawListServer.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\OfflineRechargeVO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\UpdateRemark2Server.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\UserInfoDetailResultVO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\UpdateWithdrawStatusVO.java

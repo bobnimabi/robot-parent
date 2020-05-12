@@ -17,12 +17,14 @@ import com.robot.jiuwu.base.basic.ActionEnum;
 import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.dto.OfflineDataDTO;
 import com.robot.jiuwu.base.dto.WithdrawListDTO;
+import com.robot.jiuwu.base.vo.OfflineRechargeData;
 import com.robot.jiuwu.base.vo.OfflineRechargeVO;
 import com.robot.jiuwu.base.vo.WithdrawListResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
@@ -38,15 +40,18 @@ public class OfflineRechargeServer extends FunctionBase<OfflineDataDTO> {
         OfflineDataDTO offlineDataDTO = paramWrapper.getObj();
         // 执行
         StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createParams(offlineDataDTO), null, Parser.INSTANCE);
-        ResponseResult withdrawResponse = standerHttpResponse.getResponseResult();
-        if (!withdrawResponse.isSuccess()) {
-            return withdrawResponse;
+        ResponseResult responseResult = standerHttpResponse.getResponseResult();
+        if (!responseResult.isSuccess()) {
+            return responseResult;
         }
-        OfflineRechargeVO entity = (OfflineRechargeVO) withdrawResponse.getObj();
+        OfflineRechargeVO entity = (OfflineRechargeVO) responseResult.getObj();
         if (!Constant.SUCCESS.equals(entity.getCode())) {
             return ResponseResult.FAIL(entity.getMsg());
         }
-        return ResponseResult.SUCCESS(entity);
+        if (null == entity.getData()) {
+            entity.setData(new OfflineRechargeData(BigDecimal.ZERO));
+        }
+        return responseResult;
     }
 
     @Override
@@ -56,18 +61,21 @@ public class OfflineRechargeServer extends FunctionBase<OfflineDataDTO> {
 
     // 组装登录参数
     private ICustomEntity createParams(OfflineDataDTO offlineDataDTO) {
+        int[] types = offlineDataDTO.getTypes();
+        BigDecimal minamount = offlineDataDTO.getMinamount();
+        BigDecimal maxamount = offlineDataDTO.getMaxamount();
         return JsonCustomEntity.custom()
-                .add("current", String.valueOf(offlineDataDTO.getCurrent()))
-                .add("size", String.valueOf(offlineDataDTO.getSize()))
+                .add("current", offlineDataDTO.getCurrent())
+                .add("size", offlineDataDTO.getSize())
                 .add("recordid", offlineDataDTO.getRecordid())
                 .add("username", offlineDataDTO.getUsername())
-                .add("types", Arrays.toString(offlineDataDTO.getTypes()))
+                .add("types", null != types ? types : "")
                 .add("gameid", offlineDataDTO.getGameid())
                 .add("memberOrder", offlineDataDTO.getMemberOrder())
                 .add("orderdatebegin", offlineDataDTO.getOrderdatebegin())
                 .add("orderdateend", offlineDataDTO.getOrderdateend())
-                .add("minamount", MoneyUtil.formatYuan(offlineDataDTO.getMinamount()).toString())
-                .add("maxamount", MoneyUtil.formatYuan(offlineDataDTO.getMaxamount()).toString())
+                .add("minamount", null != minamount ? MoneyUtil.formatYuan(minamount).toString() : "")
+                .add("maxamount", null != maxamount ? MoneyUtil.formatYuan(offlineDataDTO.getMaxamount()).toString() : "")
                 .add("remark", offlineDataDTO.getRemark());
     }
 

@@ -90,10 +90,15 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
                 .add("remark", moneyDTO.getMemo()) // 备注
                 .add("type","2") // 0人工充值 1线上补单 2活动彩金 3补单 6其他
                 ;
+
         if (moneyDTO.getIsAudit()) {
             customEntity.add("codingDouble", "1"); // 打码量倍数,1表示稽核
         } else {
-            customEntity.add("codingDouble", "0"); // 打码量倍数，0表示不稽核
+            if (null != moneyDTO.getMultipleTransaction()) {
+                customEntity.add("codingDouble", String.valueOf(moneyDTO.getMultipleTransaction())); // 打码量倍数
+            } else {
+                customEntity.add("codingDouble", "0"); // 打码量倍数，0表示不稽核
+            }
         }
         return customEntity;
     }

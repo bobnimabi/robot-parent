@@ -15,6 +15,6 @@ public class RechargeData {
     private BigDecimal grade;
     // 税收
     private BigDecimal revenue;
-    // 订单号
+    // 游戏种类ID
     private Integer kindID;
 }

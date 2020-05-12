@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 查询打码总量（按游戏来分）
+ * 查询区间下注详情（按游戏来分）
  */
 @Slf4j
 @Service

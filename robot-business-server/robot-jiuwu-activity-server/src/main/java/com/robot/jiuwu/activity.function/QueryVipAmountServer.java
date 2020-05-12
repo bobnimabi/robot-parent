@@ -35,12 +35,12 @@ public class QueryVipAmountServer extends FunctionBase<VipTotalAmountDTO> {
     protected ResponseResult doFunctionFinal(ParamWrapper<VipTotalAmountDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
         VipTotalAmountDTO vipTotalAmountDTO = paramWrapper.getObj();
         // 查询打码总额
-        ResponseResult totalRechargeResult = getTotalRecharge(paramWrapper, robotWrapper);
-        if (!totalRechargeResult.isSuccess()) {
-            return totalRechargeResult;
+        ResponseResult totalBetResult = getTotalRecharge(paramWrapper, robotWrapper);
+        if (!totalBetResult.isSuccess()) {
+            return totalBetResult;
         }
 
-        VipTotalAmountVO vipTotalAmountVO = (VipTotalAmountVO) totalRechargeResult.getObj();
+        VipTotalAmountVO vipTotalAmountVO = (VipTotalAmountVO) totalBetResult.getObj();
 
         // 查询会员VIP等级
         ResponseResult vipResut = getVip(vipTotalAmountDTO.getUserName(),robotWrapper);

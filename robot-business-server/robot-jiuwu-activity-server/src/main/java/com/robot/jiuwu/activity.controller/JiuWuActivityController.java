@@ -1,7 +1,9 @@
 package com.robot.jiuwu.activity.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.bbin.common.client.TenantBetDetailVo;
 import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.response.ResponseResult;
 import com.rabbitmq.client.Channel;
@@ -23,6 +25,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -67,6 +70,22 @@ public class JiuWuActivityController extends JiuWuController {
             return ResponseResult.FAIL("未传入startTime");
         }
         return distribute(new ParamWrapper<VipTotalAmountDTO>(vipTotalAmountDTO), FunctionEnum.TOTAL_RECHARGE_SERVER);
+    }
+
+    @ApiOperation("机器人：获取投注、亏损、充值信息")
+    @PostMapping("/getTotalAmount")
+    public ResponseResult getTotalAmount(@RequestBody BreakThroughDTO dto) throws Exception {
+        if (StringUtils.isEmpty(dto.getUserName())) {
+            return ResponseResult.FAIL("userName为空");
+        }
+        if (StringUtils.isEmpty(dto.getBeginDate())) {
+            return ResponseResult.FAIL("起始时间为空");
+        }
+        if (StringUtils.isEmpty(dto.getEndDate())) {
+            return ResponseResult.FAIL("结束时间为空");
+        }
+
+        return distribute(new ParamWrapper<BreakThroughDTO>(dto), FunctionEnum.BET_AMOUNT_AND_RECHARGE_SERVER);
     }
 
     // 测试打款

@@ -16,6 +16,10 @@ public enum FunctionEnum implements IFunctionEnum {
     QUERY_VIP_AMOUNT_SERVER("queryVipAmountServer"),
     PAY_TEMPSERVER("payTempServer"),
     UPDATE_REMARK2_SERVER("updateRemark2Server"),
+    OFFLINE_RECHARGE_SERVER("offlineRechargeServer"),
+    ONLINE_RECHARGE_SERVER("onlineRechargeServer"),
+
+    BET_AMOUNT_AND_RECHARGE_SERVER("betAmountAndRechargeServer"),
     ;
     private String serverName;
 

@@ -28,6 +28,7 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
 
     @Value("${spring.profiles.active}")
     private String environment;
+
     @Autowired
     private StringRedisTemplate redis;
 

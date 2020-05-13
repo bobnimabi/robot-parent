@@ -13,19 +13,14 @@
     <dependencies>
         <dependency>
             <groupId>com.bbin</groupId>
-            <artifactId>bbin-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>robot-centre</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.bbin</groupId>
-            <artifactId>bbin-utils</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>robot-bbin-base</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-            <dependency>
-                <groupId>com.bbin</groupId>
-                <artifactId>robot-centre</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
     </dependencies>
     <build>
         <plugins>

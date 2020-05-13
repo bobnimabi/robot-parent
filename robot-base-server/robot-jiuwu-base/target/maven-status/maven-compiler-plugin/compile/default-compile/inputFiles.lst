@@ -5,6 +5,7 @@ F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\ro
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\UpdateWithdrawStatusServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\ParentResultVO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\UserInfoDetailData.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\OnlineRechargeVO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\LoginData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\ImageCodeData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\QueryUserResultVO.java
@@ -16,11 +17,13 @@ F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\ro
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\RechargeData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\DoLockDTO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\QueryUserServer.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\OnlineRechargeDTO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\QueryUserData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\ScorePresentInfoData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\UpdateRemark2VO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\InfoData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\basic\KeepAlive.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\OnlineRechargeData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\ImageCodeServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\controller\JiuWuController.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\UpdateRemark2DTO.java
@@ -45,6 +48,7 @@ F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\ro
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\PayServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\dto\WithdrawListDTO.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\BankData.java
+F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\OnlineRechargeServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\vo\WithdrawListData.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\function\TotalRechargeDetailServer.java
 F:\javacode\robot-parent\robot-base-server\robot-jiuwu-base\src\main\java\com\robot\jiuwu\base\basic\ActionEnum.java

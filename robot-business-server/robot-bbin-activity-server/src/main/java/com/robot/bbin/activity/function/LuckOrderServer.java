@@ -2,15 +2,16 @@ package com.robot.bbin.activity.function;
 
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.bbin.activity.dto.OrderNoQueryDTO;
-import com.robot.bbin.activity.vo.JuQueryVO;
-import com.robot.bbin.activity.vo.LuckOrderQueryVO;
+import com.robot.bbin.base.basic.ActionEnum;
+import com.robot.bbin.base.dto.OrderNoQueryDTO;
+import com.robot.bbin.base.function.JuQueryRoundServer;
+import com.robot.bbin.base.vo.JuQueryVO;
+import com.robot.bbin.base.vo.LuckOrderQueryVO;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.bbin.activity.basic.ActionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
-
     @Autowired
     private JuQueryServer juQueryServer;
     @Autowired

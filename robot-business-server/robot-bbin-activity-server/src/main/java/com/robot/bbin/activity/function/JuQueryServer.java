@@ -1,8 +1,9 @@
 package com.robot.bbin.activity.function;
 
 import com.bbin.common.response.ResponseResult;
-import com.robot.bbin.activity.dto.OrderNoQueryDTO;
-import com.robot.bbin.activity.vo.JuQueryVO;
+import com.robot.bbin.base.basic.ActionEnum;
+import com.robot.bbin.base.dto.OrderNoQueryDTO;
+import com.robot.bbin.base.vo.JuQueryVO;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
@@ -15,7 +16,6 @@ import com.robot.center.util.MoneyUtil;
 import com.robot.code.entity.TenantRobotAction;
 import com.bbin.utils.UrlUtils;
 import com.bbin.utils.project.DateUtils;
-import com.robot.bbin.activity.basic.ActionEnum;
 import com.robot.code.service.ITenantRobotDictService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
 import java.util.Map;
 
 /**

@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
         "com.robot.code",
         "com.robot.center",
         "com.robot.bbin.activity",
-//        "com.bbin.common.redis"
+        "com.robot.bbin.base"
     }
 )
 @ComponentScan(excludeFilters = @ComponentScan.Filter(

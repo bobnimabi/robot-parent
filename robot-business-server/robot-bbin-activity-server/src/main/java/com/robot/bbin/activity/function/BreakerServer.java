@@ -3,20 +3,23 @@ package com.robot.bbin.activity.function;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.DateUtils;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.bbin.activity.dto.GameChild;
-import com.robot.bbin.activity.dto.OrderNoQueryDTO;
-import com.robot.bbin.activity.dto.TotalBetGameDTO;
-import com.robot.bbin.activity.vo.BreakerQueryVO;
-import com.robot.bbin.activity.vo.JuQueryVO;
-import com.robot.bbin.activity.vo.TotalBetGameVO;
+import com.robot.bbin.base.basic.ActionEnum;
+import com.robot.bbin.base.dto.GameChild;
+import com.robot.bbin.base.dto.OrderNoQueryDTO;
+import com.robot.bbin.base.dto.TotalBetGameDTO;
+import com.robot.bbin.base.function.JuQueryDetailServer;
+import com.robot.bbin.base.function.QueryBalanceServer;
+import com.robot.bbin.base.function.TotalBetGame;
+import com.robot.bbin.base.vo.BreakerQueryVO;
+import com.robot.bbin.base.vo.JuQueryVO;
+import com.robot.bbin.base.vo.QueryBalanceVO;
+import com.robot.bbin.base.vo.TotalBetGameVO;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
-import com.robot.bbin.activity.basic.ActionEnum;
-import com.robot.bbin.activity.vo.QueryBalanceVO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,7 +27,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +110,7 @@ public class BreakerServer extends FunctionBase<OrderNoQueryDTO> {
     }
 
     // 附加局查询参数
-    private ResponseResult addParams(OrderNoQueryDTO queryDTO,JuQueryVO juQueryVO) {
+    private ResponseResult addParams(OrderNoQueryDTO queryDTO, JuQueryVO juQueryVO) {
         queryDTO.setPageId(juQueryVO.getPageId());
         queryDTO.setKey(juQueryVO.getKey());
         String gameName = juQueryVO.getGameName();

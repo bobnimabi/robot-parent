@@ -10,7 +10,6 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.entity.ContentType;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import java.util.regex.Pattern;
  * 响应结果处理类
  */
 @Slf4j
-public abstract class CustomeResponseHandler implements ResponseHandler<StanderHttpResponse> {
+public abstract class AbstractResponseHandler implements ResponseHandler<StanderHttpResponse> {
 
     /**
      * 无论是正常或异常情况：
@@ -40,8 +39,13 @@ public abstract class CustomeResponseHandler implements ResponseHandler<StanderH
         if (null == response) {
             throw new IllegalStateException("数据包：服务器未响应或被中间代理拦截");
         }
+
+
+
         return handleResonseDetail(response);
     }
+
+
 
     private StanderHttpResponse handleResonseDetail(HttpResponse response) throws HttpResponseException, IOException{
         HttpEntity httpEntity = response.getEntity();

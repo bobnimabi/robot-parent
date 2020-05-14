@@ -29,10 +29,6 @@ public abstract class AbstractHttpClientFactory extends HttpClientFactoryBase{
         return null;
     }
 
-    /**
-     * 初始化配置参数
-     */
-    public
 
 
     /**

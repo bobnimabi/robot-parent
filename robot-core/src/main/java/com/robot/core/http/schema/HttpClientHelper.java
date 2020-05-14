@@ -48,7 +48,7 @@ public class HttpClientHelper {
 				httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpGet.getURI().toString() + "?" + encodeUrl));
 			}
 			setHeaders(httpGet, headers);
-			result = httpClient.execute(httpGet, CustomeResponseHandler.INSTANCE, httpContext);
+			result = httpClient.execute(httpGet, AbstractResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
 			httpGet.abort();
 			throw e;
@@ -74,7 +74,7 @@ public class HttpClientHelper {
 				httpPost.setEntity(entity);
 			}
 			setHeaders(httpPost, headers);
-			result = httpClient.execute(httpPost, CustomeResponseHandler.INSTANCE, httpContext);
+			result = httpClient.execute(httpPost, AbstractResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
 			httpPost.abort();
 			throw e;
@@ -106,7 +106,7 @@ public class HttpClientHelper {
 				httpPost.setEntity(entity);
 			}
 			setHeaders(httpPost, headers);
-			result = httpClient.execute(httpPost, CustomeResponseHandler.INSTANCE, httpContext);
+			result = httpClient.execute(httpPost, AbstractResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
 			httpPost.abort();
 			throw e;
@@ -142,7 +142,7 @@ public class HttpClientHelper {
 			}
 			HttpEntity requestEntity = builder.build();
 			httpPost.setEntity(requestEntity);
-			result = httpClient.execute(httpPost, CustomeResponseHandler.INSTANCE, httpContext);
+			result = httpClient.execute(httpPost, AbstractResponseHandler.INSTANCE, httpContext);
 		} catch (Exception e) {
 			httpPost.abort();
 			throw e;

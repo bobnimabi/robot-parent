@@ -65,6 +65,8 @@ public abstract class AbstractResponseHandler implements ResponseHandler<Stander
         }
     }
 
+
+
     /**
      * 将HttpEntity转换成byte[]类型
      * @param httpEntity

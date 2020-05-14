@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PayMoneyDTO implements Serializable {
+
     //任务id
     private long taskId;
     //打款账号

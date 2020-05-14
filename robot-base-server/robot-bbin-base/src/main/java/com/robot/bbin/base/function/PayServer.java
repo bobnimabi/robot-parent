@@ -17,6 +17,7 @@ import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.httpclient.UrlCustomEntity;
 import com.robot.center.mq.MqSenter;
 import com.robot.center.pool.RobotWrapper;
+import com.robot.center.util.MoneyUtil;
 import com.robot.code.entity.TenantRobotAction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,14 +82,20 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
                 .add("date", balanceVO.getDate())
                 .add("Currency", "RMB")
                 .add("abamount_limit", "0")
-                .add("amount", moneyDTO.getPaidAmount().toString())
-                .add("amount_memo", moneyDTO.getMemo())
-                .add("ComplexAuditCheck", moneyDTO.getIsAudit() ? "1" : "0")
-                .add("CommissionCheck", "Y")
-                .add("DepositItem", "ARD8");
-
+                .add("amount", moneyDTO.getPaidAmount().toString())//存款金额
+                .add("amount_memo", moneyDTO.getMemo())//备注
+                .add("CommissionCheck", "Y")//
+                .add("DepositItem", "ARD8");//存入项目 ARD8表示活动优惠，其他的见网页
         if (moneyDTO.getIsAudit()) {
-            customEntity.add("complex",moneyDTO.getPaidAmount().toString());
+            customEntity.add("ComplexAuditCheck", "1");//综合打码量稽核  1稽核，不传不稽核
+            customEntity.add("complex", moneyDTO.getPaidAmount().toString());//综合打码量（金额）
+        } else if (moneyDTO.getIsAudit()) {
+            if (null != moneyDTO.getMultipleTransaction()) {
+                customEntity.add("ComplexAuditCheck", "1");//综合打码量稽核  1稽核，不传不稽核
+                customEntity.add("complex", MoneyUtil.formatYuan(new BigDecimal(moneyDTO.getMultipleTransaction()).multiply(moneyDTO.getPaidAmount())).toString());
+            } else {
+                customEntity.add("complex", "0");//综合打码量（金额）
+            }
         }
         return customEntity;
     }

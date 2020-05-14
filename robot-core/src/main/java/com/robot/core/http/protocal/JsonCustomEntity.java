@@ -1,4 +1,4 @@
-package com.robot.core.http.schema;
+package com.robot.core.http.protocal;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
@@ -15,11 +15,11 @@ import java.util.Map;
  */
 @Data
 @Slf4j
-public class JsonCustomEntity implements ICustomEntity{
-    private Map<String,String> entity = new HashMap<>(8);
+public class JsonCustomEntity implements ICustomEntity<Object>{
+    private Map<String,Object> entity = new HashMap<>(8);
 
     @Override
-    public ICustomEntity add(String key, String value) {
+    public ICustomEntity add(String key, Object value) {
         if (StringUtils.isBlank(key)) {
             log.error("dictKey:{}，dictValue:{} 新增Entity：dictKey-dictValue 有空值,不予添加", key, value);
             return this;

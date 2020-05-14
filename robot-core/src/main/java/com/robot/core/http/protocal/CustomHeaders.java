@@ -1,4 +1,4 @@
-package com.robot.core.http.schema;
+package com.robot.core.http.protocal;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Slf4j
 public class CustomHeaders {
-    private List<Header> headers = new ArrayList<>(3);
+    private List<Header> headers = new ArrayList<>(5);
 
     public CustomHeaders add(String headKey, String headValue) {
         if (StringUtils.isBlank(headKey)) {

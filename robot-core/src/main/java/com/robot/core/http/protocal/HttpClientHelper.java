@@ -1,9 +1,10 @@
-package com.robot.core.http.schema;
+package com.robot.core.http.protocal;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -30,7 +31,6 @@ import java.nio.charset.StandardCharsets;
 @Component
 @Slf4j
 public class HttpClientHelper {
-
 	/**
 	 * get请求
 	 * @param httpClient
@@ -39,7 +39,13 @@ public class HttpClientHelper {
 	 * @param headers
 	 * @return
 	 */
-	public static StanderHttpResponse get(CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException, URISyntaxException {
+	public static StanderHttpResponse get(
+			CloseableHttpClient httpClient,
+			String url,
+			UrlCustomEntity customEntity,
+			CustomHeaders headers,
+			HttpContext httpContext,
+			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException, URISyntaxException {
 		StanderHttpResponse result = null;
 		HttpGet httpGet = new HttpGet(url);
 		try {
@@ -48,7 +54,7 @@ public class HttpClientHelper {
 				httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpGet.getURI().toString() + "?" + encodeUrl));
 			}
 			setHeaders(httpGet, headers);
-			result = httpClient.execute(httpGet, AbstractResponseHandler.INSTANCE, httpContext);
+			result = httpClient.execute(httpGet, responseHandler, httpContext);
 		} catch (Exception e) {
 			httpGet.abort();
 			throw e;
@@ -64,7 +70,13 @@ public class HttpClientHelper {
 	 * @param headers
 	 * @return
 	 */
-	public static StanderHttpResponse postForm(CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException {
+	public static StanderHttpResponse postForm(
+			CloseableHttpClient httpClient,
+			String url,
+			UrlCustomEntity customEntity,
+			CustomHeaders headers,
+			HttpContext httpContext,
+			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException {
 		StanderHttpResponse result = null;
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setConfig(RequestConfig.custom().setRedirectsEnabled(true).setRelativeRedirectsAllowed(false).build());
@@ -74,7 +86,7 @@ public class HttpClientHelper {
 				httpPost.setEntity(entity);
 			}
 			setHeaders(httpPost, headers);
-			result = httpClient.execute(httpPost, AbstractResponseHandler.INSTANCE, httpContext);
+			result = httpClient.execute(httpPost, responseHandler, httpContext);
 		} catch (Exception e) {
 			httpPost.abort();
 			throw e;
@@ -96,7 +108,8 @@ public class HttpClientHelper {
 			String url,
 			JsonCustomEntity customEntity,
 			CustomHeaders headers,
-			HttpContext httpContext) throws IOException {
+			HttpContext httpContext,
+			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException {
 
 		StanderHttpResponse result = null;
 		HttpPost httpPost = new HttpPost(url);
@@ -106,7 +119,7 @@ public class HttpClientHelper {
 				httpPost.setEntity(entity);
 			}
 			setHeaders(httpPost, headers);
-			result = httpClient.execute(httpPost, AbstractResponseHandler.INSTANCE, httpContext);
+			result = (StanderHttpResponse) httpClient.execute(httpPost, responseHandler, httpContext);
 		} catch (Exception e) {
 			httpPost.abort();
 			throw e;
@@ -124,7 +137,14 @@ public class HttpClientHelper {
 	 * @param customeEntity
 	 * @return
 	 */
-	public static StanderHttpResponse uploadFile(CloseableHttpClient httpClient, String url, String filePath, String fileName, UrlCustomEntity customeEntity, HttpContext httpContext) throws IOException {
+	public static StanderHttpResponse uploadFile(
+			CloseableHttpClient httpClient,
+			String url,
+			String filePath,
+			String fileName,
+			UrlCustomEntity customeEntity,
+			HttpContext httpContext,
+			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException {
 		File file = new File(filePath);
 		if (!(file.exists() && file.isFile())) {
 			throw new RuntimeException("file : file is null");
@@ -142,7 +162,7 @@ public class HttpClientHelper {
 			}
 			HttpEntity requestEntity = builder.build();
 			httpPost.setEntity(requestEntity);
-			result = httpClient.execute(httpPost, AbstractResponseHandler.INSTANCE, httpContext);
+			result =  httpClient.execute(httpPost, responseHandler, httpContext);
 		} catch (Exception e) {
 			httpPost.abort();
 			throw e;

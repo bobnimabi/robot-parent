@@ -1,4 +1,4 @@
-package com.robot.core.http.schema;
+package com.robot.core.http.protocal;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class UrlCustomEntity implements ICustomEntity{
+public class UrlCustomEntity implements ICustomEntity<String>{
     private List<NameValuePair> entity = new ArrayList<>(8);
 
     @Override

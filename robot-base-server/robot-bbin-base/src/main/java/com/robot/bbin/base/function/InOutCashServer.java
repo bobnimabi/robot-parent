@@ -83,9 +83,9 @@ public class InOutCashServer extends FunctionBase<InOutCashDTO> {
             InOutCashVO inOutCashVO = new InOutCashVO();
             JSONObject jsonObject = JSON.parseObject(result);
             Integer  total_page = jsonObject.getInteger("total_page");
-            if (0 == total_page) {
-                inOutCashVO.setPage(0);
-                return ResponseResult.FAIL("无记录");
+            inOutCashVO.setPage(total_page);
+            if (total_page == 0) {
+                return ResponseResult.SUCCESS(inOutCashVO);
             }
             List<InOutCashData> list = new ArrayList<>(1);
             Map<String,Map<String,String>> data = (Map<String,Map<String,String>>)jsonObject.get("data");

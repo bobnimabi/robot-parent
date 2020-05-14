@@ -10,7 +10,6 @@ import com.robot.bbin.base.dto.InOutCashDTO;
 import com.robot.bbin.base.function.BetDetailServer;
 import com.robot.bbin.base.function.BetServer;
 import com.robot.bbin.base.function.InOutCashServer;
-import com.robot.bbin.base.vo.BetData;
 import com.robot.bbin.base.vo.BetDetailVO;
 import com.robot.bbin.base.vo.BetVO;
 import com.robot.bbin.base.vo.InOutCashVO;
@@ -49,13 +48,12 @@ public class BetAmountAndRechargeServer extends FunctionBase<BreakThroughDTO> {
             return betResult;
         }
 
-        BetVO betVO = (BetVO) betResult.getObj();
-        BetData betData = betVO.getList().get(0);
-        if (betVO.getList().size() == 0) {
+        List<BetVO> betVOS = (List<BetVO>) betResult.getObj();
+        if (betVOS.size() == 0) {
             betAndLoss.setTotalBet(BigDecimal.ZERO);
         } else {
-            betAndLoss.setTotalBet(betData.getCommissionable());
-            ResponseResult betDetailResult = betDetailServer.doFunction(new ParamWrapper<BetDetailDTO>(createBetDetailParams(breakThroughDTO,betData.getKey())), robotWrapper);
+            betAndLoss.setTotalBet(betVOS.get(0).getCommissionable());
+            ResponseResult betDetailResult = betDetailServer.doFunction(new ParamWrapper<BetDetailDTO>(createBetDetailParams(breakThroughDTO,betVOS.get(0).getKey())), robotWrapper);
             if (!betDetailResult.isSuccess()) {
                 return betDetailResult;
             }
@@ -73,7 +71,7 @@ public class BetAmountAndRechargeServer extends FunctionBase<BreakThroughDTO> {
             return betDetailResult;
         }
         InOutCashVO inOutCashVO = (InOutCashVO) betDetailResult.getObj();
-        if (0 == inOutCashVO.getPage()) {
+        if (null == inOutCashVO.getList() || 0 == inOutCashVO.getList().size()) {
             betAndLoss.setIncome(BigDecimal.ZERO);
         } else {
             betAndLoss.setIncome(inOutCashVO.getList().get(0).getDep_amount());

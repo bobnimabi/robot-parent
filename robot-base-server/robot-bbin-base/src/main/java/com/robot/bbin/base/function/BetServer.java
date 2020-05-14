@@ -18,6 +18,8 @@ import com.robot.code.entity.TenantRobotAction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * Created by mrt on 11/15/2019 12:29 PM
  * 下注查询
@@ -65,11 +67,14 @@ public class BetServer extends FunctionBase<BetDTO> {
             if (StringUtils.isEmpty(result)) {
                 return ResponseResult.FAIL("未返回任何响应");
             }
-            BetVO betVO = JSON.parseObject(result, BetVO.class);
-            if (betVO.getList().size() == 0) {
+            if (result.contains("error")) {
+                return ResponseResult.FAIL(result);
+            }
+            List<BetVO> betVOS = JSON.parseArray(result, BetVO.class);
+            if (betVOS.size() == 0) {
                 return ResponseResult.SUCCESS_MES("无投注记录");
             }
-            return ResponseResult.SUCCESS(betVO);
+            return ResponseResult.SUCCESS(betVOS);
         }
     }
 }

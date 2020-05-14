@@ -13,8 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>robot-jiuwu-base</module>
-        <module>robot-suxiao-base</module>
-        <module>robot-liantong-base</module>
         <module>robot-gpk-base</module>
         <module>robot-bbin-base</module>
     </modules>

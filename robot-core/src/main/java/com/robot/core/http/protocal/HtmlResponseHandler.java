@@ -95,5 +95,4 @@ public class HtmlResponseHandler extends AbstractResponseHandler {
             return charSet;
         }
     }
-
 }

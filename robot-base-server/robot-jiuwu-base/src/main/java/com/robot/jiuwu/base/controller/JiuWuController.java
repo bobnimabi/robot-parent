@@ -2,7 +2,7 @@ package com.robot.jiuwu.base.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
-import com.bbin.common.dto.robot.VipTotalAmountDTO;
+import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
@@ -13,7 +13,6 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.center.util.MoneyUtil;
 import com.robot.jiuwu.base.basic.FunctionEnum;
-import com.robot.jiuwu.base.dto.PayMoneyDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,9 +21,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.Duration;
 
 /**
@@ -57,26 +54,26 @@ public class JiuWuController extends RobotControllerBase {
     @ApiOperation("机器人：mq打款")
     @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_95_CARD)
     @RabbitHandler
-    public void payAmountMq(PayMoneyDTO payMoneyDTO, Channel channel, Message message) {
+    public void payAmountMq(TaskAtomDto taskAtomDto, Channel channel, Message message) {
         // 如果tenant相关的设置失败则不进行ack
         // 如果是消息本身不具有tenant,只能人工进行删除
         if (!tenantDispatcher(RobotConsts.PLATFORM_ID.JIU_WU_CARD,RobotConsts.FUNCTION_CODE.ACTIVITY)) {
             return;
         }
         try {
-            if (null == payMoneyDTO
-                    || StringUtils.isEmpty(payMoneyDTO.getUsername())
-                    || null == payMoneyDTO.getPaidAmount()
-                    || StringUtils.isEmpty(payMoneyDTO.getMemo())
-                    || StringUtils.isEmpty(payMoneyDTO.getOutPayNo())
+            if (null == taskAtomDto
+                    || StringUtils.isEmpty(taskAtomDto.getUsername())
+                    || null == taskAtomDto.getPaidAmount()
+                    || StringUtils.isEmpty(taskAtomDto.getMemo())
+                    || StringUtils.isEmpty(taskAtomDto.getOutPayNo())
             ) ResponseResult.FAIL("参数不全");
-            log.info("mq打款入参：{}", JSON.toJSONString(payMoneyDTO));
+            log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
 
-            payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
-            payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());
-            TaskWrapper taskWrapper = new TaskWrapper(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_SERVER, payMoneyDTO.getUsername(), Duration.ofSeconds(12));
+            taskAtomDto.setPaidAmount(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()));
+            taskAtomDto.setUsername(taskAtomDto.getUsername().trim());
+            TaskWrapper taskWrapper = new TaskWrapper(new ParamWrapper<TaskAtomDto>(taskAtomDto), FunctionEnum.PAY_SERVER, taskAtomDto.getUsername(), Duration.ofSeconds(12));
 
-            String externalNo = payMoneyDTO.getOutPayNo();
+            String externalNo = taskAtomDto.getOutPayNo();
             if (StringUtils.isNotBlank(externalNo)) {
                 boolean isRedo = isRedo(externalNo);
                 if (isRedo) {
@@ -84,7 +81,7 @@ public class JiuWuController extends RobotControllerBase {
                     return;
                 }
             }
-            taskPool.taskAdd(taskWrapper,payMoneyDTO.getOutPayNo());
+            taskPool.taskAdd(taskWrapper,taskAtomDto.getOutPayNo());
         } catch (Exception e) {
             log.info("机器人：MQ打款异常", e);
         }finally {

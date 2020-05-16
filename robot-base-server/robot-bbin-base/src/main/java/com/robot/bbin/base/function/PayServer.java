@@ -2,10 +2,10 @@ package com.robot.bbin.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
 import com.robot.bbin.base.basic.ActionEnum;
-import com.robot.bbin.base.dto.PayMoneyDTO;
 import com.robot.bbin.base.vo.PayResponseVo;
 import com.robot.bbin.base.vo.QueryBalanceVO;
 import com.robot.center.execute.IActionEnum;
@@ -32,15 +32,15 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @Service
-public class PayServer extends FunctionBase<PayMoneyDTO> {
+public class PayServer extends FunctionBase<TaskAtomDto> {
     @Autowired
     private QueryBalanceServer queryBalanceServer;
     @Autowired
     private MqSenter mqSenter;
 
     @Override
-    protected ResponseResult doFunctionFinal(ParamWrapper<PayMoneyDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        PayMoneyDTO gameDTO = paramWrapper.getObj();
+    protected ResponseResult doFunctionFinal(ParamWrapper<TaskAtomDto> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        TaskAtomDto gameDTO = paramWrapper.getObj();
 
         // 查询余额：查询UserID
         ResponseResult balanceResponse = queryBalanceServer.doFunctionFinal(new ParamWrapper<String>(gameDTO.getUsername()), robotWrapper, getAction(ActionEnum.QUERY_BALANCE));
@@ -72,7 +72,7 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
      * .add("Limit", "100")
      * .add("Sort", "DESC")
      */
-    private UrlCustomEntity createBodyParams(PayMoneyDTO moneyDTO, QueryBalanceVO balanceVO) throws Exception {
+    private UrlCustomEntity createBodyParams(TaskAtomDto moneyDTO, QueryBalanceVO balanceVO) throws Exception {
         UrlCustomEntity customEntity = UrlCustomEntity.custom()
                 .add("search_name", moneyDTO.getUsername())
                 .add("user_id", balanceVO.getUser_id())

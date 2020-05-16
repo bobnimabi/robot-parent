@@ -1,37 +1,21 @@
 package com.robot.jiuwu.activity.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.bbin.common.client.TenantBetDetailVo;
-import com.bbin.common.constant.RabbitMqConstants;
 import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.bbin.common.dto.robot.VipTotalAmountDTO;
+import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
-import com.rabbitmq.client.Channel;
-import com.robot.center.constant.RobotConsts;
-import com.robot.center.controller.RobotControllerBase;
 import com.robot.center.dispatch.ITaskPool;
-import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
 import com.robot.center.util.MoneyUtil;
 import com.robot.jiuwu.base.basic.FunctionEnum;
 import com.robot.jiuwu.base.controller.JiuWuController;
-import com.robot.jiuwu.base.dto.PayMoneyDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.Duration;
 
 /**
  * Created by mrt on 11/14/2019 3:59 PM
@@ -90,29 +74,29 @@ public class JiuWuActivityController extends JiuWuController {
 
     // 测试打款
     @PostMapping("/tempPay")
-    public ResponseResult tempPay(@RequestBody PayMoneyDTO payMoneyDTO) throws Exception {
-        if (null == payMoneyDTO
-                || StringUtils.isEmpty(payMoneyDTO.getUsername())
-                || null == payMoneyDTO.getPaidAmount()
-                || StringUtils.isEmpty(payMoneyDTO.getMemo())
-                || StringUtils.isEmpty(payMoneyDTO.getOutPayNo())
+    public ResponseResult tempPay(@RequestBody TaskAtomDto taskAtomDto) throws Exception {
+        if (null == taskAtomDto
+                || StringUtils.isEmpty(taskAtomDto.getUsername())
+                || null == taskAtomDto.getPaidAmount()
+                || StringUtils.isEmpty(taskAtomDto.getMemo())
+                || StringUtils.isEmpty(taskAtomDto.getOutPayNo())
         ) ResponseResult.FAIL("参数不全");
-        log.info("mq打款入参：{}", JSON.toJSONString(payMoneyDTO));
+        log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
 
-        if (payMoneyDTO.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
+        if (taskAtomDto.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
             ResponseResult.FAIL("金额不能小于等于0");
         }
 
-        payMoneyDTO.setPaidAmount(MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()));
-        payMoneyDTO.setUsername(payMoneyDTO.getUsername().trim());
-        String externalNo = payMoneyDTO.getOutPayNo();
+        taskAtomDto.setPaidAmount(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()));
+        taskAtomDto.setUsername(taskAtomDto.getUsername().trim());
+        String externalNo = taskAtomDto.getOutPayNo();
         if (StringUtils.isNotBlank(externalNo)) {
             boolean isRedo = isRedo(externalNo);
             if (isRedo) {
-                log.info("该外部订单号已经存在,将不执行,externalNo:{},功能参数:{}", externalNo, JSON.toJSONString(payMoneyDTO));
+                log.info("该外部订单号已经存在,将不执行,externalNo:{},功能参数:{}", externalNo, JSON.toJSONString(taskAtomDto));
                 return ResponseResult.FAIL("重复打款");
             }
         }
-        return distribute(new ParamWrapper<PayMoneyDTO>(payMoneyDTO), FunctionEnum.PAY_TEMPSERVER);
+        return distribute(new ParamWrapper<TaskAtomDto>(taskAtomDto), FunctionEnum.PAY_TEMPSERVER);
     }
 }

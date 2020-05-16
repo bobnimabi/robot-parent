@@ -53,17 +53,6 @@ public class BbinActivityController extends BbinController {
                 || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
         ) return ResponseResult.FAIL("参数不全");
         queryDTO.setIs_BBIN(false);
-        queryDTO.setGameCode("5");
-//        List<GameChild> list = new ArrayList<>();
-//        list.add(new GameChild(null, "5902", "糖果派对"));
-//        list.add(new GameChild(null, "5908", "糖果派对2"));
-//        list.add(new GameChild(null, "5143", "糖果派对3"));
-//        list.add(new GameChild(null, "5901", "连环夺宝"));
-//        list.add(new GameChild(null, "5912", "连环夺宝2"));
-//        list.add(new GameChild(null, "5911", "宝石派对"));
-//        list.add(new GameChild(null, "5907", "趣味台球"));
-//        list.add(new GameChild(null, "5171", "消消除急速版"));
-//        queryDTO.setChildren(list);
         return distribute(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_SERVER);
     }
 

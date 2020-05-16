@@ -2,6 +2,7 @@ package com.robot.jiuwu.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
 import com.robot.center.execute.IActionEnum;
@@ -15,7 +16,6 @@ import com.robot.center.util.MoneyUtil;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.jiuwu.base.basic.ActionEnum;
 import com.robot.jiuwu.base.common.Constant;
-import com.robot.jiuwu.base.dto.PayMoneyDTO;
 import com.robot.jiuwu.base.vo.PayResponseVo;
 import com.robot.jiuwu.base.vo.PayResultVO;
 import com.robot.jiuwu.base.vo.QueryUserResultVO;
@@ -32,15 +32,15 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @Service
-public class PayServer extends FunctionBase<PayMoneyDTO> {
+public class PayServer extends FunctionBase<TaskAtomDto> {
     @Autowired
     private QueryUserServer queryUserServer;
     @Autowired
     private MqSenter mqSenter;
 
     @Override
-    protected ResponseResult doFunctionFinal(ParamWrapper<PayMoneyDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        PayMoneyDTO gameDTO = paramWrapper.getObj();
+    protected ResponseResult doFunctionFinal(ParamWrapper<TaskAtomDto> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        TaskAtomDto gameDTO = paramWrapper.getObj();
         if (gameDTO.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
             topicPublic("", gameDTO.getOutPayNo(),false,"金额不能小于0元" , gameDTO.getTheme(), gameDTO.getPaidAmount());
             return ResponseResult.FAIL("金额不能小于0元");
@@ -82,7 +82,7 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
      * 注释掉的参数，点击“查询”按钮的时候会全部带上，点击“BB电子”是没有的，为了方便临时先去掉
      *
      */
-    private ICustomEntity createBodyParams(PayMoneyDTO moneyDTO, QueryUserResultVO resultVO, RobotWrapper robotWrapper) throws Exception {
+    private ICustomEntity createBodyParams(TaskAtomDto moneyDTO, QueryUserResultVO resultVO, RobotWrapper robotWrapper) throws Exception {
         ICustomEntity customEntity = JsonCustomEntity.custom()
                 .add("amount", MoneyUtil.convertToFen(moneyDTO.getPaidAmount()).toString()) // 金额
                 .add("gameids", resultVO.getData().getGameid() + "") // 游戏ids

@@ -2,9 +2,9 @@ package com.robot.gpk.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.CommonActionEnum;
 import com.robot.center.execute.IActionEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
@@ -16,15 +16,12 @@ import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.mq.MqSenter;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.center.util.MoneyUtil;
-import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.gpk.base.basic.ActionEnum;
-import com.robot.gpk.base.dto.PayMoneyDTO;
+import com.robot.gpk.base.dto.PayFinalDTO;
 import com.robot.gpk.base.vo.PayResponseVO;
-import com.robot.gpk.base.vo.SmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -32,25 +29,26 @@ import java.math.BigDecimal;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 发送短信验证码
+ * 支付
  */
 @Slf4j
 @Service
-public class PayFinalServer extends FunctionBase<PayMoneyDTO> {
+public class PayFinalServer extends FunctionBase<PayFinalDTO> {
 
     @Autowired
     private MqSenter mqSenter;
 
     @Override
-    protected ResponseResult doFunctionFinal(ParamWrapper<PayMoneyDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        PayMoneyDTO payMoneyDTO = paramWrapper.getObj();
+    protected ResponseResult doFunctionFinal(ParamWrapper<PayFinalDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
+        PayFinalDTO payFinalDTO = paramWrapper.getObj();
+        TaskAtomDto taskAtomDto = payFinalDTO.getTaskAtomDto();
         // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createParams(payMoneyDTO, robotWrapper), null, Parse.INSTANCE, false);
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createParams(payFinalDTO, robotWrapper), null, Parse.INSTANCE, false);
         ResponseResult responseResult = standerHttpResponse.getResponseResult();
         if (responseResult.isSuccess()) {
-            topicPublic(standerHttpResponse.getRecordId(), payMoneyDTO.getOutPayNo(), true, "打款成功", payMoneyDTO.getTheme(), payMoneyDTO.getPaidAmount());
+            topicPublic(standerHttpResponse.getRecordId(), taskAtomDto.getOutPayNo(), true, "打款成功", taskAtomDto.getTheme(), taskAtomDto.getPaidAmount());
         } else {
-            topicPublic(standerHttpResponse.getRecordId(), payMoneyDTO.getOutPayNo(), false, "打款失败", payMoneyDTO.getTheme(), payMoneyDTO.getPaidAmount());
+            topicPublic(standerHttpResponse.getRecordId(), taskAtomDto.getOutPayNo(), false, "打款失败", taskAtomDto.getTheme(), taskAtomDto.getPaidAmount());
         }
         return responseResult;
     }
@@ -61,26 +59,28 @@ public class PayFinalServer extends FunctionBase<PayMoneyDTO> {
     }
 
     // 组装登录参数
-    private ICustomEntity createParams(PayMoneyDTO payMoneyDTO, RobotWrapper robotWrapper) {
+    private ICustomEntity createParams(PayFinalDTO payFinalDTO, RobotWrapper robotWrapper) {
+
+        TaskAtomDto taskAtomDto = payFinalDTO.getTaskAtomDto();
         ICustomEntity entity = JsonCustomEntity.custom()
-                .add("AccountsString", payMoneyDTO.getUsername()) // 存入帐号
-                .add("DepositToken", payMoneyDTO.getDepositToken()) // 应该是防止表单重复提交的
+                .add("AccountsString", taskAtomDto.getUsername()) // 存入帐号
+                .add("DepositToken", payFinalDTO.getDepositToken()) // 应该是防止表单重复提交的
                 .add("Type", "5") // 类型：人工存提：4 优惠活动：5 返水：6 补发派彩：7 其他 99
                 .add("IsReal", "false") // 实际存提，true或false
-                .add("PortalMemo", payMoneyDTO.getFrontMemo()) // 前台备注
-                .add("Memo", payMoneyDTO.getMemo()) // 后台备注
+                .add("PortalMemo", taskAtomDto.getFrontMemo()) // 前台备注
+                .add("Memo", taskAtomDto.getMemo()) // 后台备注
                 .add("Password", robotWrapper.getPlatformPassword()) // 登录密码
-                .add("Amount", MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()).toString()) // 存款金额
-                .add("AmountString", MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount()).toString()) // 金额字符串
+                .add("Amount", MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString()) // 存款金额
+                .add("AmountString", MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString()) // 金额字符串
                 .add("TimeStamp", System.currentTimeMillis() + "");
 
-        if (payMoneyDTO.getIsAudit()) {
+        if (taskAtomDto.getIsAudit()) {
             entity.add("AuditType", "Discount"); // 稽核方式 免稽核：None 存款稽核：Deposit 优惠稽核：Discount
-            entity.add("Audit", MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount().multiply(BigDecimal.ONE)).toString()); // 稽核金额
+            entity.add("Audit", MoneyUtil.formatYuan(taskAtomDto.getPaidAmount().multiply(BigDecimal.ONE)).toString()); // 稽核金额
         } else {
-            if (null != payMoneyDTO.getMultipleTransaction()) {
+            if (null != taskAtomDto.getMultipleTransaction()) {
                 entity.add("AuditType", "Discount");
-                entity.add("Audit", MoneyUtil.formatYuan(payMoneyDTO.getPaidAmount().multiply(new BigDecimal(payMoneyDTO.getMultipleTransaction()))).toString()); // 稽核金额
+                entity.add("Audit", MoneyUtil.formatYuan(taskAtomDto.getPaidAmount().multiply(new BigDecimal(taskAtomDto.getMultipleTransaction()))).toString()); // 稽核金额
             } else {
                 entity.add("AuditType", "None");
             }

@@ -1,4 +1,4 @@
-package com.robot.center.chain;
+package com.robot.core.chain;
 
 public interface Invocation {
 

@@ -27,22 +27,19 @@ public class CodeGenerator {
         //生成表的名称
         String[] tables={
                 "async_request_config",
-                "http_connection_pool",
+                "connection_pool_config",
                 "http_request_config",
-                "tenant_channel",
-                "tenant_platform",
+                "platform",
+                "request_record",
+                "response_record",
                 "tenant_robot",
-                "tenant_robot_dictionary",
+                "tenant_robot_config",
+                "tenant_robot_dict",
                 "tenant_robot_domain",
-                "tenant_robot_drop",
                 "tenant_robot_head",
-                "tenant_robot_httpclient",
                 "tenant_robot_path",
                 "tenant_robot_proxy",
-                "tenant_robot_record",
-                "tenant_robot_resp_log",
-                "tenant_robot_template",
-                "tenant_withdraw_rule"
+                "tenant_robot_template"
         };
         MyCodeGenUtils.genCode(projectPath, driverClassName,url, username, password, modelName, parentName, tables);
     }

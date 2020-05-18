@@ -10,11 +10,14 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 机器人表
+ * 请求代理
+1.可以为机器人配置
+2.可以为path配置
+注意：单独拆分proxy表，是因为未来在后台进行大量的代理配置
  * </p>
  *
  * @author admin
- * @since 2019-11-18
+ * @since 2020-05-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,31 +26,8 @@ public class TenantRobotProxy implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 机器人表
-     */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
-    /**
-     * 租户id
-     */
-    private Long tenantId;
-
-    /**
-     * 包网平台的id （机器人用于）tenant_channel表的id
-     */
-    private Long channelId;
-
-    /**
-     * 所属平台的id  tenant_platform表的id
-     */
-    private Long platformId;
-
-    /**
-     * 功能：1.活动  2.出款  3.入款
-     */
-    private Integer functionCode;
 
     /**
      * 机器人id,tenant_robot的id

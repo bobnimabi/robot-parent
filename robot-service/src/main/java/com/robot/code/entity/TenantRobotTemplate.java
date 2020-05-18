@@ -10,11 +10,11 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户参与某个活动的申请填写数据模板明细
+ * 显示栏目模板表
  * </p>
  *
  * @author admin
- * @since 2019-12-29
+ * @since 2020-05-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,9 +23,6 @@ public class TenantRobotTemplate implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 活动模板申请细节表，给每个活动添加栏位
-     */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 

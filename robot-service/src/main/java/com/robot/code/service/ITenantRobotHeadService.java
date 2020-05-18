@@ -1,7 +1,7 @@
 package com.robot.code.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.robot.code.entity.TenantRobotHead;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,9 +9,8 @@ import com.robot.code.entity.TenantRobotHead;
  * </p>
  *
  * @author admin
- * @since 2019-10-21
+ * @since 2020-05-18
  */
 public interface ITenantRobotHeadService extends IService<TenantRobotHead> {
-
 
 }

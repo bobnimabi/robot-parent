@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author admin
- * @since 2020-04-01
+ * @since 2020-05-18
  */
 public interface TenantRobotPathMapper extends BaseMapper<TenantRobotPath> {
 

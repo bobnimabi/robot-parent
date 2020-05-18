@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- * 站点配置项 Mapper 接口
+ * 字典表 Mapper 接口
  * </p>
  *
  * @author admin
- * @since 2019-11-18
+ * @since 2020-05-18
  */
 public interface TenantRobotDictMapper extends BaseMapper<TenantRobotDict> {
 

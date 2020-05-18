@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2020-04-01
+ * @since 2020-05-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,9 +32,14 @@ public class TenantRobotPath implements Serializable {
     private Long platformId;
 
     /**
-     * 动作编码
+     * 域名等级，默认1，同一租户下可能出现多个域名,比如二级域名
      */
-    private String code;
+    private Integer rank;
+
+    /**
+     * 域名等级
+     */
+    private String actionCode;
 
     /**
      * path
@@ -44,7 +49,7 @@ public class TenantRobotPath implements Serializable {
     /**
      * 请求方式，1.get 2.post表单提交 3.post的JSON 4.post的文件上传
      */
-    private Integer method;
+    private String method;
 
     /**
      * path解释
@@ -52,14 +57,14 @@ public class TenantRobotPath implements Serializable {
     private String memo;
 
     /**
-     * tenant_robot_path_config表的id
+     * 请求配置，http_request_config表的id
      */
-    private Long pathConfigId;
+    private Long httpRequestConfigId;
 
     /**
-     * http_request_config表的id
+     * 异步限制，async_request_config表的id
      */
-    private Long requestConfigId;
+    private Long asyncRequestConfigId;
 
     /**
      * 是否有效 1有效  0无效

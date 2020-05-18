@@ -1,9 +1,9 @@
 package com.robot.code.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.robot.code.entity.TenantRobotHead;
 import com.robot.code.mapper.TenantRobotHeadMapper;
 import com.robot.code.service.ITenantRobotHeadService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author admin
- * @since 2019-10-21
+ * @since 2020-05-18
  */
 @Service
 public class TenantRobotHeadServiceImpl extends ServiceImpl<TenantRobotHeadMapper, TenantRobotHead> implements ITenantRobotHeadService {

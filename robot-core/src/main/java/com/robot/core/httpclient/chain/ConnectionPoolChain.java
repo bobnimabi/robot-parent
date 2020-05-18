@@ -19,7 +19,7 @@ public class ConnectionPoolChain extends HttpClientFilter<HttpClientInvocation> 
     // 连接池最大连接数
     private static final int MAX_TOTAL = 100;
     // 默认路由并发数
-    private static final int MAX_PER_ROUTE = 10;
+    private static final int MAX_PER_ROUTE = 1;
     // 无效连接校验时间，单位：秒
     private static final int VALIDATE_AFTER_INACTIVITY = 1;
     // 空闲和过期连接检查时间间隔，单位：秒

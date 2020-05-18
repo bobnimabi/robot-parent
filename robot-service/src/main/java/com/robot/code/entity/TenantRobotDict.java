@@ -10,11 +10,11 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 站点配置项
+ * 字典表
  * </p>
  *
  * @author admin
- * @since 2019-11-18
+ * @since 2020-05-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

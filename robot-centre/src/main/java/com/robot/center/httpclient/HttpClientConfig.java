@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -44,6 +45,8 @@ public class HttpClientConfig extends DefaultHttpClientConfig {
         fillRequestConfig(config);
         fillProxyConfig(config, robotId);
         fillHeadersConfig(config);
+
+
         return config;
     }
 

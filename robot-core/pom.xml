@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.bbin</groupId>
-            <artifactId>robot-gpk-base</artifactId>
+            <artifactId>robot-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

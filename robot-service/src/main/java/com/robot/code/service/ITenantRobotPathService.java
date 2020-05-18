@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author admin
- * @since 2020-04-01
+ * @since 2020-05-18
  */
 public interface ITenantRobotPathService extends IService<TenantRobotPath> {
 

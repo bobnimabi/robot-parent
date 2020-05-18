@@ -5,14 +5,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- * 站点配置项 服务类
+ * 字典表 服务类
  * </p>
  *
  * @author admin
- * @since 2019-11-15
+ * @since 2020-05-18
  */
 public interface ITenantRobotDictService extends IService<TenantRobotDict> {
-
-    public String getValue(String key);
 
 }

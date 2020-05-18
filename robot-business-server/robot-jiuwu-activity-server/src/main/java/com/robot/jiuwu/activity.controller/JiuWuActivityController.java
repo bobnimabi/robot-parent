@@ -1,10 +1,13 @@
 package com.robot.jiuwu.activity.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
+import com.bbin.common.util.DateUtils;
+import com.bbin.common.util.ThreadLocalUtils;
 import com.robot.center.dispatch.ITaskPool;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.util.MoneyUtil;
@@ -54,6 +57,19 @@ public class JiuWuActivityController extends JiuWuController {
             return ResponseResult.FAIL("未传入startTime");
         }
         return distribute(new ParamWrapper<VipTotalAmountDTO>(vipTotalAmountDTO), FunctionEnum.TOTAL_RECHARGE_SERVER);
+    }
+
+    @ApiOperation("机器人：获取实际投注详细")
+    @PostMapping("/getBetDetail")
+    public ResponseResult getBetDetail(
+            @RequestBody BetQueryDto betQueryDto
+    ) throws Exception {
+        BreakThroughDTO br = new BreakThroughDTO();
+        br.setUserName(betQueryDto.getUserName());
+        br.setBeginDate(DateUtils.format(betQueryDto.getStartDate()));
+        br.setEndDate(DateUtils.format(betQueryDto.getEndDate()));
+
+        return getTotalAmount(br);
     }
 
     @ApiOperation("机器人：获取投注、亏损、充值信息")

@@ -126,11 +126,11 @@ public class BetAmountAndRechargeServer extends FunctionBase<BreakThroughDTO> {
             totalBet = totalBet.add(rechargeData.getGrade());//投注，单位：分
             totalShou = totalShou.add(rechargeData.getScore());// 损益，单位：分
             //详细暂时不返回
-//            TenantBetVo tenantBetVo = new TenantBetVo();
-//            tenantBetVo.setBetAmount(MoneyUtil.convertToYuan(rechargeData.getGrade()));
-//            tenantBetVo.setLoseAmount(MoneyUtil.convertToYuan(rechargeData.getScore()));
-//            tenantBetVo.setGameId(rechargeData.getKindID());
-//            list.add(tenantBetVo)
+            TenantBetVo tenantBetVo = new TenantBetVo();
+            tenantBetVo.setBetAmount(MoneyUtil.convertToYuan(rechargeData.getGrade()));
+            tenantBetVo.setLoseAmount(MoneyUtil.convertToYuan(rechargeData.getScore()));
+//            tenantBetVo.setGameId((long)rechargeData.getKindID());// 临时去掉，那边不用，防止有问题
+            list.add(tenantBetVo);
         }
         vo.setTotalBet(MoneyUtil.convertToYuan(totalBet));
         vo.setTotalLoss(MoneyUtil.convertToYuan(totalShou));

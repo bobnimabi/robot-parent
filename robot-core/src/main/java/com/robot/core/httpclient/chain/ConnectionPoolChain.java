@@ -24,6 +24,7 @@ public class ConnectionPoolChain extends HttpClientFilter<HttpClientInvocation> 
     private static final int VALIDATE_AFTER_INACTIVITY = 1;
     // 空闲和过期连接检查时间间隔，单位：秒
     private static final int SLEEP_TIME = 30;
+
     // 最大空闲时间，单位：秒
     private static final int MAX_IDLE_TIME = 30;
 

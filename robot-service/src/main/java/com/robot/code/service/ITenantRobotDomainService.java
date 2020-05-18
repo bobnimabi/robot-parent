@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ITenantRobotDomainService extends IService<TenantRobotDomain> {
 
+    /**
+     * 获取域名
+     * @param rank
+     * @return
+     */
+    TenantRobotDomain getDomain(int rank);
+
 }

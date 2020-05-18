@@ -47,6 +47,11 @@ public class ConnectionPoolConfig implements Serializable {
     private Integer sleepTime;
 
     /**
+     * 连接过期时间，单位：秒（如果Keep-Alive头里无timeout时，默认此值）
+     */
+    private Integer keepAliveTime;
+
+    /**
      *  最大空闲时间，单位：秒
      */
     private Integer maxIdleTime;

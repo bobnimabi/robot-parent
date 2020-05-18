@@ -1,14 +1,12 @@
 package com.robot.core.httpclient.chain;
 
 import com.netflix.http4.NFHttpMethodRetryHandler;
-import com.robot.center.httpclient.HttpClientFilter;
-import com.robot.center.httpclient.HttpClientInvocation;
 import com.robot.core.common.CoreConsts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.HttpContext;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
@@ -16,25 +14,32 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by mrt on 2020/3/13 17:00
+ * 重试策略：请求重试通过context里面的重试标签设置
  */
 @Slf4j
 @Service
-public class RequestRetryChain extends HttpClientFilter<HttpClientInvocation> {
+public class RetryChain extends HttpClientFilter<HttpClientBuilder> {
 
     // 重试次数
-    private static final int DEFAULT_RETRY_COUNT = 1;
+    private static final int DEFAULT_RETRY_COUNT = 3;
+    // 重试间隔时间,单位：毫秒
+    private static final int DEFAULT_RETRY_period = 1000;
 
     @Override
-    public boolean dofilter(HttpClientInvocation invocation) throws Exception {
-        invocation.getHttpClientBuilder()
-                .setRetryHandler(new HttpRequestRetryHandler("未定义", DEFAULT_RETRY_COUNT, true, 1000));
+    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
+        httpClientBuilder.setRetryHandler(
+                new HttpRequestRetryHandler(
+                        "未定义",
+                        DEFAULT_RETRY_COUNT,
+                        true,
+                        DEFAULT_RETRY_period));
         log.info("配置->重试策略：加载完成");
         return true;
     }
 
     @Override
     public int order() {
-        return 0;
+        return 2;
     }
 
     private static final class HttpRequestRetryHandler extends NFHttpMethodRetryHandler {

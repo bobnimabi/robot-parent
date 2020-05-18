@@ -1,7 +1,7 @@
 package com.robot.core.httpclient.chain;
 
-import com.robot.center.httpclient.HttpClientFilter;
-import com.robot.center.httpclient.HttpClientInvocation;
+import com.robot.code.entity.ConnectionPoolConfig;
+import com.robot.code.service.IConnectionPoolConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
@@ -11,7 +11,10 @@ import org.apache.http.message.BasicHeaderElementIterator;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.Args;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created by mrt on 2020/3/13 15:19
@@ -19,22 +22,25 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class KeepAliveChain extends HttpClientFilter<HttpClientInvocation> {
-    // keep-alive 超时时间，单位：秒
+public class KeepAliveChain extends HttpClientFilter<HttpClientBuilder> {
+    @Autowired
+    private IConnectionPoolConfigService poolConfigService;
+    /**
+     * keep-alive 超时时间，单位：秒
+      */
     private static final int DEFAULT_KEEP_ALIVE = 30;
 
     @Override
-    public boolean dofilter(HttpClientInvocation invocation) throws Exception {
-        int keepAliveTimeout = invocation.getConfig().getKeepAliveTimeout();
-        HttpClientBuilder httpClientBuilder = invocation.getHttpClientBuilder();
-        httpClientBuilder.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
-        log.info("配置：KeepAliveTimeOut:{}", keepAliveTimeout);
+    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
+        Optional<Integer> keepAliveTimeout = Optional.of(poolConfigService.getPoolConfig().getKeepAliveTime());
+        httpClientBuilder.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout.orElse(DEFAULT_KEEP_ALIVE)));
+        log.info("配置：KeepAlive策略{}", keepAliveTimeout);
         return true;
     }
 
     @Override
     public int order() {
-        return 0;
+        return 4;
     }
 
     private class CustomKeepAliveStrategy implements ConnectionKeepAliveStrategy {
@@ -44,6 +50,13 @@ public class KeepAliveChain extends HttpClientFilter<HttpClientInvocation> {
             this.keepAliveTimeout = keepAliveTimeout;
         }
 
+        /**
+         * 如果Keep-Alive头里面的timeout有值，就按照该值设置连接存活时间
+         * 如果没有timeout，默认设置成30秒存活
+         * @param httpResponse
+         * @param httpContext
+         * @return
+         */
         @Override
         public long getKeepAliveDuration(HttpResponse httpResponse, HttpContext httpContext) {
             Args.notNull(httpResponse, "HTTP response");
@@ -54,7 +67,7 @@ public class KeepAliveChain extends HttpClientFilter<HttpClientInvocation> {
                 do {
                     do {
                         if (!it.hasNext()) {
-                            return DEFAULT_KEEP_ALIVE * 1000L;
+                            return keepAliveTimeout * 1000L;
                         }
                         HeaderElement he = it.nextElement();
                         param = he.getName();

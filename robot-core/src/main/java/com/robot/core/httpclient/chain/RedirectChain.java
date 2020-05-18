@@ -1,7 +1,5 @@
 package com.robot.core.httpclient.chain;
 
-import com.robot.center.httpclient.HttpClientFilter;
-import com.robot.center.httpclient.HttpClientInvocation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -9,25 +7,25 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by mrt on 2020/3/13 16:52
+ * 重定向策略：允许所有方法重定向，请求是否重定向由请求配置决定
  */
 @Slf4j
 @Service
-public class RedirectChain extends HttpClientFilter<HttpClientInvocation> {
+public class RedirectChain extends HttpClientFilter<HttpClientBuilder> {
 
     // 可重定向的方法
     private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST","DELETE","PUT"};
 
     @Override
-    public boolean dofilter(HttpClientInvocation invocation) throws Exception {
-        HttpClientBuilder httpClientBuilder = invocation.getHttpClientBuilder();
+    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
         httpClientBuilder.setRedirectStrategy(createRedirectStrategy());
-        log.info("配置：重定向：{}", CUSTOM_REDIRECT_METHODS);
+        log.info("配置：重定向策略：方法：{}", CUSTOM_REDIRECT_METHODS);
         return true;
     }
 
     @Override
     public int order() {
-        return 0;
+        return 3;
     }
 
     private org.apache.http.client.RedirectStrategy createRedirectStrategy() {

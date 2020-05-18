@@ -47,9 +47,9 @@ public class TenantRobotConfig implements Serializable {
     private Integer functionCode;
 
     /**
-     *  强制下线时，是否删除cookie
+     * 是否有效 1有效  0无效
      */
-    private Integer isDeleteCookie;
+    private Boolean isDeleteCookie;
 
     /**
      * connection_pool_config的id

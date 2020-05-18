@@ -1,7 +1,5 @@
 package com.robot.core.httpclient.chain;
 
-import com.robot.center.httpclient.HttpClientFilter;
-import com.robot.center.httpclient.HttpClientInvocation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -10,10 +8,10 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
 import org.springframework.stereotype.Service;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -24,23 +22,24 @@ import java.security.cert.X509Certificate;
 
 /**
  * Created by mrt on 2020/3/13 17:09
+ * SSL策略：允许所有自签名证书
  */
 @Slf4j
 @Service
-public class SslChain extends HttpClientFilter<HttpClientInvocation> {
+public class SslChain extends HttpClientFilter<HttpClientBuilder> {
 
     @Override
-    public boolean dofilter(HttpClientInvocation invocation) throws Exception {
+    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
 //        httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);//设置不生效，以后解决
 //        httpClientBuilder.setSSLContext(createSSLContext());//设置不生效，以后解决
-        invocation.getHttpClientBuilder().setConnectionManager(SslHttpClientBuild());
-        log.info("配置：SSL：放行所有自签名证书");
+        httpClientBuilder.setConnectionManager(SslHttpClientBuild());
+        log.info("配置：SSL验证证书策略：放行所有自签名证书");
         return true;
     }
 
     @Override
     public int order() {
-        return 0;
+        return 1;
     }
 
 

@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IConnectionPoolConfigService extends IService<ConnectionPoolConfig> {
 
+    ConnectionPoolConfig getPoolConfig();
+
 }

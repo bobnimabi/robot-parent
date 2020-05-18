@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 显示栏目模板表
+ * 登录输入框列表
  * </p>
  *
  * @author admin

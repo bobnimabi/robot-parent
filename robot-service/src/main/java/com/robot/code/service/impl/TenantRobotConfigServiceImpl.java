@@ -17,4 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TenantRobotConfigServiceImpl extends ServiceImpl<TenantRobotConfigMapper, TenantRobotConfig> implements ITenantRobotConfigService {
 
+    @Override
+    public TenantRobotConfig getRobotConfig() {
+        TenantRobotConfig one = getOne(null);
+        if (null != one) {
+            throw new IllegalArgumentException("未配置RobotConfig");
+        }
+        return one;
+    }
 }

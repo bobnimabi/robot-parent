@@ -66,7 +66,7 @@ public class RobotTimeLimit {
 
     // CACHE：创建机器人执行IP限制时间key
     private String createCacheIPLimitKey(long robotId) {
-        TenantRobotProxy proxy = proxyService.getByRobotId(robotId);
+        TenantRobotProxy proxy = proxyService.getProxy(robotId);
         String ip = NetWorkUtil.getLocalIpAddress();
         if (null != proxy) {
             ip = proxy.getProxyIp();

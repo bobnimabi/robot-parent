@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -86,7 +85,7 @@ public class HttpClientConfig extends DefaultHttpClientConfig {
     }
 
     private void fillProxyConfig(HttpClientConfig config, long robotId) {
-        TenantRobotProxy proxy = proxyService.getByRobotId(robotId);
+        TenantRobotProxy proxy = proxyService.getProxy(robotId);
         if (null == proxy) {
             log.info("未配置代理，将不使用代理");
             return;

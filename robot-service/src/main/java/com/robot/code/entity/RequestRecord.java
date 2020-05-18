@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 机器人请求的流水
+ * 请求的流水
  * </p>
  *
  * @author admin
@@ -21,7 +21,7 @@ public class RequestRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private Long id;
 
     /**
      * 机器人id,tenant_robot的id

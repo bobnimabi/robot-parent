@@ -3,6 +3,7 @@ package com.robot.core.httpclient.chain;
 import com.netflix.http4.NFHttpMethodRetryHandler;
 import com.robot.center.httpclient.HttpClientFilter;
 import com.robot.center.httpclient.HttpClientInvocation;
+import com.robot.core.common.CoreConsts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
 import org.apache.http.protocol.HttpContext;
@@ -21,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RequestRetryChain extends HttpClientFilter<HttpClientInvocation> {
 
     // 重试次数
-    private static final int DEFAULT_RETRY_COUNT = 3;
+    private static final int DEFAULT_RETRY_COUNT = 1;
 
     @Override
     public boolean dofilter(HttpClientInvocation invocation) throws Exception {
@@ -49,19 +50,29 @@ public class RequestRetryChain extends HttpClientFilter<HttpClientInvocation> {
             this.idempotentMethods.put("POST", Boolean.TRUE);
         }
 
+        /**
+         * 注意：此方法只能调用到父类，不能调用到父类的父类，因为父类对父类的父类的方法进行了重写
+         * @param exception
+         * @param executionCount 已经执行的次数
+         * @param context
+         * @return
+         */
         @Override
         public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
             // 自定义重试业务逻辑
-            boolean isRetry = (boolean) context.getAttribute("isRetry");
+            boolean isRetry = (boolean) context.getAttribute(CoreConsts.RETRY_FLAG);
             if (!isRetry) {
                 return false;
             }
-            int num = (int) context.getAttribute("executionCount");
             // 是否重试，重试睡眠+计数
-            return super.retryRequest(exception, num, context);
+            return super.retryRequest(exception, executionCount, context);
         }
 
-        // 设置所有的请求方式都是幂等，是否重试由业务决定
+        /**
+         * 设置所有的请求方式都是幂等，是否重试由业务决定
+         * @param request
+         * @return
+         */
         @Override
         protected boolean handleAsIdempotent(HttpRequest request) {
             String method = request.getRequestLine().getMethod().toUpperCase(Locale.ROOT);

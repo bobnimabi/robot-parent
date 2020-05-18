@@ -12,5 +12,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-05-18
  */
 public interface ITenantRobotConfigService extends IService<TenantRobotConfig> {
-
+    /**
+     * 获取机器人配置
+     * @return
+     */
+    TenantRobotConfig getRobotConfig();
 }

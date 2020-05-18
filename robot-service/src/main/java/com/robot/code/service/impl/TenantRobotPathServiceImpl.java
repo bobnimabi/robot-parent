@@ -1,5 +1,6 @@
 package com.robot.code.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.robot.code.entity.TenantRobotPath;
 import com.robot.code.mapper.TenantRobotPathMapper;
 import com.robot.code.service.ITenantRobotPathService;
@@ -17,4 +18,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class TenantRobotPathServiceImpl extends ServiceImpl<TenantRobotPathMapper, TenantRobotPath> implements ITenantRobotPathService {
 
+    @Override
+    public TenantRobotPath getPath(String actionCode, int rank) {
+        TenantRobotPath one = getOne(new LambdaQueryWrapper<TenantRobotPath>()
+                .eq(TenantRobotPath::getActionCode, actionCode)
+                .eq(TenantRobotPath::getRank, rank));
+        if (null == one) {
+            throw new IllegalStateException("未获取到Path");
+        }
+        return one;
+    }
 }

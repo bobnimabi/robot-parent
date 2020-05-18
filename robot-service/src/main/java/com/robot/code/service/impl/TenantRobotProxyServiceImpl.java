@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class TenantRobotProxyServiceImpl extends ServiceImpl<TenantRobotProxyMapper, TenantRobotProxy> implements ITenantRobotProxyService {
 
     @Override
-    public TenantRobotProxy getByRobotId(long robotId) {
+    public TenantRobotProxy getProxy(long robotId) {
         TenantRobotProxy proxy = getOne(
                 new LambdaQueryWrapper<TenantRobotProxy>()
                 .eq(TenantRobotProxy::getRobotId, robotId)

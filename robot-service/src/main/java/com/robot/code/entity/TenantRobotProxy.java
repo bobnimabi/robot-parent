@@ -10,10 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 请求代理
-1.可以为机器人配置
-2.可以为path配置
-注意：单独拆分proxy表，是因为未来在后台进行大量的代理配置
+ * 机器人代理IP配置
  * </p>
  *
  * @author admin

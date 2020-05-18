@@ -21,12 +21,12 @@ public class ResponseRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private Long id;
 
     /**
      * 流水的id
      */
-    private String requestRecordId;
+    private Long requestRecordId;
 
     /**
      * 转换后的响应内容

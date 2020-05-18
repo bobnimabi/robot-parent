@@ -12,5 +12,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-05-18
  */
 public interface ITenantRobotPathService extends IService<TenantRobotPath> {
-    TenantRobotPath getPath(IActionEnum actionEnum,);
+
+    /**
+     * 获取路径
+     * @param actionCode
+     * @param rank
+     * @return
+     */
+    TenantRobotPath getPath(String actionCode, int rank);
 }

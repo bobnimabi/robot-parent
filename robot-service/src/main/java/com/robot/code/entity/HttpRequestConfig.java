@@ -10,8 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 请求配置（专业人员）
-1.只为path进行配置
+ * 接口请求配置
  * </p>
  *
  * @author admin
@@ -31,6 +30,21 @@ public class HttpRequestConfig implements Serializable {
      * 是否重定向 1是  0否
      */
     private Boolean isRedirect;
+
+    /**
+     * 是否重试 1是  0否
+     */
+    private Boolean isRetry;
+
+    /**
+     * 重试次数
+     */
+    private Integer retryNum;
+
+    /**
+     * 重试间隔秒数
+     */
+    private Integer retrySecond;
 
     /**
      * 从连接池获取连接超时，单位：秒

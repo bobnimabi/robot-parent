@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 公共头表
  * </p>
  *
  * @author admin

@@ -10,6 +10,9 @@ import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.code.service.ITenantRobotRecordService;
 import com.robot.code.service.ITenantRobotRespLogService;
+import com.robot.core.function.base.ExecuteProperty;
+import com.robot.core.function.base.IResultParse;
+import com.robot.core.http.response.StanderHttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -46,8 +49,7 @@ public abstract class AbstractExecute implements IExecute{
     private ReentrantLock lock = new ReentrantLock();
 
     @Override
-    public StanderHttpResponse request(RobotWrapper robotWrapper, CustomHttpMethod method, TenantRobotAction action, String externalOrderNo,
-                                       ICustomEntity customEntity, CustomHeaders headers, IResultParse resultParse) {
+    public StanderHttpResponse request(ExecuteProperty property) {
         return this.request(robotWrapper, method, action, externalOrderNo,
                 customEntity, headers, resultParse,false);
     }
@@ -126,7 +128,7 @@ public abstract class AbstractExecute implements IExecute{
             standarHttpResponse.setResponseResult(ResponseResult.FAIL("机器人失效"));
         } else if (StringUtils.hasText(entityStr)) {
             // 请求结果转对象
-            ResponseResult parse = resultParse.parse(entityStr);
+            ResponseResult parse = resultParse.parse2Obj(entityStr);
             standarHttpResponse.setResponseResult(parse);
             if (!(null != parse.getObj() && parse.getObj() instanceof String)) {
                 log.info("响应结果(已转换)：" + JSON.toJSONString(parse));

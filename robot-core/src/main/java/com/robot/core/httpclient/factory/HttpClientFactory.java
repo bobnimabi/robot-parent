@@ -1,7 +1,6 @@
 package com.robot.core.httpclient.factory;
 
 import com.robot.core.chain.Invoker;
-import com.robot.core.httpclient.chain.BuilderFilter;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.InitializingBean;

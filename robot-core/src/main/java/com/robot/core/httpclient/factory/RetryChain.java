@@ -1,4 +1,4 @@
-package com.robot.core.httpclient.chain;
+package com.robot.core.httpclient.factory;
 
 import com.netflix.http4.NFHttpMethodRetryHandler;
 import com.robot.core.common.CoreConsts;

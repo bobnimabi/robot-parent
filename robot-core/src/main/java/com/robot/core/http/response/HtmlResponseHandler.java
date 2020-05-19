@@ -1,7 +1,5 @@
-package com.robot.core.http.request;
+package com.robot.core.http.response;
 
-import com.robot.core.http.response.AbstractResponseHandler;
-import com.robot.core.http.response.StanderHttpResponse;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -24,7 +22,7 @@ import java.util.regex.Pattern;
  * @Version 2.0
  * 通用HTML响应解析
  */
-public class HtmlResponseHandler extends AbstractResponseHandler {
+public class HtmlResponseHandler<E> extends AbstractResponseHandler<E> {
 
     @Override
     protected boolean errorStatus(StatusLine statusLine) {
@@ -34,7 +32,28 @@ public class HtmlResponseHandler extends AbstractResponseHandler {
 
     @Override
     protected StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
-        HttpEntity entity = response.getEntity();
+        String result = toString(response);
+        return new StanderHttpResponse<String, E>(response);
+    }
+
+    /**
+     * 将响应的html加载出来
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    private static final String toString(HttpResponse response) throws IOException {
+        Charset charset = getCharsetOrDefault(response.getEntity());
+        return EntityUtils.toString(response.getEntity(), charset);
+    }
+
+    /**
+     * 获取charset
+     * @param entity 响应entity
+     * @return
+     * @throws IOException
+     */
+    private static final Charset getCharsetOrDefault(HttpEntity entity) throws IOException {
         Charset charset = getCharset(entity);
         if (null == charset) {
             charset = CharsetObtain.getCharset(EntityUtils.toByteArray(entity));
@@ -42,8 +61,7 @@ public class HtmlResponseHandler extends AbstractResponseHandler {
                 charset=StandardCharsets.UTF_8;
             }
         }
-        String result = EntityUtils.toString(response.getEntity(), charset);
-        return new StanderHttpResponse<String>(response, result);
+        return charset;
     }
 
     /**

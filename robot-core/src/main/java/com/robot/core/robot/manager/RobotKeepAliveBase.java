@@ -3,28 +3,26 @@ package com.robot.core.robot.manager;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.center.execute.IExecute;
-import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.AbstractHttpClientFactory;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobot;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.UUID;
 
 /**
  * Created by mrt on 11/1/2019 8:34 PM
  */
 public abstract class RobotKeepAliveBase implements IRobotKeepAlive{
+
     @Autowired
     private AbstractHttpClientFactory clientFactory;
+
     @Autowired
     private RobotManager robotManager;
+
     @Autowired
     private IExecute execute;
-
 
     @Transactional
     public ResponseResult login(LoginDTO robotDTO) throws Exception{

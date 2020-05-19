@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
  *  2.如果有更特殊的情况（如下载），请自行定义
  */
 @Slf4j
-public abstract class AbstractResponseHandler implements ResponseHandler<StanderHttpResponse> {
+public abstract class AbstractResponseHandler<E> implements ResponseHandler<StanderHttpResponse> {
 
     /**
      * 无论是正常或异常情况：源码里都已经对流进行了消费，无需手动再写一次
@@ -53,7 +53,7 @@ public abstract class AbstractResponseHandler implements ResponseHandler<Stander
      * @return
      * null 未获取到Charset
      */
-    protected Charset getCharset(HttpEntity httpEntity) {
+    protected static Charset getCharset(HttpEntity httpEntity) {
         ContentType contentType = ContentType.get(httpEntity);
         return null != contentType ? contentType.getCharset() : null;
     }

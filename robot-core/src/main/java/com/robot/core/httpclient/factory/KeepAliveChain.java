@@ -1,4 +1,4 @@
-package com.robot.core.httpclient.chain;
+package com.robot.core.httpclient.factory;
 
 import com.robot.code.service.IConnectionPoolConfigService;
 import lombok.extern.slf4j.Slf4j;

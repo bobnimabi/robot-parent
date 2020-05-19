@@ -1,7 +1,5 @@
 package com.robot.core.http.response;
 
-import com.robot.core.http.response.AbstractResponseHandler;
-import com.robot.core.http.response.StanderHttpResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -16,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  * @Version 2.0
  * 通用JSON响应解析
  */
-public class JsonResponseHandler extends AbstractResponseHandler {
+public class JsonResponseHandler<E> extends AbstractResponseHandler<E> {
 
     @Override
     protected boolean errorStatus(StatusLine statusLine) {
@@ -29,6 +27,6 @@ public class JsonResponseHandler extends AbstractResponseHandler {
         Charset charset = getCharset(response.getEntity());
         charset = null !=charset  ? charset : StandardCharsets.UTF_8;
         String result = EntityUtils.toString(response.getEntity(), charset);
-        return new StanderHttpResponse<String>(response, result);
+        return new StanderHttpResponse<String, E>(response, result);
     }
 }

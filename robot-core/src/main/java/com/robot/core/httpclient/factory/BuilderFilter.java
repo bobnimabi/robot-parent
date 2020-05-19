@@ -1,4 +1,4 @@
-package com.robot.core.httpclient.chain;
+package com.robot.core.httpclient.factory;
 
 import com.robot.core.chain.Filter;
 

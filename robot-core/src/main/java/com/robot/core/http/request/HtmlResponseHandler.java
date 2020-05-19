@@ -1,5 +1,7 @@
-package com.robot.core.http.protocal;
+package com.robot.core.http.request;
 
+import com.robot.core.http.response.AbstractResponseHandler;
+import com.robot.core.http.response.StanderHttpResponse;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;

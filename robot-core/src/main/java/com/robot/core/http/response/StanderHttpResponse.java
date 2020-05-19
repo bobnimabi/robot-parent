@@ -1,4 +1,4 @@
-package com.robot.core.http.protocal;
+package com.robot.core.http.response;
 
 import org.apache.http.*;
 import java.util.Locale;

@@ -1,4 +1,4 @@
-package com.robot.core.http.protocal;
+package com.robot.core.http.request;
 
 /**
  * Created by mrt on 10/18/2019 6:38 PM

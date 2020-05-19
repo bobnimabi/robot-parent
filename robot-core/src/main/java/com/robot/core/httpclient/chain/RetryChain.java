@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @Service
-public class RetryChain extends HttpClientFilter<HttpClientBuilder> {
+public class RetryChain extends BuilderFilter<HttpClientBuilder> {
 
     // 重试次数
     private static final int DEFAULT_RETRY_COUNT = 3;

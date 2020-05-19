@@ -26,7 +26,7 @@ import java.security.cert.X509Certificate;
  */
 @Slf4j
 @Service
-public class SslChain extends HttpClientFilter<HttpClientBuilder> {
+public class SslChain extends BuilderFilter<HttpClientBuilder> {
 
     @Override
     public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {

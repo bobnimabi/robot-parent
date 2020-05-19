@@ -1,6 +1,7 @@
-package com.robot.core.http.protocal;
+package com.robot.core.http.request;
 
 import com.alibaba.fastjson.JSON;
+import com.robot.core.http.response.StanderHttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
@@ -30,7 +31,7 @@ import java.nio.charset.StandardCharsets;
  */
 @Component
 @Slf4j
-public class HttpClientHelper {
+public class HttpClientExector {
 	/**
 	 * get请求
 	 * @param httpClient

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class RedirectChain extends HttpClientFilter<HttpClientBuilder> {
+public class RedirectChain extends BuilderFilter<HttpClientBuilder> {
 
     // 可重定向的方法
     private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST","DELETE","PUT"};

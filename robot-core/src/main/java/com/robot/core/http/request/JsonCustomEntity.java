@@ -1,4 +1,4 @@
-package com.robot.core.http.protocal;
+package com.robot.core.http.request;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;

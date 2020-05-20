@@ -1,12 +1,9 @@
 package com.robot.core.function.base;
 
-import com.bbin.common.response.ResponseResult;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.response.StanderHttpResponse;
-import com.robot.core.robot.manager.RobotCard;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.core.task.execute.IActionEnum;
 import com.robot.core.task.execute.IExecute;
 import org.springframework.beans.factory.annotation.Autowired;
 

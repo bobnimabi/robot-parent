@@ -25,7 +25,7 @@ public class RedirectChain extends BuilderFilter<HttpClientBuilder> {
 
     @Override
     public int order() {
-        return 3;
+        return 5;
     }
 
     private org.apache.http.client.RedirectStrategy createRedirectStrategy() {

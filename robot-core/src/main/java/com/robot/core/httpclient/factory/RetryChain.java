@@ -39,7 +39,7 @@ public class RetryChain extends BuilderFilter<HttpClientBuilder> {
 
     @Override
     public int order() {
-        return 2;
+        return 3;
     }
 
     private static final class HttpRequestRetryHandler extends NFHttpMethodRetryHandler {

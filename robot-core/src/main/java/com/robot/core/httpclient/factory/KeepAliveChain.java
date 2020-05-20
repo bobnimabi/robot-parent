@@ -39,7 +39,7 @@ public class KeepAliveChain extends BuilderFilter<HttpClientBuilder> {
 
     @Override
     public int order() {
-        return 4;
+        return 7;
     }
 
     private class CustomKeepAliveStrategy implements ConnectionKeepAliveStrategy {

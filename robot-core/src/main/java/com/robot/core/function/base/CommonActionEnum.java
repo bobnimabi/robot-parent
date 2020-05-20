@@ -1,4 +1,6 @@
-package com.robot.core.task.execute;
+package com.robot.core.function.base;
+
+import com.robot.core.function.base.IActionEnum;
 
 public enum CommonActionEnum implements IActionEnum {
     FLUSH_SESSION("flush_session","刷新Session"),

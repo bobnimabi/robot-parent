@@ -1,14 +1,7 @@
 package com.robot.core.function.base;
 
-import com.bbin.common.response.ResponseResult;
-import com.robot.code.entity.TenantRobotDomain;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
-import com.robot.core.robot.manager.RobotCard;
-import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.core.task.execute.IActionEnum;
-
-import java.util.function.Supplier;
 
 /**
  * Created by mrt on 11/15/2019 12:30 PM
@@ -53,4 +46,6 @@ public interface IFunctionProperty {
      * @return
      */
     IResultParse getResultParse();
+
+
 }

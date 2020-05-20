@@ -70,7 +70,7 @@ public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
 
     @Override
     public int order() {
-        return 5;
+        return 9;
     }
 
     /**

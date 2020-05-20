@@ -2,6 +2,7 @@ package com.robot.core.function.base;
 
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.robot.manager.RobotWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,31 +18,36 @@ public class ExecuteProperty implements IFunctionProperty{
     /**
      * 域名等级
      */
-    int rank;
+    private int rank;
 
     /**
      * 动作
      */
-    IActionEnum action;
+    private IActionEnum action;
 
     /**
      * 自定义请求头
      */
-    CustomHeaders headers;
+    private CustomHeaders headers;
 
     /**
      * 请求体
      */
-    ICustomEntity entity;
+    private ICustomEntity entity;
 
     /**
      * 是否检查掉线
      */
-    boolean isCheckLost;
+    private boolean isCheckLost;
 
     /**
      * ResultParse
      */
-    IResultParse resultParse;
+    private IResultParse resultParse;
+
+    /**
+     * 机器人包装类
+     */
+    private RobotWrapper robotWrapper;
 
 }

@@ -14,9 +14,14 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class CustomHeaders {
-    private List<Header> headers = new ArrayList<>(5);
+public class CustomHeaders implements ICustomEntity<String,String> {
+    private List<Header> headers;
 
+    private CustomHeaders(int size) {
+        headers = new ArrayList<>(size);
+    }
+
+    @Override
     public CustomHeaders add(String headKey, String headValue) {
         if (StringUtils.isBlank(headKey)) {
             log.error("headKey:{}，headValue:{} 新增Heads：dictKey-dictValue 有空值,不予添加", headKey, headValue);
@@ -26,7 +31,7 @@ public class CustomHeaders {
         return this;
     }
 
-    public static CustomHeaders build() {
-        return new CustomHeaders();
+    public static CustomHeaders custom(int size) {
+        return new CustomHeaders(size);
     }
 }

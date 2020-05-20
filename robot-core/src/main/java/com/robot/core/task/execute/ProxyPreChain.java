@@ -1,6 +1,8 @@
 package com.robot.core.task.execute;
 
+import com.robot.code.service.ITenantRobotProxyService;
 import com.robot.core.function.base.IFunctionProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,9 +11,13 @@ import org.springframework.stereotype.Service;
  * @Version 2.0
  */
 @Service
-public class ProxyChain implements ExecuteFilter<IFunctionProperty>{
+public class ProxyPreChain extends ExecutePreFilter<IFunctionProperty> {
+    @Autowired
+    private ITenantRobotProxyService proxyService;
+
     @Override
     public boolean dofilter(IFunctionProperty invocation) throws Exception {
+
         return false;
     }
 

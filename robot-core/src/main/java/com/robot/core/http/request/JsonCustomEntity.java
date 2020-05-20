@@ -15,8 +15,13 @@ import java.util.Map;
  */
 @Data
 @Slf4j
-public class JsonCustomEntity implements ICustomEntity<Object>{
-    private Map<String,Object> entity = new HashMap<>(8);
+public class JsonCustomEntity implements ICustomEntity<String, Object> {
+
+    private Map<String, Object> entity;
+
+    private JsonCustomEntity(int size) {
+        entity = new HashMap<String, Object>(size);
+    }
 
     @Override
     public ICustomEntity add(String key, Object value) {
@@ -28,8 +33,8 @@ public class JsonCustomEntity implements ICustomEntity<Object>{
         return this;
     }
 
-    public static JsonCustomEntity custom() {
-        return new JsonCustomEntity();
+    public static JsonCustomEntity custom(int size) {
+        return new JsonCustomEntity(size);
     }
 
     @Override

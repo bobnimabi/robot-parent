@@ -108,6 +108,7 @@ public abstract class AbstractExecute implements IExecute{
         recordService.addRecordAsync(idStr, robotWrapper.getId(), externalOrderNo, actionCode, RobotConsts.RobotRecord.SENDING, JSON.toJSONString(customEntity));
     }
 
+
     /**
      * 请求后处理
      *
@@ -155,6 +156,7 @@ public abstract class AbstractExecute implements IExecute{
      * 返回null的情况
      * 1.请求过程出现异常
      * 2.请求无响应（响应的Entity为空）
+     * CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext
      */
     private StanderHttpResponse requestDetail(CloseableHttpClient httpClient, String url,
                                  ICustomEntity customEntity, CustomHeaders headers, CustomHttpMethod method, HttpClientContext httpContext) {

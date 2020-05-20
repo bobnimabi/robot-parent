@@ -21,8 +21,13 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class UrlCustomEntity implements ICustomEntity<String>{
-    private List<NameValuePair> entity = new ArrayList<>(8);
+public class UrlCustomEntity implements ICustomEntity<String, String> {
+
+    private List<NameValuePair> entity;
+
+    private UrlCustomEntity(int size) {
+        entity = new ArrayList<>(size);
+    }
 
     @Override
     public UrlCustomEntity add(String key, String value) {
@@ -34,8 +39,8 @@ public class UrlCustomEntity implements ICustomEntity<String>{
         return this;
     }
 
-    public static UrlCustomEntity custom() {
-        return new UrlCustomEntity();
+    public static UrlCustomEntity custom(int size) {
+        return new UrlCustomEntity(size);
     }
 
     @Override

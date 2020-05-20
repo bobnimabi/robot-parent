@@ -10,5 +10,10 @@ import com.robot.core.http.response.StanderHttpResponse;
  */
 public interface IExecute {
 
+    /**
+     * 执行请求
+     * @param property
+     * @return
+     */
     StanderHttpResponse request(IFunctionProperty property);
 }

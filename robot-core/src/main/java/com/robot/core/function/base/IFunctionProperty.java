@@ -2,6 +2,7 @@ package com.robot.core.function.base;
 
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.robot.manager.RobotWrapper;
 
 /**
  * Created by mrt on 11/15/2019 12:30 PM
@@ -47,5 +48,8 @@ public interface IFunctionProperty {
      */
     IResultParse getResultParse();
 
-
+    /**
+     * 机器人包装类
+     */
+    RobotWrapper getRobotWrapper();
 }

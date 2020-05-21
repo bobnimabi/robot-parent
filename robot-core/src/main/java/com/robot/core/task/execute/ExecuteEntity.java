@@ -37,4 +37,10 @@ public class ExecuteEntity {
      * 请求上下文
      */
     private HttpContext httpContext;
+
+    /**
+     * 代理IP+端口
+     */
+    private String proxyIp;
+    private Integer proxyPort;
 }

@@ -32,6 +32,8 @@ public class ProxyBeforeChain extends ExecuteBeforeFilter<IFunctionProperty> {
             Assert.notNull(port, "Proxy:Port 为空,robotID："+robotId);
             Assert.isTrue(InetAddressUtils.isIPv4Address(proxy.getProxyIp()), "Proxy:Ip 格式有误,robotID："+robotId);
             Assert.isTrue(port>=0 && port<=65535,"Proxy:Port 不在0-65535范围内,robotID："+robotId);
+
+
             RequestConfig.Builder custom = RequestConfig.custom();
             custom.setProxy(new HttpHost(proxy.getProxyIp(), proxy.getProxyPort()));
         }

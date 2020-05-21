@@ -2,6 +2,7 @@ package com.robot.center.http;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.client.config.RequestConfig;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Created by mrt on 10/17/2019 3:58 PM
@@ -155,10 +157,14 @@ public class HttpClientHelper {
 	 * 头信息设置
 	 * @param method 请求方法
 	 * @param headers 头信息
+	 * 注意：这里反向填充头的目的是：让接口特殊头覆盖全局头（当同时存在某个头时候）
 	 */
 	private static void setHeaders(HttpMessage method, CustomHeaders headers) {
 		if (null != headers && !CollectionUtils.isEmpty(headers.getHeaders())) {
-			headers.getHeaders().forEach(header->method.setHeader(header));
+			List<Header> headersList = headers.getHeaders();
+			for (int i = headersList.size() - 1; i >= 0; i--) {
+				method.setHeader(headersList.get(i));
+			}
 		}
 	}
 }

@@ -42,6 +42,7 @@ public class HttpClientHelper {
 	public static StanderHttpResponse get(CloseableHttpClient httpClient, String url, UrlCustomEntity customEntity, CustomHeaders headers, HttpContext httpContext) throws IOException, URISyntaxException {
 		StanderHttpResponse result = null;
 		HttpGet httpGet = new HttpGet(url);
+
 		try {
 			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
 				String encodeUrl = URLEncodedUtils.format(customEntity.getEntity(), StandardCharsets.UTF_8);

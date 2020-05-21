@@ -39,7 +39,7 @@ public class TenantRobotProxy implements Serializable {
     /**
      * 代理：端口
      */
-    private String proxyPort;
+    private Integer proxyPort;
 
     /**
      * 是否有效 1有效  0无效

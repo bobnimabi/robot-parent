@@ -1,5 +1,6 @@
 package com.robot.core.httpclient.factory;
 
+import com.robot.core.chain.Invoker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -11,16 +12,16 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class RedirectChain extends BuilderFilter<HttpClientBuilder> {
+public class RedirectChain extends BuilderFilter<Object,HttpClientBuilder> {
 
     // 可重定向的方法
     private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST","DELETE","PUT"};
 
     @Override
-    public boolean dofilter(HttpClientBuilder params) throws Exception {
-        params.setRedirectStrategy(createRedirectStrategy());
+    public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
+        result.setRedirectStrategy(createRedirectStrategy());
         log.info("配置：重定向策略：方法：{}", CUSTOM_REDIRECT_METHODS);
-        return true;
+        invoker.invoke(params, result);
     }
 
     @Override

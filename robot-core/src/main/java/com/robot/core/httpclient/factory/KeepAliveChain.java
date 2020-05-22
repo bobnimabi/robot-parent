@@ -1,6 +1,7 @@
 package com.robot.core.httpclient.factory;
 
 import com.robot.code.service.IConnectionPoolConfigService;
+import com.robot.core.chain.Invoker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
@@ -21,7 +22,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Service
-public class KeepAliveChain extends BuilderFilter<HttpClientBuilder> {
+public class KeepAliveChain extends BuilderFilter<Object,HttpClientBuilder> {
     @Autowired
     private IConnectionPoolConfigService poolConfigService;
     /**
@@ -30,11 +31,11 @@ public class KeepAliveChain extends BuilderFilter<HttpClientBuilder> {
     private static final int DEFAULT_KEEP_ALIVE = 30;
 
     @Override
-    public boolean dofilter(HttpClientBuilder params) throws Exception {
+    public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         Integer keepAliveTimeout = Optional.of(poolConfigService.getPoolConfig().getKeepAliveTime()).orElse(DEFAULT_KEEP_ALIVE);
-        params.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
+        result.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
         log.info("配置：KeepAlive策略{}", keepAliveTimeout);
-        return true;
+        invoker.invoke(params, result);
     }
 
     @Override

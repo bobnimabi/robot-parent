@@ -2,6 +2,7 @@ package com.robot.core.httpclient.factory;
 
 import com.robot.code.entity.ConnectionPoolConfig;
 import com.robot.code.service.IConnectionPoolConfigService;
+import com.robot.core.chain.Invoker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
+public class ConnectionPoolChain extends BuilderFilter<Object,HttpClientBuilder> {
     @Autowired
     private IConnectionPoolConfigService poolConfigService;
 
@@ -45,9 +46,8 @@ public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
      */
     private static final int MAX_IDLE_TIME = 30;
 
-
     @Override
-    public boolean dofilter(HttpClientBuilder params) throws Exception {
+    public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         ConnectionPoolConfig poolConfig = poolConfigService.getPoolConfig();
         Integer maxTotal = Optional.of(poolConfig.getMaxTotal()).orElse(MAX_TOTAL);
         Integer maxPerRoute = Optional.of(poolConfig.getMaxPerRoute()).orElse(MAX_PER_ROUTE);
@@ -55,9 +55,9 @@ public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
         Integer sleepTime = Optional.of(poolConfig.getSleepTime()).orElse(SLEEP_TIME);
         Integer maxIdleTime = Optional.of(poolConfig.getMaxIdleTime()).orElse(MAX_IDLE_TIME);
         // 过期和空闲连接策略
-        params.evictExpiredConnections();
-        params.evictIdleConnections(maxIdleTime, TimeUnit.SECONDS);
-        params.setConnectionManager(createPoolingHttpClientConnectionManager(
+        result.evictExpiredConnections();
+        result.evictIdleConnections(maxIdleTime, TimeUnit.SECONDS);
+        result.setConnectionManager(createPoolingHttpClientConnectionManager(
                 maxTotal,
                 maxPerRoute,
                 validateAfterInactivity
@@ -65,7 +65,7 @@ public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
         ));
         log.info("配置：连接池策略：MAX_TOTAL：{}，MAX_PER_ROUTE：{}，VALIDATE_AFTER_INACTIVITY：{}，MAX_IDLE_TIME：{}，",
                 maxTotal, maxPerRoute, validateAfterInactivity, maxIdleTime);
-        return true;
+        invoker.invoke(params, result);
     }
 
     @Override

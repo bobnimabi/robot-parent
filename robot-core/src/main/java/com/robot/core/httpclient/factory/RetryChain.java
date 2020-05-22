@@ -1,6 +1,7 @@
 package com.robot.core.httpclient.factory;
 
 import com.netflix.http4.NFHttpMethodRetryHandler;
+import com.robot.core.chain.Invoker;
 import com.robot.core.common.CoreConsts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @Service
-public class RetryChain extends BuilderFilter<HttpClientBuilder> {
+public class RetryChain extends BuilderFilter<Object,HttpClientBuilder> {
 
     // 重试次数
     private static final int DEFAULT_RETRY_COUNT = 3;
@@ -26,15 +27,15 @@ public class RetryChain extends BuilderFilter<HttpClientBuilder> {
     private static final int DEFAULT_RETRY_period = 1000;
 
     @Override
-    public boolean dofilter(HttpClientBuilder params) throws Exception {
-        params.setRetryHandler(
+    public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
+        result.setRetryHandler(
                 new HttpRequestRetryHandler(
                         "未定义",
                         DEFAULT_RETRY_COUNT,
                         true,
                         DEFAULT_RETRY_period));
         log.info("配置->重试策略：加载完成");
-        return true;
+        invoker.invoke(params, result);
     }
 
     @Override

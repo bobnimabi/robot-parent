@@ -1,5 +1,6 @@
 package com.robot.core.httpclient.factory;
 
+import com.robot.core.chain.Invoker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -26,15 +27,22 @@ import java.security.cert.X509Certificate;
  */
 @Slf4j
 @Service
-public class SslChain extends BuilderFilter<HttpClientBuilder> {
+public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
 
+    /**
+     * 这样设置不生效，以后找原因
+     * // httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);//设置不生效，以后解决
+     * // httpClientBuilder.setSSLContext(createSSLContext());//设置不生效，以后解决
+     * @param params
+     * @param result
+     * @param invoker
+     * @throws Exception
+     */
     @Override
-    public boolean dofilter(HttpClientBuilder params) throws Exception {
-//        httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);//设置不生效，以后解决
-//        httpClientBuilder.setSSLContext(createSSLContext());//设置不生效，以后解决
-        params.setConnectionManager(SslHttpClientBuild());
+    public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
+        result.setConnectionManager(SslHttpClientBuild());
         log.info("配置：SSL验证证书策略：放行所有自签名证书");
-        return true;
+        invoker.invoke(params, result);
     }
 
     @Override

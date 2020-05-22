@@ -89,7 +89,7 @@ public class PayServer extends FunctionBase<TaskAtomDto> {
         if (moneyDTO.getIsAudit()) {
             customEntity.add("ComplexAuditCheck", "1");//综合打码量稽核  1稽核，不传不稽核
             customEntity.add("complex", moneyDTO.getPaidAmount().toString());//综合打码量（金额）
-        } else if (moneyDTO.getIsAudit()) {
+        } else {
             if (null != moneyDTO.getMultipleTransaction()) {
                 customEntity.add("ComplexAuditCheck", "1");//综合打码量稽核  1稽核，不传不稽核
                 customEntity.add("complex", MoneyUtil.formatYuan(new BigDecimal(moneyDTO.getMultipleTransaction()).multiply(moneyDTO.getPaidAmount())).toString());

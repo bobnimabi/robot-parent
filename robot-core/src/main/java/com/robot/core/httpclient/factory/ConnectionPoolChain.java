@@ -47,7 +47,7 @@ public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
 
 
     @Override
-    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
+    public boolean dofilter(HttpClientBuilder params) throws Exception {
         ConnectionPoolConfig poolConfig = poolConfigService.getPoolConfig();
         Integer maxTotal = Optional.of(poolConfig.getMaxTotal()).orElse(MAX_TOTAL);
         Integer maxPerRoute = Optional.of(poolConfig.getMaxPerRoute()).orElse(MAX_PER_ROUTE);
@@ -55,9 +55,9 @@ public class ConnectionPoolChain extends BuilderFilter<HttpClientBuilder> {
         Integer sleepTime = Optional.of(poolConfig.getSleepTime()).orElse(SLEEP_TIME);
         Integer maxIdleTime = Optional.of(poolConfig.getMaxIdleTime()).orElse(MAX_IDLE_TIME);
         // 过期和空闲连接策略
-        httpClientBuilder.evictExpiredConnections();
-        httpClientBuilder.evictIdleConnections(maxIdleTime, TimeUnit.SECONDS);
-        httpClientBuilder.setConnectionManager(createPoolingHttpClientConnectionManager(
+        params.evictExpiredConnections();
+        params.evictIdleConnections(maxIdleTime, TimeUnit.SECONDS);
+        params.setConnectionManager(createPoolingHttpClientConnectionManager(
                 maxTotal,
                 maxPerRoute,
                 validateAfterInactivity

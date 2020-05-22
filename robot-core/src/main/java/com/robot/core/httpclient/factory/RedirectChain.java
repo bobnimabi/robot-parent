@@ -17,8 +17,8 @@ public class RedirectChain extends BuilderFilter<HttpClientBuilder> {
     private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST","DELETE","PUT"};
 
     @Override
-    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
-        httpClientBuilder.setRedirectStrategy(createRedirectStrategy());
+    public boolean dofilter(HttpClientBuilder params) throws Exception {
+        params.setRedirectStrategy(createRedirectStrategy());
         log.info("配置：重定向策略：方法：{}", CUSTOM_REDIRECT_METHODS);
         return true;
     }

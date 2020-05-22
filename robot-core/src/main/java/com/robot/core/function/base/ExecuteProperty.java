@@ -3,6 +3,7 @@ package com.robot.core.function.base;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.core.task.execute.IFunctionProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class ExecuteProperty implements IFunctionProperty{
+public class ExecuteProperty implements IFunctionProperty {
 
     /**
      * 域名等级

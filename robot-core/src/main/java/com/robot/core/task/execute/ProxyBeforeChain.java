@@ -2,7 +2,6 @@ package com.robot.core.task.execute;
 
 import com.robot.code.entity.TenantRobotProxy;
 import com.robot.code.service.ITenantRobotProxyService;
-import com.robot.core.function.base.IFunctionProperty;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.util.InetAddressUtils;
@@ -22,8 +21,8 @@ public class ProxyBeforeChain extends ExecuteBeforeFilter<IFunctionProperty> {
     private ITenantRobotProxyService proxyService;
 
     @Override
-    public boolean dofilter(IFunctionProperty property) throws Exception {
-        Long robotId = property.getRobotWrapper().getId();
+    public boolean dofilter(IFunctionProperty params) throws Exception {
+        Long robotId = params.getRobotWrapper().getId();
         TenantRobotProxy proxy = proxyService.getProxy(robotId);
         if (null != proxy) {
             String ip = proxy.getProxyIp();

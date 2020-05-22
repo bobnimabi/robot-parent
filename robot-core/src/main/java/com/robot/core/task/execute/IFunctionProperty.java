@@ -1,5 +1,7 @@
-package com.robot.core.function.base;
+package com.robot.core.task.execute;
 
+import com.robot.core.function.base.IActionEnum;
+import com.robot.core.function.base.IResultParse;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.robot.manager.RobotWrapper;

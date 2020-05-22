@@ -29,10 +29,10 @@ import java.security.cert.X509Certificate;
 public class SslChain extends BuilderFilter<HttpClientBuilder> {
 
     @Override
-    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
+    public boolean dofilter(HttpClientBuilder params) throws Exception {
 //        httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);//设置不生效，以后解决
 //        httpClientBuilder.setSSLContext(createSSLContext());//设置不生效，以后解决
-        httpClientBuilder.setConnectionManager(SslHttpClientBuild());
+        params.setConnectionManager(SslHttpClientBuild());
         log.info("配置：SSL验证证书策略：放行所有自签名证书");
         return true;
     }

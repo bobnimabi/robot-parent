@@ -4,13 +4,23 @@ package com.robot.core.chain;
  * @Author mrt
  * @Date 2020/5/18 19:20
  * @Version 2.0
+ * p表示参数类型
+ * R表示结果类型
  */
-public abstract class Filter<T> {
-    public abstract boolean dofilter(T invocation) throws Exception;
+public interface Filter<P,R> {
+    /**
+     * 执行filter
+     *
+     * @param params  参数
+     * @param invoker
+     * @return
+     * @throws Exception
+     */
+    R dofilter(P params, Invoker<P, R> invoker) throws Exception;
 
-    public abstract int order();
-
-    boolean doFilterFinal(Invoker invoker, T invocation) throws Exception {
-        return dofilter(invocation) ? (null != invoker ? invoker.invoke(invocation) : true) : false;
-    }
+    /**
+     * 排序
+     * @return
+     */
+    int order();
 }

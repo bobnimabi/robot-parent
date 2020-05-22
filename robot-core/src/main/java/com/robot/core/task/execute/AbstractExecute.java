@@ -208,7 +208,7 @@ public abstract class AbstractExecute implements IExecute{
      * 1.保证机器人新登录后，分布式下所有的httpclient要全部重置
      */
     private CloseableHttpClient getHttpClient(long robotId,String idCard) {
-        CloseableHttpClient client = httpClientMap.get(robotId);
+        CloseableHttpClient client = httpClientMap.get(robotId);StringUtils
         // 首次使用Httpclient，或项目重启
         if (null == client) {
             if (lock.tryLock()) {

@@ -9,32 +9,33 @@ import java.util.List;
  * @Date 2020/5/18 19:20
  * @Version 2.0
  */
-public abstract class Invoker {
-    public abstract <T> boolean invoke(T invocation) throws Exception;
+public abstract class Invoker<P,R> {
+    public abstract R invoke(P invocation) throws Exception;
 
-    public static final Invoker buildInvokerChain(List<? extends Filter> filters) {
-        sortFilters(filters);
+    public static final <P,R>Invoker buildInvokerChain(List<? extends Filter<P,R>> filters) {
         Invoker last = null;
-        if (!filters.isEmpty())
+        if (!filters.isEmpty()) {
+            Collections.sort(filters, COMPARATOR);
             for (int i = filters.size() - 1; i >= 0; i--) {
-                final Filter filter = filters.get(i);
+                final Filter<P,R> filter = filters.get(i);
                 final Invoker next = last;
-                last = new Invoker() {
+                last = new Invoker<P,R>() {
                     @Override
-                    public <T> boolean invoke(T invocation) throws Exception {
-                        return filter.doFilterFinal(next, invocation);
+                    public R invoke(P params) throws Exception {
+                        // 思想：执行拦截方法后，使用下一个invoker调用invoke方法
+                        return filter.dofilter(params,next);
                     }
                 };
             }
+        }
         return last;
     }
 
-    private static void sortFilters(List<? extends Filter> filters) {
-        Collections.sort(filters, new Comparator<Filter>() {
-            @Override
-            public int compare(Filter o1, Filter o2) {
-                return o1.order() - o2.order();
-            }
-        });
-    }
+    private static final Comparator COMPARATOR =new Comparator<Filter>() {
+
+        @Override
+        public int compare(Filter o1, Filter o2) {
+            return o1.order() - o2.order();
+        }
+    };
 }

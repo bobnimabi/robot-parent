@@ -30,9 +30,9 @@ public class KeepAliveChain extends BuilderFilter<HttpClientBuilder> {
     private static final int DEFAULT_KEEP_ALIVE = 30;
 
     @Override
-    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
+    public boolean dofilter(HttpClientBuilder params) throws Exception {
         Integer keepAliveTimeout = Optional.of(poolConfigService.getPoolConfig().getKeepAliveTime()).orElse(DEFAULT_KEEP_ALIVE);
-        httpClientBuilder.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
+        params.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
         log.info("配置：KeepAlive策略{}", keepAliveTimeout);
         return true;
     }

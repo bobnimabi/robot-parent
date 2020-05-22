@@ -3,6 +3,7 @@ package com.robot.core.task.execute;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.request.UrlCustomEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.protocol.HttpContext;
 
@@ -28,6 +29,7 @@ public class ExecuteEntity {
      */
     private CustomHeaders headers;
 
+
     /**
      * 请求体
      */
@@ -39,8 +41,7 @@ public class ExecuteEntity {
     private HttpContext httpContext;
 
     /**
-     * 代理IP+端口
+     * RequestConfig
      */
-    private String proxyIp;
-    private Integer proxyPort;
+    private RequestConfig requestConfig;
 }

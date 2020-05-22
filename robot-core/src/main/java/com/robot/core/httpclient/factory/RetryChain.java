@@ -26,8 +26,8 @@ public class RetryChain extends BuilderFilter<HttpClientBuilder> {
     private static final int DEFAULT_RETRY_period = 1000;
 
     @Override
-    public boolean dofilter(HttpClientBuilder httpClientBuilder) throws Exception {
-        httpClientBuilder.setRetryHandler(
+    public boolean dofilter(HttpClientBuilder params) throws Exception {
+        params.setRetryHandler(
                 new HttpRequestRetryHandler(
                         "未定义",
                         DEFAULT_RETRY_COUNT,

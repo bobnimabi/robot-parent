@@ -18,4 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class HttpRequestConfigServiceImpl extends ServiceImpl<HttpRequestConfigMapper, HttpRequestConfig> implements IHttpRequestConfigService {
 
+    @Override
+    public HttpRequestConfig getConfigById(long id) {
+        HttpRequestConfig config = getById(id);
+        if (null == config) {
+            throw new IllegalArgumentException("未获取到HttpRequestConfig，id：" + id);
+        }
+        return config;
+    }
 }

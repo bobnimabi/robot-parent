@@ -7,6 +7,8 @@ import com.robot.core.task.execute.IFunctionProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @Author mrt
  * @Date 2020/5/19 19:34
@@ -17,13 +19,15 @@ import lombok.Data;
 public class ExecuteProperty implements IFunctionProperty {
 
     /**
-     * 域名等级
+     * 域名等级,默认：1
      */
+    @NotNull
     private int rank;
 
     /**
      * 动作
      */
+    @NotNull
     private IActionEnum action;
 
     /**
@@ -37,18 +41,21 @@ public class ExecuteProperty implements IFunctionProperty {
     private ICustomEntity entity;
 
     /**
-     * 是否检查掉线
+     * 是否检查掉线，默认：true
      */
+    @NotNull
     private boolean isCheckLost;
 
     /**
      * ResultParse
      */
+    @NotNull
     private IResultParse resultParse;
 
     /**
      * 机器人包装类
      */
+    @NotNull
     private RobotWrapper robotWrapper;
 
 }

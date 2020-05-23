@@ -8,6 +8,6 @@ import com.robot.core.chain.Filter;
  * @Date 2020/5/19 12:12
  * @Version 2.0
  */
-public abstract class ExecuteAfterFilter<T> extends Filter<T> {
+public abstract class ExecuteAfterFilter<P,R> implements Filter<P,R> {
 
 }

@@ -13,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-05-18
  */
 public interface IHttpRequestConfigService extends IService<HttpRequestConfig> {
+    HttpRequestConfig getConfigById(long id);
+
 
 }

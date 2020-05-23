@@ -33,7 +33,6 @@ public abstract class Invoker<P,R> {
                 last = new Invoker<P,R>() {
                     @Override
                     public void invoke(P params,R result) throws Exception {
-                        // 思想：执行拦截方法后，使用下一个invoker调用invoke方法
                         filter.dofilter(params, result, next);
                     }
                 };

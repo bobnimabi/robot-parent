@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,11 @@ public class UrlCustomEntity implements ICustomEntity<String, String> {
         }
         entity.add(new BasicNameValuePair(key, value));
         return this;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return CollectionUtils.isEmpty(entity);
     }
 
     public static UrlCustomEntity custom(int size) {

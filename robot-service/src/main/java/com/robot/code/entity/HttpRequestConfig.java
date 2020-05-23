@@ -37,16 +37,6 @@ public class HttpRequestConfig implements Serializable {
     private Boolean isRetry;
 
     /**
-     * 重试次数
-     */
-    private Integer retryNum;
-
-    /**
-     * 重试间隔秒数
-     */
-    private Integer retrySecond;
-
-    /**
      * 从连接池获取连接超时，单位：秒
      */
     private Integer connectRequestTimeout;

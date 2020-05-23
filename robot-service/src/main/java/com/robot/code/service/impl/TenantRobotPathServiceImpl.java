@@ -24,7 +24,7 @@ public class TenantRobotPathServiceImpl extends ServiceImpl<TenantRobotPathMappe
                 .eq(TenantRobotPath::getActionCode, actionCode)
                 .eq(TenantRobotPath::getRank, rank));
         if (null == one) {
-            throw new IllegalStateException("未获取到Path");
+            throw new IllegalStateException("未获取到Path,actionCode:" + actionCode + " rank:" + rank);
         }
         return one;
     }

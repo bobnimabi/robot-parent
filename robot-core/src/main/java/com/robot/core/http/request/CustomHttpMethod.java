@@ -6,5 +6,6 @@ package com.robot.core.http.request;
 public enum CustomHttpMethod {
     POST_JSON,
     POST_FORM,
+    POST_FILE,
     GET;
 }

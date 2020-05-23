@@ -1,19 +1,17 @@
 package com.robot.core.task.execute;
 
 import com.alibaba.fastjson.JSON;
-import com.robot.core.http.request.CustomHeaders;
-import com.robot.core.http.request.JsonCustomEntity;
-import com.robot.core.http.request.UrlCustomEntity;
+import com.robot.core.http.request.*;
 import com.robot.core.http.response.StanderHttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -38,104 +36,92 @@ import java.util.List;
 @Slf4j
 public class HttpClientExector {
 	/**
-	 * get请求
-	 * @param httpClient
-	 * @param url
-	 * @param customEntity
-	 * @param headers
+	 * 请求实体
+	 * @param exe
 	 * @return
+	 * @throws IOException
+	 * @throws URISyntaxException
 	 */
-	public static StanderHttpResponse get(
-			CloseableHttpClient httpClient,
-			String url,
-			UrlCustomEntity customEntity,
-			CustomHeaders headers,
-			HttpContext httpContext,
-			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException, URISyntaxException {
+	public static StanderHttpResponse execute(ExecuteProperty exe) throws IOException, URISyntaxException {
 		StanderHttpResponse result = null;
-		HttpGet httpGet = new HttpGet(url);
+		HttpRequestBase httpRequestBase = null;
 		try {
-			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
-				String encodeUrl = URLEncodedUtils.format(customEntity.getEntity(), StandardCharsets.UTF_8);
-				httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpGet.getURI().toString() + "?" + encodeUrl));
-			}
-			setHeaders(httpGet, headers);
-			result = httpClient.execute(httpGet, responseHandler, httpContext);
+			// 请求体+URL
+			httpRequestBase = setEntity(exe.getMethod(), exe.getUrl(), exe.getCustomEntity());
+			// 请求头
+			setHeaders(httpRequestBase, exe.getHeaders());
+			// 请求配置
+			httpRequestBase.setConfig(exe.getRequestConfig().build());
+			// 执行
+			result = exe.getHttpClient().execute(httpRequestBase, exe.getResponseHandler(), exe.getHttpContext());
 		} catch (Exception e) {
-			httpGet.abort();
+			httpRequestBase.abort();
 			throw e;
 		}
 		return result;
 	}
 
 	/**
-	 * post请求表单形式
-	 * @param httpClient
-	 * @param url
-	 * @param customEntity
-	 * @param headers
+	 * 组装请求对象
+	 * @param method 请求方法
+	 * @param url 请求Url
+	 * @param customEntity 请求体
 	 * @return
+	 * @throws URISyntaxException
 	 */
-	public static StanderHttpResponse postForm(
-			CloseableHttpClient httpClient,
-			String url,
-			UrlCustomEntity customEntity,
-			CustomHeaders headers,
-			HttpContext httpContext,
-			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException {
-		StanderHttpResponse result = null;
-		HttpPost httpPost = new HttpPost(url);
-		httpPost.setConfig(RequestConfig.custom().setRedirectsEnabled(true).setRelativeRedirectsAllowed(false).build());
-		try {
-			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
-				HttpEntity entity = new UrlEncodedFormEntity(customEntity.getEntity(), StandardCharsets.UTF_8);
-				httpPost.setEntity(entity);
+	private static HttpRequestBase setEntity(CustomHttpMethod method, URI url, ICustomEntity customEntity) throws URISyntaxException {
+		switch (method) {
+			case GET:{
+				HttpGet httpGet = new HttpGet(url);
+				if (null != customEntity && !customEntity.isEmpty()) {
+					UrlCustomEntity urlCustomEntity = (UrlCustomEntity) customEntity;
+					String encodeUrl = URLEncodedUtils.format(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
+					httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpRequestBase.getURI().toString() + "?" + encodeUrl));
+					return httpGet;
+				}
 			}
-			setHeaders(httpPost, headers);
-			result = httpClient.execute(httpPost, responseHandler, httpContext);
-		} catch (Exception e) {
-			httpPost.abort();
-			throw e;
+			case POST_FORM:{
+				HttpPost httpPost = new HttpPost(url);
+				if (null != customEntity && !customEntity.isEmpty()) {
+					UrlCustomEntity urlCustomEntity = (UrlCustomEntity)customEntity;
+					HttpEntity entity = new UrlEncodedFormEntity(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
+					httpPost.setEntity(entity);
+					return httpPost;
+				}
+			}
+			case POST_JSON:{
+				HttpPost httpPost = new HttpPost(url);
+				if (null != customEntity && !customEntity.isEmpty()) {
+					JsonCustomEntity jsonEntity = (JsonCustomEntity) customEntity;
+					StringEntity entity = new StringEntity(JSON.toJSONString(jsonEntity.getEntity()), ContentType.APPLICATION_JSON);
+					httpPost.setEntity(entity);
+					return httpPost;
+				}
+			}
+			default:
+				throw new IllegalArgumentException("Method越界");
 		}
-		return result;
 	}
 
 	/**
-	 * post 请求JSON格式
-	 *
-	 * @param httpClient
-	 * @param url
-	 * @param customEntity
-	 * @param headers
-	 * @return
+	 * 头信息设置
+	 * @param method 请求方法
+	 * @param headers 头信息
+	 * 注意：这里反向填充头的目的是：让接口特殊头覆盖全局头（当同时存在某个头时候）
 	 */
-	public static StanderHttpResponse postJson(
-			CloseableHttpClient httpClient,
-			String url,
-			JsonCustomEntity customEntity,
-			CustomHeaders headers,
-			HttpContext httpContext,
-			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException {
-
-		StanderHttpResponse result = null;
-		HttpPost httpPost = new HttpPost(url);
-		try {
-			if (null != customEntity && !CollectionUtils.isEmpty(customEntity.getEntity())) {
-				StringEntity entity = new StringEntity(JSON.toJSONString(customEntity.getEntity()), ContentType.APPLICATION_JSON);
-				httpPost.setEntity(entity);
+	private static void setHeaders(HttpMessage method, CustomHeaders headers) {
+		if (null != headers && !CollectionUtils.isEmpty(headers.getHeaders())) {
+			List<Header> headersList = headers.getHeaders();
+			for (int i = headersList.size() - 1; i >= 0; i--) {
+				method.setHeader(headersList.get(i));
 			}
-			setHeaders(httpPost, headers);
-			result = (StanderHttpResponse) httpClient.execute(httpPost, responseHandler, httpContext);
-		} catch (Exception e) {
-			httpPost.abort();
-			throw e;
 		}
-		return result;
 	}
+
 
 	/**
 	 * post请求文件上传
-	 *
+	 * （暂时先放着，不用）
 	 * @param httpClient
 	 * @param url
 	 * @param filePath
@@ -174,20 +160,5 @@ public class HttpClientExector {
 			throw e;
 		}
 		return result;
-	}
-
-	/**
-	 * 头信息设置
-	 * @param method 请求方法
-	 * @param headers 头信息
-	 * 注意：这里反向填充头的目的是：让接口特殊头覆盖全局头（当同时存在某个头时候）
-	 */
-	private static void setHeaders(HttpMessage method, CustomHeaders headers) {
-		if (null != headers && !CollectionUtils.isEmpty(headers.getHeaders())) {
-			List<Header> headersList = headers.getHeaders();
-			for (int i = headersList.size() - 1; i >= 0; i--) {
-				method.setHeader(headersList.get(i));
-			}
-		}
 	}
 }

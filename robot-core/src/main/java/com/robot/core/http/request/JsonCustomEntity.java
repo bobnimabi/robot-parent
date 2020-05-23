@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,11 @@ public class JsonCustomEntity implements ICustomEntity<String, Object> {
         }
         entity.put(key, value);
         return this;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return CollectionUtils.isEmpty(entity);
     }
 
     public static JsonCustomEntity custom(int size) {

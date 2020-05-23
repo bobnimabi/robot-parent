@@ -14,5 +14,11 @@ public interface ICustomEntity<k,v> {
      */
     ICustomEntity add(k key, v value);
 
+    /**
+     * 判断是否为空
+     * @return
+     */
+    boolean isEmpty();
+
     String toString();
 }

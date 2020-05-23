@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @AllArgsConstructor
-public class ExecuteProperty implements IFunctionProperty {
+public class FunctionProperty implements IFunctionProperty {
 
     /**
      * 域名等级,默认：1
@@ -44,7 +44,7 @@ public class ExecuteProperty implements IFunctionProperty {
      * 是否检查掉线，默认：true
      */
     @NotNull
-    private boolean isCheckLost;
+    private ICheckLost checkLost;
 
     /**
      * ResultParse

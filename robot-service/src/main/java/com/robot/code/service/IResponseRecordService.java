@@ -22,7 +22,7 @@ public interface IResponseRecordService extends IService<ResponseRecord> {
      * @Charset charset       编码集
      * @param parsedJson      转换过的JSON
      */
-    void addResponseRecord(long requestRecordId, String html, Charset charset, String parsedJson);
+    void addResponseRecord(long requestRecordId, Object html, String parsedJson);
 
 
 }

@@ -11,10 +11,12 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 /**
@@ -34,11 +36,12 @@ public class ResponseRecordServiceImpl extends ServiceImpl<ResponseRecordMapper,
 
     @Async
     @Override
-    public void addResponseRecord(long requestRecordId, String html, Charset charset, String parsedJson) {
+    public void addResponseRecord(long requestRecordId, Object html, String parsedJson) {
         long id = IdWorker.getId();
         String htmlPath = "";
+        String content = html instanceof String ? (String) html : Base64Utils.encodeToString((byte[]) html);
         if (!StringUtils.isEmpty(html)) {
-            htmlPath = saveHtml2Text(id, html, charset);
+            htmlPath = saveHtml2Text(id, content, StandardCharsets.UTF_8);
         }
         ResponseRecord responseRecord = new ResponseRecord();
         responseRecord.setId(id);

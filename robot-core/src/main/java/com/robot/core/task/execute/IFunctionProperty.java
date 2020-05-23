@@ -1,6 +1,7 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.function.base.IActionEnum;
+import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IResultParse;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
@@ -42,7 +43,7 @@ public interface IFunctionProperty {
      * 是否检查掉线
      * @return
      */
-    boolean isCheckLost();
+    ICheckLost getCheckLost();
 
     /**
      * 获取ResultParse
@@ -54,4 +55,9 @@ public interface IFunctionProperty {
      * 机器人包装类
      */
     RobotWrapper getRobotWrapper();
+
+    /**
+     * 获取外部订单号
+     */
+    String getOutNo();
 }

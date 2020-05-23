@@ -47,7 +47,7 @@ public class HttpClientExector {
 		HttpRequestBase httpRequestBase = null;
 		try {
 			// 请求体+URL
-			httpRequestBase = setEntity(exe.getMethod(), exe.getUrl(), exe.getCustomEntity());
+			httpRequestBase = setEntity(exe.getMethod(), exe.getUrl(), exe.getCustomEntity(), exe.getFilePath(), exe.getFileName());
 			// 请求头
 			setHeaders(httpRequestBase, exe.getHeaders());
 			// 请求配置
@@ -62,42 +62,64 @@ public class HttpClientExector {
 	}
 
 	/**
-	 * 组装请求对象
+	 * 组装请求体
 	 * @param method 请求方法
-	 * @param url 请求Url
-	 * @param customEntity 请求体
+	 * @param url 请求URL
+	 * @param entity 请求体
+	 * @param filePath 上传文件时使用
+	 * @param fileName 上传文件时使用
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	private static HttpRequestBase setEntity(CustomHttpMethod method, URI url, ICustomEntity customEntity) throws URISyntaxException {
+	private static HttpRequestBase setEntity(HttpMethodEnum method, URI url, ICustomEntity entity, String filePath, String fileName) throws URISyntaxException {
+
 		switch (method) {
-			case GET:{
+			case GET: {
 				HttpGet httpGet = new HttpGet(url);
-				if (null != customEntity && !customEntity.isEmpty()) {
-					UrlCustomEntity urlCustomEntity = (UrlCustomEntity) customEntity;
+				if (null != entity && !entity.isEmpty()) {
+					UrlEntity urlCustomEntity = (UrlEntity) entity;
 					String encodeUrl = URLEncodedUtils.format(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
-					httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpRequestBase.getURI().toString() + "?" + encodeUrl));
+					httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpGet.getURI().toString() + "?" + encodeUrl));
 					return httpGet;
 				}
 			}
-			case POST_FORM:{
+			case POST_FORM: {
 				HttpPost httpPost = new HttpPost(url);
-				if (null != customEntity && !customEntity.isEmpty()) {
-					UrlCustomEntity urlCustomEntity = (UrlCustomEntity)customEntity;
-					HttpEntity entity = new UrlEncodedFormEntity(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
-					httpPost.setEntity(entity);
+				if (null != entity && !entity.isEmpty()) {
+					UrlEntity urlCustomEntity = (UrlEntity) entity;
+					HttpEntity httpEntity = new UrlEncodedFormEntity(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
+					httpPost.setEntity(httpEntity);
 					return httpPost;
 				}
 			}
-			case POST_JSON:{
+			case POST_JSON: {
 				HttpPost httpPost = new HttpPost(url);
-				if (null != customEntity && !customEntity.isEmpty()) {
-					JsonCustomEntity jsonEntity = (JsonCustomEntity) customEntity;
-					StringEntity entity = new StringEntity(JSON.toJSONString(jsonEntity.getEntity()), ContentType.APPLICATION_JSON);
-					httpPost.setEntity(entity);
+				if (null != entity && !entity.isEmpty()) {
+					JsonEntity jsonEntity = (JsonEntity) entity;
+					StringEntity stringEntity = new StringEntity(JSON.toJSONString(jsonEntity.getEntity()), ContentType.APPLICATION_JSON);
+					httpPost.setEntity(stringEntity);
 					return httpPost;
 				}
 			}
+			case POST_FILE:{
+				File file = new File(filePath);
+				if (!(file.exists() && file.isFile())) {
+					throw new RuntimeException("file : file is null");
+				}
+				HttpPost httpPost = new HttpPost(url);
+				MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+				builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+				builder.addBinaryBody(fileName, file, ContentType.DEFAULT_BINARY, file.getName());
+				UrlEntity urlEntity = (UrlEntity) entity;
+				if (CollectionUtils.isEmpty(urlEntity.getEntity())) {
+					urlEntity.getEntity().forEach(o -> {
+						builder.addTextBody(o.getName(), o.getName(), ContentType.TEXT_PLAIN.withCharset(StandardCharsets.UTF_8));
+					});
+				}
+				httpPost.setEntity(builder.build());
+				return httpPost;
+			}
+
 			default:
 				throw new IllegalArgumentException("Method越界");
 		}
@@ -116,49 +138,5 @@ public class HttpClientExector {
 				method.setHeader(headersList.get(i));
 			}
 		}
-	}
-
-
-	/**
-	 * post请求文件上传
-	 * （暂时先放着，不用）
-	 * @param httpClient
-	 * @param url
-	 * @param filePath
-	 * @param fileName
-	 * @param customeEntity
-	 * @return
-	 */
-	public static StanderHttpResponse uploadFile(
-			CloseableHttpClient httpClient,
-			String url,
-			String filePath,
-			String fileName,
-			UrlCustomEntity customeEntity,
-			HttpContext httpContext,
-			ResponseHandler<StanderHttpResponse> responseHandler) throws IOException {
-		File file = new File(filePath);
-		if (!(file.exists() && file.isFile())) {
-			throw new RuntimeException("file : file is null");
-		}
-		StanderHttpResponse result = null;
-		HttpPost httpPost = new HttpPost(url);
-		try {
-			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-			builder.addBinaryBody(fileName, file, ContentType.DEFAULT_BINARY, file.getName());
-			if (CollectionUtils.isEmpty(customeEntity.getEntity())) {
-				customeEntity.getEntity().forEach(o -> {
-					builder.addTextBody(o.getName(), o.getName(), ContentType.TEXT_PLAIN.withCharset(StandardCharsets.UTF_8));
-				});
-			}
-			HttpEntity requestEntity = builder.build();
-			httpPost.setEntity(requestEntity);
-			result =  httpClient.execute(httpPost, responseHandler, httpContext);
-		} catch (Exception e) {
-			httpPost.abort();
-			throw e;
-		}
-		return result;
 	}
 }

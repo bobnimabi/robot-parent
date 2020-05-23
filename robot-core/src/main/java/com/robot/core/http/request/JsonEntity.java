@@ -4,39 +4,33 @@ import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by mrt on 10/17/2019 6:58 PM
- * 调用
- * HttpClientHelper#get()
- * HttpClientHelper#postForm()
- * HttpClientHelper#uploadFile()
- * 方法的时候用
- * 注意：url的key是可以重复的
+ * 调用HttpClientHelper#PostJson()方法的时候用
+ * 注意：正常条件下，json的key是不允许重复的
  */
 @Data
 @Slf4j
-public class UrlCustomEntity implements ICustomEntity<String, String> {
+public class JsonEntity implements ICustomEntity<String, Object> {
 
-    private List<NameValuePair> entity;
+    private Map<String, Object> entity;
 
-    private UrlCustomEntity(int size) {
-        entity = new ArrayList<>(size);
+    private JsonEntity(int size) {
+        entity = new HashMap<String, Object>(size);
     }
 
     @Override
-    public UrlCustomEntity add(String key, String value) {
+    public ICustomEntity add(String key, Object value) {
         if (StringUtils.isBlank(key)) {
             log.error("dictKey:{}，dictValue:{} 新增Entity：dictKey-dictValue 有空值,不予添加", key, value);
             return this;
         }
-        entity.add(new BasicNameValuePair(key, value));
+        entity.put(key, value);
         return this;
     }
 
@@ -45,8 +39,8 @@ public class UrlCustomEntity implements ICustomEntity<String, String> {
         return CollectionUtils.isEmpty(entity);
     }
 
-    public static UrlCustomEntity custom(int size) {
-        return new UrlCustomEntity(size);
+    public static JsonEntity custom(int size) {
+        return new JsonEntity(size);
     }
 
     @Override

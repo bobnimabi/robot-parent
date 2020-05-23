@@ -29,7 +29,7 @@ public abstract class AbstractFunction<T, E> implements IFunction<T, E> {
 
     @Override
     public Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        IFunctionProperty property = new ExecuteProperty(getRank(), getAction(), getHeaders(robotWrapper)
+        IFunctionProperty property = new FunctionProperty(getRank(), getAction(), getHeaders(robotWrapper)
                 , getEntity(paramWrapper), isCheckLost(), getResultParse(), robotWrapper);
         StanderHttpResponse<Object,E> standerHttpResponse = iExecute.request(property);
         return standerHttpResponse.getResponse();

@@ -32,6 +32,7 @@ public class BeforeHeaderChain extends ExecuteBeforeFilter<IFunctionProperty, Ex
             Assert.hasText(head.getHeadValue(), "执行前拦截：头信息:headValue为空");
             headers.add(head.getHeadName(), head.getHeadValue());
         }
+        result.setCustomEntity(params.getEntity());
 
         invoker.invoke(params, result);
     }

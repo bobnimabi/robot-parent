@@ -26,9 +26,10 @@ public interface IRequestRecordService extends IService<RequestRecord> {
     /**
      * 更新流水
      * @param id
-     * @param status
+     * @param isSuccess
+     * @param error
      */
-    void updateRequestRecord(long id,Integer status);
+    void updateRequestRecord(long id,boolean isSuccess,String error);
 
 
 

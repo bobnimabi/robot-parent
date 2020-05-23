@@ -21,6 +21,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class RequestRecordServiceImpl extends ServiceImpl<RequestRecordMapper, RequestRecord> implements IRequestRecordService {
 
+    // 1发送中
+    private static final int SENDING = 1;
+    // 2响应成功
+    private static final int SUCCESS = 2;
+    // -1响应失败
+    private static final int FAILURE = -1;
+
+
     @Override
     public long addRequestRecord(long robotId, String actionCode, String externalOrderNo, String reqInfo) {
         long idStr = IdWorker.getId();
@@ -39,13 +47,14 @@ public class RequestRecordServiceImpl extends ServiceImpl<RequestRecordMapper, R
 
     @Async
     @Override
-    public void updateRequestRecord(long id, Integer status) {
+    public void updateRequestRecord(long id, boolean isSuccess,String error) {
         RequestRecord record = new RequestRecord();
         record.setId(id);
-        record.setStatus(status);
+        record.setStatus(isSuccess ? SUCCESS : FAILURE);
+        record.setError(error);
         boolean isUpdate = updateById(record);
         if (!isUpdate) {
-            throw new IllegalArgumentException("请求流水更新失败,id：" + id + ",status:" + status);
+            throw new IllegalArgumentException("请求流水更新失败,id：" + id + ",isSuccess:" + isSuccess);
         }
     }
 }

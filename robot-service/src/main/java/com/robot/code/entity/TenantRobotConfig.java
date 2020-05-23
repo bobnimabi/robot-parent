@@ -27,24 +27,9 @@ public class TenantRobotConfig implements Serializable {
     private Long id;
 
     /**
-     * 租户id
-     */
-    private Long tenantId;
-
-    /**
-     * 包网平台的id （机器人用于）tenant_channel表的id
-     */
-    private Long channelId;
-
-    /**
      * 所属平台的id  tenant_platform表的id
      */
     private Long platformId;
-
-    /**
-     * 功能：1.活动  2.出款  3.入款
-     */
-    private Integer functionCode;
 
     /**
      * 是否有效 1有效  0无效

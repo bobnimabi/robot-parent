@@ -1,6 +1,7 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.robot.manager.RobotWrapper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.http.impl.client.CloseableHttpClient;
 
@@ -10,6 +11,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
  * @Version 2.0
  */
 @Data
+@AllArgsConstructor
 public class HttpClientWrapper {
     /**
      * httpclient

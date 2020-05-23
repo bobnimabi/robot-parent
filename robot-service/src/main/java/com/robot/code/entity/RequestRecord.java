@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2020-05-18
+ * @since 2020-05-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -47,6 +47,11 @@ public class RequestRecord implements Serializable {
      * 请求信息
      */
     private String reqInfo;
+
+    /**
+     * 失败原因
+     */
+    private String error;
 
     /**
      * 是否有效 1有效  0无效

@@ -58,4 +58,16 @@ public class FunctionProperty implements IFunctionProperty {
     @NotNull
     private RobotWrapper robotWrapper;
 
+    /**
+     * 外部订单号
+     */
+    private String outNo;
+
+    /**
+     * 流水id
+     */
+    @NotNull
+    private long recordId;
+
+
 }

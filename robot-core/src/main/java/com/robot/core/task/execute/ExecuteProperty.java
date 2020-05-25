@@ -59,7 +59,7 @@ public class ExecuteProperty {
      * 请求配置
      * 代理、重定向、connectionRequestTimeout、connectTimeout、socketTimeout
      */
-    private RequestConfig.Builder requestConfig = RequestConfig.custom();
+    private RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
 
     /**
      * 特殊：文件上传专用

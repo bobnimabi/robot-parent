@@ -14,22 +14,23 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IRequestRecordService extends IService<RequestRecord> {
     /**
      * 增加流水
+     * @param recordId
      * @param robotId
      * @param actionCode
      * @param externalOrderNo
      * @param reqInfo
      * @return 流水Id
      */
-    long addRequestRecord(long robotId,String actionCode,String externalOrderNo,String reqInfo);
+    void addRequestRecord(long recordId, long robotId, String actionCode, String externalOrderNo, String reqInfo);
 
 
     /**
      * 更新流水
-     * @param id
+     * @param recordId
      * @param isSuccess
      * @param error
      */
-    void updateRequestRecord(long id,boolean isSuccess,String error);
+    void updateRequestRecord(long recordId,boolean isSuccess,String error);
 
 
 

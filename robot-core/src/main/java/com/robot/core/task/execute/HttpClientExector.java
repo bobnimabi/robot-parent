@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -17,8 +16,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.protocol.HttpContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -51,7 +48,7 @@ public class HttpClientExector {
 			// 请求头
 			setHeaders(httpRequestBase, exe.getHeaders());
 			// 请求配置
-			httpRequestBase.setConfig(exe.getRequestConfig().build());
+			httpRequestBase.setConfig(exe.getRequestConfigBuilder().build());
 			// 执行
 			result = exe.getHttpClient().execute(httpRequestBase, exe.getResponseHandler(), exe.getHttpContext());
 		} catch (Exception e) {

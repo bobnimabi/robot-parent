@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 设置URL
+ * 设置HttpClient
  * @Author mrt
  * @Date 2020/5/20 13:37
  * @Version 2.0
@@ -40,10 +40,9 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
     @Override
     public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
         RobotWrapper robotWrapper = params.getRobotWrapper();
-        long robotId = robotWrapper.getId();
-        String idCard = robotWrapper.getIdCard();
-        CloseableHttpClient httpClient = getHttpClient(robotId, idCard);
+        CloseableHttpClient httpClient = getHttpClient(robotWrapper.getId(), robotWrapper.getIdCard());
         result.setHttpClient(httpClient);
+
         invoker.invoke(params, result);
     }
 

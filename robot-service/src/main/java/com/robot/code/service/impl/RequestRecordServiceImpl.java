@@ -30,10 +30,9 @@ public class RequestRecordServiceImpl extends ServiceImpl<RequestRecordMapper, R
 
 
     @Override
-    public long addRequestRecord(long robotId, String actionCode, String externalOrderNo, String reqInfo) {
-        long idStr = IdWorker.getId();
+    public void addRequestRecord(long recordId, long robotId, String actionCode, String externalOrderNo, String reqInfo) {
         RequestRecord record = new RequestRecord();
-        record.setId(idStr);
+        record.setId(recordId);
         record.setRobotId(robotId);
         record.setActionCode(actionCode);
         record.setExternalOrderNo(externalOrderNo);
@@ -42,19 +41,18 @@ public class RequestRecordServiceImpl extends ServiceImpl<RequestRecordMapper, R
         if (!isSave) {
             throw new IllegalArgumentException("请求流水添加失败,{}" + reqInfo);
         }
-        return idStr;
     }
 
     @Async
     @Override
-    public void updateRequestRecord(long id, boolean isSuccess,String error) {
+    public void updateRequestRecord(long recordId, boolean isSuccess, String error) {
         RequestRecord record = new RequestRecord();
-        record.setId(id);
+        record.setId(recordId);
         record.setStatus(isSuccess ? SUCCESS : FAILURE);
         record.setError(error);
         boolean isUpdate = updateById(record);
         if (!isUpdate) {
-            throw new IllegalArgumentException("请求流水更新失败,id：" + id + ",isSuccess:" + isSuccess);
+            throw new IllegalArgumentException("请求流水更新失败,id：" + recordId + ",isSuccess:" + isSuccess);
         }
     }
 }

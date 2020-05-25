@@ -19,7 +19,7 @@ import java.util.List;
  * @Version 2.0
  */
 @Service
-public class AfterCheckChain extends ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty> {
+public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty> {
 
     // TODO 进入机器人管理
 
@@ -37,6 +37,6 @@ public class AfterCheckChain extends ExecuteAfterFilter<StanderHttpResponse,IFun
 
     @Override
     public int order() {
-        return 1;
+        return 3;
     }
 }

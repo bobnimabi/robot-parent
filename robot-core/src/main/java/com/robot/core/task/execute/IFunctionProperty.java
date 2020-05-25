@@ -60,4 +60,9 @@ public interface IFunctionProperty {
      * 获取外部订单号
      */
     String getOutNo();
+
+    /**
+     * 流水id
+     */
+    long getRecordId();
 }

@@ -7,6 +7,7 @@ import com.robot.code.service.ITenantRobotDomainService;
 import com.robot.code.service.ITenantRobotHeadService;
 import com.robot.code.service.ITenantRobotPathService;
 import com.robot.core.chain.Invoker;
+import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.HttpMethodEnum;
 import org.apache.http.client.protocol.HttpClientContext;

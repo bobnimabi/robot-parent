@@ -1,23 +1,15 @@
 package com.robot.core.task.execute;
 
-import com.robot.code.entity.TenantRobotDomain;
-import com.robot.code.entity.TenantRobotPath;
-import com.robot.code.service.IHttpRequestConfigService;
-import com.robot.code.service.ITenantRobotDomainService;
-import com.robot.code.service.ITenantRobotPathService;
 import com.robot.core.chain.Invoker;
+import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.httpclient.factory.IHttpClientFactory;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-import sun.security.provider.MD5;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;

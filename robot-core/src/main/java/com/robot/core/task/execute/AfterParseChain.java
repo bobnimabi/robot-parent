@@ -1,7 +1,7 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.ICheckLost;
+import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.function.base.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Version 2.0
  */
 @Service
-public class AfterParseChain extends ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty> {
+public class AfterParseChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
 
     @Override
     public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {

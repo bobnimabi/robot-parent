@@ -8,6 +8,7 @@ import com.robot.code.service.ITenantRobotPathService;
 import com.robot.code.service.ITenantRobotProxyService;
 import com.robot.core.chain.Invoker;
 import com.robot.core.common.CoreConsts;
+import com.robot.core.function.base.IFunctionProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;

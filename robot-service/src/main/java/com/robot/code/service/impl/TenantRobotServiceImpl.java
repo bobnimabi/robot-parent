@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapper, TenantRobot> implements ITenantRobotService {
+
     @Autowired
     private ITenantChannelService channelService;
 

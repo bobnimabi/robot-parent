@@ -1,16 +1,10 @@
 package com.robot.core.task.execute;
 
-import com.robot.code.entity.TenantRobotHead;
-import com.robot.code.service.ITenantRobotHeadService;
 import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.ICheckLost;
-import com.robot.core.http.request.CustomHeaders;
+import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
-import java.util.List;
 
 /**
  * 掉线检查
@@ -19,7 +13,7 @@ import java.util.List;
  * @Version 2.0
  */
 @Service
-public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty> {
+public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
 
     // TODO 进入机器人管理
 

@@ -1,23 +1,12 @@
 package com.robot.core.task.execute;
 
 import com.alibaba.fastjson.JSON;
-import com.robot.code.entity.HttpRequestConfig;
-import com.robot.code.entity.TenantRobotPath;
-import com.robot.code.entity.TenantRobotProxy;
-import com.robot.code.service.IHttpRequestConfigService;
 import com.robot.code.service.IRequestRecordService;
-import com.robot.code.service.ITenantRobotPathService;
-import com.robot.code.service.ITenantRobotProxyService;
 import com.robot.core.chain.Invoker;
-import com.robot.core.common.CoreConsts;
+import com.robot.core.function.base.IFunctionProperty;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.conn.util.InetAddressUtils;
-import org.apache.http.protocol.HttpContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * 请求日志记录

@@ -3,7 +3,6 @@ package com.robot.core.function.base;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.core.task.execute.IFunctionProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

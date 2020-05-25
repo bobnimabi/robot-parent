@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.robot.code.service.IRequestRecordService;
 import com.robot.code.service.IResponseRecordService;
 import com.robot.core.chain.Invoker;
+import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.function.base.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @Version 2.0
  */
 @Service
-public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty> {
+public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
     @Autowired
     private IRequestRecordService requestRecordService;
 

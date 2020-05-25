@@ -6,7 +6,6 @@ import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.core.task.execute.IExecute;
-import com.robot.core.task.execute.IFunctionProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;

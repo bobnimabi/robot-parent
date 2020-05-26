@@ -1,5 +1,6 @@
 package com.robot.core.robot.manager;
 
+import com.alibaba.fastjson.JSON;
 import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +34,12 @@ public class CloudTokenQueue implements ICloudTokenQueue {
     @Override
     public Token popToken() {
         Token token = redis.opsForList().rightPop(tokenQueueKey());
-        boolean isTokenValid = isTokenValid(token);
-        return isTokenValid ? token : null;
+        return isTokenValid(token) ? token : null;
     }
 
     @Override
     public boolean pushToken(Token token) {
-        boolean isTokenValid = isTokenValid(token);
-        if (isTokenValid) {
-            Long aLong = redis.opsForList().leftPush(tokenQueueKey(), token);
-            return aLong > 0;
-        }
-        return false;
+        return isTokenValid(token) ? redis.opsForList().leftPush(tokenQueueKey(), token) > 0 : false;
     }
 
     private boolean isTokenValid(Token token) {
@@ -56,7 +51,7 @@ public class CloudTokenQueue implements ICloudTokenQueue {
                 && token.getIdCard().equalsIgnoreCase(idCard);
 
         if (!isValid) {
-            log.info("CloudTokenQueue：无效TOKEN， 即将销毁...");
+            log.info("CloudTokenQueue：无效TOKEN，即将销毁，TOKEN:{},cloudIdCard:{}", JSON.toJSONString(token), idCard);
         } else {
             this.expireFlush();
         }
@@ -64,7 +59,11 @@ public class CloudTokenQueue implements ICloudTokenQueue {
     }
 
     private void expireFlush() {
-        redis.expire(this.tokenQueueKey(), EXPIRE_DAYS, TimeUnit.DAYS);
+        String key = this.tokenQueueKey();
+        Boolean isExpire = redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS);
+        if (!isExpire) {
+            log.error("CloudTokenQueue:刷新过期时间失败：key：{}", key);
+        }
     }
 
     private String tokenQueueKey() {

@@ -1,9 +1,8 @@
 package com.robot.center.mq;
 
-import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.ThreadLocalUtils;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,8 @@ public class MqSenter {
     private RabbitTemplate rabbitTemplate;
 
     public void sendMessage(String exchange, String route, ResponseResult responseResult) {
-        ThreadLocalUtils.setTenantId(RobotThreadLocalUtils.getTenantId());
-        ThreadLocalUtils.setChannelId(RobotThreadLocalUtils.getChannelId());
+        ThreadLocalUtils.setTenantId(TContext.getTenantId());
+        ThreadLocalUtils.setChannelId(TContext.getChannelId());
         try {
             rabbitTemplate.convertAndSend(exchange, route, responseResult);
         }finally {

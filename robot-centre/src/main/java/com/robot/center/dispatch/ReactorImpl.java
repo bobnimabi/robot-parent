@@ -5,7 +5,7 @@ import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.IFunction;
 import com.robot.center.pool.RobotManager;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.code.service.ITenantRobotActionService;
 import lombok.extern.slf4j.Slf4j;
@@ -94,7 +94,7 @@ public class ReactorImpl implements Reactor {
                     } catch (Exception e) {
                         log.info("循环执行异常", e);
                     } finally {
-                        RobotThreadLocalUtils.clean();
+                        TContext.clean();
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
@@ -106,13 +106,13 @@ public class ReactorImpl implements Reactor {
     }
 
     private void handTenant(RegisterBody registerBody) {
-        RobotThreadLocalUtils.setTenantId(registerBody.getTenantId());
-        RobotThreadLocalUtils.setChannelId(registerBody.getChannelId());
-        RobotThreadLocalUtils.setPlatformId(registerBody.getPlatformId());
-        RobotThreadLocalUtils.setFunction(registerBody.getFunction());
+        TContext.setTenantId(registerBody.getTenantId());
+        TContext.setChannelId(registerBody.getChannelId());
+        TContext.setPlatformId(registerBody.getPlatformId());
+        TContext.setFunction(registerBody.getFunction());
         // log4j2设置租户日志
-        ThreadContext.put("TENANT_ID",RobotThreadLocalUtils.getTenantId()+"");
-        ThreadContext.put("CHANNEL_ID",RobotThreadLocalUtils.getChannelId()+"");
+        ThreadContext.put("TENANT_ID", TContext.getTenantId()+"");
+        ThreadContext.put("CHANNEL_ID", TContext.getChannelId()+"");
         ThreadContext.put("PLATFORM_ID", RobotConsts.PLATFORM_ID.JIU_WU_CARD + "");
         ThreadContext.put("FUNCTION_CODE", RobotConsts.FUNCTION_CODE.ACTIVITY + "");
     }

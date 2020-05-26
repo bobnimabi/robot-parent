@@ -2,10 +2,7 @@ package com.robot.bbin.activity.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
-import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
-import com.bbin.common.util.ThreadLocalUtils;
-import com.bbin.utils.project.MyBeanUtil;
 import com.rabbitmq.client.Channel;
 import com.robot.bbin.activity.basic.FunctionEnum;
 import com.robot.bbin.activity.dto.GameChild;
@@ -16,7 +13,7 @@ import com.robot.center.controller.RobotControllerBase;
 import com.robot.center.dispatch.ITaskPool;
 import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.center.util.MoneyUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -153,9 +150,9 @@ public class BbinActivityController extends RobotControllerBase {
             try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
             } catch (IOException e) {
-                log.error("teantId:{},channelId:{},mq的Ack异常", RobotThreadLocalUtils.getTenantId(), RobotThreadLocalUtils.getChannelId(), e);
+                log.error("teantId:{},channelId:{},mq的Ack异常", TContext.getTenantId(), TContext.getChannelId(), e);
             }
-            RobotThreadLocalUtils.clean();
+            TContext.clean();
         }
     }
 

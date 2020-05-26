@@ -2,15 +2,12 @@ package com.robot.center.dispatch;
 
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.TaskWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by mrt on 10/31/2019 6:31 PM
@@ -44,10 +41,10 @@ public class TaskTimeCalculate {
     private static String createCacheTimeLimitKey(String waitField) {
         return new StringBuilder(45)
                 .append(CACHE_TIME_LIMIT)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(waitField)
                 .toString();
     }

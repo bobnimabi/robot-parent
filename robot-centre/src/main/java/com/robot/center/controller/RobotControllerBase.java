@@ -11,7 +11,7 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.IRobotKeepAlive;
 import com.robot.center.pool.RobotManager;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.entity.TenantRobotRecord;
@@ -160,13 +160,13 @@ public class RobotControllerBase {
      */
     protected boolean tenantDispatcher(long platformId,long function) {
         try {
-            RobotThreadLocalUtils.setTenantId(ThreadLocalUtils.getTenantIdOption().get());
-            RobotThreadLocalUtils.setChannelId(ThreadLocalUtils.getChannelIdOption().get());
-            RobotThreadLocalUtils.setPlatformId(platformId);
-            RobotThreadLocalUtils.setFunction(function);
+            TContext.setTenantId(ThreadLocalUtils.getTenantIdOption().get());
+            TContext.setChannelId(ThreadLocalUtils.getChannelIdOption().get());
+            TContext.setPlatformId(platformId);
+            TContext.setFunction(function);
             return true;
         } catch (Exception e) {
-            log.info("未获取到tenant相关,{},{},{},{}",RobotThreadLocalUtils.getTenantId(),RobotThreadLocalUtils.getChannelId(),RobotThreadLocalUtils.getPlatformId(),RobotThreadLocalUtils.getFunction());
+            log.info("未获取到tenant相关,{},{},{},{}", TContext.getTenantId(), TContext.getChannelId(), TContext.getPlatformId(), TContext.getFunction());
         } finally {
             ThreadLocalUtils.clean();
         }
@@ -198,8 +198,8 @@ public class RobotControllerBase {
 
     // 组装redis-key：外部订单号
     private String createExteralNoCacheKey(String externalNo) {
-        Long tenantId = RobotThreadLocalUtils.getTenantId();
-        Long channelId = RobotThreadLocalUtils.getChannelId();
+        Long tenantId = TContext.getTenantId();
+        Long channelId = TContext.getChannelId();
         Long platformId = RobotConsts.PLATFORM_ID.BBIN;
         Long functionCode = RobotConsts.FUNCTION_CODE.ACTIVITY;
         return new StringBuilder(30)

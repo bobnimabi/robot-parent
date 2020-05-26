@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
@@ -20,9 +20,7 @@ import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.insert.Insert;
 import net.sf.jsqlparser.statement.select.FromItem;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -104,7 +102,7 @@ public abstract class MybatisPlusConfigBase {
         tenantSqlParser.setTenantHandler(new TenantHandler() {
             @Override
             public Expression getTenantId() {
-                return new LongValue(RobotThreadLocalUtils.getTenantId());
+                return new LongValue(TContext.getTenantId());
             }
 
             @Override
@@ -129,7 +127,7 @@ public abstract class MybatisPlusConfigBase {
         tenantSqlParser.setTenantHandler(new TenantHandler() {
             @Override
             public Expression getTenantId() {
-                return new LongValue(RobotThreadLocalUtils.getChannelId());
+                return new LongValue(TContext.getChannelId());
             }
 
             @Override

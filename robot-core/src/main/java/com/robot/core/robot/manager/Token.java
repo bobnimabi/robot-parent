@@ -1,5 +1,6 @@
 package com.robot.core.robot.manager;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.io.Serializable;
  * @Date 2020/5/25 17:09
  * @Version 2.0
  */
+@AllArgsConstructor
 @Data
 public class Token implements Serializable {
     /**

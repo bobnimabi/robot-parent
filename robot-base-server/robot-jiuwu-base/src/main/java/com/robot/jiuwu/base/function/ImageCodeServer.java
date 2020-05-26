@@ -11,7 +11,7 @@ import com.robot.center.function.ParamWrapper;
 import com.robot.center.http.CustomHttpMethod;
 import com.robot.center.http.StanderHttpResponse;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.jiuwu.base.basic.KeepAlive;
 import com.robot.jiuwu.base.common.Constant;
@@ -79,10 +79,10 @@ public class ImageCodeServer extends FunctionBase<Object> {
     static String createCacheKeyCaptchaToken(long robotId) {
         return new StringBuilder(50)
                 .append(RobotConsts.CAPTCHA_TOKEN)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(robotId)
                 .toString();
     }

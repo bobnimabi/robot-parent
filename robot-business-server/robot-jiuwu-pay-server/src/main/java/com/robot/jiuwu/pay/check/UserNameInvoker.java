@@ -3,7 +3,7 @@ package com.robot.jiuwu.pay.check;
 import com.alibaba.fastjson.JSON;
 import com.robot.center.chain.FilterChainBase;
 import com.robot.center.constant.RobotConsts;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.entity.TenantWithdrawRule;
 import com.robot.code.service.ITenantWithdrawRuleService;
 import com.robot.jiuwu.base.vo.WithdrawListRowsData;
@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -68,10 +67,10 @@ public class UserNameInvoker extends FilterChainBase.Invoker<WithdrawListRowsDat
     private static String createCacheUniqueUserName(String userName) {
         return new StringBuilder(60)
                 .append(RobotConsts.WITHDRAW_UNIQUE_USERNAME)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(userName)
                 .toString();
     }

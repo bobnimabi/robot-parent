@@ -1,10 +1,12 @@
-package com.robot.code.vo;
+package com.robot.code.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,12 +16,10 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author admin
- * @since 2019-10-24
+ * @since 2020-05-18
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-public class TenantRobotVO implements Serializable {
+public class TenantRobotDTO extends Page implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -90,6 +90,4 @@ public class TenantRobotVO implements Serializable {
     private LocalDateTime gmtCreateTime;
 
 
-    // 自定义参数
-    private String platformName;
 }

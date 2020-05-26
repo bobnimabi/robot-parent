@@ -6,18 +6,17 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.code.dto.LoginDTO;
-import com.robot.code.entity.TenantChannel;
+import com.robot.code.dto.Response;
+import com.robot.code.dto.TenantRobotDTO;
+import com.robot.code.entity.Platform;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.mapper.TenantRobotMapper;
-import com.robot.code.service.ITenantChannelService;
+import com.robot.code.service.IPlatformService;
 import com.robot.code.service.ITenantRobotService;
 import com.robot.code.vo.TenantRobotVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -30,82 +29,81 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapper, TenantRobot> implements ITenantRobotService {
 
     @Autowired
-    private ITenantChannelService channelService;
+    private IPlatformService platformService;
 
-    @Transactional
     @Override
-    public ResponseResult deleteRobot(long robotId) {
-        // DB:强制下线
-        forcedOfflineByDB(robotId);
+    public Response addRobot(TenantRobotDTO robotDTO) {
+        //是否重复添加
+        if (isRobotRepetByAdd(robotDTO.getPlatformAccount())) {
+            return Response.FAIL("账号已存在");
+        }
+        TenantRobot robot = MyBeanUtil.copyProperties(robotDTO, TenantRobot.class);
+        return save(robot) ? Response.SUCCESS() : Response.FAIL("添加失败");
+    }
+
+    @Override
+    public Response deleteRobot(long robotId) {
         // 删除
         boolean isRemove = removeById(robotId);
         if (!isRemove) {
             throw new IllegalStateException("表:删除机器人失败");
         }
-        // Cache:强制下线
-        forcedOfflineByCache(robotId);
-        return ResponseResult.SUCCESS();
+        return Response.SUCCESS();
     }
 
-    @Transactional
     @Override
-    public ResponseResult updateRobot(LoginDTO robotDTO) {
+    public Response updateRobot(TenantRobotDTO robotDTO) {
         // 是否重复添加
         if (isRobotRepetByUpdate(robotDTO.getId(),robotDTO.getPlatformAccount())) {
-            return ResponseResult.FAIL("账号重复");
+            return Response.FAIL("账号重复");
         }
-        // DB：强制下线
-        forcedOfflineByDB(robotDTO.getId());
         // 修改
         TenantRobot robot = MyBeanUtil.copyProperties(robotDTO, TenantRobot.class);
         boolean isUpdate = updateById(robot);
         if (!isUpdate) {
             throw new IllegalStateException("表:修改机器人失败");
         }
-        // Cache:强制下线
-        forcedOfflineByCache(robotDTO.getId());
-        return ResponseResult.SUCCESS();
-    }
-    @Override
-    public ResponseResult addRobot(LoginDTO robotDTO) {
-        //是否重复添加
-        if (isRobotRepetByAdd(robotDTO.getPlatformAccount())) {
-            return ResponseResult.FAIL("账号已存在");
-        }
-        TenantRobot robot = MyBeanUtil.copyProperties(robotDTO, TenantRobot.class);
-        return save(robot) ? ResponseResult.SUCCESS() : ResponseResult.FAIL();
+        return Response.SUCCESS();
     }
 
     @Override
-    public ResponseResult pageRobot(LoginDTO robotDTO){
+    public Response pageRobot(TenantRobotDTO robotDTO){
         IPage page = page(robotDTO, new LambdaQueryWrapper<TenantRobot>().orderByDesc(TenantRobot::getGmtCreateTime));
         Page<TenantRobotVO> voPage = MyBeanUtil.copyPageToPage(page, TenantRobotVO.class);
         for (TenantRobotVO robotVO : voPage.getRecords()) {
-            TenantChannel channel = channelService.getById(robotVO.getChannelId());
-            if (null != channel) {
-                robotVO.setChannelName(channel.getChannelName());
+            Platform platform = platformService.getById(robotVO.getPlatformId());
+            if (null != platform) {
+                robotVO.setPlatformName(platform.getPlatformName());
             }
         }
-        return ResponseResult.SUCCESS(voPage);
+        return Response.SUCCESS(voPage);
     }
 
     @Override
-    public ResponseResult getRobotById(long robotId) {
+    public Response getRobotById(long robotId) {
         TenantRobot robot = getById(robotId);
         if (null == robot) {
-            return ResponseResult.FAIL("检查id是否正确");
+            return Response.FAIL("检查id是否正确");
         }
-        return ResponseResult.SUCCESS(robot);
+        return Response.SUCCESS(MyBeanUtil.copyProperties(robot, TenantRobotVO.class));
     }
 
-    @Transactional
     @Override
-    public ResponseResult closeRobot(long robotId){
-        // DB：强制下线
-        forcedOfflineByDB(robotId);
-        // CACHE：强制下线
-        forcedOfflineByCache(robotId);
-        return  ResponseResult.SUCCESS();
+    public boolean offlineDB(long robotId) {
+        // 数据库：下线机器人
+        return update(new LambdaUpdateWrapper<TenantRobot>()
+                .eq(TenantRobot::getId, robotId)
+                .set(TenantRobot::getIsOnline, false)
+                .set(TenantRobot::getInfo, "已离线..."));
+    }
+
+    @Override
+    public boolean onlineDB(long robotId) {
+        // 数据库：下线机器人
+        return update(new LambdaUpdateWrapper<TenantRobot>()
+                .eq(TenantRobot::getId, robotId)
+                .set(TenantRobot::getIsOnline, true)
+                .set(TenantRobot::getInfo, "运行中..."));
     }
 
     // 新增机器人：查看机器人是否重复添加
@@ -114,36 +112,8 @@ public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapp
     }
 
     // 更新机器人：查看机器人是否重复添加
-    protected boolean isRobotRepetByUpdate(long robotId,String platformAccount){
+    private boolean isRobotRepetByUpdate(long robotId,String platformAccount){
         TenantRobot robot = getOne(new LambdaQueryWrapper<TenantRobot>().eq(TenantRobot::getPlatformAccount, platformAccount));
         return null != robot && robotId != robot.getId();
     }
-
-    protected void forcedOfflineByDB(long robotId) {
-        // 数据库：下线机器人
-        boolean isUpdate = update(new LambdaUpdateWrapper<TenantRobot>()
-                .eq(TenantRobot::getId, robotId)
-                .set(TenantRobot::getIsOnline, false)
-                .set(TenantRobot::getInfo, "已离线..."));
-        if (!isUpdate) {
-            throw new IllegalStateException("DB：强制下线机器人失败");
-        }
-    }
-
-    public void onlineRobotByDB(long robotId) {
-        // 数据库：下线机器人
-        boolean isUpdate = update(new LambdaUpdateWrapper<TenantRobot>()
-                .eq(TenantRobot::getId, robotId)
-                .set(TenantRobot::getIsOnline, true)
-                .set(TenantRobot::getInfo, "运行中..."));
-        if (!isUpdate) {
-            throw new IllegalStateException("DB：在线机器人失败");
-        }
-    }
-
-    /**
-     * 强制
-     * @param robotId
-     */
-    protected abstract void forcedOfflineByCache(long robotId);
 }

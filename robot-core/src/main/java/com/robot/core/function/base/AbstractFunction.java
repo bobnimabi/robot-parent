@@ -1,6 +1,7 @@
 package com.robot.core.function.base;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.robot.code.dto.Response;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.response.StanderHttpResponse;

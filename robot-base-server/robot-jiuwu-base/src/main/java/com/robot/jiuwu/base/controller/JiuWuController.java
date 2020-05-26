@@ -2,7 +2,6 @@ package com.robot.jiuwu.base.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
-import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.response.ResponseResult;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
@@ -10,7 +9,7 @@ import com.robot.center.controller.RobotControllerBase;
 import com.robot.center.dispatch.ITaskPool;
 import com.robot.center.execute.TaskWrapper;
 import com.robot.center.function.ParamWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.center.util.MoneyUtil;
 import com.robot.jiuwu.base.basic.FunctionEnum;
 import com.robot.jiuwu.base.dto.PayMoneyDTO;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.Duration;
 
 /**
@@ -91,9 +89,9 @@ public class JiuWuController extends RobotControllerBase {
             try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
             } catch (IOException e) {
-                log.error("teantId:{},channelId:{},mq的Ack异常", RobotThreadLocalUtils.getTenantId(), RobotThreadLocalUtils.getChannelId(), e);
+                log.error("teantId:{},channelId:{},mq的Ack异常", TContext.getTenantId(), TContext.getChannelId(), e);
             }
-            RobotThreadLocalUtils.clean();
+            TContext.clean();
         }
     }
 }

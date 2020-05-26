@@ -2,7 +2,7 @@ package com.robot.center.dispatch;
 
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.pool.RobotWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.center.util.NetWorkUtil;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.code.entity.TenantRobotProxy;
@@ -55,10 +55,10 @@ public class RobotTimeLimit {
     private static String createCacheRobotLimitKey(String actionCode, long robotId) {
         return new StringBuilder(45)
                 .append(CACHE_ROBOT_ME_LIMIT)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(robotId).append(":")
                 .append(actionCode)
                 .toString();
@@ -73,10 +73,10 @@ public class RobotTimeLimit {
         }
         return new StringBuilder(45)
                 .append(CACHE_ROBOT_IP_LIMIT)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(ip) // 本机IP，如果使用代理，则是代理IP
                 .toString();
     }

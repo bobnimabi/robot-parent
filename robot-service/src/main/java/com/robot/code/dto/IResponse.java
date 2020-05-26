@@ -1,4 +1,4 @@
-package com.robot.core.function.base;
+package com.robot.code.dto;
 
 /**
  * @Author mrt

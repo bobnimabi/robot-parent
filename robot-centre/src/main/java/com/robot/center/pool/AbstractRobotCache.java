@@ -1,21 +1,15 @@
 package com.robot.center.pool;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.robot.center.constant.RobotConsts;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.service.impl.TenantRobotServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.CookieStore;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.cookie.BasicClientCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -118,10 +112,10 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
     private static String createCacheRobotPoolKey() {
         return new StringBuilder(35)
                 .append(CACHE_ROBOT_POOL_PREFIX)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction())
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction())
                 .toString();
     }
 
@@ -129,10 +123,10 @@ public abstract class AbstractRobotCache extends TenantRobotServiceImpl implemen
     public static String createCacheRobotIdCardKey(long robotId) {
         return new StringBuilder(35)
                 .append(CACHE_ROBOT_ID_CARD_PREFIX)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(robotId)
                 .toString();
     }

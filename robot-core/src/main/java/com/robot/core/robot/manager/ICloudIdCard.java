@@ -12,6 +12,9 @@ public interface ICloudIdCard {
     /**
      * 获取idCard
      * @return
+     * 返回null：
+     *  1.过期
+     *  2.被删除
      */
     String getIdCard(long robotId);
 
@@ -19,12 +22,15 @@ public interface ICloudIdCard {
      * 设置IdCard
      * @param robotId
      * @param newIdCard
+     * 情景：
+     *  1.登录的时候
      */
-    void setIdCard(long robotId,String newIdCard);
+    boolean setIdCard(long robotId,String newIdCard);
 
     /**
      * 删除idCard
+     * 等效于：删除了Cookie和Token
      * @param robotId
      */
-    void delIdCard(long robotId);
+    boolean delIdCard(long robotId);
 }

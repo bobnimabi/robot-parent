@@ -1,6 +1,6 @@
 package com.robot.core.http.response;
 
-import com.robot.core.function.base.Response;
+import com.robot.code.dto.Response;
 import lombok.Data;
 import org.apache.http.*;
 

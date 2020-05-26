@@ -5,7 +5,7 @@ import com.robot.code.service.IRequestRecordService;
 import com.robot.code.service.IResponseRecordService;
 import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.IFunctionProperty;
-import com.robot.core.function.base.Response;
+import com.robot.code.dto.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

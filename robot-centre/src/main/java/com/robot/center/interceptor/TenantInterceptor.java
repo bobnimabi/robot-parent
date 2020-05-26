@@ -6,8 +6,7 @@ import com.bbin.common.pojo.AuthToken;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.ResponseUtils;
 import com.bbin.utils.project.XcTokenUtil;
-import com.robot.center.constant.RobotConsts;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.ThreadContext;
@@ -31,8 +30,8 @@ public abstract class TenantInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (environment.equals(CommonConstant.DEV)) {
-            RobotThreadLocalUtils.setTenantId(1L);
-            RobotThreadLocalUtils.setChannelId(1L);
+            TContext.setTenantId(1L);
+            TContext.setChannelId(1L);
         } else {
             boolean setTenantId = set(request, TenantConstant.TENANT_ID);
             boolean setChannel = set(request, TenantConstant.CHANNEL_ID);
@@ -45,11 +44,11 @@ public abstract class TenantInterceptor extends HandlerInterceptorAdapter {
         }
         Long platFormId = getPlatFormId();
         Long functionCode = getFunctionCode();
-        RobotThreadLocalUtils.setPlatformId(platFormId);
-        RobotThreadLocalUtils.setFunction(functionCode);
+        TContext.setPlatformId(platFormId);
+        TContext.setFunction(functionCode);
         // log4j2设置租户日志
-        ThreadContext.put("TENANT_ID",RobotThreadLocalUtils.getTenantId()+"");
-        ThreadContext.put("CHANNEL_ID",RobotThreadLocalUtils.getChannelId()+"");
+        ThreadContext.put("TENANT_ID", TContext.getTenantId()+"");
+        ThreadContext.put("CHANNEL_ID", TContext.getChannelId()+"");
         ThreadContext.put("PLATFORM_ID", platFormId + "");
         ThreadContext.put("FUNCTION_CODE", functionCode + "");
         return true;
@@ -58,7 +57,7 @@ public abstract class TenantInterceptor extends HandlerInterceptorAdapter {
     private boolean set(HttpServletRequest request,String key){ //  如果是feign调用，从header里面取
         String value=request.getHeader(key);
         if (StringUtils.isEmpty(value)) return false;
-        RobotThreadLocalUtils.set(key, Long.parseLong(value));
+        TContext.set(key, Long.parseLong(value));
         return true;
     }
 
@@ -75,15 +74,15 @@ public abstract class TenantInterceptor extends HandlerInterceptorAdapter {
             ResponseUtils.writeJson(response, ResponseResult.FAIL("请重新登录"), HttpStatus.FORBIDDEN);
             return false;
         }
-        RobotThreadLocalUtils.set(TenantConstant.TENANT_ID,userInfo.getTenantId());
-        RobotThreadLocalUtils.set(TenantConstant.CHANNEL_ID,userInfo.getChannelId());
-        RobotThreadLocalUtils.set(TenantConstant.OPERATOR_ID,userInfo.getUserId());
+        TContext.set(TenantConstant.TENANT_ID,userInfo.getTenantId());
+        TContext.set(TenantConstant.CHANNEL_ID,userInfo.getChannelId());
+        TContext.set(TenantConstant.OPERATOR_ID,userInfo.getUserId());
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
-        RobotThreadLocalUtils.clean(); //  清理线程
+        TContext.clean(); //  清理线程
         ThreadContext.clearMap();
     }
 

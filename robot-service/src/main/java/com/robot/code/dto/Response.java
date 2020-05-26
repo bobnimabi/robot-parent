@@ -1,7 +1,4 @@
-package com.robot.core.function.base;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
+package com.robot.code.dto;
 
 /**
  * @Author mrt
@@ -34,6 +31,16 @@ public class Response<T> implements IResponse<T>, Cloneable {
     private static final Response SUCCESS = new Response(true, SUCCESS_CODE, SUCCESS_MES, null);
 
     private static final Response FAILER = new Response(true, SUCCESS_CODE, SUCCESS_MES, null);
+
+    public static Response SUCCESS() {
+        try {
+            Response clone = SUCCESS.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return new Response<T>(false, FAIL_CODE, "响应封装异常", null);
+    }
 
     public static <T> Response<T> SUCCESS(T t) {
         try {

@@ -3,7 +3,7 @@ package com.robot.jiuwu.pay.check;
 import com.alibaba.fastjson.JSON;
 import com.robot.center.chain.FilterChainBase;
 import com.robot.center.constant.RobotConsts;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.service.ITenantWithdrawRuleService;
 import com.robot.jiuwu.base.vo.WithdrawListRowsData;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by mrt on 2020/1/9 0009 19:48
@@ -52,10 +51,10 @@ public class OrderUniqueInvoker extends FilterChainBase.Invoker<WithdrawListRows
     private static String createCacheUniqueOrder(String orderId) {
         return new StringBuilder(60)
                 .append(RobotConsts.WITHDRAW_UNIQUE_ORDER_NO)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction()).append(":")
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
                 .append(orderId)
                 .toString();
     }

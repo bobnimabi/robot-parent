@@ -26,12 +26,12 @@ public class FeignTenantInterceptor implements RequestInterceptor {
         if (url.indexOf("/domain/get") == -1) {
             this.setOriginHost(template);
             log.info("FeignTenantInterceptor 拦截器进入================================");
-            Long tenantId = RobotThreadLocalUtils.getTenantId();
+            Long tenantId = TContext.getTenantId();
             if (null == tenantId) {
                 throw  new IllegalArgumentException("没有tenantId");
             }
 
-            Long channelId = RobotThreadLocalUtils.getChannelId();
+            Long channelId = TContext.getChannelId();
             if (null == tenantId) {
                 throw  new IllegalArgumentException("没有channelId");
             }

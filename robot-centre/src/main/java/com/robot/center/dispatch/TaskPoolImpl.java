@@ -1,24 +1,18 @@
 package com.robot.center.dispatch;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.TypeReference;
-import com.bbin.common.util.ThreadLocalUtils;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.execute.TaskWrapper;
-import com.robot.center.tenant.RobotThreadLocalUtils;
+import com.robot.center.tenant.TContext;
 import com.robot.code.entity.TenantRobotRecord;
 import com.robot.code.service.ITenantRobotRecordService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.time.Duration;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -104,19 +98,19 @@ public class TaskPoolImpl implements ITaskPool {
     private static String createCacheQueueKey() {
         return new StringBuilder(30)
                 .append(CACHE_TASK_QUEUE)
-                .append(RobotThreadLocalUtils.getTenantId()).append(":")
-                .append(RobotThreadLocalUtils.getChannelId()).append(":")
-                .append(RobotThreadLocalUtils.getPlatformId()).append(":")
-                .append(RobotThreadLocalUtils.getFunction())
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction())
                 .toString();
     }
 
     private RegisterBody createRegisterBody() {
         return new RegisterBody(
-                RobotThreadLocalUtils.getTenantId(),
-                RobotThreadLocalUtils.getChannelId(),
-                RobotThreadLocalUtils.getPlatformId(),
-                RobotThreadLocalUtils.getFunction()
+                TContext.getTenantId(),
+                TContext.getChannelId(),
+                TContext.getPlatformId(),
+                TContext.getFunction()
         );
     }
 }

@@ -9,12 +9,11 @@ import org.apache.http.cookie.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,10 +41,7 @@ public class CloudCookie implements ICloudCookie {
         String key = cookieKey(robotId);
         RobotWrapper robotWrapper = redis.opsForValue().get(key);
         if (null != robotWrapper) {
-            if (isCookieExpire(robotWrapper) || isIdCardExpire(robotWrapper)) {
-                this.delCookie(robotId);
-                return null;
-            }
+            this.clearExpireCookie(robotWrapper);
             expireFlush(key);
             log.info("CloudCookie:获取到机器人：robotId：{}", robotId);
         }
@@ -54,21 +50,16 @@ public class CloudCookie implements ICloudCookie {
 
     @Override
     public boolean putCookie(RobotWrapper robotWrapper) {
-        if (isCookieExpire(robotWrapper) || isIdCardExpire(robotWrapper)) {
-            log.error("CloudCookie:存入机器人不合法,将被销毁，RobotWrapper:{}", JSON.toJSONString(robotWrapper));
-            this.delCookie(robotWrapper.getId());
+        if (!isRobotWrapperValid(robotWrapper)) {
+            log.info("CloudCookie:put的robotWrapper无效，请检查：{}", JSON.toJSONString(robotWrapper));
             return false;
         }
         redis.opsForValue().set(this.cookieKey(robotWrapper.getId()), robotWrapper, Duration.ofDays(EXPIRE_DAYS));
         return true;
     }
 
-    private void delCookie(long robotId) {
-        String key = cookieKey(robotId);
-        boolean isFailure = !redis.delete(key) && redis.hasKey(key);
-        if (isFailure) {
-            log.error("CloudCookie:删除Cookie失败：robotId：{}", robotId);
-        }
+    private boolean isRobotWrapperValid(RobotWrapper robotWrapper) {
+        return null != robotWrapper && null != robotWrapper.getCookieStore();
     }
 
     private void expireFlush(String key) {
@@ -78,36 +69,17 @@ public class CloudCookie implements ICloudCookie {
         }
     }
 
-    private boolean isCookieExpire(RobotWrapper robotWrapper) {
-        CookieStore cookieStore = robotWrapper.getCookieStore();
-        if (null == cookieStore) {
-            log.error("CloudCookie:CookieStore为null，将销毁，CookieStore：{}", JSON.toJSONString(robotWrapper));
-            return true;
-        }
+    private void clearExpireCookie(RobotWrapper robotWrapper) {
         List<Cookie> cookies = robotWrapper.getCookieStore().getCookies();
-        if (CollectionUtils.isEmpty(cookies)) {
-            log.error("CloudCookie:cookies为空集合，将销毁，CookieStore：{}", JSON.toJSONString(robotWrapper));
-            return true;
-        }
         Date date = new Date();
-        for (Cookie cookie : cookies) {
+        Iterator<Cookie> iterator = cookies.iterator();
+        while (iterator.hasNext()) {
+            Cookie cookie = iterator.next();
             boolean expired = cookie.isExpired(date);
             if (expired) {
-                log.error("CloudCookie:有cookie已过期，将销毁，CookieStore：{}", JSON.toJSONString(robotWrapper));
-                return true;
+                log.info("CloudCookie:删除过期Cookie：{}", JSON.toJSONString(cookie));
             }
         }
-        return false;
-    }
-
-    private boolean isIdCardExpire(RobotWrapper robotWrapper) {
-        String idCard = cloudIdCard.getIdCard(robotWrapper.getId());
-        String rIdCard = robotWrapper.getIdCard();
-        boolean isIdCardExpire = StringUtils.isEmpty(rIdCard) || StringUtils.isEmpty(idCard) || !rIdCard.equalsIgnoreCase(idCard);
-        if (isIdCardExpire) {
-            log.error("CloudCookie:IDCard不合法，将销毁，IDCard：{}，机器人的IDCard：{}", idCard, rIdCard);
-        }
-        return isIdCardExpire;
     }
 
     private String cookieKey(long robotId) {

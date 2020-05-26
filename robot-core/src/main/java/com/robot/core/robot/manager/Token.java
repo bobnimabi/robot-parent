@@ -2,7 +2,6 @@ package com.robot.core.robot.manager;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -13,10 +12,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 public class Token implements Serializable {
+
     /**
      * 机器人id
      */
     private Long robotId;
+
     /**
      * 身份标识
      */

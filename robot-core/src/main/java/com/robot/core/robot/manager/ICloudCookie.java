@@ -14,8 +14,7 @@ public interface ICloudCookie {
      * @param robotId
      * @return
      * 返回null:
-     *  1.Cookie过期
-     *  2.Cookie被删除
+     *  1.Cookie30天过期，请强制下线
      * 情景：
      *  1.执行功能的时候
      */
@@ -28,6 +27,7 @@ public interface ICloudCookie {
      * 情景：
      *  1.登录的时候
      *  2.执行完功能归还机器人的时候
+     * 思想：由put控制是否替换成新Cookie，比如登录系列接口的第一个
      */
     boolean putCookie(RobotWrapper robotWrapper);
 }

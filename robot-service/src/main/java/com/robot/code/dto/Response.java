@@ -39,7 +39,7 @@ public class Response<T> implements IResponse<T>, Cloneable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return new Response<T>(false, FAIL_CODE, "响应封装异常", null);
+        return new Response(false, FAIL_CODE, "响应封装异常", null);
     }
 
     public static <T> Response<T> SUCCESS(T t) {

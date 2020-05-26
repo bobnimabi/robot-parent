@@ -67,15 +67,9 @@ public class ManagerFacde implements IManagerFacde {
         String idCard = robotWrapper.getIdCard();
         boolean isOnlineDB = dbRobot.onlineDB(robotWrapper.getId());
         if (isOnlineDB) {
-            boolean setIdCard = cloudIdCard.setIdCard(robotId, idCard);
-            if (setIdCard) {
-                boolean pushToken = tokenQueue.pushToken(new Token(robotId, idCard));
-                if (pushToken) {
-                    boolean putCookie = cloudCookie.putCookie(robotWrapper);
-                    if (putCookie) {
-                        return true;
-                    }
-                }
+            boolean pushToken = tokenQueue.pushToken(new Token(robotId, idCard));
+            if (pushToken) {
+                return true;
             }
         }
         cloudIdCard.delIdCard(robotId);

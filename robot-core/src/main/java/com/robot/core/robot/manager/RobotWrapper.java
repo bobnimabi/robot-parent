@@ -11,8 +11,15 @@ import java.io.Serializable;
  */
 @Data
 public class RobotWrapper extends TenantRobot implements Serializable {
-    // 身份标识
+    /**
+     * 身份标识，用于携带Token的IdCard
+     * 自身并不需要IdCard
+      */
     private String idCard;
-    // CookieStore
+
+
+    /**
+     * CookieStore
+     */
     private CookieStore cookieStore;
 }

@@ -17,12 +17,23 @@ import java.util.Date;
  * Created by mrt on 2020/4/3 12:52
  */
 @Service
-public class CookieManager {
+public class CookieSerializeHelper {
 
-    @Autowired
-    private StringRedisTemplate redis;
+    /**
+     * 序列化
+     * @param robotWrapper
+     * @return
+     */
+    private static String deserializa(RobotWrapper robotWrapper) {
+        return JSON.toJSONString(robotWrapper);
+    }
 
-    private static RobotWrapper deserializationRobot(String robotJson) {
+    /**
+     * 反序列化
+     * @param robotJson
+     * @return
+     */
+    private static RobotWrapper deserializa(String robotJson) {
         if (StringUtils.isEmpty(robotJson)) {
             return null;
         }

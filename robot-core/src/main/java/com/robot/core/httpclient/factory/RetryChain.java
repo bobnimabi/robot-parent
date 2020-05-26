@@ -2,7 +2,7 @@ package com.robot.core.httpclient.factory;
 
 import com.netflix.http4.NFHttpMethodRetryHandler;
 import com.robot.core.chain.Invoker;
-import com.robot.core.common.CoreConsts;
+import com.robot.core.common.HttpConsts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -66,7 +66,7 @@ public class RetryChain extends BuilderFilter<Object,HttpClientBuilder> {
         @Override
         public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
             // 自定义重试业务逻辑
-            boolean isRetry = (boolean) context.getAttribute(CoreConsts.RETRY_FLAG);
+            boolean isRetry = (boolean) context.getAttribute(HttpConsts.RETRY_FLAG);
             if (!isRetry) {
                 return false;
             }

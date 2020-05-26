@@ -7,7 +7,7 @@ import com.robot.code.service.IHttpRequestConfigService;
 import com.robot.code.service.ITenantRobotPathService;
 import com.robot.code.service.ITenantRobotProxyService;
 import com.robot.core.chain.Invoker;
-import com.robot.core.common.CoreConsts;
+import com.robot.core.common.HttpConsts;
 import com.robot.core.function.base.IFunctionProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
@@ -70,7 +70,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
      */
     private void setRetry(HttpRequestConfig config, ExecuteProperty result) {
         HttpContext httpContext = result.getHttpContext();
-        httpContext.setAttribute(CoreConsts.RETRY_FLAG, config.getIsRetry());
+        httpContext.setAttribute(HttpConsts.RETRY_FLAG, config.getIsRetry());
         log.info("请求拦截：重试：{}", config.getIsRetry());
     }
 

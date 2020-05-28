@@ -23,9 +23,21 @@ public class Response<T> implements IResponse<T>, Cloneable {
         return this;
     }
 
+    public String getMessage() {
+        return this.message;
+    }
+
     public Response<T> setObj(T obj) {
         this.obj = obj;
         return this;
+    }
+
+    public T getObj() {
+        return this.obj;
+    }
+
+    public boolean isSuccess() {
+        return this.success;
     }
 
     private static final Response SUCCESS = new Response(true, SUCCESS_CODE, SUCCESS_MES, null);
@@ -55,7 +67,7 @@ public class Response<T> implements IResponse<T>, Cloneable {
     public static <T> Response<T> FAIL(String message) {
         try {
             Response<T> clone = (Response<T>) FAILER.clone();
-            clone.setMessage(message);
+            return clone.setMessage(message);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

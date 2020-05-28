@@ -43,7 +43,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
 
     @Override
     public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
-        TenantRobotPath path = pathService.getPath(params.getAction().getActionCode(), params.getRank());
+        TenantRobotPath path = pathService.getPath(params.getAction().getActionCode());
 
         // requestConfigId
         Long requestConfigId = path.getHttpRequestConfigId();
@@ -55,6 +55,8 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
             setRedirect(config, result);
             // 设置各种超时
             setTimeout(config, result);
+        } else {
+            log.info("未指定RequestConfig,请检查...");
         }
 
         // 设置代理
@@ -120,7 +122,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
 
             RequestConfig.Builder builder = result.getRequestConfigBuilder();
             builder.setProxy(new HttpHost(proxy.getProxyIp(), proxy.getProxyPort()));
-            log.info("请求拦截：使用代理：IP：{},PORT:{}", ip, port);
+            log.info("执行前拦截：使用代理：IP：{},PORT:{}", ip, port);
         }
     }
 

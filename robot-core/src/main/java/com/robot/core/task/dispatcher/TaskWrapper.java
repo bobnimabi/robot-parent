@@ -1,7 +1,8 @@
 package com.robot.core.task.dispatcher;
 
-import com.robot.center.function.IFunctionEnum;
-import com.robot.center.function.ParamWrapper;
+import com.robot.core.function.base.IActionEnum;
+import com.robot.core.function.base.IFunctionEnum;
+import com.robot.core.function.base.ParamWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,35 @@ import java.time.Duration;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskWrapper implements Serializable {
-    // 参数
+
+    /**
+     * 参数
+      */
     private ParamWrapper paramWrapper;
-    // 功能执行类名称
+
+    /**
+     * 功能执行类名称
+      */
     private IFunctionEnum functionEnum;
 
-    // 等待字段
+    /**
+     * 等待字段
+      */
     private String waitField;
-    // 执行等待时间,单位：秒,null表示不等待
+
+    /**
+     * 执行等待时间,单位：秒,null表示不等待
+     */
     private Duration waitTime;
 
 
+    /**
+     * 异步等待path
+     */
+    private String actionCode;
+
+    /**
+     * 机器人等待时间
+     */
+    private Duration robotLimitTime;
 }

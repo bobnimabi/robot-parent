@@ -18,12 +18,6 @@ import javax.validation.constraints.NotNull;
 public class FunctionProperty implements IFunctionProperty {
 
     /**
-     * 域名等级,默认：1
-     */
-    @NotNull
-    private int rank;
-
-    /**
      * 动作
      */
     @NotNull

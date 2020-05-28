@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
  * @Author mrt
  * @Date 2020/5/25 19:59
  * @Version 2.0
+ * IdCard控制CloudTokenQueue和HttpClient版本
  */
 public interface ICloudIdCard {
 

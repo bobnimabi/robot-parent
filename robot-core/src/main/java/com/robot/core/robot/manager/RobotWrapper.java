@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.http.client.CookieStore;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 /**
  * Created by mrt on 2019/7/5 0005 下午 7:30
@@ -17,9 +18,15 @@ public class RobotWrapper extends TenantRobot implements Serializable {
       */
     private String idCard;
 
-
     /**
      * CookieStore
      */
     private CookieStore cookieStore;
+
+    /**
+     * 存放属性
+     */
+    private Properties properties = new Properties();
+
+
 }

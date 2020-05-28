@@ -1,7 +1,6 @@
 package com.robot.core.function.base;
 
 import com.robot.code.dto.Response;
-import com.robot.core.robot.manager.RobotCard;
 import com.robot.core.robot.manager.RobotWrapper;
 
 /**

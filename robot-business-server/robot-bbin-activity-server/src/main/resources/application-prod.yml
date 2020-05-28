@@ -73,7 +73,7 @@ ribbon:
 
 
 #不检查长令牌的URL
-PERMIT_URL: /isExist,/queryOrderNo,/getEliminateToLe,/getEliminateToLe2
+PERMIT_URL: /**
 
 #日志文件路径
 logging:

@@ -25,6 +25,12 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class CloudCookie implements ICloudCookie {
+
+    /**
+     * Redis：机器人COOKIE标志
+     * 7
+     */
+    public static final String COOKIE = RedisConsts.PROJECT + "COOKIE:";
     /**
      * Cookie过期时间30天
      */
@@ -84,7 +90,7 @@ public class CloudCookie implements ICloudCookie {
 
     private String cookieKey(long robotId) {
         return new StringBuilder(30)
-                .append(RedisConsts.COOKIE)
+                .append(COOKIE)
                 .append(TContext.getTenantId()).append(":")
                 .append(TContext.getChannelId()).append(":")
                 .append(TContext.getPlatformId()).append(":")

@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
@@ -20,6 +19,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class CloudIdCard implements ICloudIdCard{
+    /**
+     * Redis：机器人ID_CARD标志
+     * 8
+     */
+    public static final String ID_CARD = RedisConsts.PROJECT + "ID_CARD:";
 
     @Autowired
     private StringRedisTemplate redis;
@@ -27,7 +31,7 @@ public class CloudIdCard implements ICloudIdCard{
     /**
      * idCard过期时间3天
      */
-    public static final int EXPIRE_DAYS = 3;
+    public static final int EXPIRE_DAYS = 30;
 
     @Override
     public String getIdCard(long robotId) {
@@ -68,7 +72,7 @@ public class CloudIdCard implements ICloudIdCard{
 
     private String idCardKey(long robotId) {
         return new StringBuilder(30)
-                .append(RedisConsts.ID_CARD)
+                .append(ID_CARD)
                 .append(TContext.getTenantId()).append(":")
                 .append(TContext.getChannelId()).append(":")
                 .append(TContext.getPlatformId()).append(":")

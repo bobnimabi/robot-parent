@@ -13,7 +13,6 @@ import com.robot.center.tenant.TContext;
 import com.robot.center.util.MoneyUtil;
 import com.robot.jiuwu.base.basic.FunctionEnum;
 import com.robot.jiuwu.base.dto.PayMoneyDTO;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
@@ -21,7 +20,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.time.Duration;
 

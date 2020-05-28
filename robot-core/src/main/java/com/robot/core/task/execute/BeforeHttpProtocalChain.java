@@ -1,5 +1,6 @@
 package com.robot.core.task.execute;
 
+import com.alibaba.fastjson.JSON;
 import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.entity.TenantRobotHead;
 import com.robot.code.entity.TenantRobotPath;
@@ -10,10 +11,12 @@ import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.HttpMethodEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.net.URI;
 import java.util.List;
@@ -24,6 +27,7 @@ import java.util.List;
  * @Date 2020/5/20 13:37
  * @Version 2.0
  */
+@Slf4j
 @Service
 public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty> {
 
@@ -45,6 +49,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
         setHeads(result);
         // 请求体
         result.setCustomEntity(params.getEntity());
+        log.info("请求体：{}", JSON.toJSONString(params.getEntity()));
         // Cookie
         setHttpContext(params, result);
 
@@ -57,14 +62,14 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
      * @param result
      */
     private void setUrlAndMethod(IFunctionProperty params, ExecuteProperty result) {
-        int rank = params.getRank();
-        TenantRobotDomain domain = domainService.getDomain(rank);
-        TenantRobotPath path = pathService.getPath(params.getAction().getActionCode(), rank);
+        TenantRobotPath path = pathService.getPath(params.getAction().getActionCode());
+        TenantRobotDomain domain = domainService.getDomain(path.getRank());
 
         // 请求URl
         result.setUrl(URI.create(domain.getDomain() + path.getPath()));
         // 设置method
         result.setMethod(HttpMethodEnum.valueOf(path.getMethod()));
+        log.info("请求Method:{},请求URL：{}", path.getMethod(), result.getUrl().toString());
     }
 
     /**
@@ -78,6 +83,9 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
             Assert.hasText(head.getHeadName(), "执行前拦截：头信息:headName为空");
             Assert.hasText(head.getHeadValue(), "执行前拦截：头信息:headValue为空");
             headers.add(head.getHeadName(), head.getHeadValue());
+        }
+        if (!headers.isEmpty()) {
+            log.info("请求头：{}", JSON.toJSON(headers.getHeaders()));
         }
     }
 

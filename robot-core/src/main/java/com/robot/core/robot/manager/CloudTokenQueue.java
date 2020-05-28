@@ -1,6 +1,7 @@
 package com.robot.core.robot.manager;
 
 import com.alibaba.fastjson.JSON;
+import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.util.concurrent.TimeUnit;
-import static com.robot.core.common.RedisConsts.TOKEN_QUEUE;
 
 /**
  * @Author mrt
@@ -20,6 +20,11 @@ import static com.robot.core.common.RedisConsts.TOKEN_QUEUE;
 @Slf4j
 @Service
 public class CloudTokenQueue implements ICloudTokenQueue {
+    /**
+     * Redis：TOKEN队列标志
+     * 12
+     */
+    public static final String TOKEN_QUEUE = RedisConsts.PROJECT + "TOKEN_QUEUE:";
     /**
      * TokenQueue过期时间3天
      */

@@ -46,7 +46,6 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
      * httpclient的获取
      */
     private CloseableHttpClient getHttpClient(long robotId, String idCard) throws Exception {
-        Assert.hasText(idCard, "执行前拦截：idCard为空");
         HttpClientWrapper hcw = httpClientMap.get(robotId);
 
         // 首次使用Httpclient，或项目重启
@@ -70,6 +69,7 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
     }
 
     private boolean idNeedCreate(String idCard, HttpClientWrapper hcw) {
-        return null == hcw || null == hcw.getHttpClient() || StringUtils.isEmpty(hcw.getIdCard())|| !idCard.equalsIgnoreCase(hcw.getIdCard());
+        return null == hcw || null == hcw.getHttpClient() || StringUtils.isEmpty(hcw.getIdCard()) || StringUtils.isEmpty(idCard) || !idCard.equalsIgnoreCase(hcw.getIdCard());
     }
+
 }

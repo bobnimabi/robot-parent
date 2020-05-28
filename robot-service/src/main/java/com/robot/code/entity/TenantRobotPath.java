@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2020-05-18
+ * @since 2020-05-28
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -62,9 +62,9 @@ public class TenantRobotPath implements Serializable {
     private Long httpRequestConfigId;
 
     /**
-     * 异步限制，async_request_config表的id
+     * 同一机器人请求限制，单位：秒，0表示无限制
      */
-    private Long asyncRequestConfigId;
+    private Integer robotTimeLimit;
 
     /**
      * 是否有效 1有效  0无效

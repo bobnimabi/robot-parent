@@ -43,7 +43,7 @@ public class RobotControllerBase {
     private IRobotKeepAlive robotKeepAlive;
     @Autowired
     private ITenantRobotTemplateService templateService;
-    @Autowired+
+    @Autowired
     private ITenantRobotRecordService robotRecordService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;

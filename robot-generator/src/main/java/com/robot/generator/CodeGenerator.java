@@ -26,7 +26,6 @@ public class CodeGenerator {
 
         //生成表的名称
         String[] tables={
-                "async_request_config",
                 "connection_pool_config",
                 "http_request_config",
                 "platform",

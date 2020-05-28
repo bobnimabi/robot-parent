@@ -4,6 +4,9 @@ import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IFunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
+import com.robot.core.robot.manager.IFunctionFacde;
+import com.robot.core.robot.manager.RobotWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
 
-    // TODO 进入机器人管理
+    @Autowired
+    private IFunctionFacde functionFacde;
 
     @Override
     public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {
@@ -23,9 +27,9 @@ public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse,
         if (null == checkLost) {
             return;
         }
-        if (checkLost.isLose(result.getRobotWrapper(),params)) {
-            // TODO 检查掉线的话，掉线要关掉机器人
-
+        RobotWrapper robotWrapper = result.getRobotWrapper();
+        if (checkLost.isLose(robotWrapper,params)) {
+            functionFacde.offline(robotWrapper.getId());
         }
     }
 

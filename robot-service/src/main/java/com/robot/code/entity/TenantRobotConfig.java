@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2020-05-18
+ * @since 2020-05-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,9 +32,9 @@ public class TenantRobotConfig implements Serializable {
     private Long platformId;
 
     /**
-     * 是否有效 1有效  0无效
+     * 是否使用新Cookie（登录时），1是 0否
      */
-    private Boolean isDeleteCookie;
+    private Boolean isNewCookie;
 
     /**
      * connection_pool_config的id

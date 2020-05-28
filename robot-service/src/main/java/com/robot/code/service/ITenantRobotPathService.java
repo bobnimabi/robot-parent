@@ -16,8 +16,7 @@ public interface ITenantRobotPathService extends IService<TenantRobotPath> {
     /**
      * 获取路径
      * @param actionCode
-     * @param rank
      * @return
      */
-    TenantRobotPath getPath(String actionCode, int rank);
+    TenantRobotPath getPath(String actionCode);
 }

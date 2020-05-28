@@ -11,12 +11,6 @@ import com.robot.core.robot.manager.RobotWrapper;
 public interface IFunctionProperty {
 
     /**
-     * 获取域名等级
-     * @return
-     */
-    int getRank();
-
-    /**
      * 获取动作
      * @return
      */

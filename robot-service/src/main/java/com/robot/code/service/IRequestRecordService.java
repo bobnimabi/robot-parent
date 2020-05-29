@@ -16,12 +16,12 @@ public interface IRequestRecordService extends IService<RequestRecord> {
      * 增加流水
      * @param recordId
      * @param robotId
-     * @param actionCode
+     * @param pathCode
      * @param externalOrderNo
      * @param reqInfo
      * @return 流水Id
      */
-    void addRequestRecord(long recordId, long robotId, String actionCode, String externalOrderNo, String reqInfo);
+    void addRequestRecord(long recordId, long robotId, String pathCode, String externalOrderNo, String reqInfo);
 
 
     /**

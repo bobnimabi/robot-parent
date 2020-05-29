@@ -72,7 +72,7 @@ public class ReactorImpl implements Reactor {
                         try {
                             IFunction iFunction = functionMap.get(taskWrapper.getFunctionEnum().getFunctionServer());
                             Assert.notNull(iFunction,"未获取到IFunction,");
-                            TenantRobotAction action = actionService.getAction(iFunction.getActionEnum().getActionCode());
+                            TenantRobotAction action = actionService.getAction(iFunction.getActionEnum().getpathCode());
                             // 机器人还存在限制的情况下(IP,接口时间限制等)，则轮询下个注册项
                             boolean isExecute = timeLimit.isExecute(action, robotWrapper);
                             if (!isExecute) {

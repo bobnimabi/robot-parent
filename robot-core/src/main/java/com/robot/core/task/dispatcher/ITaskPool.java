@@ -1,5 +1,7 @@
 package com.robot.core.task.dispatcher;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * @Author mrt
  * @Date 2020/5/28 13:50
@@ -11,7 +13,7 @@ public interface ITaskPool {
      * 1.会添加时间戳
      * @param taskWrapper
      */
-    void taskAdd(TaskWrapper taskWrapper,String externalNo);
+    void taskAdd(TaskWrapper taskWrapper,String externalNo) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException;
 
     /**
      * 获取队列的大小

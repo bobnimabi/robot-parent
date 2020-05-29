@@ -3,7 +3,7 @@ package com.robot.bbin.activity.function;
 import com.bbin.common.response.ResponseResult;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.vo.JuQueryVO;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
@@ -56,7 +56,7 @@ public class JuQueryServer extends FunctionBase<OrderNoQueryDTO> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return ActionEnum.JU_QUERY;
     }
 

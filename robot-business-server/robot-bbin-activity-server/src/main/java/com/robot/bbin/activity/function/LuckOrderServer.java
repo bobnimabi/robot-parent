@@ -5,7 +5,7 @@ import com.bbin.utils.project.MyBeanUtil;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.vo.JuQueryVO;
 import com.robot.bbin.activity.vo.LuckOrderQueryVO;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
@@ -84,7 +84,7 @@ public class LuckOrderServer extends FunctionBase<OrderNoQueryDTO> {
 
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return ActionEnum.JU_QUERY;
     }
 

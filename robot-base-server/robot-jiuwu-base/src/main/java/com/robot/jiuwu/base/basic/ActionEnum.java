@@ -1,13 +1,13 @@
 package com.robot.jiuwu.base.basic;
 
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 
 /**
  * Created by mrt on 11/14/2019 7:50 PM
  * 注意：登录是不需要的
  * 登录使用 CommonActionEnum
  */
-public enum ActionEnum implements IActionEnum {
+public enum ActionEnum implements IPathEnum {
     TOTAL_RECHARGE_DETAIL("total_recharge_detail", "查询打码明细"),
     QUERY_USER("query_user", "查询用户"),
     PAY("pay", "充值"),
@@ -18,16 +18,16 @@ public enum ActionEnum implements IActionEnum {
     DO_LOCK("do_lock", "加入工单"),
     WITHDRAW_SUCCESS("withdraw_success", "出款成功"),
     ;
-    private final String actionCode;
+    private final String pathCode;
     private final String message;
 
-    private ActionEnum(String actionCode, String message) {
-        this.actionCode = actionCode;
+    private ActionEnum(String pathCode, String message) {
+        this.pathCode = pathCode;
         this.message = message;
     }
 
     @Override
-    public String getActionCode() {
-        return this.actionCode;
+    public String getpathCode() {
+        return this.pathCode;
     }
 }

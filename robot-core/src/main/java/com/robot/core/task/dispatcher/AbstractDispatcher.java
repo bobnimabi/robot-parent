@@ -18,6 +18,7 @@ import java.util.Map;
  * @Version 2.0
  */
 public abstract class AbstractDispatcher implements IDispatcher {
+
     @Autowired
     private Map<String, IFunction> functionMap;
 

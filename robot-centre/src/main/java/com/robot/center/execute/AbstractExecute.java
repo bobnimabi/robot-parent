@@ -76,7 +76,7 @@ public abstract class AbstractExecute implements IExecute{
         // 生成流水id
         String idStr = IdWorker.getIdStr();
         // 请求前：校验、日志
-        beforeProcess(idStr,robotWrapper,httpClient,url,externalOrderNo,action.getActionCode(),
+        beforeProcess(idStr,robotWrapper,httpClient,url,externalOrderNo,action.getpathCode(),
                 customEntity, method, resultParse);
         // 请求
         HttpClientContext httpContext = HttpClientContext.create();
@@ -97,14 +97,14 @@ public abstract class AbstractExecute implements IExecute{
     protected abstract boolean isLose(StanderHttpResponse response);
 
     private <T>void beforeProcess(String idStr,RobotWrapper robotWrapper,CloseableHttpClient httpClient, String url,String externalOrderNo,
-                                  String actionCode, ICustomEntity customEntity, CustomHttpMethod method, IResultParse resultParse) {
+                                  String pathCode, ICustomEntity customEntity, CustomHttpMethod method, IResultParse resultParse) {
         log.info("RecordId:{} RobotId:{} \r\n Method:{} Url:{} ExternalOrderNo:{}",
                 idStr,robotWrapper.getId(),method.name(),url,externalOrderNo);
         log.info("请求体参数：{}", customEntity == null ? "" : customEntity.toString());
         // 请求前：校验参数合法性
         validate(httpClient, url, method, resultParse);
         // 请求前：日志记录
-        recordService.addRecordAsync(idStr, robotWrapper.getId(), externalOrderNo, actionCode, RobotConsts.RobotRecord.SENDING, JSON.toJSONString(customEntity));
+        recordService.addRecordAsync(idStr, robotWrapper.getId(), externalOrderNo, pathCode, RobotConsts.RobotRecord.SENDING, JSON.toJSONString(customEntity));
     }
 
     /**

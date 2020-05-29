@@ -4,7 +4,7 @@ import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.vo.VipTotalAmountVO;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
@@ -59,7 +59,7 @@ public class TotalRechargeServer extends FunctionBase<VipTotalAmountDTO> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         //调度类，不需要具体的执行的Action
         return null;
     }

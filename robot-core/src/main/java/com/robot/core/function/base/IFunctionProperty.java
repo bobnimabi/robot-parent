@@ -14,7 +14,7 @@ public interface IFunctionProperty {
      * 获取动作
      * @return
      */
-    IActionEnum getAction();
+    IPathEnum getAction();
 
     /**
      * 获取接口特定请求头

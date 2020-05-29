@@ -1,15 +1,16 @@
 package com.robot.core.task.dispatcher;
 
-import com.robot.code.dto.LoginDTO;
 import com.robot.code.dto.Response;
-import com.robot.core.function.base.IActionEnum;
-import com.robot.core.function.base.IFunction;
+import com.robot.code.entity.AsyncRequestConfig;
+import com.robot.code.service.IAsyncRequestConfigService;
+import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 
 /**
@@ -19,8 +20,12 @@ import java.time.Duration;
  */
 @Service
 public class Dispatcher extends AbstractDispatcher {
+
     @Autowired
     private ITaskPool taskPool;
+
+    @Autowired
+    private IAsyncRequestConfigService asyncConfig;
 
     /**
      * 获取机器人的时长
@@ -49,8 +54,8 @@ public class Dispatcher extends AbstractDispatcher {
     }
 
     @Override
-    public void asyncDispatch(ParamWrapper paramWrapper, String outNo, String waitField, Duration waitTime, IActionEnum actionEnum, IFunctionEnum functionEnum) {
-        int robotLimitInterval = super.dispatcherFacde.getRobotLimitInterval(actionEnum);
-        taskPool.taskAdd(new TaskWrapper(paramWrapper, functionEnum, waitField, waitTime, actionEnum.getActionCode(), Duration.ofSeconds(robotLimitInterval)), outNo);
+    public void asyncDispatch(ParamWrapper paramWrapper, String exteralNo, IPathEnum pathEnum, IFunctionEnum functionEnum) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        AsyncRequestConfig asyncRequestConfig = asyncConfig.get(pathEnum.getpathCode());
+        taskPool.taskAdd(new TaskWrapper(paramWrapper, functionEnum, asyncRequestConfig), exteralNo);
     }
 }

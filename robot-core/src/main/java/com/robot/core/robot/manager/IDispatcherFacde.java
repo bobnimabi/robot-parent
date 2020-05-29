@@ -1,7 +1,5 @@
 package com.robot.core.robot.manager;
 
-import com.robot.core.function.base.IActionEnum;
-
 import java.time.Duration;
 
 /**
@@ -41,9 +39,4 @@ public interface IDispatcherFacde {
      * @param robotWrapper
      */
     void giveBackCookie(RobotWrapper robotWrapper);
-
-    /**
-     *
-     */
-    int getRobotLimitInterval(IActionEnum actionEnum);
 }

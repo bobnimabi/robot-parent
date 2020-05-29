@@ -30,11 +30,11 @@ public class RequestRecordServiceImpl extends ServiceImpl<RequestRecordMapper, R
 
 
     @Override
-    public void addRequestRecord(long recordId, long robotId, String actionCode, String externalOrderNo, String reqInfo) {
+    public void addRequestRecord(long recordId, long robotId, String pathCode, String externalOrderNo, String reqInfo) {
         RequestRecord record = new RequestRecord();
         record.setId(recordId);
         record.setRobotId(robotId);
-        record.setActionCode(actionCode);
+        record.setPathCode(pathCode);
         record.setExternalOrderNo(externalOrderNo);
         record.setReqInfo(reqInfo);
         boolean isSave = save(record);

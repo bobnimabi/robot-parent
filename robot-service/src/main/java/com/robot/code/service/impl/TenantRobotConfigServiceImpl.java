@@ -20,7 +20,7 @@ public class TenantRobotConfigServiceImpl extends ServiceImpl<TenantRobotConfigM
     @Override
     public TenantRobotConfig getRobotConfig() {
         TenantRobotConfig one = getOne(null);
-        if (null != one || null == one.getPoolId() || null == one.getIsDeleteCookie()) {
+        if (null != one || null == one.getPoolId() || null == one.getIsNewCookie()) {
             throw new IllegalArgumentException("未配置RobotConfig或不全面");
         }
         return one;

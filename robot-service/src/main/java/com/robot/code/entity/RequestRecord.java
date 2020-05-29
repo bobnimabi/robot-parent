@@ -31,7 +31,7 @@ public class RequestRecord implements Serializable {
     /**
      * 动作,t enant_robot_action表的action_code
      */
-    private String actionCode;
+    private String pathCode;
 
     /**
      * 外部打款订单号

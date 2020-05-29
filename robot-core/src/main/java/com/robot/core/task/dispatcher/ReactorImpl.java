@@ -1,22 +1,13 @@
 package com.robot.core.task.dispatcher;
 
-import com.robot.center.constant.RobotConsts;
-import com.robot.center.execute.TaskWrapper;
-import com.robot.center.function.IFunction;
-import com.robot.center.pool.RobotManager;
-import com.robot.center.pool.RobotWrapper;
-import com.robot.center.tenant.TContext;
-import com.robot.code.entity.TenantRobotAction;
-import com.robot.code.service.ITenantRobotActionService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -28,16 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ReactorImpl implements Reactor {
     private static volatile ConcurrentHashMap<RegisterBody,String> register= new ConcurrentHashMap<>();
-    @Autowired
-    private ITenantRobotActionService actionService;
+
     @Autowired
     private IDispatcher taskPool;
     @Autowired
     private RobotManager robotManager;
     @Autowired
     private LimitRobotHelper timeLimit;
-    @Autowired
-    private Map<String, IFunction> functionMap;
+
 
     @Override
     @PostConstruct
@@ -72,7 +61,7 @@ public class ReactorImpl implements Reactor {
                         try {
                             IFunction iFunction = functionMap.get(taskWrapper.getFunctionEnum().getFunctionServer());
                             Assert.notNull(iFunction,"未获取到IFunction,");
-                            TenantRobotAction action = actionService.getAction(iFunction.getActionEnum().getActionCode());
+                            TenantRobotAction action = actionService.getAction(iFunction.getActionEnum().getpathCode());
                             // 机器人还存在限制的情况下(IP,接口时间限制等)，则轮询下个注册项
                             boolean isExecute = timeLimit.isExecute(action, robotWrapper);
                             if (!isExecute) {

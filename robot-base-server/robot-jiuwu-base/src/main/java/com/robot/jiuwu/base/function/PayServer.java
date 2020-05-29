@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
@@ -77,7 +77,7 @@ public class PayServer extends FunctionBase<PayMoneyDTO> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return ActionEnum.PAY;
     }
 

@@ -5,7 +5,7 @@ import com.bbin.utils.project.DateUtils;
 import com.robot.bbin.activity.basic.ActionEnum;
 import com.robot.bbin.activity.dto.OrderNoQueryDTO;
 import com.robot.bbin.activity.vo.JuQueryVO;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
@@ -50,7 +50,7 @@ public class JuQueryRoundServer extends FunctionBase<OrderNoQueryDTO> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return ActionEnum.JU_QUERY;
     }
 

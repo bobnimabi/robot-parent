@@ -41,7 +41,7 @@ public class RobotTimeLimit {
             }
         }
         // 检查机器人Action限制
-        String robotLimitKey = createCacheRobotLimitKey(action.getActionCode(), robotWrapper.getId());
+        String robotLimitKey = createCacheRobotLimitKey(action.getpathCode(), robotWrapper.getId());
         if (0 != action.getRobotTimeLimit()) {
             Boolean setKey = redis.opsForValue().setIfAbsent(robotLimitKey, "", action.getRobotTimeLimit(), TimeUnit.SECONDS);
             if (!setKey) {
@@ -52,7 +52,7 @@ public class RobotTimeLimit {
         return true;
     }
     // CACHE：创建机器人执行Field限制时间key
-    private static String createCacheRobotLimitKey(String actionCode, long robotId) {
+    private static String createCacheRobotLimitKey(String pathCode, long robotId) {
         return new StringBuilder(45)
                 .append(CACHE_ROBOT_ME_LIMIT)
                 .append(TContext.getTenantId()).append(":")
@@ -60,7 +60,7 @@ public class RobotTimeLimit {
                 .append(TContext.getPlatformId()).append(":")
                 .append(TContext.getFunction()).append(":")
                 .append(robotId).append(":")
-                .append(actionCode)
+                .append(pathCode)
                 .toString();
     }
 

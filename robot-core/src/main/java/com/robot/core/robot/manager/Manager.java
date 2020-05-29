@@ -4,10 +4,7 @@ import com.bbin.utils.project.MyBeanUtil;
 import com.robot.code.dto.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobot;
-import com.robot.code.entity.TenantRobotPath;
-import com.robot.code.service.ITenantRobotPathService;
 import com.robot.code.service.ITenantRobotService;
-import com.robot.core.function.base.IActionEnum;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +31,6 @@ public class Manager implements IManager {
 
     @Autowired
     private ITenantRobotService dbRobot;
-
-    @Autowired
-    private ITenantRobotPathService pathService;
 
     /**
      * 同步循环获取机器人的时间间隔，单位：毫秒
@@ -179,11 +173,5 @@ public class Manager implements IManager {
             }
         }
         throw new IllegalArgumentException("返还Cookie：失败");
-    }
-
-    @Override
-    public int getRobotLimitInterval(IActionEnum actionEnum) {
-        TenantRobotPath path = pathService.getPath(actionEnum.getActionCode());
-        return path.getRobotTimeLimit();
     }
 }

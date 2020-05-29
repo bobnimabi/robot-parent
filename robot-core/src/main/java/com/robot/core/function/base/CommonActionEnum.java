@@ -1,22 +1,20 @@
 package com.robot.core.function.base;
 
-import com.robot.core.function.base.IActionEnum;
-
-public enum CommonActionEnum implements IActionEnum {
+public enum CommonActionEnum implements IPathEnum {
     FLUSH_SESSION("flush_session","刷新Session"),
     LOGIN("login","登录"),
     IMAGE_CODE("image_code","图片验证码"),
     ;
-    private final String actionCode;
+    private final String pathCode;
     private final String message;
 
-    private CommonActionEnum(String actionCode, String message) {
-        this.actionCode = actionCode;
+    private CommonActionEnum(String pathCode, String message) {
+        this.pathCode = pathCode;
         this.message = message;
     }
 
     @Override
-    public String getActionCode() {
-        return this.actionCode;
+    public String getpathCode() {
+        return this.pathCode;
     }
 }

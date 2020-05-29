@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 路径表
+ * 
  * </p>
  *
  * @author admin
@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class TenantRobotPath implements Serializable {
+public class AsyncRequestConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,44 +27,19 @@ public class TenantRobotPath implements Serializable {
     private Long id;
 
     /**
-     * 所属平台的id  tenant_platform表的id
+     * 机器人限制时间，单位：秒 ， 表示该接口同一个机器人几秒可以调一次
      */
-    private Long platformId;
+    private Integer robotTimeLimit;
 
     /**
-     * 域名等级，默认1，同一租户下可能出现多个域名,比如二级域名
+     * 域名称（接口DTO里面的属性名称，用来做限制）
      */
-    private Integer rank;
+    private String field;
 
     /**
-     * 路径编码（代码靠此来寻找path）
+     * 域限制时间，单位：秒
      */
-    private String pathCode;
-
-    /**
-     * path
-     */
-    private String path;
-
-    /**
-     * 请求方式，枚举
-     */
-    private String method;
-
-    /**
-     * 备注
-     */
-    private String memo;
-
-    /**
-     * 请求配置id，http_request_config表的id
-     */
-    private Long httpRequestConfigId;
-
-    /**
-     * 异步请求配置id，aysnc_request_config表的id
-     */
-    private Long asyncRequestConfigId;
+    private Integer fieldTime;
 
     /**
      * 是否有效 1有效  0无效

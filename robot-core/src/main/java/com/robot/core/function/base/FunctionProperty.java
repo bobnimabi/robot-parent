@@ -21,7 +21,7 @@ public class FunctionProperty implements IFunctionProperty {
      * 动作
      */
     @NotNull
-    private IActionEnum action;
+    private IPathEnum action;
 
     /**
      * 自定义请求头

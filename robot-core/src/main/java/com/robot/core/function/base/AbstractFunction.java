@@ -58,7 +58,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      *
      * @return
      */
-    protected abstract IActionEnum getAction();
+    protected abstract IPathEnum getAction();
 
     /**
      * 获取接口特定请求头

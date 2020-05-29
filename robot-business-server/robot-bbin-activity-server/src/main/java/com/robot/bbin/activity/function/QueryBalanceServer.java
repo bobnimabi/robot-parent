@@ -2,7 +2,7 @@ package com.robot.bbin.activity.function;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
@@ -41,7 +41,7 @@ public class QueryBalanceServer extends FunctionBase<String> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return ActionEnum.QUERY_BALANCE;
     }
 

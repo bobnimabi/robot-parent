@@ -5,6 +5,8 @@ import com.robot.core.common.TContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+
 import java.time.Duration;
 
 /**
@@ -34,7 +36,7 @@ public class LimitFieldHelper {
      */
     public static long calc(Duration waitTime, String waitField, StringRedisTemplate redis) {
         long currentTime = System.currentTimeMillis();
-        if (null == waitTime || Duration.ZERO.equals(waitTime)) {
+        if (StringUtils.isEmpty(waitField) || null == waitTime || Duration.ZERO.equals(waitTime)) {
             return currentTime;
         }
         Assert.hasText(waitField, "WaitField为空");

@@ -1,7 +1,7 @@
 package com.robot.center.function;
 
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IExecute;
 import com.robot.center.pool.IRobotManager;
 import com.robot.center.pool.RobotWrapper;
@@ -69,7 +69,7 @@ public abstract class FunctionBase<T> implements IFunction<T>{
      * 1.机器人一定要归还（当需归还的时候）
      */
     private  ResponseResult doAction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception{
-        IActionEnum actionEnum = null;
+        IPathEnum actionEnum = null;
         // 获取Action
         if (null == action) {
             actionEnum = getActionEnum();
@@ -82,7 +82,7 @@ public abstract class FunctionBase<T> implements IFunction<T>{
             }
         }
         if (null != action) {
-            log.info("-------------------{}-------------------", action.getActionCode());
+            log.info("-------------------{}-------------------", action.getpathCode());
         }
         return doFunctionFinal(paramWrapper, robotWrapper, action);
     }
@@ -97,8 +97,8 @@ public abstract class FunctionBase<T> implements IFunction<T>{
     /**
      * 获取动作
      */
-    protected TenantRobotAction getAction(IActionEnum actionEnum) {
-        return actionService.getAction(actionEnum.getActionCode());
+    protected TenantRobotAction getAction(IPathEnum actionEnum) {
+        return actionService.getAction(actionEnum.getpathCode());
     }
 
     /**
@@ -115,6 +115,6 @@ public abstract class FunctionBase<T> implements IFunction<T>{
      * 获取动作编码
      * @return
      */
-    public abstract IActionEnum getActionEnum();
+    public abstract IPathEnum getActionEnum();
 
 }

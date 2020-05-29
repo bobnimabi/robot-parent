@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.vo.VipTotalAmountVO;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
@@ -74,7 +74,7 @@ public class QueryVipAmountServer extends FunctionBase<VipTotalAmountDTO> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return null;
     }
 

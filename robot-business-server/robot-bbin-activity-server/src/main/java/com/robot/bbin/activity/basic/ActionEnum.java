@@ -1,11 +1,11 @@
 package com.robot.bbin.activity.basic;
 
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 
 /**
  * Created by mrt on 11/14/2019 7:50 PM
  */
-public enum ActionEnum implements IActionEnum {
+public enum ActionEnum implements IPathEnum {
     QUERY_BALANCE("query_balance","查询会员余额"),
     JU_QUERY("ju_query","局查询"),
     JU_QUERY_DETAIL("ju_query_detail","局查询:窗口信息"),
@@ -14,16 +14,16 @@ public enum ActionEnum implements IActionEnum {
     PAY("pay","充值"),
     TOTAL_BET_BY_GAME("total_bet_by_game","查询消消除单个游戏投注总金额"),
     ;
-    private final String actionCode;
+    private final String pathCode;
     private final String message;
 
-    private ActionEnum(String actionCode,String message) {
-        this.actionCode = actionCode;
+    private ActionEnum(String pathCode,String message) {
+        this.pathCode = pathCode;
         this.message = message;
     }
 
     @Override
-    public String getActionCode() {
-        return this.actionCode;
+    public String getpathCode() {
+        return this.pathCode;
     }
 }

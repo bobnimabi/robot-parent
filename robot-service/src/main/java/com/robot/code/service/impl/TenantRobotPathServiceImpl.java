@@ -19,11 +19,11 @@ import org.springframework.stereotype.Service;
 public class TenantRobotPathServiceImpl extends ServiceImpl<TenantRobotPathMapper, TenantRobotPath> implements ITenantRobotPathService {
 
     @Override
-    public TenantRobotPath getPath(String actionCode) {
+    public TenantRobotPath getPath(String pathCode) {
         TenantRobotPath one = getOne(new LambdaQueryWrapper<TenantRobotPath>()
-                .eq(TenantRobotPath::getActionCode, actionCode));
+                .eq(TenantRobotPath::getPathCode, pathCode));
         if (null == one) {
-            throw new IllegalStateException("未获取到Path,actionCode:" + actionCode);
+            throw new IllegalStateException("未获取到Path,pathCode:" + pathCode);
         }
         return one;
     }

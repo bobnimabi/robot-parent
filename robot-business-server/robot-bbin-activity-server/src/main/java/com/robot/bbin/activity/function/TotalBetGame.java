@@ -3,7 +3,7 @@ package com.robot.bbin.activity.function;
 import com.bbin.common.response.ResponseResult;
 import com.robot.bbin.activity.dto.TotalBetGameDTO;
 import com.robot.bbin.activity.vo.TotalBetGameVO;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.execute.IResultParse;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
@@ -51,7 +51,7 @@ public class TotalBetGame extends FunctionBase<TotalBetGameDTO> {
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return ActionEnum.TOTAL_BET_BY_GAME;
     }
 

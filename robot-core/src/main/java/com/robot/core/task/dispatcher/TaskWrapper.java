@@ -1,6 +1,6 @@
 package com.robot.core.task.dispatcher;
 
-import com.robot.core.function.base.IActionEnum;
+import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.ParamWrapper;
 import lombok.AllArgsConstructor;
@@ -30,23 +30,7 @@ public class TaskWrapper implements Serializable {
     private IFunctionEnum functionEnum;
 
     /**
-     * 等待字段
-      */
-    private String waitField;
-
-    /**
-     * 执行等待时间,单位：秒,null表示不等待
+     * 异步请求配置
      */
-    private Duration waitTime;
-
-
-    /**
-     * 异步等待path
-     */
-    private String actionCode;
-
-    /**
-     * 机器人等待时间
-     */
-    private Duration robotLimitTime;
+    AsyncRequestConfig config;
 }

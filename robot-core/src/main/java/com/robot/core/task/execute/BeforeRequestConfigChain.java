@@ -43,7 +43,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
 
     @Override
     public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
-        TenantRobotPath path = pathService.getPath(params.getAction().getActionCode());
+        TenantRobotPath path = pathService.getPath(params.getAction().getpathCode());
 
         // requestConfigId
         Long requestConfigId = path.getHttpRequestConfigId();

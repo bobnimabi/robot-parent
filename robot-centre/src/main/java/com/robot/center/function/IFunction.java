@@ -1,7 +1,7 @@
 package com.robot.center.function;
 
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
 
@@ -43,6 +43,6 @@ public interface IFunction<T> {
      * 获取Action
      * @return
      */
-    IActionEnum getActionEnum();
+    IPathEnum getActionEnum();
 
 }

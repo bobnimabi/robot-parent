@@ -2,14 +2,12 @@ package com.robot.jiuwu.pay.function;
 
 import com.bbin.common.response.ResponseResult;
 import com.robot.center.chain.FilterChain;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.jiuwu.base.dto.WithdrawListDTO;
-import com.robot.jiuwu.base.function.DoLockServer;
-import com.robot.jiuwu.base.function.UpdateRemark2Server;
 import com.robot.jiuwu.base.function.WithdrawListServer;
 import com.robot.jiuwu.base.vo.WithdrawListResultVO;
 import com.robot.jiuwu.base.vo.WithdrawListRowsData;
@@ -46,7 +44,7 @@ public class WithdrawServer extends FunctionBase<WithdrawListDTO> {
 
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return null;
     }
 }

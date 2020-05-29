@@ -62,7 +62,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
      * @param result
      */
     private void setUrlAndMethod(IFunctionProperty params, ExecuteProperty result) {
-        TenantRobotPath path = pathService.getPath(params.getAction().getActionCode());
+        TenantRobotPath path = pathService.getPath(params.getAction().getpathCode());
         TenantRobotDomain domain = domainService.getDomain(path.getRank());
 
         // 请求URl

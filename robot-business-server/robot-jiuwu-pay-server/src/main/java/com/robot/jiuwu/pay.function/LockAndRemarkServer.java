@@ -1,14 +1,13 @@
 package com.robot.jiuwu.pay.function;
 
 import com.bbin.common.response.ResponseResult;
-import com.robot.center.execute.IActionEnum;
+import com.robot.center.execute.IPathEnum;
 import com.robot.center.function.FunctionBase;
 import com.robot.center.function.ParamWrapper;
 import com.robot.center.pool.RobotWrapper;
 import com.robot.code.entity.TenantRobotAction;
 import com.robot.jiuwu.base.dto.DoLockDTO;
 import com.robot.jiuwu.base.dto.UpdateRemark2DTO;
-import com.robot.jiuwu.base.dto.WithdrawListDTO;
 import com.robot.jiuwu.base.function.DoLockServer;
 import com.robot.jiuwu.base.function.UpdateRemark2Server;
 import com.robot.jiuwu.base.vo.WithdrawListRowsData;
@@ -47,7 +46,7 @@ public class LockAndRemarkServer extends FunctionBase<List<WithdrawListRowsData>
     }
 
     @Override
-    public IActionEnum getActionEnum() {
+    public IPathEnum getActionEnum() {
         return null;
     }
 

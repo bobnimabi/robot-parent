@@ -2,6 +2,7 @@ package com.robot.core.task.dispatcher;
 
 import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.core.function.base.IFunctionEnum;
+import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.ParamWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +34,9 @@ public class TaskWrapper implements Serializable {
      * 异步请求配置
      */
     AsyncRequestConfig config;
+
+    /**
+     * path的枚举
+     */
+    private IPathEnum pathEnum;
 }

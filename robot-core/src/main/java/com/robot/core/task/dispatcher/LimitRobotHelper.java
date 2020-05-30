@@ -1,11 +1,13 @@
 package com.robot.core.task.dispatcher;
 
+import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 
@@ -15,19 +17,36 @@ import java.time.Duration;
 @Slf4j
 @Service
 public class LimitRobotHelper {
-
+    /**
+     * redis：机器人阻挡前缀
+     */
     private static final String CACHE_ROBOT_ME_LIMIT = RedisConsts.PROJECT + "ROBOT:LIMIT:";
 
-    @Autowired
-    private StringRedisTemplate redis;
-
-
-    public static boolean hasLimit(Duration waitTime, String pathCode, long robotId, StringRedisTemplate redis) {
-        if (null == waitTime || Duration.ZERO.equals(waitTime)) {
+    /**
+     * 机器人出队时判断是否有阻挡
+     * @param taskWrapper
+     * @param robotId
+     * @param redis
+     * @return
+     */
+    public static boolean hasLimit(TaskWrapper taskWrapper, long robotId, StringRedisTemplate redis) {
+        AsyncRequestConfig config = taskWrapper.getConfig();
+        if (null == config || null == config.getRobotTimeLimit() || config.getRobotTimeLimit() <= 0 || null == taskWrapper.getPathEnum()) {
             return false;
         }
-        Boolean isSet = redis.opsForValue().setIfAbsent(robotLimitKey(pathCode, robotId), "", waitTime);
-        return !isSet;
+        return hasLimit(Duration.ofSeconds(config.getRobotTimeLimit()), taskWrapper.getPathEnum().getpathCode(), robotId, redis);
+    }
+
+    /**
+     * 判断是否有对机器人的阻挡
+     * @param waitTime
+     * @param pathCode
+     * @param robotId
+     * @param redis
+     * @return
+     */
+    private static boolean hasLimit(Duration waitTime, String pathCode, long robotId, StringRedisTemplate redis) {
+        return !redis.opsForValue().setIfAbsent(robotLimitKey(pathCode, robotId), "", waitTime);
     }
 
     // CACHE：创建机器人执行Field限制时间key

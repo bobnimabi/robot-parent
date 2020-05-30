@@ -53,7 +53,7 @@ public class TContext {
         ThreadContext.put(FUNCTION, function);
     }
 
-    public  void clean() {
+    public static void clean() {
         ThreadContext.clearMap();
     }
 

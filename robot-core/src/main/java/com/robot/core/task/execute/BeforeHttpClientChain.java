@@ -27,7 +27,7 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
     private IHttpClientFactory httpClientFactory;
 
     // 正常情况下，机器人不超过10个
-    private static Map<Long, HttpClientWrapper> httpClientMap = new HashMap<>(10);
+    private static volatile Map<Long, HttpClientWrapper> httpClientMap = new HashMap<>(10);
 
     @Override
     public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {

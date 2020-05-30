@@ -21,17 +21,18 @@ public class FeignTenantInterceptor implements RequestInterceptor {
     public FeignTenantInterceptor() {
     }
 
+    @Override
     public void apply(RequestTemplate template) {
         String url = template.request().url();
         if (url.indexOf("/domain/get") == -1) {
             this.setOriginHost(template);
             log.info("FeignTenantInterceptor 拦截器进入================================");
-            Long tenantId = TContext.getTenantId();
+            Long tenantId = Long.parseLong(TContext.getTenantId());
             if (null == tenantId) {
                 throw  new IllegalArgumentException("没有tenantId");
             }
 
-            Long channelId = TContext.getChannelId();
+            Long channelId = Long.parseLong(TContext.getChannelId());
             if (null == tenantId) {
                 throw  new IllegalArgumentException("没有channelId");
             }

@@ -5,8 +5,6 @@ package com.robot.core.task.dispatcher;
  */
 public interface Reactor {
 
-    void handleEvents();
-
     void registerEvents(RegisterBody registerBody);
 
 }

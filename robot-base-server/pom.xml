@@ -12,7 +12,6 @@
     <artifactId>robot-base-server</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>robot-jiuwu-base</module>
     </modules>
 
     <dependencies>

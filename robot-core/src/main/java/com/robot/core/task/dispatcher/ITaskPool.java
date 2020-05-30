@@ -34,5 +34,5 @@ public interface ITaskPool {
      * 任务出队
      * 1.会添加限制时间
      */
-    TaskWrapper taskGet();
+    TaskWrapper taskGet() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 }

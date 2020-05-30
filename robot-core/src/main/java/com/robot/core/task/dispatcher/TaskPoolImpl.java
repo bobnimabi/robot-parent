@@ -6,12 +6,15 @@ import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.ParamWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.ThreadContext;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.MethodInvoker;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
@@ -51,19 +54,9 @@ public class TaskPoolImpl implements ITaskPool {
     @Autowired
     private Reactor reactor;
 
-    /**
-     * 缓存反射对象的容器，提升性能
-     * 注意：正常情况下，就一个打款需要
-     */
-    private Map<String, MethodInvoker> map = new HashMap<>(1);
-
     @Override
     public void taskAdd(TaskWrapper taskWrapper, String externalNo) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException {
-        AsyncRequestConfig config = taskWrapper.getConfig();
-        ParamWrapper paramWrapper = taskWrapper.getParamWrapper();
-
-
-        long timeStamp = LimitFieldHelper.calc(Duration.ofSeconds(config.getFieldTime()), getWaitName(config, paramWrapper), redis);
+        long timeStamp = LimitFieldHelper.calc(taskWrapper, redis);
         Boolean isAdd = taskRedis.opsForZSet().add(createCacheQueueKey(), taskWrapper, timeStamp);
         if (isAdd) {
             reactor.registerEvents(createRegisterBody());
@@ -79,13 +72,13 @@ public class TaskPoolImpl implements ITaskPool {
     }
 
     @Override
-    public TaskWrapper taskGet() {
+    public TaskWrapper taskGet() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         TaskWrapper taskWrapper = taskSkim();
         if (null == taskWrapper) {
             return null;
         }
         // 防止过去一段时间任务堆积
-        boolean hasLimit = LimitFieldHelper.hasLimit(taskWrapper.getWaitTime(), taskWrapper.getWaitField(), redis);
+        boolean hasLimit = LimitFieldHelper.hasLimit(taskWrapper, redis);
         if (hasLimit) {
             return null;
         }
@@ -127,47 +120,5 @@ public class TaskPoolImpl implements ITaskPool {
                 TContext.getPlatformId(),
                 TContext.getFunction()
         );
-    }
-
-    /**
-     * 根据反射获取Field
-     * @param config
-     * @param paramWrapper
-     * @return
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     */
-    private String getWaitName(AsyncRequestConfig config, ParamWrapper paramWrapper) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException {
-        String field = config.getField();
-        String targetMethodStr = "get" + toUpperFirstChar(field);
-        String canonicalName = paramWrapper.getObj().getClass().getCanonicalName();
-        String key = new StringBuilder(canonicalName.length() + targetMethodStr.length() + 1).append(canonicalName).append(".").append(targetMethodStr).toString();
-        MethodInvoker invoker = map.get(key);
-        if (null == invoker) {
-            invoker = new MethodInvoker();
-            invoker.setTargetObject(paramWrapper.getObj());
-            invoker.setTargetMethod(targetMethodStr);
-            if (!invoker.isPrepared()) {
-                invoker.prepare();
-            }
-            map.put(key, invoker);
-        }
-        String value = (String) invoker.invoke();
-        Assert.hasText(value, "反射获取：" + field + " 没有值");
-        return new StringBuilder(field.length() + value.length() + 1).append(field).append(":").append(value).toString();
-    }
-
-    /**
-     * 首字母大写
-     * @param string
-     * @return
-     */
-    private String toUpperFirstChar(String string) {
-        char[] chars = string.toCharArray();
-        if (chars[0] >= 'a' && chars[0] <= 'z') {
-            chars[0] -= 32;
-            return String.valueOf(chars);
-        }
-        return string;
     }
 }

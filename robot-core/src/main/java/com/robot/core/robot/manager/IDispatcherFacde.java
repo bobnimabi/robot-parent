@@ -32,10 +32,17 @@ public interface IDispatcherFacde {
      * @param duration
      * @return
      */
-    RobotWrapper getRobotDuration(Duration duration);
+    RobotWrapper getCookieDuration(Duration duration);
 
     /**
      * 归还机器人
+     * @param robotWrapper
+     */
+    void giveBackCookieAndToken(RobotWrapper robotWrapper);
+
+
+    /**
+     * 归还机器人：登录相关接口使用
      * @param robotWrapper
      */
     void giveBackCookie(RobotWrapper robotWrapper);

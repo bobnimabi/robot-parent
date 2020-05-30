@@ -20,6 +20,7 @@ import java.util.UUID;
  * @Version 2.0
  */
 public class Manager implements IManager {
+
     @Autowired
     private ICloudCookie cloudCookie;
 
@@ -109,8 +110,13 @@ public class Manager implements IManager {
         return null;
     }
 
+    @Transactional
     @Override
     public void newCookie(long robotId) {
+        boolean isOfflineDB = dbRobot.offlineDB(robotId);
+        if (!isOfflineDB) {
+            throw new IllegalArgumentException("DB：下线机器人失败");
+        }
         TenantRobot robot = dbRobot.getById(robotId);
         if (null != robot) {
             RobotWrapper robotWrapper = MyBeanUtil.copyProperties(robot, RobotWrapper.class);
@@ -141,7 +147,7 @@ public class Manager implements IManager {
     }
 
     @Override
-    public RobotWrapper getRobotDuration(Duration duration) {
+    public RobotWrapper getCookieDuration(Duration duration) {
         long num = (duration.toMillis() + INTERVAL - 1) / INTERVAL;
         RobotWrapper robotWrapper = null;
         int i = 0;
@@ -159,11 +165,11 @@ public class Manager implements IManager {
     }
 
     @Override
-    public void giveBackCookie(RobotWrapper robotWrapper) {
+    public void giveBackCookieAndToken(RobotWrapper robotWrapper) {
         Long robotId = robotWrapper.getId();
         String idCard = robotWrapper.getIdCard();
         Assert.hasText(idCard,"返还Cookie：idCard为空");
-        Assert.hasText(idCard,"返还Cookie：robotId为空");
+        Assert.notNull(robotId,"返还Cookie：robotId为空");
         Assert.notNull(robotWrapper.getCookieStore(),"返还Cookie：CookieStore为空");
         boolean pushToken = tokenQueue.pushToken(new Token(robotId, idCard));
         if (pushToken) {
@@ -171,6 +177,17 @@ public class Manager implements IManager {
             if (putCookie) {
                 return;
             }
+        }
+        throw new IllegalArgumentException("返还Cookie和Token：失败");
+    }
+
+    @Override
+    public void giveBackCookie(RobotWrapper robotWrapper) {
+        Assert.notNull(robotWrapper.getId(),"返还Cookie：robotId为空");
+        Assert.notNull(robotWrapper.getCookieStore(),"返还Cookie：CookieStore为空");
+        boolean putCookie = cloudCookie.putCookie(robotWrapper);
+        if (putCookie) {
+            return;
         }
         throw new IllegalArgumentException("返还Cookie：失败");
     }

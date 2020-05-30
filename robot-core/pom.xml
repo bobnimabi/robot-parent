@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>robot-gpk-activity-server</artifactId>
+    <artifactId>robot-core</artifactId>
 
     <dependencies>
         <dependency>

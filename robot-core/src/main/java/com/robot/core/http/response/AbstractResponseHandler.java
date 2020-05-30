@@ -17,7 +17,10 @@ import java.nio.charset.Charset;
  * 注意：
  *  1.已经提供了最常用的响应类型的处理，html、json、byte[]
  *  2.如果有更特殊的情况（如下载），请自行定义
+ *
+ *  E为未来转换后的对象
  */
+
 @Slf4j
 public abstract class AbstractResponseHandler<E> implements ResponseHandler<StanderHttpResponse> {
 

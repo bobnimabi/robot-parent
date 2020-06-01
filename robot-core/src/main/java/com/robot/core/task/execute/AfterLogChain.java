@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.robot.code.service.IRequestRecordService;
 import com.robot.code.service.IResponseRecordService;
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.code.dto.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @Version 2.0
  */
 @Service
-public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
+public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse, FunctionProperty> {
     @Autowired
     private IRequestRecordService requestRecordService;
 
@@ -25,7 +25,7 @@ public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse, IFunc
     private IResponseRecordService responseRecordService;
 
     @Override
-    public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {
+    public void dofilter(StanderHttpResponse params, FunctionProperty result, Invoker<StanderHttpResponse, FunctionProperty> invoker) throws Exception {
         Response response = params.getResponse();
         requestRecordService.updateRequestRecord(result.getRecordId(), response.isSuccess(), response.getMessage());
         if (response.isSuccess() && null != params.getOriginalEntity()) {

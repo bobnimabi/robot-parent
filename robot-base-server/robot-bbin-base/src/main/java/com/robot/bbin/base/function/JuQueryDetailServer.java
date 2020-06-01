@@ -1,6 +1,5 @@
 package com.robot.bbin.base.function;
 
-import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.dto.JuQueryDetailDTO;
 import com.robot.code.dto.Response;
@@ -42,13 +41,13 @@ public class JuQueryDetailServer extends AbstractFunction<JuQueryDetailDTO,Strin
     /**
      * 响应结果转换类
      */
-    private static final class ResultHandler implements IResultHandler {
+    private static final class ResultHandler implements IResultHandler<String,String> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public void parse2Obj(StanderHttpResponse srp) {
-            srp.setResponse(Response.SUCCESS(srp.getOriginalEntity()));
+        public Response parse2Obj(StanderHttpResponse<String,String> srp) {
+            return Response.SUCCESS(srp.getOriginalEntity());
         }
     }
 }

@@ -22,7 +22,12 @@ import java.util.regex.Pattern;
  * @Version 2.0
  * 通用HTML响应解析
  */
-public class HtmlResponseHandler<E> extends AbstractResponseHandler<E> {
+public class HtmlResponseHandler extends AbstractResponseHandler {
+
+    /**
+     * 饿汉单例
+     */
+    public static final HtmlResponseHandler HTML_RESPONSE_HANDLER = new HtmlResponseHandler();
 
     @Override
     protected boolean errorStatus(StatusLine statusLine) {
@@ -33,7 +38,7 @@ public class HtmlResponseHandler<E> extends AbstractResponseHandler<E> {
     @Override
     protected StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
         String result = toString(response);
-        return new StanderHttpResponse<String, E>(response, result);
+        return new StanderHttpResponse(response, result);
     }
 
     /**

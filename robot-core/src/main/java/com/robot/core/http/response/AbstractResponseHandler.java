@@ -22,7 +22,7 @@ import java.nio.charset.Charset;
  */
 
 @Slf4j
-public abstract class AbstractResponseHandler<E> implements ResponseHandler<StanderHttpResponse> {
+public abstract class AbstractResponseHandler implements ResponseHandler<StanderHttpResponse> {
 
     /**
      * 无论是正常或异常情况：源码里都已经对流进行了消费，无需手动再写一次

@@ -15,7 +15,12 @@ import java.nio.charset.StandardCharsets;
  * @Version 2.0
  * 通用JSON响应解析
  */
-public class JsonResponseHandler<E> extends AbstractResponseHandler<E> {
+public class JsonResponseHandler extends AbstractResponseHandler {
+
+    /**
+     * 饿汉单例
+     */
+    public static final JsonResponseHandler JSON_RESPONSE_HANDLER = new JsonResponseHandler();
 
     @Override
     protected boolean errorStatus(StatusLine statusLine) {
@@ -27,7 +32,7 @@ public class JsonResponseHandler<E> extends AbstractResponseHandler<E> {
     protected StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
         Charset charset = getCharsetOrDefault(response.getEntity(), StandardCharsets.UTF_8);
         String result = EntityUtils.toString(response.getEntity(), charset);
-        return new StanderHttpResponse<String, E>(response, result);
+        return new StanderHttpResponse(response, result);
     }
 
     /**

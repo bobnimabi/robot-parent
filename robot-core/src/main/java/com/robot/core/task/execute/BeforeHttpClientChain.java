@@ -1,13 +1,12 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.httpclient.factory.IHttpClientFactory;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Version 2.0
  */
 @Service
-public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty> {
+public class BeforeHttpClientChain extends ExecuteBeforeFilter<FunctionProperty, ExecuteProperty> {
 
     @Autowired
     private IHttpClientFactory httpClientFactory;
@@ -34,7 +33,7 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
     private static ReentrantLock lock = new ReentrantLock();
 
     @Override
-    public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
+    public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
         RobotWrapper robotWrapper = params.getRobotWrapper();
         CloseableHttpClient httpClient = getHttpClient(robotWrapper.getId(), robotWrapper.getIdCard());
         result.setHttpClient(httpClient);

@@ -7,7 +7,7 @@ import com.robot.code.service.ITenantRobotDomainService;
 import com.robot.code.service.ITenantRobotHeadService;
 import com.robot.code.service.ITenantRobotPathService;
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.MethodEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty> {
+public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionProperty, ExecuteProperty> {
 
     @Autowired
     private ITenantRobotDomainService domainService;
@@ -40,7 +40,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
 
 
     @Override
-    public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
+    public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
         // 请求URl和Method
         setUrlAndMethod(params, result);
         // 设置请求头
@@ -58,7 +58,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
      * @param params
      * @param result
      */
-    private void setUrlAndMethod(IFunctionProperty params, ExecuteProperty result) {
+    private void setUrlAndMethod(FunctionProperty params, ExecuteProperty result) {
         TenantRobotPath path = pathService.getPath(params.getPathEnum().getPathCode());
         TenantRobotDomain domain = domainService.getDomain(path.getRank());
 
@@ -74,7 +74,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
      * @param params
      * @param result
      */
-    private void setHeads(IFunctionProperty params, ExecuteProperty result) {
+    private void setHeads(FunctionProperty params, ExecuteProperty result) {
         List<TenantRobotHead> publicHeaders = headService.getPublicHeaders();
         CustomHeaders headers = params.getHeaders();
         for (TenantRobotHead head : publicHeaders) {
@@ -93,7 +93,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
      * @param params
      * @param result
      */
-    private void setEntity(IFunctionProperty params, ExecuteProperty result) {
+    private void setEntity(FunctionProperty params, ExecuteProperty result) {
         result.setCustomEntity(params.getEntity());
         log.info("请求体：{}", params.getEntity().toString());
     }
@@ -103,10 +103,14 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<IFunctionProper
      * @param params
      * @param result
      */
-    private void setHttpContext(IFunctionProperty params, ExecuteProperty result) {
+    private void setHttpContext(FunctionProperty params, ExecuteProperty result) {
         HttpClientContext httpContext = HttpClientContext.create();
         httpContext.setCookieStore(params.getRobotWrapper().getCookieStore());
         result.setHttpContext(httpContext);
+    }
+
+    private void setResponseHandler(FunctionProperty params, ExecuteProperty result) {
+        result.setResponseHandler(params.getResponseHandler());
     }
 
     @Override

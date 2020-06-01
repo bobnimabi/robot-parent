@@ -1,7 +1,7 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.code.dto.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
  * @Version 2.0
  */
 @Service
-public class AfterParseChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
+public class AfterParseChain extends ExecuteAfterFilter<StanderHttpResponse, FunctionProperty> {
 
     @Override
-    public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {
+    public void dofilter(StanderHttpResponse params, FunctionProperty result, Invoker<StanderHttpResponse, FunctionProperty> invoker) throws Exception {
         // 如果掉线检查，发现掉线，就不对结果进行处理了
         Response checkResp = params.getResponse();
         boolean isLost = null != checkResp && !checkResp.isSuccess();

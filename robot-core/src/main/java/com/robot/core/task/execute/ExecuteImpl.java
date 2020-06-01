@@ -1,7 +1,7 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.context.annotation.Bean;
 
@@ -16,13 +16,13 @@ import java.util.List;
  */
 public class ExecuteImpl<T,E> implements IExecute<T,E> {
 
-    private Invoker<IFunctionProperty, ExecuteProperty> beforeInvoker;
+    private Invoker<FunctionProperty, ExecuteProperty> beforeInvoker;
 
-    private Invoker<StanderHttpResponse,IFunctionProperty> afterInvoker;
+    private Invoker<StanderHttpResponse, FunctionProperty> afterInvoker;
 
 
     @Override
-    public StanderHttpResponse<T,E>  request(IFunctionProperty property) throws Exception {
+    public StanderHttpResponse<T,E>  request(FunctionProperty property) throws Exception {
         ExecuteProperty executeProperty = new ExecuteProperty();
         // 前拦截执行
         beforeInvoker.invoke(property,executeProperty);
@@ -34,8 +34,8 @@ public class ExecuteImpl<T,E> implements IExecute<T,E> {
     }
 
     @Bean
-    public void builderInvoker(List<ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty>> beforeFilters,
-                               List<ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty>> afterFilters) throws Exception {
+    public void builderInvoker(List<ExecuteBeforeFilter<FunctionProperty, ExecuteProperty>> beforeFilters,
+                               List<ExecuteAfterFilter<StanderHttpResponse, FunctionProperty>> afterFilters) throws Exception {
         beforeInvoker = Invoker.buildInvokerChain(beforeFilters);
         afterInvoker = Invoker.buildInvokerChain(afterFilters);
     }

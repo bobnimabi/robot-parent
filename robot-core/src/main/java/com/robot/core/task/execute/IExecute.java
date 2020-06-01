@@ -1,7 +1,7 @@
 package com.robot.core.task.execute;//package com.bbin.robotWrapper.core.execute;
 
 
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
 
 
@@ -16,5 +16,5 @@ public interface IExecute<T,E> {
      * @param property
      * @return
      */
-    StanderHttpResponse<T, E> request(IFunctionProperty property) throws Exception;
+    StanderHttpResponse<T, E> request(FunctionProperty property) throws Exception;
 }

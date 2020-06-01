@@ -2,9 +2,11 @@ package com.robot.core.function.base;
 
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.http.client.ResponseHandler;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +17,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @AllArgsConstructor
-public class FunctionProperty implements IFunctionProperty {
+public class FunctionProperty {
 
     /**
      * 路径编码枚举
@@ -40,7 +42,12 @@ public class FunctionProperty implements IFunctionProperty {
     private ICheckLost checkLost;
 
     /**
-     * 响应最终处理
+     * http响应处理器
+     */
+    private ResponseHandler<StanderHttpResponse> responseHandler;
+
+    /**
+     * 结果处理器
      */
     @NotNull
     private IResultHandler resultHandler;

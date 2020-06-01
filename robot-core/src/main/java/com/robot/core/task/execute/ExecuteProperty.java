@@ -56,7 +56,7 @@ public class ExecuteProperty {
     private RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
 
     /**
-     * 响应处理器
+     * http响应处理器
      */
     private ResponseHandler<StanderHttpResponse> responseHandler;
 

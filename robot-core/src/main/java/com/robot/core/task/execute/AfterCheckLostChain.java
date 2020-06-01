@@ -3,7 +3,7 @@ package com.robot.core.task.execute;
 import com.robot.code.dto.Response;
 import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.ICheckLost;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.IFunctionFacde;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
  * @Version 2.0
  */
 @Service
-public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse, IFunctionProperty> {
+public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse, FunctionProperty> {
 
     @Autowired
     private IFunctionFacde functionFacde;
 
     @Override
-    public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {
+    public void dofilter(StanderHttpResponse params, FunctionProperty result, Invoker<StanderHttpResponse, FunctionProperty> invoker) throws Exception {
         ICheckLost checkLost = result.getCheckLost();
         if (null == checkLost) {
             return;

@@ -14,7 +14,12 @@ import java.io.IOException;
  * @Version 2.0
  * 通用Byte[]响应解析
  */
-public class ByteResponseHandler<E> extends AbstractResponseHandler {
+public class ByteResponseHandler extends AbstractResponseHandler {
+
+    /**
+     * 饿汉单例
+     */
+    public static final ByteResponseHandler BYTE_RESPONSE_HANDLER = new ByteResponseHandler();
 
     @Override
     protected boolean errorStatus(StatusLine statusLine) {
@@ -26,6 +31,6 @@ public class ByteResponseHandler<E> extends AbstractResponseHandler {
     protected StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
         HttpEntity entity = response.getEntity();
         byte[] bytes = EntityUtils.toByteArray(response.getEntity());
-        return new StanderHttpResponse<byte[],E>(response, bytes);
+        return new StanderHttpResponse(response, bytes);
     }
 }

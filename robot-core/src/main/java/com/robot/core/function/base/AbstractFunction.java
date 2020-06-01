@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.robot.code.dto.Response;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.response.JsonResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.core.task.execute.IExecute;
+import org.apache.http.client.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
@@ -28,12 +30,20 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     @Override
     public final Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        IFunctionProperty property = new FunctionProperty(getPathEnum(), getHeaders(robotWrapper)
-                , getEntity(paramWrapper.getObj()), getCHECK_LOST_SERVICE(), getResultHandler(), robotWrapper, getExteralNo(paramWrapper), IdWorker.getId());
+        FunctionProperty property = new FunctionProperty(
+                getPathEnum(),
+                getHeaders(robotWrapper),
+                getEntity(paramWrapper.getObj()),
+                getCHECK_LOST_SERVICE(),
+                getResponseHandler(),
+                getResultHandler(),
+                robotWrapper,
+                getExteralNo(paramWrapper),
+                IdWorker.getId()
+        );
         StanderHttpResponse<F, E> standerHttpResponse = iExecute.request(property);
         return standerHttpResponse.getResponse();
     }
-
 
     /**
      * 获取动作
@@ -84,4 +94,13 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      * @return
      */
     protected abstract IResultHandler<F, E> getResultHandler();
+
+    /**
+     * 获取http响应处理器
+     *
+     * @return
+     */
+    protected ResponseHandler<StanderHttpResponse> getResponseHandler(){
+        return JsonResponseHandler.JSON_RESPONSE_HANDLER;
+    }
 }

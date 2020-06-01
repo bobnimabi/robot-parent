@@ -8,7 +8,7 @@ import com.robot.code.service.ITenantRobotPathService;
 import com.robot.code.service.ITenantRobotProxyService;
 import com.robot.core.chain.Invoker;
 import com.robot.core.common.HttpConsts;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -26,7 +26,7 @@ import org.springframework.util.Assert;
  */
 @Slf4j
 @Service
-public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty> {
+public class BeforeRequestConfigChain extends ExecuteBeforeFilter<FunctionProperty, ExecuteProperty> {
 
     @Autowired
     private ITenantRobotPathService pathService;
@@ -43,7 +43,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
     private static final int MAX_REDIRECT = 10;
 
     @Override
-    public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
+    public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
         TenantRobotPath path = pathService.getPath(params.getPathEnum().getPathCode());
 
         // requestConfigId
@@ -110,7 +110,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
      * @param params
      * @param result
      */
-    private void setProxy(IFunctionProperty params, ExecuteProperty result) {
+    private void setProxy(FunctionProperty params, ExecuteProperty result) {
         Long robotId = params.getRobotWrapper().getId();
         TenantRobotProxy proxy = proxyService.getProxy(robotId);
         if (null != proxy) {

@@ -3,7 +3,7 @@ package com.robot.core.task.execute;
 import com.alibaba.fastjson.JSON;
 import com.robot.code.service.IRequestRecordService;
 import com.robot.core.chain.Invoker;
-import com.robot.core.function.base.IFunctionProperty;
+import com.robot.core.function.base.FunctionProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class BeforeLogChain extends ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty> {
+public class BeforeLogChain extends ExecuteBeforeFilter<FunctionProperty, ExecuteProperty> {
     @Autowired
     private IRequestRecordService requestRecordService;
 
     @Override
-    public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
+    public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
         requestRecordService.addRequestRecord(
                 params.getRecordId(),
                 params.getRobotWrapper().getId(),

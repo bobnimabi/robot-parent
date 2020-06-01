@@ -2,21 +2,17 @@ package com.robot.bbin.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bbin.common.response.ResponseResult;
-import com.robot.bbin.base.basic.ActionEnum;
+import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.dto.BetDetailDTO;
 import com.robot.bbin.base.vo.BetDetailVO;
-import com.robot.center.execute.IActionEnum;
-import com.robot.center.execute.IResultParse;
-import com.robot.center.function.FunctionBase;
-import com.robot.center.function.ParamWrapper;
-import com.robot.center.httpclient.CustomHttpMethod;
-import com.robot.center.httpclient.StanderHttpResponse;
-import com.robot.center.httpclient.UrlCustomEntity;
-import com.robot.center.pool.RobotWrapper;
-import com.robot.code.entity.TenantRobotAction;
+import com.robot.code.dto.Response;
+import com.robot.core.function.base.AbstractFunction;
+import com.robot.core.function.base.IPathEnum;
+import com.robot.core.function.base.IResultHandler;
+import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.UrlEntity;
+import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,26 +24,16 @@ import java.util.Map;
  * 下注查询
  */
 @Service
-public class BetDetailServer extends FunctionBase<BetDetailDTO> {
+public class BetDetailServer extends AbstractFunction<BetDetailDTO,String,List<BetDetailVO>> {
 
     @Override
-    public ResponseResult doFunctionFinal(ParamWrapper<BetDetailDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        BetDetailDTO betDetailDTO = paramWrapper.getObj();
-        // 执行
-        StanderHttpResponse response = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null,
-                createParams(betDetailDTO), null, Parse.INSTANCE);
-        ResponseResult responseResult = response.getResponseResult();
-        return responseResult;
+    protected IPathEnum getPathEnum() {
+        return PathEnum.BET_ANALYSIS_DETAIL;
     }
 
     @Override
-    public IActionEnum getActionEnum() {
-        return ActionEnum.BET_ANALYSIS_DETAIL;
-    }
-
-    //组装局查询
-    private UrlCustomEntity createParams(BetDetailDTO betDTO) throws Exception{
-        return UrlCustomEntity.custom()
+    protected ICustomEntity getEntity(BetDetailDTO betDTO) {
+        return UrlEntity.custom(6)
                 .add("listid", betDTO.getListid())
                 .add("start", betDTO.getStart())
                 .add("end", betDTO.getEnd())
@@ -56,20 +42,22 @@ public class BetDetailServer extends FunctionBase<BetDetailDTO> {
                 .add("gametype", betDTO.getGametype());
     }
 
+    @Override
+    protected IResultHandler<String, List<BetDetailVO>> getResultHandler() {
+        return ResultHandler.INSTANCE;
+    }
+
     /**
-     * 响应结果转换类
+     * 响应结果处理
      */
-    private static final class Parse implements IResultParse {
-        private static final Parse INSTANCE = new Parse();
-        private Parse(){}
+    private static final class ResultHandler implements IResultHandler<String, List<BetDetailVO>> {
+        private static final ResultHandler INSTANCE = new ResultHandler();
+        private ResultHandler(){}
 
         @Override
-        public ResponseResult parse(String result) {
-            if (StringUtils.isEmpty(result)) {
-                return ResponseResult.FAIL("未返回任何响应");
-            }
-            List<BetDetailVO> list = new ArrayList<>(5);
-            JSONObject jsonObject = JSON.parseObject(result);
+        public Response parse2Obj(StanderHttpResponse<String, List<BetDetailVO>> shr) {
+            List<BetDetailVO> list = new ArrayList<>(1);
+            JSONObject jsonObject = JSON.parseObject(shr.getOriginalEntity());
             Collection<Object> values = jsonObject.values();
             for (Object value : values) {
                 Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) value;
@@ -81,7 +69,7 @@ public class BetDetailServer extends FunctionBase<BetDetailDTO> {
                     list.add(betDetailVO);
                 });
             }
-            return ResponseResult.SUCCESS(list);
+            return Response.SUCCESS(list);
         }
     }
 }

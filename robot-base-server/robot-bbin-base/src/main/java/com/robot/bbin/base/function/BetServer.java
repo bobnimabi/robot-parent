@@ -3,6 +3,7 @@ package com.robot.bbin.base.function;
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.response.ResponseResult;
 import com.robot.bbin.base.basic.ActionEnum;
+import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.dto.BetDTO;
 import com.robot.bbin.base.vo.BetVO;
 import com.robot.center.execute.IActionEnum;
@@ -13,7 +14,14 @@ import com.robot.center.httpclient.CustomHttpMethod;
 import com.robot.center.httpclient.StanderHttpResponse;
 import com.robot.center.httpclient.UrlCustomEntity;
 import com.robot.center.pool.RobotWrapper;
+import com.robot.code.dto.Response;
 import com.robot.code.entity.TenantRobotAction;
+import com.robot.core.function.base.AbstractFunction;
+import com.robot.core.function.base.IPathEnum;
+import com.robot.core.function.base.IResultHandler;
+import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.UrlEntity;
+import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,26 +32,16 @@ import java.util.List;
  * 下注查询
  */
 @Service
-public class BetServer extends FunctionBase<BetDTO> {
+public class BetServer extends AbstractFunction<BetDTO,String,List<BetVO>> {
 
     @Override
-    public ResponseResult doFunctionFinal(ParamWrapper<BetDTO> paramWrapper, RobotWrapper robotWrapper, TenantRobotAction action) throws Exception {
-        BetDTO betDTO = paramWrapper.getObj();
-        // 执行
-        StanderHttpResponse response = execute.request(robotWrapper, CustomHttpMethod.POST_FORM, action, null,
-                createParams(betDTO), null, Parse.INSTANCE);
-        ResponseResult responseResult = response.getResponseResult();
-        return responseResult;
+    protected IPathEnum getPathEnum() {
+        return PathEnum.BET_ANALYSIS;
     }
 
     @Override
-    public IActionEnum getActionEnum() {
-        return ActionEnum.BET_ANALYSIS;
-    }
-
-    //组装局查询
-    private UrlCustomEntity createParams(BetDTO betDTO) throws Exception{
-        return UrlCustomEntity.custom()
+    protected ICustomEntity getEntity(BetDTO betDTO) {
+        return UrlEntity.custom(8)
                 .add("start", betDTO.getStart())
                 .add("end", betDTO.getEnd())
                 .add("game", betDTO.getGame())
@@ -54,12 +52,17 @@ public class BetServer extends FunctionBase<BetDTO> {
                 .add("analystType", betDTO.getAnalystType());
     }
 
+    @Override
+    protected IResultHandler<String, List<BetVO>> getResultHandler() {
+        return null;
+    }
+
     /**
      * 响应结果转换类
      */
-    private static final class Parse implements IResultParse {
-        private static final Parse INSTANCE = new Parse();
-        private Parse(){}
+    private static final class ResultHandler implements IResultHandler<String,List<BetVO>> {
+        private static final ResultHandler INSTANCE = new ResultHandler();
+        private ResultHandler(){}
 
         @Override
         public ResponseResult parse(String result) {
@@ -74,6 +77,12 @@ public class BetServer extends FunctionBase<BetDTO> {
                 return ResponseResult.SUCCESS_MES("无投注记录");
             }
             return ResponseResult.SUCCESS(betVOS);
+        }
+
+        @Override
+        public Response parse2Obj(StanderHttpResponse<String, List<BetVO>> shr) {
+
+            return null;
         }
     }
 }

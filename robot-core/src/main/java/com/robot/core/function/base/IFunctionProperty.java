@@ -14,12 +14,11 @@ public interface IFunctionProperty {
      * 获取动作
      * @return
      */
-    IPathEnum getAction();
+    IPathEnum getPathEnum();
 
     /**
      * 获取接口特定请求头
-     * 注意：可以对公共头进行覆盖（tenant_robot_header表配置）
-     * 有些特定的登录的token会存在于cookie的属性里面
+     * 注意：可对公共头进行覆盖
      * @return
      */
     CustomHeaders getHeaders();
@@ -40,7 +39,7 @@ public interface IFunctionProperty {
      * 获取ResultParse
      * @return
      */
-    IResultParse getResultParse();
+    IResultHandler getResultHandler();
 
     /**
      * 机器人包装类
@@ -50,7 +49,7 @@ public interface IFunctionProperty {
     /**
      * 获取外部订单号
      */
-    String getOutNo();
+    String getExteralNo();
 
     /**
      * 流水id

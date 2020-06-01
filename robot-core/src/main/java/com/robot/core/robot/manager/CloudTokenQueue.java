@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class CloudTokenQueue implements ICloudTokenQueue {
     /**
      * Redis：TOKEN队列标志
-     * 12
      */
     public static final String TOKEN_QUEUE = RedisConsts.PROJECT + "TOKEN_QUEUE:";
     /**
@@ -39,11 +38,13 @@ public class CloudTokenQueue implements ICloudTokenQueue {
     @Override
     public Token popToken() {
         Token token = redis.opsForList().rightPop(tokenQueueKey());
+        log.info("令牌出队：RobotID:{}", token.getRobotId());
         return isTokenValid(token) ? token : null;
     }
 
     @Override
     public boolean pushToken(Token token) {
+        log.info("令牌归还：RobotID:{}", token.getRobotId());
         return isTokenValid(token) ? redis.opsForList().leftPush(tokenQueueKey(), token) > 0 : false;
     }
 
@@ -56,7 +57,7 @@ public class CloudTokenQueue implements ICloudTokenQueue {
                 && token.getIdCard().equalsIgnoreCase(idCard);
 
         if (!isValid) {
-            log.info("CloudTokenQueue：无效TOKEN，即将销毁，TOKEN:{},cloudIdCard:{}", JSON.toJSONString(token), idCard);
+            log.info("无效令牌->销毁，TOKEN:{},cloudIdCard:{}", JSON.toJSONString(token), idCard);
         } else {
             this.expireFlush();
         }

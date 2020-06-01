@@ -4,10 +4,8 @@ import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 
@@ -34,7 +32,7 @@ public class LimitRobotHelper {
         if (null == config || null == config.getRobotTimeLimit() || config.getRobotTimeLimit() <= 0 || null == taskWrapper.getPathEnum()) {
             return false;
         }
-        return hasLimit(Duration.ofSeconds(config.getRobotTimeLimit()), taskWrapper.getPathEnum().getpathCode(), robotId, redis);
+        return hasLimit(Duration.ofSeconds(config.getRobotTimeLimit()), taskWrapper.getPathEnum().getPathCode(), robotId, redis);
     }
 
     /**

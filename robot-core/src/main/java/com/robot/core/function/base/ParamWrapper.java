@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
+ * 接口请求参数包装类
  * Created by mrt on 11/15/2019 12:36 PM
  */
 @Data

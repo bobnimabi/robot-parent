@@ -33,7 +33,7 @@ public class HtmlResponseHandler<E> extends AbstractResponseHandler<E> {
     @Override
     protected StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
         String result = toString(response);
-        return new StanderHttpResponse<String, E>(response);
+        return new StanderHttpResponse<String, E>(response, result);
     }
 
     /**
@@ -43,25 +43,23 @@ public class HtmlResponseHandler<E> extends AbstractResponseHandler<E> {
      * @throws IOException
      */
     private static final String toString(HttpResponse response) throws IOException {
-        Charset charset = getCharsetOrDefault(response.getEntity());
+        Charset charset = getCharsetOrDefault(response.getEntity(), StandardCharsets.UTF_8);
         return EntityUtils.toString(response.getEntity(), charset);
     }
 
     /**
      * 获取charset
+     *
      * @param entity 响应entity
      * @return
      * @throws IOException
      */
-    private static final Charset getCharsetOrDefault(HttpEntity entity) throws IOException {
+    private static final Charset getCharsetOrDefault(HttpEntity entity, Charset defaultCharset) throws IOException {
         Charset charset = getCharset(entity);
         if (null == charset) {
             charset = CharsetObtain.getCharset(EntityUtils.toByteArray(entity));
-            if (null == charset) {
-                charset=StandardCharsets.UTF_8;
-            }
         }
-        return charset;
+        return null == charset ? defaultCharset : charset;
     }
 
     /**

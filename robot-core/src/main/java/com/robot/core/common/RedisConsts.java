@@ -8,7 +8,6 @@ package com.robot.core.common;
 public class RedisConsts {
     /**
      * 项目
-     * 8
      */
     public static final String PROJECT = "T_ROBOT:";
 

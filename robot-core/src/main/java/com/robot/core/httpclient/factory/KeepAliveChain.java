@@ -35,12 +35,13 @@ public class KeepAliveChain extends BuilderFilter<Object,HttpClientBuilder> {
         Integer keepAliveTimeout = Optional.of(poolConfigService.getPoolConfig().getKeepAliveTime()).orElse(DEFAULT_KEEP_ALIVE);
         result.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
         log.info("配置：KeepAlive策略{}", keepAliveTimeout);
+
         invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 7;
+        return 4;
     }
 
     private class CustomKeepAliveStrategy implements ConnectionKeepAliveStrategy {

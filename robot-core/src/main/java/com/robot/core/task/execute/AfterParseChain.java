@@ -17,13 +17,19 @@ public class AfterParseChain extends ExecuteAfterFilter<StanderHttpResponse, IFu
 
     @Override
     public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {
-        // 请求结果处理
-        Response response = result.getResultParse().parse2Obj(params);
-        params.setResponse(response);
+        // 如果掉线检查，发现掉线，就不对结果进行处理了
+        Response checkResp = params.getResponse();
+        boolean isLost = null != checkResp && !checkResp.isSuccess();
+        if (!isLost) {
+            Response response = result.getResultHandler().parse2Obj(params);
+            params.setResponse(response);
+        }
+
+        invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 1;
+        return 2;
     }
 }

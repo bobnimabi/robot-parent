@@ -8,6 +8,6 @@ import com.robot.core.chain.Filter;
  * @Date 2020/5/19 12:12
  * @Version 2.0StanderHttpResponse<T,E>
  */
-public abstract class ExecuteAfterFilter<StanderHttpResponse,IFunctionProperty> implements Filter<StanderHttpResponse, IFunctionProperty> {
+public abstract class ExecuteAfterFilter<P,R> implements Filter<P,R> {
 
 }

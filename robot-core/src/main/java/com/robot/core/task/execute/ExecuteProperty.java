@@ -1,7 +1,7 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.http.request.CustomHeaders;
-import com.robot.core.http.request.HttpMethodEnum;
+import com.robot.core.http.request.MethodEnum;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import lombok.Data;
@@ -31,38 +31,37 @@ public class ExecuteProperty {
     private URI url;
 
     /**
+     * 请求方式
+     */
+    private MethodEnum method;
+
+    /**
+     * 请求头
+     */
+    private CustomHeaders headers;
+
+    /**
      * 请求体
      */
     private ICustomEntity customEntity;
 
     /**
-     * 请求头
-     */
-    CustomHeaders headers;
-
-    /**
      * http上下文
      */
-    HttpContext httpContext;
-
-    /**
-     * 响应处理器
-     */
-    ResponseHandler<StanderHttpResponse> responseHandler;
-
-    /**
-     * 请求方式
-     */
-    HttpMethodEnum method;
+    private HttpContext httpContext;
 
     /**
      * 请求配置
-     * 代理、重定向、connectionRequestTimeout、connectTimeout、socketTimeout
      */
     private RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
 
     /**
-     * 特殊：文件上传专用
+     * 响应处理器
+     */
+    private ResponseHandler<StanderHttpResponse> responseHandler;
+
+    /**
+     * 特殊：文件上传专用,暂时不用
      */
     private String fileName;
     private String filePath;

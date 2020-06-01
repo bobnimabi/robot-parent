@@ -41,7 +41,8 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
     @Override
     public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         result.setConnectionManager(SslHttpClientBuild());
-        log.info("配置：SSL验证证书策略：放行所有自签名证书");
+        log.info("配置：SSL策略：放行所有自制证书，加载完成");
+
         invoker.invoke(params, result);
     }
 
@@ -55,6 +56,10 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
         return SSLContexts.custom().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build();
     }
 
+    /**
+     * 跳过https的证书检验，允许自制证书
+     * @return
+     */
     public static PoolingHttpClientConnectionManager SslHttpClientBuild() {
         Registry<ConnectionSocketFactory> socketFactoryRegistry =
                 RegistryBuilder.<ConnectionSocketFactory>create()
@@ -83,14 +88,17 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
 
     private static class TrustCheck implements TrustManager, X509TrustManager {
         public static final TrustCheck INSTANCE = new TrustCheck();
+        @Override
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }
 
+        @Override
         public void checkServerTrusted(X509Certificate[] certs, String authType) {
             //don't check
         }
 
+        @Override
         public void checkClientTrusted(X509Certificate[] certs, String authType) {
             //don't check
         }

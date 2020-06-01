@@ -11,16 +11,6 @@
 
     <artifactId>robot-service</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>com.bbin</groupId>
-            <artifactId>bbin-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.bbin</groupId>
-            <artifactId>bbin-utils</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
         <!--mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>

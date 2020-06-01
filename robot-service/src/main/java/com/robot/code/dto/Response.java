@@ -23,6 +23,10 @@ public class Response<T> implements IResponse<T>, Cloneable {
         return this;
     }
 
+    public int getCode() {
+        return this.code;
+    }
+
     public String getMessage() {
         return this.message;
     }
@@ -62,6 +66,10 @@ public class Response<T> implements IResponse<T>, Cloneable {
             e.printStackTrace();
         }
         return new Response<T>(false, FAIL_CODE, "响应封装异常", t);
+    }
+
+    public static <T> Response<T> LOGIN_SUCCESS(T t) {
+        return new Response<T>(true, LOGIN_SUCCESS_CODE, LOGIN_SUCCESS_MES, t);
     }
 
     public static <T> Response<T> FAIL(String message) {

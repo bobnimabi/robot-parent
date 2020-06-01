@@ -10,5 +10,12 @@ import com.robot.core.robot.manager.RobotWrapper;
  * @Version 2.0
  */
 public interface ICheckLost {
+
+    /**
+     * 确认是否掉线
+     * @param robotWrapper
+     * @param standerHttpResponse
+     * @return
+     */
     boolean isLose(RobotWrapper robotWrapper, StanderHttpResponse standerHttpResponse);
 }

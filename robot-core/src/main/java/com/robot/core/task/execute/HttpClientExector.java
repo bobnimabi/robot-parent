@@ -68,7 +68,7 @@ public class HttpClientExector {
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	private static HttpRequestBase setEntity(HttpMethodEnum method, URI url, ICustomEntity entity, String filePath, String fileName) throws URISyntaxException {
+	private static HttpRequestBase setEntity(MethodEnum method, URI url, ICustomEntity entity, String filePath, String fileName) throws URISyntaxException {
 
 		switch (method) {
 			case GET: {

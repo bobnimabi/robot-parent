@@ -47,10 +47,10 @@ public abstract class AbstractDispatcher {
      * @param functionEnum
      * @return
      */
-    IFunction getFunction(IFunctionEnum functionEnum) {
+    protected final IFunction getFunction(IFunctionEnum functionEnum) {
         IFunction iFunction = functionMap.get(functionEnum.getName());
         if (null == iFunction) {
-            throw new IllegalArgumentException("Dispatcher：未获取到Function，请管理员检查");
+            throw new IllegalArgumentException("Dispatcher：未获取到Function，请管理员检查,FunctionName:" + functionEnum.getName());
         }
         return iFunction;
     }

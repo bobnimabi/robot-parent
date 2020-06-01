@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
 @Slf4j
 @Service
 public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionProperty, ExecuteProperty> {
+
     @Autowired
     private ITenantRobotPathService pathService;
 
@@ -43,7 +44,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
 
     @Override
     public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
-        TenantRobotPath path = pathService.getPath(params.getAction().getpathCode());
+        TenantRobotPath path = pathService.getPath(params.getPathEnum().getPathCode());
 
         // requestConfigId
         Long requestConfigId = path.getHttpRequestConfigId();
@@ -82,11 +83,11 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
      * @param result
      */
     private void setRedirect(HttpRequestConfig config, ExecuteProperty result) {
-        RequestConfig.Builder requestConfigBuilder = result.getRequestConfigBuilder();
-        requestConfigBuilder.setRedirectsEnabled(config.getIsRedirect());
-        requestConfigBuilder.setRelativeRedirectsAllowed(config.getIsRedirect()); // 5.0版本取消了该属性
-        requestConfigBuilder.setCircularRedirectsAllowed(false);
-        requestConfigBuilder.setMaxRedirects(MAX_REDIRECT);
+        RequestConfig.Builder builder = result.getRequestConfigBuilder();
+        builder.setRedirectsEnabled(config.getIsRedirect());
+        builder.setRelativeRedirectsAllowed(config.getIsRedirect()); // 5.0版本取消了该属性
+        builder.setCircularRedirectsAllowed(false);
+        builder.setMaxRedirects(MAX_REDIRECT);
         if (config.getIsRedirect()) {
             log.info("请求拦截：重定向:开启");
         }
@@ -122,7 +123,7 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<IFunctionPrope
 
             RequestConfig.Builder builder = result.getRequestConfigBuilder();
             builder.setProxy(new HttpHost(proxy.getProxyIp(), proxy.getProxyPort()));
-            log.info("执行前拦截：使用代理：IP：{},PORT:{}", ip, port);
+            log.info("请求拦截：使用代理：IP：{},PORT:{}", ip, port);
         }
     }
 

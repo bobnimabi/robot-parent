@@ -28,13 +28,15 @@ public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse, IFunc
     public void dofilter(StanderHttpResponse params, IFunctionProperty result, Invoker<StanderHttpResponse, IFunctionProperty> invoker) throws Exception {
         Response response = params.getResponse();
         requestRecordService.updateRequestRecord(result.getRecordId(), response.isSuccess(), response.getMessage());
-        if (response.isSuccess() && null != response.getObj()) {
+        if (response.isSuccess() && null != params.getOriginalEntity()) {
             responseRecordService.addResponseRecord(result.getRecordId(), params.getOriginalEntity(), JSON.toJSONString(response.getObj()));
         }
+
+        invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 2;
+        return 3;
     }
 }

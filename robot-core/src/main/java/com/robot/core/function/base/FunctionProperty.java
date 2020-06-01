@@ -18,13 +18,13 @@ import javax.validation.constraints.NotNull;
 public class FunctionProperty implements IFunctionProperty {
 
     /**
-     * 动作
+     * 路径编码枚举
      */
     @NotNull
-    private IPathEnum action;
+    private IPathEnum pathEnum;
 
     /**
-     * 自定义请求头
+     * 请求头
      */
     private CustomHeaders headers;
 
@@ -40,10 +40,10 @@ public class FunctionProperty implements IFunctionProperty {
     private ICheckLost checkLost;
 
     /**
-     * ResultParse
+     * 响应最终处理
      */
     @NotNull
-    private IResultParse resultParse;
+    private IResultHandler resultHandler;
 
     /**
      * 机器人包装类
@@ -54,13 +54,11 @@ public class FunctionProperty implements IFunctionProperty {
     /**
      * 外部订单号
      */
-    private String outNo;
+    private String exteralNo;
 
     /**
      * 流水id
      */
     @NotNull
     private long recordId;
-
-
 }

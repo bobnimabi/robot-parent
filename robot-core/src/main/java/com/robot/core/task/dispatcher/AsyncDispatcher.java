@@ -1,6 +1,5 @@
 package com.robot.core.task.dispatcher;
 
-import com.robot.code.dto.Response;
 import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.code.service.IAsyncRequestConfigService;
 import com.robot.core.common.TContext;
@@ -10,7 +9,6 @@ import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -19,9 +17,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
-import java.time.Duration;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,7 +34,7 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
     private ITaskPool taskPool;
 
     @Autowired
-    private IAsyncRequestConfigService asyncConfig;
+    private IAsyncRequestConfigService asyncConfigService;
 
     @Autowired
     private StringRedisTemplate redis;
@@ -46,6 +42,7 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
     @Lazy
     @Autowired
     private AsyncDispatcher asyncDispatcher;
+
     /**
      * 注册事件
      */
@@ -53,17 +50,18 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
 
     @Override
     public void asyncDispatch(ParamWrapper paramWrapper, String exteralNo, IPathEnum pathEnum, IFunctionEnum functionEnum) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        AsyncRequestConfig asyncRequestConfig = asyncConfig.get(pathEnum.getpathCode());
+        Assert.notNull(paramWrapper,"paramWrapper不能为null");
+        Assert.notNull(pathEnum,"pathEnumr不能为null");
+        AsyncRequestConfig asyncRequestConfig = asyncConfigService.get(pathEnum.getPathCode());
         taskPool.taskAdd(new TaskWrapper(paramWrapper, functionEnum, asyncRequestConfig, pathEnum), exteralNo);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        new Thread(asyncDispatcher).start();
+        new Thread(this).start();
     }
 
-
-
+    @Async
     @Override
     public void registerEvents(RegisterBody registerBody) {
         register.putIfAbsent(registerBody, "");
@@ -129,7 +127,7 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
     public void dispatchAsync(ParamWrapper paramWrapper, IFunctionEnum functionEnum, RobotWrapper robotWrapper, RegisterBody registerBody) throws Exception {
         handTenant(registerBody);
         try {
-            IFunction iFunction = getFunction(functionEnum);
+            IFunction iFunction = super.getFunction(functionEnum);
             iFunction.doFunction(paramWrapper, robotWrapper);
         }finally {
             try{
@@ -153,7 +151,4 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
         } catch (InterruptedException e) {
         }
     }
-
-
-
 }

@@ -65,12 +65,13 @@ public class ConnectionPoolChain extends BuilderFilter<Object,HttpClientBuilder>
         ));
         log.info("配置：连接池策略：MAX_TOTAL：{}，MAX_PER_ROUTE：{}，VALIDATE_AFTER_INACTIVITY：{}，MAX_IDLE_TIME：{}，",
                 maxTotal, maxPerRoute, validateAfterInactivity, maxIdleTime);
+
         invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 9;
+        return 5;
     }
 
     /**
@@ -81,8 +82,7 @@ public class ConnectionPoolChain extends BuilderFilter<Object,HttpClientBuilder>
      * @return
      */
     private PoolingHttpClientConnectionManager createPoolingHttpClientConnectionManager(
-            int maxTotal,int defaultMaxPerRoute,int ValidateAfterInactivity
-    ) {
+            int maxTotal,int defaultMaxPerRoute,int ValidateAfterInactivity) {
         PoolingHttpClientConnectionManager poolmanager = new PoolingHttpClientConnectionManager();
         poolmanager.setMaxTotal(maxTotal);
         poolmanager.setDefaultMaxPerRoute(defaultMaxPerRoute);

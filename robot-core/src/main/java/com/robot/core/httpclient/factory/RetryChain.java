@@ -21,9 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class RetryChain extends BuilderFilter<Object,HttpClientBuilder> {
 
-    // 重试次数
+    /**
+     * 重试次数
+     */
     private static final int DEFAULT_RETRY_COUNT = 3;
-    // 重试间隔时间,单位：毫秒
+
+    /**
+     * 重试间隔时间,单位：毫秒
+     */
     private static final int DEFAULT_RETRY_period = 1000;
 
     @Override
@@ -34,13 +39,14 @@ public class RetryChain extends BuilderFilter<Object,HttpClientBuilder> {
                         DEFAULT_RETRY_COUNT,
                         true,
                         DEFAULT_RETRY_period));
-        log.info("配置->重试策略：加载完成");
+        log.info("配置：重试策略：加载完成");
+
         invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 3;
+        return 2;
     }
 
     private static final class HttpRequestRetryHandler extends NFHttpMethodRetryHandler {

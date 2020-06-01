@@ -12,6 +12,7 @@
     <artifactId>robot-base-server</artifactId>
     <packaging>pom</packaging>
     <modules>
+        <module>robot-bbin-base</module>
     </modules>
 
     <dependencies>

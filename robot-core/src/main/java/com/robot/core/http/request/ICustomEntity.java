@@ -20,5 +20,4 @@ public interface ICustomEntity<k,v> {
      */
     boolean isEmpty();
 
-    String toString();
 }

@@ -1,12 +1,11 @@
 package com.robot.center.constant;
 
+import com.robot.core.common.RedisConsts;
+
 /**
  * Created by mrt on 2019/7/4 0004 下午 6:02
  */
 public class RobotConsts {
-
-    // 本项目前缀8
-    public static final String ROBOT_PROJECT_PERFIX = "S_ROBOT:";
 
     /**
      * 请求响应状态：1发送中 2响应成功 0 响应失败
@@ -58,14 +57,9 @@ public class RobotConsts {
     // 机器人ID
     public static final String ROBOT_ID = "ROBOT_ID";
 
-    // 图片验证码缓存14
-    public static final String CAPTCHA_TOKEN = ROBOT_PROJECT_PERFIX + "CAPTCHA_TOKEN:";
-
-    // 登录后Token缓存
-    public static final String LOGIN_TOKEN = ROBOT_PROJECT_PERFIX + "LOGIN_TOKEN:";
 
     // 出款唯一前缀16
-    public static final String WITHDRAW_UNIQUE = ROBOT_PROJECT_PERFIX + "WITHDRAW:UNIQUE:";
+    public static final String WITHDRAW_UNIQUE = RedisConsts.PROJECT + "WITHDRAW:UNIQUE:";
     // 出款账号唯一性10
     public static final String WITHDRAW_UNIQUE_USERNAME = WITHDRAW_UNIQUE + "USERNAME:";
     // 出款订单唯一性

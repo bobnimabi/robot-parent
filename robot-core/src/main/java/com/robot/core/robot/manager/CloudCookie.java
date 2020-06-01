@@ -21,6 +21,9 @@ import java.util.concurrent.TimeUnit;
  * @Author mrt
  * @Date 2020/5/25 20:34
  * @Version 2.0
+ * 注意：
+ * 源码里通过拦截器RequestAddCookies对过期Cookie进行了剔除
+ * 所以无需手动处理
  */
 @Slf4j
 @Service
@@ -47,7 +50,6 @@ public class CloudCookie implements ICloudCookie {
         String key = cookieKey(robotId);
         RobotWrapper robotWrapper = redis.opsForValue().get(key);
         if (null != robotWrapper) {
-            this.clearExpireCookie(robotWrapper);
             expireFlush(key);
             log.info("CloudCookie:获取到机器人：robotId：{}", robotId);
         }
@@ -57,7 +59,7 @@ public class CloudCookie implements ICloudCookie {
     @Override
     public boolean putCookie(RobotWrapper robotWrapper) {
         if (!isRobotWrapperValid(robotWrapper)) {
-            log.info("CloudCookie:put的robotWrapper无效，请检查：{}", JSON.toJSONString(robotWrapper));
+            log.info("CloudCookie:putCookie:robotWrapper无效:{}", JSON.toJSONString(robotWrapper));
             return false;
         }
         redis.opsForValue().set(this.cookieKey(robotWrapper.getId()), robotWrapper, Duration.ofDays(EXPIRE_DAYS));
@@ -72,19 +74,6 @@ public class CloudCookie implements ICloudCookie {
         Boolean isFailure = !redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS) && redis.hasKey(key);
         if (isFailure) {
             log.error("CloudCookie:刷新过期时间失败：key：{}", key);
-        }
-    }
-
-    private void clearExpireCookie(RobotWrapper robotWrapper) {
-        List<Cookie> cookies = robotWrapper.getCookieStore().getCookies();
-        Date date = new Date();
-        Iterator<Cookie> iterator = cookies.iterator();
-        while (iterator.hasNext()) {
-            Cookie cookie = iterator.next();
-            boolean expired = cookie.isExpired(date);
-            if (expired) {
-                log.info("CloudCookie:删除过期Cookie：{}", JSON.toJSONString(cookie));
-            }
         }
     }
 

@@ -25,8 +25,8 @@ public class BeforeLogChain extends ExecuteBeforeFilter<IFunctionProperty, Execu
         requestRecordService.addRequestRecord(
                 params.getRecordId(),
                 params.getRobotWrapper().getId(),
-                params.getAction().getpathCode(),
-                params.getOutNo(),
+                params.getPathEnum().getPathCode(),
+                params.getExteralNo(),
                 JSON.toJSONString(params.getEntity()));
 
         invoker.invoke(params, result);

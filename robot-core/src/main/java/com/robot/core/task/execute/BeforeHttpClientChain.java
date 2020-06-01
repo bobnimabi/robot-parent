@@ -26,8 +26,12 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
     @Autowired
     private IHttpClientFactory httpClientFactory;
 
-    // 正常情况下，机器人不超过10个
-    private static volatile Map<Long, HttpClientWrapper> httpClientMap = new HashMap<>(10);
+    /**
+     * httpClient容器
+     */
+    private static volatile Map<Long, HttpClientWrapper> httpClientMap = new HashMap<>(12);
+
+    private static ReentrantLock lock = new ReentrantLock();
 
     @Override
     public void dofilter(IFunctionProperty params, ExecuteProperty result, Invoker<IFunctionProperty, ExecuteProperty> invoker) throws Exception {
@@ -44,13 +48,14 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<IFunctionProperty
     }
     /**
      * httpclient的获取
+     * 1.httpclient创建成本比较高，保证一个机器人只创建一个httpclient
+     * 2.并发不高，暂时使用公共锁
      */
     private CloseableHttpClient getHttpClient(long robotId, String idCard) throws Exception {
         HttpClientWrapper hcw = httpClientMap.get(robotId);
 
         // 首次使用Httpclient，或项目重启
         if (this.idNeedCreate(idCard, hcw)) {
-            ReentrantLock lock = new ReentrantLock();
             if (lock.tryLock()) {
                 try {
                     hcw = httpClientMap.get(robotId);

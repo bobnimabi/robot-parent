@@ -6,7 +6,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 /**
  * Created by mrt on 11/15/2019 12:30 PM
  * 功能接口
- * T参数对象类型
+ * T参数对象类型：
  * F原始响应类型
  * E为响应结果对象类型
  *

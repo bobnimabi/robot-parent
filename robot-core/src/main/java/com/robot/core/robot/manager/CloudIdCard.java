@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 public class CloudIdCard implements ICloudIdCard{
     /**
      * Redis：机器人ID_CARD标志
-     * 8
      */
     public static final String ID_CARD = RedisConsts.PROJECT + "ID_CARD:";
 

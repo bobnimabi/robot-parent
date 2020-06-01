@@ -1,5 +1,6 @@
 package com.robot.core.http.request;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -39,5 +40,10 @@ public class CustomHeaders implements ICustomEntity<String,String> {
 
     public static CustomHeaders custom(int size) {
         return new CustomHeaders(size);
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(headers);
     }
 }

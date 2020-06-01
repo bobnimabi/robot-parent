@@ -1,5 +1,6 @@
 package com.robot.core.http.response;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -24,9 +25,20 @@ public class JsonResponseHandler<E> extends AbstractResponseHandler<E> {
 
     @Override
     protected StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
-        Charset charset = getCharset(response.getEntity());
-        charset = null !=charset  ? charset : StandardCharsets.UTF_8;
+        Charset charset = getCharsetOrDefault(response.getEntity(), StandardCharsets.UTF_8);
         String result = EntityUtils.toString(response.getEntity(), charset);
         return new StanderHttpResponse<String, E>(response, result);
+    }
+
+    /**
+     * 获取charset
+     *
+     * @param entity 响应entity
+     * @return
+     * @throws IOException
+     */
+    private static final Charset getCharsetOrDefault(HttpEntity entity, Charset defaultCharset) throws IOException {
+        Charset charset = getCharset(entity);
+        return null == charset ? defaultCharset : charset;
     }
 }

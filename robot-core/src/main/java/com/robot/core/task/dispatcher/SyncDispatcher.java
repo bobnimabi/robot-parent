@@ -9,6 +9,7 @@ import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
@@ -27,6 +28,7 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
 
     @Override
     public Response dispatch(ParamWrapper paramWrapper, IFunctionEnum functionEnum) throws Exception {
+        Assert.notNull(paramWrapper,"paramWrapper不能为null");
         RobotWrapper robot = super.dispatcherFacde.getCookieDuration(PERIOD);
         if (null == robot || null == robot.getCookieStore()) {
             return Response.FAIL("机器人正忙或全部掉线");
@@ -40,6 +42,7 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
 
     @Override
     public Response disPatcherSpec(ParamWrapper paramWrapper, IFunctionEnum functionEnum, long robotId, boolean isNewCookie) throws Exception {
+        Assert.notNull(paramWrapper,"paramWrapper不能为null");
         if (isNewCookie) {
             super.dispatcherFacde.newCookie(robotId);
         }
@@ -47,10 +50,15 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
         if (null == robot || null == robot.getCookieStore()) {
             return Response.FAIL("指定机器人获取失败，robotId：" + robotId);
         }
+        Response response = null;
         try {
-            return super.dispatch(paramWrapper, functionEnum, robot);
+            response = super.dispatch(paramWrapper, functionEnum, robot);
+            return response;
         }finally {
             super.dispatcherFacde.giveBackCookie(robot);
+            if (null  != response && response.isSuccess() && Response.LOGIN_SUCCESS_CODE == response.getCode()) {
+                super.dispatcherFacde.online(robot);
+            }
         }
     }
 }

@@ -38,15 +38,14 @@ public abstract class AbstractResponseHandler<E> implements ResponseHandler<Stan
         }
         HttpEntity httpEntity = response.getEntity();
         StatusLine statusLine = response.getStatusLine();
-        if (errorStatus(statusLine)) {
+        if (this.errorStatus(statusLine)) {
             throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getStatusCode()+" "+statusLine.getReasonPhrase());
         } else if (null == httpEntity){
-            StanderHttpResponse standerHttpResponse = new StanderHttpResponse(response);
-            return standerHttpResponse;
+            return new StanderHttpResponse(response);
         } else if (httpEntity.getContentLength() > (8 << 20)) {
             throw new IllegalArgumentException("响应大小超过8M");
         } else {
-            return handleEntity(response);
+            return this.handleEntity(response);
         }
     }
 

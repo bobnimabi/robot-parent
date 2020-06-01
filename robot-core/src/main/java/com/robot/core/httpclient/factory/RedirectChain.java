@@ -14,19 +14,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedirectChain extends BuilderFilter<Object,HttpClientBuilder> {
 
-    // 可重定向的方法
+    /**
+     * 可重定向的方法
+     */
     private static final String[] CUSTOM_REDIRECT_METHODS = {"GET", "HEAD","POST","DELETE","PUT"};
 
     @Override
     public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         result.setRedirectStrategy(createRedirectStrategy());
         log.info("配置：重定向策略：方法：{}", CUSTOM_REDIRECT_METHODS);
+
         invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 5;
+        return 3;
     }
 
     private org.apache.http.client.RedirectStrategy createRedirectStrategy() {

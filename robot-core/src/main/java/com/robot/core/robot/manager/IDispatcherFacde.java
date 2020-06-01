@@ -22,6 +22,14 @@ public interface IDispatcherFacde {
     void newCookie(long robotId);
 
     /**
+     * 上线机器人
+     * @param robotWrapper
+     * @return
+     * 注意：只允许登录成功后调用
+     */
+    boolean online(RobotWrapper robotWrapper);
+
+    /**
      * 从队列轮询Cookie
      * @return
      */

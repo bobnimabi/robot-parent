@@ -1,5 +1,6 @@
 package com.robot.core.task.execute;
 
+import com.robot.code.dto.Response;
 import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IFunctionProperty;
@@ -30,11 +31,14 @@ public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse,
         RobotWrapper robotWrapper = result.getRobotWrapper();
         if (checkLost.isLose(robotWrapper,params)) {
             functionFacde.offline(robotWrapper.getId());
+            params.setResponse(Response.FAIL("机器人掉线,请重新登录：robotID:"+robotWrapper.getId()));
         }
+
+        invoker.invoke(params, result);
     }
 
     @Override
     public int order() {
-        return 3;
+        return 1;
     }
 }

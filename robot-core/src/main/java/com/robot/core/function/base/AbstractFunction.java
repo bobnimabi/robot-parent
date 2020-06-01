@@ -20,15 +20,6 @@ import javax.annotation.Resource;
  */
 public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
-    /**
-     * 域名等级：1
-     */
-    private static final int RANK_ONE = 1;
-    /**
-     * 域名等级：2
-     */
-    protected static final int RANK_TWO = 2;
-
     @Autowired
     private IExecute iExecute;
 
@@ -37,19 +28,10 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     @Override
     public final Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        IFunctionProperty property = new FunctionProperty(getRank(), getAction(), getHeaders(robotWrapper)
-                , getEntity(paramWrapper), getCHECK_LOST_SERVICE(), getResultParse(), robotWrapper, getOutNo(paramWrapper), IdWorker.getId());
+        IFunctionProperty property = new FunctionProperty(getPathEnum(), getHeaders(robotWrapper)
+                , getEntity(paramWrapper.getObj()), getCHECK_LOST_SERVICE(), getResultHandler(), robotWrapper, getExteralNo(paramWrapper), IdWorker.getId());
         StanderHttpResponse<F, E> standerHttpResponse = iExecute.request(property);
         return standerHttpResponse.getResponse();
-    }
-
-    /**
-     * 获取域名等级
-     *
-     * @return
-     */
-    protected int getRank() {
-        return RANK_ONE;
     }
 
 
@@ -58,7 +40,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      *
      * @return
      */
-    protected abstract IPathEnum getAction();
+    protected abstract IPathEnum getPathEnum();
 
     /**
      * 获取接口特定请求头
@@ -77,7 +59,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      *
      * @return
      */
-    protected abstract ICustomEntity getEntity(ParamWrapper<T> paramWrapper);
+    protected abstract ICustomEntity getEntity(T params);
 
     /**
      * 是否检查掉线
@@ -92,7 +74,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      * 获取外部订单号
      * @return
      */
-    protected String getOutNo(ParamWrapper<T> paramWrapper) {
+    protected String getExteralNo(ParamWrapper<T> paramWrapper) {
         return null;
     }
 
@@ -101,5 +83,5 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      *
      * @return
      */
-    protected abstract IResultParse<F, E> getResultParse();
+    protected abstract IResultHandler<F, E> getResultHandler();
 }

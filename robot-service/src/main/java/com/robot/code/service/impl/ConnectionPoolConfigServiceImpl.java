@@ -32,6 +32,6 @@ public class ConnectionPoolConfigServiceImpl extends ServiceImpl<ConnectionPoolC
         if (null == poolConfig) {
             throw new IllegalArgumentException("PoolConfig未配置：id：" + poolId);
         }
-        return null;
+        return poolConfig;
     }
 }

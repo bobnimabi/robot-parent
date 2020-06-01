@@ -63,7 +63,7 @@ public class ResponseRecordServiceImpl extends ServiceImpl<ResponseRecordMapper,
         String directory = htmlOutputRoot + suffix;
         boolean exists = exists(directory);
         if (!exists) {
-            return "建立存储目录失败";
+            return "建立存储目录失败:" + directory;
         }
 
         // 存储

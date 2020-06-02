@@ -8,7 +8,7 @@ import com.robot.code.dto.TenantRobotDTO;
  * @Date 2020/5/27 12:06
  * @Version 2.0
  */
-public interface IFunctionFacde {
+public interface IExecutorFacde {
 
 
 

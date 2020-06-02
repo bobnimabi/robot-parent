@@ -29,11 +29,11 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
     private ICheckLost CHECK_LOST_SERVICE;
 
     @Override
-    public final Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+    public Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         FunctionProperty property = new FunctionProperty(
                 getPathEnum(),
                 getHeaders(robotWrapper),
-                getEntity(paramWrapper.getObj()),
+                getEntity(paramWrapper.getObj(),robotWrapper),
                 getCHECK_LOST_SERVICE(),
                 getResponseHandler(),
                 getResultHandler(),
@@ -69,7 +69,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      *
      * @return
      */
-    protected abstract ICustomEntity getEntity(T params);
+    protected abstract ICustomEntity getEntity(T params, RobotWrapper robotWrapper);
 
     /**
      * 是否检查掉线

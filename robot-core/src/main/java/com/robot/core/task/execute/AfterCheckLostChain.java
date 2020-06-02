@@ -5,7 +5,7 @@ import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
-import com.robot.core.robot.manager.IFunctionFacde;
+import com.robot.core.robot.manager.IExecutorFacde;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class AfterCheckLostChain extends ExecuteAfterFilter<StanderHttpResponse, FunctionProperty> {
 
     @Autowired
-    private IFunctionFacde functionFacde;
+    private IExecutorFacde functionFacde;
 
     @Override
     public void dofilter(StanderHttpResponse params, FunctionProperty result, Invoker<StanderHttpResponse, FunctionProperty> invoker) throws Exception {

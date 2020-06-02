@@ -13,12 +13,11 @@ import java.util.Locale;
  * T为原始数据类型
  * E为转换后的数据类型
  */
-@Data
 public class StanderHttpResponse<T,E> {
     /**
      * 原始httpResponse响应：主要获取header和statusline
      */
-    protected final HttpResponse originalResponse;
+    private final HttpResponse originalResponse;
 
     /**
      * 原始响应内容，主要是字符串形式（json或html），特殊会有二进制流（图片验证码）
@@ -39,7 +38,17 @@ public class StanderHttpResponse<T,E> {
         this.originalResponse = httpResponse;
         this.originalEntity = originalEntity;
     }
+    public T getOriginalEntity() {
+        return this.originalEntity;
+    }
 
+    public Response<E> getResponse() {
+        return this.response;
+    }
+
+    public void setResponse(Response<E> response) {
+        this.response = response;
+    }
 
     public StatusLine getStatusLine() {
         return this.originalResponse.getStatusLine();

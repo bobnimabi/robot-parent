@@ -12,6 +12,7 @@ import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
+import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class BetDetailServer extends AbstractFunction<BetDetailDTO,String,List<B
     }
 
     @Override
-    protected ICustomEntity getEntity(BetDetailDTO betDTO) {
+    protected ICustomEntity getEntity(BetDetailDTO betDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("listid", betDTO.getListid())
                 .add("start", betDTO.getStart())

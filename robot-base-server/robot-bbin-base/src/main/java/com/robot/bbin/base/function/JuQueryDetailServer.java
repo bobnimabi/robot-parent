@@ -9,6 +9,7 @@ import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
+import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,7 +25,7 @@ public class JuQueryDetailServer extends AbstractFunction<JuQueryDetailDTO,Strin
     }
 
     @Override
-    protected ICustomEntity getEntity(JuQueryDetailDTO queryDTO) {
+    protected ICustomEntity getEntity(JuQueryDetailDTO queryDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(5)
                 .add("lang", "cn")
                 .add("wid", queryDTO.getOrderNo())// 注单编号

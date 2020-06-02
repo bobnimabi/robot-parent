@@ -3,9 +3,9 @@ package com.robot.bbin.base.function;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.dto.InOutCashDTO;
-import com.robot.bbin.base.vo.InOutCashData;
-import com.robot.bbin.base.vo.InOutCashVO;
+import com.robot.bbin.base.ao.InOutCashAO;
+import com.robot.bbin.base.bo.InOutCashData;
+import com.robot.bbin.base.bo.InOutCashBO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -26,7 +26,7 @@ import java.util.Map;
  * 注意：出款和入款的统计响应结果是不一样的，此处处理的是入款
  */
 @Service
-public class InOutCashServer extends AbstractFunction<InOutCashDTO,String,InOutCashVO> {
+public class InOutCashServer extends AbstractFunction<InOutCashAO,String, InOutCashBO> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -34,7 +34,7 @@ public class InOutCashServer extends AbstractFunction<InOutCashDTO,String,InOutC
     }
 
     @Override
-    protected ICustomEntity getEntity(InOutCashDTO ioc, RobotWrapper robotWrapper) {
+    protected ICustomEntity getEntity(InOutCashAO ioc, RobotWrapper robotWrapper) {
         return UrlEntity.custom(14)
                 .add("start", ioc.getStart())
                 .add("end", ioc.getEnd())
@@ -53,19 +53,19 @@ public class InOutCashServer extends AbstractFunction<InOutCashDTO,String,InOutC
     }
 
     @Override
-    protected IResultHandler<String, InOutCashVO> getResultHandler() {
+    protected IResultHandler<String, InOutCashBO> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
     /**
      * 响应结果处理
      */
-    private static final class ResultHandler implements IResultHandler<String,InOutCashVO> {
+    private static final class ResultHandler implements IResultHandler<String, InOutCashBO> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, InOutCashVO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, InOutCashBO> shr) {
             String result = shr.getOriginalEntity();
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("出入款统计:未响应结果");
@@ -73,7 +73,7 @@ public class InOutCashServer extends AbstractFunction<InOutCashDTO,String,InOutC
             if (result.contains("error")) {
                 return Response.FAIL(result);
             }
-            InOutCashVO inOutCashVO = new InOutCashVO();
+            InOutCashBO inOutCashVO = new InOutCashBO();
             JSONObject jsonObject = JSON.parseObject(result);
             Integer  total_page = jsonObject.getInteger("total_page");
             inOutCashVO.setPage(total_page);

@@ -1,8 +1,8 @@
 package com.robot.bbin.base.function;
 
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.dto.TotalBetGameDTO;
-import com.robot.bbin.base.vo.TotalBetGameVO;
+import com.robot.bbin.base.ao.TotalBetGameAO;
+import com.robot.bbin.base.bo.TotalBetGameBO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -28,7 +28,7 @@ import java.util.List;
  * 查询投注总金额(游戏)
  */
 @Service
-public class TotalBetGame extends AbstractFunction<TotalBetGameDTO,String,List<TotalBetGameVO>> {
+public class TotalBetGame extends AbstractFunction<TotalBetGameAO,String,List<TotalBetGameBO>> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -44,7 +44,7 @@ public class TotalBetGame extends AbstractFunction<TotalBetGameDTO,String,List<T
      *      .add("Sort", "DESC")
      */
     @Override
-    protected ICustomEntity getEntity(TotalBetGameDTO gameDTO, RobotWrapper robotWrapper) {
+    protected ICustomEntity getEntity(TotalBetGameAO gameDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(4)
                 .add("SearchData", "MemberBets")
                 .add("date_start", gameDTO.getDateStart())
@@ -53,7 +53,7 @@ public class TotalBetGame extends AbstractFunction<TotalBetGameDTO,String,List<T
     }
 
     @Override
-    protected IResultHandler<String, List<TotalBetGameVO>> getResultHandler() {
+    protected IResultHandler<String, List<TotalBetGameBO>> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
@@ -65,20 +65,20 @@ public class TotalBetGame extends AbstractFunction<TotalBetGameDTO,String,List<T
     /**
      * 响应结果转换类
      */
-    private static final class ResultHandler implements IResultHandler<String,List<TotalBetGameVO>> {
+    private static final class ResultHandler implements IResultHandler<String,List<TotalBetGameBO>> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, List<TotalBetGameVO>> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, List<TotalBetGameBO>> shr) {
             String result = shr.getOriginalEntity();
             Document document = Jsoup.parse(result);
             Elements table = document.select("table[class=table table-hover text-middle table-bordered]");
             Elements trs = table.get(0).select("tbody tr");
-            List<TotalBetGameVO> list = new ArrayList<TotalBetGameVO>();
+            List<TotalBetGameBO> list = new ArrayList<TotalBetGameBO>();
             for (Element tr : trs) {
                 Elements tds = tr.select("td");
-                TotalBetGameVO gameVO = new TotalBetGameVO(
+                TotalBetGameBO gameVO = new TotalBetGameBO(
                         tds.get(0).text(),
                         Integer.parseInt(tds.get(1).text().replaceAll(",","")),
                         new BigDecimal(tds.get(2).text().replaceAll(",","")),

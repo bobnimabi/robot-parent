@@ -3,8 +3,8 @@ package com.robot.bbin.base.function;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.dto.BetDetailDTO;
-import com.robot.bbin.base.vo.BetDetailVO;
+import com.robot.bbin.base.ao.BetDetailAO;
+import com.robot.bbin.base.bo.BetDetailBO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -25,7 +25,7 @@ import java.util.Map;
  * 下注查询
  */
 @Service
-public class BetDetailServer extends AbstractFunction<BetDetailDTO,String,List<BetDetailVO>> {
+public class BetDetailServer extends AbstractFunction<BetDetailAO,String,List<BetDetailBO>> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -33,7 +33,7 @@ public class BetDetailServer extends AbstractFunction<BetDetailDTO,String,List<B
     }
 
     @Override
-    protected ICustomEntity getEntity(BetDetailDTO betDTO, RobotWrapper robotWrapper) {
+    protected ICustomEntity getEntity(BetDetailAO betDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("listid", betDTO.getListid())
                 .add("start", betDTO.getStart())
@@ -44,20 +44,20 @@ public class BetDetailServer extends AbstractFunction<BetDetailDTO,String,List<B
     }
 
     @Override
-    protected IResultHandler<String, List<BetDetailVO>> getResultHandler() {
+    protected IResultHandler<String, List<BetDetailBO>> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
     /**
      * 响应结果处理
      */
-    private static final class ResultHandler implements IResultHandler<String, List<BetDetailVO>> {
+    private static final class ResultHandler implements IResultHandler<String, List<BetDetailBO>> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, List<BetDetailVO>> shr) {
-            List<BetDetailVO> list = new ArrayList<>(1);
+        public Response parse2Obj(StanderHttpResponse<String, List<BetDetailBO>> shr) {
+            List<BetDetailBO> list = new ArrayList<>(1);
             JSONObject jsonObject = JSON.parseObject(shr.getOriginalEntity());
             Collection<Object> values = jsonObject.values();
             for (Object value : values) {
@@ -65,7 +65,7 @@ public class BetDetailServer extends AbstractFunction<BetDetailDTO,String,List<B
                 map.forEach((gameCode,v)->{
                     Map<String, String> vv = (Map<String, String>) v;
                     String vvString = JSON.toJSONString(vv);
-                    BetDetailVO betDetailVO = JSON.parseObject(vvString, BetDetailVO.class);
+                    BetDetailBO betDetailVO = JSON.parseObject(vvString, BetDetailBO.class);
                     betDetailVO.setGameCode(gameCode.substring(4));
                     list.add(betDetailVO);
                 });

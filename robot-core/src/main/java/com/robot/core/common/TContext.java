@@ -10,7 +10,6 @@ import org.apache.logging.log4j.ThreadContext;
 import org.springframework.util.Assert;
 
 public class TContext {
-    private static ThreadContext threadContext;
 
     public static String PLATFORM_ID = "platform_id";
     public static String FUNCTION = "function";

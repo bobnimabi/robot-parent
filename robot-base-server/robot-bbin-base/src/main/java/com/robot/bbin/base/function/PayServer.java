@@ -1,7 +1,7 @@
 package com.robot.bbin.base.function;
 
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.dto.PayDTO;
+import com.robot.bbin.base.ao.PayAO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @Service
-public class PayServer extends AbstractFunction<PayDTO,String,Object> {
+public class PayServer extends AbstractFunction<PayAO,String,Object> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -32,7 +32,7 @@ public class PayServer extends AbstractFunction<PayDTO,String,Object> {
     }
 
     @Override
-    protected ICustomEntity getEntity(PayDTO payDTO, RobotWrapper robotWrapper) {
+    protected ICustomEntity getEntity(PayAO payDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(15)
                 .add("search_name", payDTO.getSearch_name())
                 .add("user_id", payDTO.getUser_id())

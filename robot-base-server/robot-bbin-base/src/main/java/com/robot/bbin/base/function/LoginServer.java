@@ -3,7 +3,7 @@ package com.robot.bbin.base.function;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.vo.RobotResponse;
+import com.robot.bbin.base.bo.ResponseBO;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -26,12 +26,12 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service
-public class LoginServer extends AbstractFunction<LoginDTO, String, RobotResponse> {
+public class LoginServer extends AbstractFunction<LoginDTO, String, ResponseBO> {
 
     @Override
-    public Response<RobotResponse> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<RobotResponse> response = super.doFunction(paramWrapper, robotWrapper);
-        RobotResponse loginResp = response.getObj();
+    public Response<ResponseBO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        Response<ResponseBO> response = super.doFunction(paramWrapper, robotWrapper);
+        ResponseBO loginResp = response.getObj();
         if (response.isSuccess() && null != loginResp && true == loginResp.getResult()) {
             this.addCookies(robotWrapper,loginResp.getData().getSession_id());
         }
@@ -55,16 +55,16 @@ public class LoginServer extends AbstractFunction<LoginDTO, String, RobotRespons
     }
 
     @Override
-    protected IResultHandler<String, RobotResponse> getResultHandler() {
+    protected IResultHandler<String, ResponseBO> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
-    private static final class ResultHandler implements IResultHandler<String,RobotResponse> {
+    private static final class ResultHandler implements IResultHandler<String, ResponseBO> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler() {}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, RobotResponse> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, ResponseBO> shr) {
             String result = shr.getOriginalEntity();
             JSONObject jsonObject = JSON.parseObject(result);
             Boolean isSuccess = (Boolean) jsonObject.get("result");
@@ -72,7 +72,7 @@ public class LoginServer extends AbstractFunction<LoginDTO, String, RobotRespons
                 log.error("登录失败：{}", result);
                 return Response.FAIL(jsonObject.getString("message"));
             }
-            return Response.LOGIN_SUCCESS(JSON.parseObject(result, RobotResponse.class));
+            return Response.LOGIN_SUCCESS(JSON.parseObject(result, ResponseBO.class));
         }
     }
 

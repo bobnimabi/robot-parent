@@ -5,6 +5,7 @@
 
 package com.robot.center.tenant;
 
+import com.robot.core.common.TContext;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import java.util.Optional;

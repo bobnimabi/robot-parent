@@ -2,8 +2,8 @@ package com.robot.bbin.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.dto.BetDTO;
-import com.robot.bbin.base.vo.BetVO;
+import com.robot.bbin.base.ao.BetAO;
+import com.robot.bbin.base.bo.BetBO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -21,7 +21,7 @@ import java.util.List;
  * 下注查询
  */
 @Service
-public class BetServer extends AbstractFunction<BetDTO,String,List<BetVO>> {
+public class BetServer extends AbstractFunction<BetAO,String,List<BetBO>> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -29,7 +29,7 @@ public class BetServer extends AbstractFunction<BetDTO,String,List<BetVO>> {
     }
 
     @Override
-    protected ICustomEntity getEntity(BetDTO betDTO, RobotWrapper robotWrapper) {
+    protected ICustomEntity getEntity(BetAO betDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(8)
                 .add("start", betDTO.getStart())
                 .add("end", betDTO.getEnd())
@@ -42,19 +42,19 @@ public class BetServer extends AbstractFunction<BetDTO,String,List<BetVO>> {
     }
 
     @Override
-    protected IResultHandler<String, List<BetVO>> getResultHandler() {
+    protected IResultHandler<String, List<BetBO>> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
     /**
      * 结果转换
      */
-    private static final class ResultHandler implements IResultHandler<String,List<BetVO>> {
+    private static final class ResultHandler implements IResultHandler<String,List<BetBO>> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, List<BetVO>> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, List<BetBO>> shr) {
             String result = shr.getOriginalEntity();
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("下注查询:未响应结果");
@@ -62,7 +62,7 @@ public class BetServer extends AbstractFunction<BetDTO,String,List<BetVO>> {
             if (result.contains("error")) {
                 return Response.FAIL(result);
             }
-            List<BetVO> betVOS = JSON.parseArray(result, BetVO.class);
+            List<BetBO> betVOS = JSON.parseArray(result, BetBO.class);
             return Response.SUCCESS(betVOS);
         }
     }

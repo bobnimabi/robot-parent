@@ -1,9 +1,11 @@
 package com.robot.bbin.base.function;
 
+import com.bbin.utils.UrlUtils;
 import com.bbin.utils.project.DateUtils;
-import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.ao.JuQueryAO;
+import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.bo.JuQueryBO;
+import com.robot.bbin.base.bo.ResponseBO;
 import com.robot.center.util.MoneyUtil;
 import com.robot.code.dto.Response;
 import com.robot.code.service.ITenantRobotDictService;
@@ -12,29 +14,29 @@ import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.ICustomEntity;
 import com.robot.core.http.request.UrlEntity;
-import com.robot.core.http.response.HtmlResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import org.apache.http.client.ResponseHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 /**
- * Created by mrt on 11/15/2019 12:29 PM
- * 局查询：场次查询
- * 现在以下电子使用本类：
- *  申博电子（按场次查询，场次即是申博电子的注单）
+ * @Author mrt
+ * @Date 2020/6/2 14:58
+ * @Version 2.0
  */
-@Service
-public class JuQueryRoundServer extends AbstractFunction<JuQueryAO,String, JuQueryBO> {
+public class JuQueryServer extends AbstractFunction<JuQueryAO, String, JuQueryBO> {
+
     @Autowired
     private ITenantRobotDictService dictService;
+
     // 字典表：获取注单查询的barID的前缀
-    private String DICT_BAR_ID = "BBIN:ROUND_QUERY:";
+    private String DICT_BAR_ID = "BBIN:ORDER_QUERY:";
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -42,32 +44,27 @@ public class JuQueryRoundServer extends AbstractFunction<JuQueryAO,String, JuQue
     }
 
     @Override
-    protected ICustomEntity getEntity(JuQueryAO queryDTO, RobotWrapper robotWrapper) {
+    protected ICustomEntity getEntity(JuQueryAO juQueryAO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("SearchData", "BetQuery")
-                .add("BarID", queryDTO.getBarId())
-                .add("GameKind", queryDTO.getGameKind()) // 平台编码
-                .add("RoundNo", queryDTO.getOrderNo()) // 注单号
+                .add("BarID", juQueryAO.getBarId())
+                .add("GameKind", juQueryAO.getGameKind())
+                .add("Wagersid", juQueryAO.getOrderNo())
                 .add("Limit", "50") // 每页大小
                 .add("Sort", "DESC"); // 时间倒排
     }
 
     @Override
     protected IResultHandler<String, JuQueryBO> getResultHandler() {
-        return null;
-    }
-
-    @Override
-    protected ResponseHandler<StanderHttpResponse> getResponseHandler(){
-        return HtmlResponseHandler.HTML_RESPONSE_HANDLER;
+        return ResultHandler.INSTANCE;
     }
 
     /**
      * 响应结果转换类
      */
-    private static final class JuQueryParse implements IResultHandler<String, JuQueryBO> {
-        private static final JuQueryParse INSTANCE = new JuQueryParse();
-        private JuQueryParse() {}
+    private static final class ResultHandler implements IResultHandler<String, JuQueryBO> {
+        private static final ResultHandler INSTANCE = new ResultHandler();
+        private ResultHandler(){}
 
         @Override
         public Response parse2Obj(StanderHttpResponse<String, JuQueryBO> shr) {
@@ -89,9 +86,15 @@ public class JuQueryRoundServer extends AbstractFunction<JuQueryAO,String, JuQue
             juQueryVO.setResult(tds.get(5).text());
             juQueryVO.setRebateAmount(MoneyUtil.formatYuan(tds.get(6).text()));
             juQueryVO.setSendAmount(MoneyUtil.formatYuan(tds.get(7).text()));
-            juQueryVO.setRound(tds.get(8).text());
+
+            // 获取隐藏值
+            String span = tds.get(6).select("span input").val();
+            if (!StringUtils.isEmpty(span)) {
+                Map<String, String> urlParams = UrlUtils.getUrlParams(span);
+                juQueryVO.setPageId(urlParams.get("id"));
+                juQueryVO.setKey(urlParams.get("key"));
+            }
             return Response.SUCCESS(juQueryVO);
         }
     }
-
 }

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
-import com.robot.center.tenant.TContext;
+import com.robot.core.common.TContext;
 import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
@@ -21,7 +21,6 @@ import net.sf.jsqlparser.statement.insert.Insert;
 import net.sf.jsqlparser.statement.select.FromItem;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,30 +30,61 @@ import java.util.Set;
 
 public abstract class MybatisPlusConfigBase {
     // 不需要tenantId修改时的表
-    private static final Set<String> TENANT_PERMIT = new HashSet<>();
+    private static final Set<String> TENANT_PERMIT = new HashSet<>(9);
     // 不需要channleId修改时的表
-    private static final Set<String> CHANNEL_PERMIT = new HashSet<>();
+    private static final Set<String> CHANNEL_PERMIT = new HashSet<>(9);
     // 不需要platformId修改时的表
-    protected static final Set<String> PLATFORM_PERMIT = new HashSet<>();
+    protected static final Set<String> PLATFORM_PERMIT = new HashSet<>(9);
     // 不需要fucntionCode修改时的表
-    protected static final Set<String> FUNCTION_PERMIT = new HashSet<>();
+    protected static final Set<String> FUNCTION_PERMIT = new HashSet<>(9);
     // 不需要isValid修改时的表
-    private static final Set<String> IS_VALID_PERMIT = new HashSet<>();
+    private static final Set<String> IS_VALID_PERMIT = new HashSet<>(1);
     // 不需要status修改时的表
-    private static final Set<String> STATUS_PERMIT = new HashSet<>();
+    private static final Set<String> STATUS_PERMIT = new HashSet<>(1);
 
     static {
-        TENANT_PERMIT.add("tenant_channel");
-        TENANT_PERMIT.add("tenant_platform");
-        TENANT_PERMIT.add("tenant_robot_resp_log");
-        CHANNEL_PERMIT.add("tenant_channel");
-        CHANNEL_PERMIT.add("tenant_platform");
-        CHANNEL_PERMIT.add("tenant_robot_resp_log");
-        PLATFORM_PERMIT.add("tenant_robot_resp_log");
-        PLATFORM_PERMIT.add("tenant_channel");
-        FUNCTION_PERMIT.add("tenant_robot_resp_log");
-        FUNCTION_PERMIT.add("tenant_channel");
-        IS_VALID_PERMIT.add("tenant_robot_resp_log");
+        TENANT_PERMIT.add("async_request_config");
+        CHANNEL_PERMIT.add("async_request_config");
+        PLATFORM_PERMIT.add("async_request_config");
+        FUNCTION_PERMIT.add("async_request_config");
+
+        TENANT_PERMIT.add("connection_pool_config");
+        CHANNEL_PERMIT.add("connection_pool_config");
+        PLATFORM_PERMIT.add("connection_pool_config");
+        FUNCTION_PERMIT.add("connection_pool_config");
+
+        TENANT_PERMIT.add("http_request_config");
+        CHANNEL_PERMIT.add("http_request_config");
+        PLATFORM_PERMIT.add("http_request_config");
+        FUNCTION_PERMIT.add("http_request_config");
+
+        TENANT_PERMIT.add("platform");
+        CHANNEL_PERMIT.add("platform");
+        PLATFORM_PERMIT.add("platform");
+        FUNCTION_PERMIT.add("platform");
+
+        TENANT_PERMIT.add("request_record");
+        CHANNEL_PERMIT.add("request_record");
+        PLATFORM_PERMIT.add("request_record");
+        FUNCTION_PERMIT.add("request_record");
+
+        TENANT_PERMIT.add("response_record");
+        CHANNEL_PERMIT.add("response_record");
+        PLATFORM_PERMIT.add("response_record");
+        FUNCTION_PERMIT.add("response_record");
+
+        TENANT_PERMIT.add("response_record");
+        CHANNEL_PERMIT.add("response_record");
+        FUNCTION_PERMIT.add("response_record");
+
+        TENANT_PERMIT.add("tenant_robot_path");
+        CHANNEL_PERMIT.add("tenant_robot_path");
+        FUNCTION_PERMIT.add("tenant_robot_path");
+
+        TENANT_PERMIT.add("tenant_robot_proxy");
+        CHANNEL_PERMIT.add("tenant_robot_proxy");
+        PLATFORM_PERMIT.add("tenant_robot_proxy");
+        FUNCTION_PERMIT.add("tenant_robot_proxy");
     }
 
 
@@ -152,7 +182,7 @@ public abstract class MybatisPlusConfigBase {
         tenantSqlParser.setTenantHandler(new TenantHandler() {
             @Override
             public Expression getTenantId() {
-                return new LongValue(1L);
+                return new LongValue("1");
             }
 
             @Override
@@ -180,12 +210,6 @@ public abstract class MybatisPlusConfigBase {
      * @return
      */
     protected abstract TenantSqlParser getFunctionSqlParser();
-
-
-
-
-
-
 
 
 
@@ -257,6 +281,7 @@ public abstract class MybatisPlusConfigBase {
         }
 
         // 插入（不能把is_valid=0代入sql）
+        @Override
         public void processInsert(Insert insert) {
 
         }

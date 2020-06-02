@@ -44,6 +44,7 @@ public abstract class WebConfig implements WebMvcConfigurer {
     }
 
     //添加拦截器
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         String[] path = {"/**/addRobot", "/**/deleteRobot", "/**/updateRobot", "/**/pageRobot", "/**/getRobotById", "/**/closeRobot"};
         registry.addInterceptor(getLoginLogInterceptor())

@@ -28,12 +28,12 @@ public class RobotConsts {
      * 功能：1.活动  2.出款  3.入款
      */
     public static class FUNCTION_CODE{
-        public static final long ACTIVITY = 1;
-        public static final long WITHDRAW = 2;
-        public static final long INCOME = 3;
+        public static final String ACTIVITY = "1";
+        public static final String WITHDRAW = "2";
+        public static final String INCOME = "3";
 
         //状态集合
-        public static final long[] statusArr = {ACTIVITY, WITHDRAW, INCOME};
+        public static final String[] statusArr = {ACTIVITY, WITHDRAW, INCOME};
     }
 
     /**
@@ -41,17 +41,17 @@ public class RobotConsts {
      * 功能：1.活动  2.出款  3.入款
      */
     public static class PLATFORM_ID{
-        public static final long OG = 1;
-        public static final long BBIN = 2;
-        public static final long FU_CAI = 3;
-        public static final long HONG_BO = 4;
-        public static final long GPK = 5;
-        public static final long YUN_SHAN_FU = 6;
-        public static final long JIU_WU_CARD = 7;
-        public static final long REN_REN_XIAO_KA = 8;
+        public static final String OG = "1";
+        public static final String BBIN = "2";
+        public static final String FU_CAI = "3";
+        public static final String HONG_BO = "4";
+        public static final String GPK = "5";
+        public static final String YUN_SHAN_FU = "6";
+        public static final String JIU_WU_CARD = "7";
+        public static final String REN_REN_XIAO_KA = "8";
 
         //状态集合
-        public static final long[] statusArr = {OG, BBIN, FU_CAI, HONG_BO, GPK, YUN_SHAN_FU};
+        public static final String[] statusArr = {OG, BBIN, FU_CAI, HONG_BO, GPK, YUN_SHAN_FU};
     }
 
     // 机器人ID

@@ -7,7 +7,6 @@ import lombok.Data;
  */
 @Data
 public class BetAO {
-
     // 日期：起始
     private String start;
     // 日期：结束

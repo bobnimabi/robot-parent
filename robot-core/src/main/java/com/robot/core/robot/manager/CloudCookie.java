@@ -31,9 +31,9 @@ public class CloudCookie implements ICloudCookie {
 
     /**
      * Redis：机器人COOKIE标志
-     * 7
      */
     public static final String COOKIE = RedisConsts.PROJECT + "COOKIE:";
+
     /**
      * Cookie过期时间30天
      */

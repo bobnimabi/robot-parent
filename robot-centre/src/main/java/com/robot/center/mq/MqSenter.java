@@ -6,7 +6,7 @@ import com.bbin.common.pojo.PayResponseVo;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.ThreadLocalUtils;
-import com.robot.center.tenant.TContext;
+import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

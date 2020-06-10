@@ -1,8 +1,5 @@
 package com.robot.generator;
 
-
-import com.bbin.utils.project.MyCodeGenUtils;
-
 public class CodeGenerator {
     public static void main(String[] args) {
         //此类所在的项目名称

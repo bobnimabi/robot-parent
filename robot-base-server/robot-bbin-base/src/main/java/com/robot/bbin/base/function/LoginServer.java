@@ -10,7 +10,7 @@ import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.function.base.ParamWrapper;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -28,6 +28,13 @@ import org.springframework.util.StringUtils;
 @Service
 public class LoginServer extends AbstractFunction<LoginDTO, String, ResponseBO> {
 
+    /**
+     * 这里重写的原因是：登录完成后，需要手动添加特定cookie
+     * @param paramWrapper
+     * @param robotWrapper
+     * @return
+     * @throws Exception
+     */
     @Override
     public Response<ResponseBO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         Response<ResponseBO> response = super.doFunction(paramWrapper, robotWrapper);
@@ -44,7 +51,7 @@ public class LoginServer extends AbstractFunction<LoginDTO, String, ResponseBO> 
     }
 
     @Override
-    protected ICustomEntity getEntity(LoginDTO loginDTO,RobotWrapper robot) {
+    protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot) {
         UrlEntity entity = UrlEntity.custom(3)
                 .add("username", robot.getPlatformAccount())
                 .add("password", robot.getPlatformPassword());

@@ -2,7 +2,7 @@ package com.robot.core.task.execute;
 
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.MethodEnum;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import lombok.Data;
 import org.apache.http.client.ResponseHandler;
@@ -43,7 +43,7 @@ public class ExecuteProperty {
     /**
      * 请求体
      */
-    private ICustomEntity customEntity;
+    private IEntity customEntity;
 
     /**
      * http上下文

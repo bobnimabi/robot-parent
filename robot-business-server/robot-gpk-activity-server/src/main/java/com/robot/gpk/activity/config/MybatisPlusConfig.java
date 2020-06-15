@@ -1,4 +1,4 @@
-package com.robot.bbin.activity.config;
+package com.robot.gpk.activity.config;
 
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
@@ -21,7 +21,7 @@ public class MybatisPlusConfig extends MybatisPlusConfigBase {
         tenantSqlParser.setTenantHandler(new TenantHandler() {
             @Override
             public Expression getTenantId() {
-                return new LongValue(RobotConsts.PLATFORM_ID.BBIN);
+                return new LongValue(RobotConsts.PLATFORM_ID.GPK);
             }
 
             @Override

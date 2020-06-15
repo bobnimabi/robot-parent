@@ -5,6 +5,7 @@ import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.ParamWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -13,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
  * @Date 2020/5/29 19:14
  * @Version 2.0
  */
+@Service
 public class Dispatcher implements IDispatcher {
     @Autowired
     private IAsyncDispatcher asyncDispatcher;
@@ -31,7 +33,7 @@ public class Dispatcher implements IDispatcher {
     }
 
     @Override
-    public Response disPatcherSpec(ParamWrapper paramWrapper, IFunctionEnum functionEnum, long robotId, boolean isNewCookie) throws Exception {
-        return syncDispatcher.disPatcherSpec(paramWrapper, functionEnum, robotId, isNewCookie);
+    public Response disPatcherLogin(ParamWrapper paramWrapper, IFunctionEnum functionEnum, long robotId, boolean isNewCookie) throws Exception {
+        return syncDispatcher.disPatcherLogin(paramWrapper, functionEnum, robotId, isNewCookie);
     }
 }

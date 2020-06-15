@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Data
 @Slf4j
-public class JsonEntity implements ICustomEntity<String, Object> {
+public class JsonEntity implements IEntity<String, Object> {
 
     private Map<String, Object> entity;
 
@@ -25,7 +25,7 @@ public class JsonEntity implements ICustomEntity<String, Object> {
     }
 
     @Override
-    public ICustomEntity add(String key, Object value) {
+    public IEntity add(String key, Object value) {
         if (StringUtils.isBlank(key)) {
             log.error("dictKey:{}，dictValue:{} 新增Entity：dictKey-dictValue 有空值,不予添加", key, value);
             return this;

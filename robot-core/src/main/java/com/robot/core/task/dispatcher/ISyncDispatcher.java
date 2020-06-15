@@ -1,6 +1,7 @@
 package com.robot.core.task.dispatcher;//package com.bbin.robotWrapper.core.schedue;
 
 
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.IPathEnum;
@@ -26,9 +27,8 @@ public interface ISyncDispatcher {
      * 2.指定特定机器人使用
      * @param paramWrapper
      * @param functionEnum
-     * @param robotId
      * @param isNewCookie
      * @return
      */
-    Response disPatcherSpec(ParamWrapper paramWrapper, IFunctionEnum functionEnum, long robotId, boolean isNewCookie) throws Exception;
+    Response disPatcherLogin(ParamWrapper<LoginDTO> paramWrapper, IFunctionEnum functionEnum, boolean isNewCookie) throws Exception;
 }

@@ -7,18 +7,15 @@ import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
-import com.robot.core.http.response.HtmlResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import org.apache.http.client.ResponseHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +41,7 @@ public class TotalBetGame extends AbstractFunction<TotalBetGameAO,String,List<To
      *      .add("Sort", "DESC")
      */
     @Override
-    protected ICustomEntity getEntity(TotalBetGameAO gameDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(TotalBetGameAO gameDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(4)
                 .add("SearchData", "MemberBets")
                 .add("date_start", gameDTO.getDateStart())
@@ -55,11 +52,6 @@ public class TotalBetGame extends AbstractFunction<TotalBetGameAO,String,List<To
     @Override
     protected IResultHandler<String, List<TotalBetGameBO>> getResultHandler() {
         return ResultHandler.INSTANCE;
-    }
-
-    @Override
-    protected ResponseHandler<StanderHttpResponse> getResponseHandler(){
-        return HtmlResponseHandler.HTML_RESPONSE_HANDLER;
     }
 
     /**

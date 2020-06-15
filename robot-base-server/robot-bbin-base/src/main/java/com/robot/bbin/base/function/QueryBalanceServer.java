@@ -7,7 +7,7 @@ import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -27,7 +27,7 @@ public class QueryBalanceServer extends AbstractFunction<String,String, QueryBal
     }
 
     @Override
-    protected ICustomEntity getEntity(String params, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(String params, RobotWrapper robotWrapper) {
         return UrlEntity.custom(1).add("search_name", params);
     }
 

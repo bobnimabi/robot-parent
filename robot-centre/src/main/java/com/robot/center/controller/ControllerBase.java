@@ -1,10 +1,13 @@
 package com.robot.center.controller;
 
+import com.bbin.common.util.ThreadLocalUtils;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.dto.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.service.ITenantRobotTemplateService;
+import com.robot.core.common.TContext;
 import com.robot.core.robot.manager.IControllerFacde;
+import com.robot.core.task.dispatcher.IDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +17,16 @@ import org.springframework.web.bind.annotation.*;
  * Created by mrt on 2019/5/16 0016 下午 7:41
  */
 @Slf4j
-public class RobotControllerBase {
+public class ControllerBase {
 
     @Autowired
     private IControllerFacde controllerFacde;
 
     @Autowired
     private ITenantRobotTemplateService templateService;
+
+    @Autowired
+    protected IDispatcher dispatcher;
 
     /**
      * 机器人：登录
@@ -111,5 +117,22 @@ public class RobotControllerBase {
     @GetMapping("/test")
     public String test() {
         return "ok";
+    }
+
+    /**
+     * 租户id等信息填充
+     * @return
+     */
+    protected void handleTenant(String platformId, String function) {
+        try {
+            TContext.setTenantId(ThreadLocalUtils.getTenantIdOption().get() + "");
+            TContext.setChannelId(ThreadLocalUtils.getChannelIdOption().get() + "");
+            TContext.setPlatformId(platformId);
+            TContext.setFunction(function);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("MQ：未获取到相关租户信息", e);
+        } finally {
+            ThreadLocalUtils.clean();
+        }
     }
 }

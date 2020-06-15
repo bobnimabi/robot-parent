@@ -10,12 +10,10 @@ import com.robot.code.service.ITenantRobotDictService;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
-import com.robot.core.http.response.HtmlResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import org.apache.http.client.ResponseHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -42,7 +40,7 @@ public class JuQueryRoundServer extends AbstractFunction<JuQueryAO,String, JuQue
     }
 
     @Override
-    protected ICustomEntity getEntity(JuQueryAO queryDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(JuQueryAO queryDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("SearchData", "BetQuery")
                 .add("BarID", queryDTO.getBarId())
@@ -55,11 +53,6 @@ public class JuQueryRoundServer extends AbstractFunction<JuQueryAO,String, JuQue
     @Override
     protected IResultHandler<String, JuQueryBO> getResultHandler() {
         return null;
-    }
-
-    @Override
-    protected ResponseHandler<StanderHttpResponse> getResponseHandler(){
-        return HtmlResponseHandler.HTML_RESPONSE_HANDLER;
     }
 
     /**

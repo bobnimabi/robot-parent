@@ -6,15 +6,12 @@ import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
-import com.robot.core.http.response.HtmlResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.ResponseHandler;
 import org.springframework.stereotype.Service;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +29,7 @@ public class PayServer extends AbstractFunction<PayAO,String,Object> {
     }
 
     @Override
-    protected ICustomEntity getEntity(PayAO payDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(PayAO payDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(15)
                 .add("search_name", payDTO.getSearch_name())
                 .add("user_id", payDTO.getUser_id())
@@ -53,11 +50,6 @@ public class PayServer extends AbstractFunction<PayAO,String,Object> {
     @Override
     protected IResultHandler<String, Object> getResultHandler() {
         return ResultHandler.INSTANCE;
-    }
-
-    @Override
-    protected ResponseHandler<StanderHttpResponse> getResponseHandler(){
-        return HtmlResponseHandler.HTML_RESPONSE_HANDLER;
     }
 
     /**

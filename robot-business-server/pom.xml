@@ -13,6 +13,7 @@
     <modules>
 
         <module>robot-bbin-activity-server</module>
+        <module>robot-gpk-activity-server</module>
     </modules>
 
 

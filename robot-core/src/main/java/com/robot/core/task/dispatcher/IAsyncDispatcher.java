@@ -18,7 +18,7 @@ public interface IAsyncDispatcher {
      *
      * @param paramWrapper 请求参数包装
      * @param exteralNo        外部订单号
-     * @param actionEnum   等待path枚举
+     * @param actionEnum   异步需要时间限制的的路径枚举，比如查询余额+打款，此时应传入打款的枚举
      * @param functionEnum 功能枚举
      */
     void asyncDispatch(ParamWrapper paramWrapper, String exteralNo, IPathEnum actionEnum, IFunctionEnum functionEnum) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;

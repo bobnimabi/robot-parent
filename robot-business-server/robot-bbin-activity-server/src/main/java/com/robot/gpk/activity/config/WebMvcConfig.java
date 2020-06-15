@@ -1,4 +1,4 @@
-package com.robot.bbin.activity.config;
+package com.robot.gpk.activity.config;
 
 import com.robot.bbin.activity.interceptor.BbinActivityTenant;
 import com.robot.center.config.WebConfig;

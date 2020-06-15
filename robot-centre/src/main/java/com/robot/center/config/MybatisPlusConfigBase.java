@@ -85,6 +85,10 @@ public abstract class MybatisPlusConfigBase {
         CHANNEL_PERMIT.add("tenant_robot_proxy");
         PLATFORM_PERMIT.add("tenant_robot_proxy");
         FUNCTION_PERMIT.add("tenant_robot_proxy");
+
+        TENANT_PERMIT.add("tenant_robot_template");
+        CHANNEL_PERMIT.add("tenant_robot_template");
+        FUNCTION_PERMIT.add("tenant_robot_template");
     }
 
 

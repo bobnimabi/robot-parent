@@ -11,7 +11,7 @@ import com.robot.code.service.ITenantRobotDictService;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -43,7 +43,7 @@ public class JuQueryServer extends AbstractFunction<JuQueryAO, String, JuQueryBO
     }
 
     @Override
-    protected ICustomEntity getEntity(JuQueryAO juQueryAO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(JuQueryAO juQueryAO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("SearchData", "BetQuery")
                 .add("BarID", juQueryAO.getBarId())

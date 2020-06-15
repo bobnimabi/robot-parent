@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class CustomHeaders implements ICustomEntity<String,String> {
+public class CustomHeaders implements IEntity<String,String> {
     private List<Header> headers;
 
     private CustomHeaders(int size) {

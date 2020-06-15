@@ -9,7 +9,7 @@ import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -33,7 +33,7 @@ public class BetDetailServer extends AbstractFunction<BetDetailAO,String,List<Be
     }
 
     @Override
-    protected ICustomEntity getEntity(BetDetailAO betDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(BetDetailAO betDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("listid", betDTO.getListid())
                 .add("start", betDTO.getStart())

@@ -1,7 +1,7 @@
 package com.robot.core.function.base;
 
 import com.robot.core.http.request.CustomHeaders;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class FunctionProperty {
     /**
      * 请求体
      */
-    private ICustomEntity entity;
+    private IEntity entity;
 
     /**
      * URL动态后缀

@@ -5,9 +5,11 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 
 /**
+ * 全局通用：检查是否掉线
  * @Author mrt
  * @Date 2020/6/1 13:06
  * @Version 2.0
+ * 注意：类名不要改变
  */
 public class CheckLostImpl implements ICheckLost {
 

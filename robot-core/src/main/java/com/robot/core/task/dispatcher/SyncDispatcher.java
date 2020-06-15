@@ -1,5 +1,7 @@
 package com.robot.core.task.dispatcher;
 
+import com.alibaba.fastjson.JSON;
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.dto.Response;
 import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.code.service.IAsyncRequestConfigService;
@@ -34,15 +36,16 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
             return Response.FAIL("机器人正忙或全部掉线");
         }
         try {
-            return super.dispatch(paramWrapper, functionEnum, robot);
+            return handleResponse(super.dispatch(paramWrapper, functionEnum, robot));
         }finally {
             super.dispatcherFacde.giveBackCookieAndToken(robot);
         }
     }
 
     @Override
-    public Response disPatcherSpec(ParamWrapper paramWrapper, IFunctionEnum functionEnum, long robotId, boolean isNewCookie) throws Exception {
+    public Response disPatcherLogin(ParamWrapper<LoginDTO> paramWrapper, IFunctionEnum functionEnum, boolean isNewCookie) throws Exception {
         Assert.notNull(paramWrapper,"paramWrapper不能为null");
+        long robotId = paramWrapper.getObj().getId();
         if (isNewCookie) {
             super.dispatcherFacde.newCookie(robotId);
         }
@@ -60,5 +63,9 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
                 super.dispatcherFacde.online(robot);
             }
         }
+    }
+
+    private Response handleResponse(Response response) {
+        return response.setObj(JSON.toJSONString(response.getObj()));
     }
 }

@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class UrlEntity implements ICustomEntity<String, String> {
+public class UrlEntity implements IEntity<String, String> {
 
     private List<NameValuePair> entity;
 

@@ -9,15 +9,6 @@ import java.util.Map;
  * boyer-moore 字符串匹配算法
  */
 public class BoyerMoore {
-
-    public static void main(String[] args) {
-        String text = "中国是111a一个伟大的国度；伟大的祖国啊";
-        String pattern = "伟大的国度";
-        BoyerMoore bm = new BoyerMoore();
-        int index = bm.find(pattern, text);
-        System.out.println("查找到：" + index);
-    }
-
     public static int find(String pattern, String text) {
         if (StringUtils.isEmpty(pattern) || StringUtils.isEmpty(text)) {
             return -1;

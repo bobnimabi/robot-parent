@@ -52,11 +52,6 @@ public class TenantRobotPath implements Serializable {
     private String method;
 
     /**
-     * 响应格式：HTML：html文本，JSON：json文本，BYTE：字节数组，NONE：无
-     */
-    private String respType;
-
-    /**
      * 备注
      */
     private String memo;

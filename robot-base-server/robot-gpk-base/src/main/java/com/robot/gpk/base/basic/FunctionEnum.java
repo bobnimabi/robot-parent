@@ -7,18 +7,12 @@ import com.robot.core.function.base.IFunctionEnum;
  * Created by mrt on 11/15/2019 8:27 PM
  */
 public enum FunctionEnum implements IFunctionEnum {
-    Image_CODE_SERVER("imageCodeServer"),
-    TOTAL_RECHARGE_DETAIL_SERVER("totalRechargeDetailServer"),
-    TOTAL_RECHARGE_SERVER("totalRechargeServer"),
+    LOGIN_SERVER("logInServer"),
     QUERY_USER_SERVER("queryUserServer"),
     PAY_SERVER("payServer"),
-    QUERY_USER_DETAIL_SERVER("queryUserDetailServer"),
-    QUERY_VIP_AMOUNT_SERVER("queryVipAmountServer"),
-    PAY_TEMPSERVER("payTempServer"),
-    UPDATE_REMARK2_SERVER("updateRemark2Server"),
     ;
 
-    private String serverName;
+    private final String serverName;
 
     private FunctionEnum(String serverName) {
         this.serverName = serverName;

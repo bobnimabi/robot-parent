@@ -3,7 +3,7 @@ package com.robot.core.function.base;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.robot.code.dto.Response;
 import com.robot.core.http.request.CustomHeaders;
-import com.robot.core.http.request.ICustomEntity;
+import com.robot.core.http.request.IEntity;
 import com.robot.core.http.response.CustomResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -71,7 +71,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      * 获取请求体
      * @return
      */
-    protected abstract ICustomEntity getEntity(T params, RobotWrapper robotWrapper);
+    protected abstract IEntity getEntity(T params, RobotWrapper robotWrapper);
 
     /**
      * 获取URL后缀，默认：""
@@ -106,7 +106,8 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     /**
      * 获取http响应处理器：流转文本或byte[]
-     * 注意：如果有错误状态码有特殊情况，通过@Override
+     * 默认使用通用处理器
+     * 注意：如果有错误状态码有特殊情况，通过自定义ResponseHandler，通过@Override
      * @return
      */
     protected ResponseHandler<StanderHttpResponse> getResponseHandler(){

@@ -40,6 +40,8 @@ public class JsonEntity implements ICustomEntity<String, Object> {
     }
 
     public static JsonEntity custom(int size) {
+        // 注意map的负载因子是0.75
+        size = (int) Math.ceil(size / 0.7);
         return new JsonEntity(size);
     }
 

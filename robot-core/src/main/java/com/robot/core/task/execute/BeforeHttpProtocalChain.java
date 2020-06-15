@@ -15,7 +15,6 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import java.net.URI;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
 
     @Override
     public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
-        // 请求URl和Method
+        // 请求URl、Method、http响应处理器
         setUrlAndMethod(params, result);
         // 设置请求头
         setHeads(params, result);
@@ -63,9 +62,11 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
         TenantRobotDomain domain = domainService.getDomain(path.getRank());
 
         // 请求URl
-        result.setUrl(URI.create(domain.getDomain() + path.getPath()));
+        result.setUrl(URI.create(domain.getDomain() + path.getPath() + params.getUrlSuffix()));
         // 设置method
         result.setMethod(MethodEnum.valueOf(path.getMethod()));
+        // 设置响应处理器
+        result.setResponseHandler(params.getResponseHandler());
         log.info("请求Method:{},请求URL：{}", path.getMethod(), result.getUrl().toString());
     }
 
@@ -107,10 +108,6 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
         HttpClientContext httpContext = HttpClientContext.create();
         httpContext.setCookieStore(params.getRobotWrapper().getCookieStore());
         result.setHttpContext(httpContext);
-    }
-
-    private void setResponseHandler(FunctionProperty params, ExecuteProperty result) {
-        result.setResponseHandler(params.getResponseHandler());
     }
 
     @Override

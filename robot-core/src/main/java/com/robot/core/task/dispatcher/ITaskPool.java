@@ -13,7 +13,7 @@ public interface ITaskPool {
      * 1.会添加时间戳
      * @param taskWrapper
      */
-    void taskAdd(TaskWrapper taskWrapper,String externalNo) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException;
+    void taskAdd(TaskWrapper taskWrapper) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException;
 
     /**
      * 获取队列的大小

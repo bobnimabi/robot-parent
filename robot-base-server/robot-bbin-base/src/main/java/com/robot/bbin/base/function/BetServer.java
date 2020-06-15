@@ -2,7 +2,7 @@ package com.robot.bbin.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.ao.BetAO;
+import com.robot.gpk.base.ao.BetAO;
 import com.robot.bbin.base.bo.BetBO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;

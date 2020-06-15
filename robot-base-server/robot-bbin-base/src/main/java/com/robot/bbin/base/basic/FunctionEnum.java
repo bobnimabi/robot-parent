@@ -18,7 +18,9 @@ public enum FunctionEnum implements IFunctionEnum {
     IN_OUT_CASH_SERVER("inOutCashServer"),
     BET_AMOUNT_AND_RECHARGE_SERVER("betAmountAndRechargeServer"),
     ;
-
+    /**
+     * 服务名称
+     */
     private String serverName;
 
     private FunctionEnum(String serverName) {

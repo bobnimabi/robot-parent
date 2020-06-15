@@ -36,14 +36,21 @@ public class FunctionProperty {
     private ICustomEntity entity;
 
     /**
+     * URL动态后缀
+     * 极特殊情况：BBIN局查询的URL根据游戏平台的不同会变化
+     */
+    private String urlSuffix;
+
+    /**
      * 是否检查掉线，默认：true
      */
     @NotNull
     private ICheckLost checkLost;
 
     /**
-     * http响应处理器
+     * http响应结果转文本
      */
+    @NotNull
     private ResponseHandler<StanderHttpResponse> responseHandler;
 
     /**

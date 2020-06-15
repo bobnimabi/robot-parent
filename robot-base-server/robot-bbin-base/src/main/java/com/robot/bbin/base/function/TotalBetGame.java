@@ -1,7 +1,7 @@
 package com.robot.bbin.base.function;
 
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.ao.TotalBetGameAO;
+import com.robot.gpk.base.ao.TotalBetGameAO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.AbstractFunction;

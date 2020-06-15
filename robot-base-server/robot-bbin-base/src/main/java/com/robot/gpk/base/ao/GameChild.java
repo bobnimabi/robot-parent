@@ -1,4 +1,4 @@
-package com.robot.bbin.base.ao;
+package com.robot.gpk.base.ao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

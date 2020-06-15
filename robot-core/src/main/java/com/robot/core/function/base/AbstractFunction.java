@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.robot.code.dto.Response;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.ICustomEntity;
-import com.robot.core.http.response.JsonResponseHandler;
+import com.robot.core.http.response.CustomResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.core.task.execute.IExecute;
 import org.apache.http.client.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.annotation.Resource;
 
 /**
@@ -25,6 +24,11 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
     @Autowired
     private IExecute iExecute;
 
+    /**
+     * 注意，掉线检查服务的名称：CheckLostImpl
+     * 1.正常情况下，一个机器人只需要一个掉线检查
+     * 2.不排除有多个掉线检查的情况，如果有其他的function就覆盖getCHECK_LOST_SERVICE()方法
+     */
     @Resource(name = "checkLostImpl")
     private ICheckLost CHECK_LOST_SERVICE;
 
@@ -33,12 +37,13 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
         FunctionProperty property = new FunctionProperty(
                 getPathEnum(),
                 getHeaders(robotWrapper),
-                getEntity(paramWrapper.getObj(),robotWrapper),
+                getEntity(paramWrapper.getObj(), robotWrapper),
+                getUrlSuffix(paramWrapper.getObj()),
                 getCHECK_LOST_SERVICE(),
                 getResponseHandler(),
                 getResultHandler(),
                 robotWrapper,
-                getExteralNo(paramWrapper),
+                getExteralNo(paramWrapper.getObj()),
                 IdWorker.getId()
         );
         StanderHttpResponse<F, E> standerHttpResponse = iExecute.request(property);
@@ -47,7 +52,6 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     /**
      * 获取动作
-     *
      * @return
      */
     protected abstract IPathEnum getPathEnum();
@@ -56,7 +60,6 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      * 获取接口特定请求头
      * 注意：可以对公共头进行覆盖（tenant_robot_header表配置）
      * 有些特定的登录的token会存在于cookie的属性里面
-     *
      * @param robotWrapper
      * @return
      */
@@ -66,14 +69,21 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     /**
      * 获取请求体
-     *
      * @return
      */
     protected abstract ICustomEntity getEntity(T params, RobotWrapper robotWrapper);
 
     /**
+     * 获取URL后缀，默认：""
+     * @return
+     */
+    protected String getUrlSuffix(T params) {
+        return "";
+    }
+
+    /**
      * 是否检查掉线
-     *
+     * 1.如果该接口不用公共掉线检查，通过@Override
      * @return
      */
     protected ICheckLost getCHECK_LOST_SERVICE() {
@@ -81,26 +91,25 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
     }
 
     /**
-     * 获取外部订单号
+     * 获取外部订单号，异步任务使用，通过@Override
      * @return
      */
-    protected String getExteralNo(ParamWrapper<T> paramWrapper) {
+    protected String getExteralNo(T params) {
         return null;
     }
 
     /**
      * 获取ResultParse
-     *
      * @return
      */
     protected abstract IResultHandler<F, E> getResultHandler();
 
     /**
-     * 获取http响应处理器
-     *
+     * 获取http响应处理器：流转文本或byte[]
+     * 注意：如果有错误状态码有特殊情况，通过@Override
      * @return
      */
     protected ResponseHandler<StanderHttpResponse> getResponseHandler(){
-        return JsonResponseHandler.JSON_RESPONSE_HANDLER;
+        return CustomResponseHandler.RESPONSE_HANDLER;
     }
 }

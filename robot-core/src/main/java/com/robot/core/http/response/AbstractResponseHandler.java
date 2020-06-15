@@ -7,9 +7,11 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.entity.ContentType;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by mrt on 10/22/2019 8:52 PM
@@ -50,27 +52,35 @@ public abstract class AbstractResponseHandler implements ResponseHandler<Stander
     }
 
     /**
-     * 获取Charset
-     * @param httpEntity
-     * @return
-     * null 未获取到Charset
-     */
-    protected static Charset getCharset(HttpEntity httpEntity) {
-        ContentType contentType = ContentType.get(httpEntity);
-        return null != contentType ? contentType.getCharset() : null;
-    }
-
-    /**
      * 评定错误状态码
      * @return
      */
     protected abstract boolean errorStatus(StatusLine statusLine);
 
     /**
-     * 对Entity部分进行处理
+     * 处理Entity
      * @param response
      * @return
      * @throws IOException
      */
-    protected abstract StanderHttpResponse handleEntity(HttpResponse response) throws IOException;
+    private StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
+        HttpEntity entity = response.getEntity();
+        ContentType contentType = ContentType.get(entity);
+        if (ContentType.TEXT_HTML.equals(contentType)) {
+            byte[] bytes = EntityUtils.toByteArray(entity);
+            Charset charset = CharsetHelper.getCharset(response, bytes);
+            return new StanderHttpResponse(response, new String(bytes, charset));
+        } else if (
+                ContentType.IMAGE_GIF.equals(contentType) ||
+                        ContentType.IMAGE_JPEG.equals(contentType) ||
+                        ContentType.IMAGE_PNG.equals(contentType) ||
+                        ContentType.IMAGE_SVG.equals(contentType) ||
+                        ContentType.IMAGE_TIFF.equals(contentType) ||
+                        ContentType.IMAGE_WEBP.equals(contentType)
+        ) {
+            return new StanderHttpResponse(response, EntityUtils.toByteArray(entity));
+        } else {
+            return new StanderHttpResponse(response, EntityUtils.toString(entity, StandardCharsets.UTF_8));
+        }
+    }
 }

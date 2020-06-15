@@ -2,21 +2,17 @@ package com.robot.bbin.activity.function;
 
 import com.bbin.common.dto.order.GameChild;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
-import com.bbin.common.response.ResponseResult;
 import com.bbin.utils.project.MyBeanUtil;
 import com.robot.bbin.activity.vo.BreakerQueryVO;
-import com.robot.bbin.base.ao.JuQueryAO;
-import com.robot.bbin.base.ao.JuQueryDetailAO;
+import com.robot.gpk.base.ao.JuQueryDetailAO;
 import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.bbin.base.function.JuQueryDetailServer;
-import com.robot.bbin.base.function.JuQueryServer;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.IFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * @Author mrt

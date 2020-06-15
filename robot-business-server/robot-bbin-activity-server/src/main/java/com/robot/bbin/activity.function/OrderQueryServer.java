@@ -1,7 +1,7 @@
 package com.robot.bbin.activity.function;
 
 import com.bbin.common.dto.order.OrderNoQueryDTO;
-import com.robot.bbin.base.ao.JuQueryAO;
+import com.robot.gpk.base.ao.JuQueryAO;
 import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.bbin.base.function.JuQueryServer;
 import com.robot.code.dto.Response;

@@ -2,6 +2,8 @@ package com.robot.core.task.dispatcher;
 
 import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.code.service.IAsyncRequestConfigService;
+import com.robot.code.service.IRequestRecordService;
+import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.IFunction;
 import com.robot.core.function.base.IFunctionEnum;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Service
 public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatcher, Reactor, Runnable, InitializingBean {
+    private static final String EXTERNAL_NO = RedisConsts.PROJECT + "EXTERNAL_NO:";
 
     @Autowired
     private ITaskPool taskPool;
@@ -38,6 +42,9 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
 
     @Autowired
     private StringRedisTemplate redis;
+
+    @Autowired
+    private IRequestRecordService requestRecordService;
 
     @Lazy
     @Autowired
@@ -52,8 +59,11 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
     public void asyncDispatch(ParamWrapper paramWrapper, String exteralNo, IPathEnum pathEnum, IFunctionEnum functionEnum) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Assert.notNull(paramWrapper,"paramWrapper不能为null");
         Assert.notNull(pathEnum,"pathEnumr不能为null");
+        if (isRedo(exteralNo)) {
+            return;
+        }
         AsyncRequestConfig asyncRequestConfig = asyncConfigService.get(pathEnum.getPathCode());
-        taskPool.taskAdd(new TaskWrapper(paramWrapper, functionEnum, asyncRequestConfig, pathEnum), exteralNo);
+        taskPool.taskAdd(new TaskWrapper(paramWrapper, functionEnum, asyncRequestConfig, pathEnum));
     }
 
     @Override
@@ -150,5 +160,40 @@ public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatc
             Thread.sleep(mills);
         } catch (InterruptedException e) {
         }
+    }
+
+    /**
+     * 外部订单号重复性检查
+     * @param externalNo 外部订单号
+     * @return
+     */
+    private boolean isRedo(String externalNo) {
+        // redis检查
+        String cacheKey = createExteralNoCacheKey(externalNo);
+        Boolean isSave = redis.opsForValue().setIfAbsent(cacheKey, "", Duration.ofDays(3));
+        if (!isSave) {
+            log.info("redis:该外部订单已经存在：{}", externalNo);
+            return true;
+        }
+
+        // mysql检查
+        boolean isRepeate = requestRecordService.isRepeate(externalNo);
+        if (isRepeate) {
+            log.info("mysql:该外部订单已经存在：{}", externalNo);
+            return true;
+        }
+        return false;
+    }
+
+    // 组装redis-key：外部订单号
+    private String createExteralNoCacheKey(String externalNo) {
+        return new StringBuilder(30)
+                .append(EXTERNAL_NO)
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
+                .append(externalNo)
+                .toString();
     }
 }

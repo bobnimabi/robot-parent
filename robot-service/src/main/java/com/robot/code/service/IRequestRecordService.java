@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-05-18
  */
 public interface IRequestRecordService extends IService<RequestRecord> {
+
     /**
      * 增加流水
      * @param recordId
@@ -23,7 +24,6 @@ public interface IRequestRecordService extends IService<RequestRecord> {
      */
     void addRequestRecord(long recordId, long robotId, String pathCode, String externalOrderNo, String reqInfo);
 
-
     /**
      * 更新流水
      * @param recordId
@@ -32,6 +32,10 @@ public interface IRequestRecordService extends IService<RequestRecord> {
      */
     void updateRequestRecord(long recordId,boolean isSuccess,String error);
 
-
-
+    /**
+     * 判断该外部订单是否存在
+     * @param externalNo 外部订单号
+     * @return
+     */
+    boolean isRepeate(String externalNo);
 }

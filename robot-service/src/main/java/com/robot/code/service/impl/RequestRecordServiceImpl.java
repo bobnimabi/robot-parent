@@ -1,5 +1,6 @@
 package com.robot.code.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.robot.code.entity.RequestRecord;
 import com.robot.code.mapper.RequestRecordMapper;
@@ -54,5 +55,11 @@ public class RequestRecordServiceImpl extends ServiceImpl<RequestRecordMapper, R
         if (!isUpdate) {
             throw new IllegalArgumentException("请求流水更新失败,id：" + recordId + ",isSuccess:" + isSuccess);
         }
+    }
+
+    @Override
+    public boolean isRepeate(String externalNo) {
+        RequestRecord record = getOne(new LambdaQueryWrapper<RequestRecord>().eq(RequestRecord::getExternalOrderNo, externalNo));
+        return null != record;
     }
 }

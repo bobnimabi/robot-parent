@@ -55,7 +55,7 @@ public class TaskPoolImpl implements ITaskPool {
     private Reactor reactor;
 
     @Override
-    public void taskAdd(TaskWrapper taskWrapper, String externalNo) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException {
+    public void taskAdd(TaskWrapper taskWrapper) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException {
         long timeStamp = LimitFieldHelper.calc(taskWrapper, redis);
         Boolean isAdd = taskRedis.opsForZSet().add(createCacheQueueKey(), taskWrapper, timeStamp);
         if (isAdd) {

@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>robot-bbin-base</module>
+        <module>robot-gpk-base</module>
     </modules>
 
     <dependencies>

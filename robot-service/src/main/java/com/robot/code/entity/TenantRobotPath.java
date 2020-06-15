@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2020-05-29
+ * @since 2020-06-11
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -52,6 +52,11 @@ public class TenantRobotPath implements Serializable {
     private String method;
 
     /**
+     * 响应格式：HTML：html文本，JSON：json文本，BYTE：字节数组，NONE：无
+     */
+    private String respType;
+
+    /**
      * 备注
      */
     private String memo;
@@ -80,6 +85,4 @@ public class TenantRobotPath implements Serializable {
      * 创建时间
      */
     private LocalDateTime gmtCreateTime;
-
-
 }

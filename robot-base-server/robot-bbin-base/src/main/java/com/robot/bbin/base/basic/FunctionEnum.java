@@ -7,25 +7,24 @@ import com.robot.core.function.base.IFunctionEnum;
  * Created by mrt on 11/15/2019 8:27 PM
  */
 public enum FunctionEnum implements IFunctionEnum {
-    BREAK_SERVER("breakerServer"),
-    JU_QUERY_SERVER("juQueryServer"),
-    LOGIN_IN_SERVER("loginInServer"),
-    LUCK_ORDER_SERVER("luckOrderServer"),
-    QUERY_BALANCE_SERVER("queryBalanceServer"),
-    PAY_SERVER("payServer"),
-    BET_SERVER("betServer"),
-    BET_DETAIL_SERVER("betDetailServer"),
-    IN_OUT_CASH_SERVER("inOutCashServer"),
     BET_AMOUNT_AND_RECHARGE_SERVER("betAmountAndRechargeServer"),
+    BREAK_AND_BET_SERVER("breakAndBetServer"),
+    BREAK_SERVER("breakerServer"),
+    ORDER_QUERY_SERVER("orderQueryServer"),
+    QUERY_BET_LIST_SERVER("queryBetListServer"),
+    Query_User_Server("queryUserServer"),
+    QUERY_RECHARGE_SERVER("queryRechargeServer"),
+    PAY_SERVER("payServer"),
+
+    LOGIN_SERVER("loginServer"),
     ;
-    /**
-     * 服务名称
-     */
+
     private String serverName;
 
     private FunctionEnum(String serverName) {
         this.serverName = serverName;
     }
+
 
     @Override
     public String getName() {

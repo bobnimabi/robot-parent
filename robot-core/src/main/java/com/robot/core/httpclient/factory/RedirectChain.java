@@ -1,5 +1,6 @@
 package com.robot.core.httpclient.factory;
 
+import com.alibaba.fastjson.JSON;
 import com.robot.core.chain.Invoker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
@@ -22,7 +23,7 @@ public class RedirectChain extends BuilderFilter<Object,HttpClientBuilder> {
     @Override
     public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         result.setRedirectStrategy(createRedirectStrategy());
-        log.info("配置：重定向策略：方法：{}", CUSTOM_REDIRECT_METHODS);
+        log.info("配置：重定向策略：方法：{}", JSON.toJSONString(CUSTOM_REDIRECT_METHODS));
 
         invoker.invoke(params, result);
     }

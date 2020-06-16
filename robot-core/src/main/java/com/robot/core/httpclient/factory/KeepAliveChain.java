@@ -34,7 +34,7 @@ public class KeepAliveChain extends BuilderFilter<Object,HttpClientBuilder> {
     public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         Integer keepAliveTimeout = Optional.of(poolConfigService.getPoolConfig().getKeepAliveTime()).orElse(DEFAULT_KEEP_ALIVE);
         result.setKeepAliveStrategy(new CustomKeepAliveStrategy(keepAliveTimeout));
-        log.info("配置：KeepAlive策略{}", keepAliveTimeout);
+        log.info("配置：KeepAlive策略，默认：{}秒", keepAliveTimeout);
 
         invoker.invoke(params, result);
     }

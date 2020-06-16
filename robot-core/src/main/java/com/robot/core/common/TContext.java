@@ -6,9 +6,10 @@
 package com.robot.core.common;
 
 import com.bbin.common.constant.TenantConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
 import org.springframework.util.Assert;
-
+@Slf4j
 public class TContext {
 
     public static String PLATFORM_ID = "platform_id";
@@ -53,7 +54,11 @@ public class TContext {
     }
 
     public static void clean() {
-        ThreadContext.clearMap();
+        try {
+            ThreadContext.clearMap();
+        } catch (Exception e) {
+            log.error("ThreadContext：清理租户信息异常", e);
+        }
     }
 
     private static String get(String name) {

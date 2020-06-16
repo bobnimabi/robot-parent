@@ -1,6 +1,7 @@
 package com.robot.core.httpclient.factory;
 
 import com.robot.core.chain.Invoker;
+import com.robot.core.chain.InvokerBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,6 +32,6 @@ public class HttpClientFactory implements IHttpClientFactory, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        invoker = Invoker.buildInvokerChain(httpClientBuilderFilters);
+        invoker = InvokerBuilder.buildInvokerChain(httpClientBuilderFilters);
     }
 }

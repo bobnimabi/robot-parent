@@ -1,7 +1,5 @@
 package com.robot.code.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -10,11 +8,15 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 路径表
+ * 路径表 
+1-100 OG 
+101-200 bbin 
+201-300 gpk 
+301-400棋牌
  * </p>
  *
  * @author admin
- * @since 2020-06-11
+ * @since 2020-06-16
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,7 +25,6 @@ public class TenantRobotPath implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -34,7 +35,7 @@ public class TenantRobotPath implements Serializable {
     /**
      * 域名等级，默认1，同一租户下可能出现多个域名,比如二级域名
      */
-    private Integer rank;
+    private Integer domainRank;
 
     /**
      * 路径编码（代码靠此来寻找path）
@@ -80,4 +81,6 @@ public class TenantRobotPath implements Serializable {
      * 创建时间
      */
     private LocalDateTime gmtCreateTime;
+
+
 }

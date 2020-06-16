@@ -73,6 +73,10 @@ public abstract class MybatisPlusConfigBase {
         PLATFORM_PERMIT.add("response_record");
         FUNCTION_PERMIT.add("response_record");
 
+        TENANT_PERMIT.add("tenant_robot_config");
+        CHANNEL_PERMIT.add("tenant_robot_config");
+        FUNCTION_PERMIT.add("tenant_robot_config");
+
         TENANT_PERMIT.add("response_record");
         CHANNEL_PERMIT.add("response_record");
         FUNCTION_PERMIT.add("response_record");

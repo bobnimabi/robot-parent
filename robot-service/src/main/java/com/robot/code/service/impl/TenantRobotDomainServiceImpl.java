@@ -18,8 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TenantRobotDomainServiceImpl extends ServiceImpl<TenantRobotDomainMapper, TenantRobotDomain> implements ITenantRobotDomainService {
 
+    @Override
     public TenantRobotDomain getDomain(int rank) {
-        TenantRobotDomain one = getOne(new LambdaQueryWrapper<TenantRobotDomain>().eq(TenantRobotDomain::getRank, rank));
+        TenantRobotDomain one = getOne(new LambdaQueryWrapper<TenantRobotDomain>().eq(TenantRobotDomain::getDomainRank, rank));
         if (null == one) {
             throw new IllegalStateException("未获取到Domain");
         }

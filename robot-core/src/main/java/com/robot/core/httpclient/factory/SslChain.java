@@ -42,7 +42,7 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
     public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         result.setConnectionManager(SslHttpClientBuild());
         log.info("配置：SSL策略：放行所有自制证书，加载完成");
-
+        result.setSSLContext(createSSLContext());//设置不生效，以后解决
         invoker.invoke(params, result);
     }
 

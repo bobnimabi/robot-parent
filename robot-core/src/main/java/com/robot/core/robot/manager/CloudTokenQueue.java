@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,7 +34,7 @@ public class CloudTokenQueue implements ICloudTokenQueue {
     @Autowired
     private ICloudIdCard cloudIdCard;
 
-    @Autowired
+    @Resource(name = "redisTemplate")
     private RedisTemplate<String, Token> redis;
 
     @Override

@@ -1,9 +1,13 @@
 package com.robot.core.task.execute;
 
 import com.robot.core.chain.Invoker;
+import com.robot.core.chain.InvokerBuilder;
 import com.robot.core.function.base.FunctionProperty;
 import com.robot.core.http.response.StanderHttpResponse;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,12 +18,23 @@ import java.util.List;
  * T原始响应数据类型
  * E转换后数据类型
  */
-public class ExecuteImpl<T,E> implements IExecute<T,E> {
+@Service
+public class ExecuteImpl<T,E> implements IExecute<T,E> , InitializingBean {
+    @Autowired
+    private List<ExecuteBeforeFilter<FunctionProperty, ExecuteProperty>> beforeFilters;
+
+    @Autowired
+    private List<ExecuteAfterFilter<StanderHttpResponse, FunctionProperty>> afterFilters;
 
     private Invoker<FunctionProperty, ExecuteProperty> beforeInvoker;
 
     private Invoker<StanderHttpResponse, FunctionProperty> afterInvoker;
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        beforeInvoker = InvokerBuilder.buildInvokerChain(beforeFilters);
+        afterInvoker = InvokerBuilder.buildInvokerChain(afterFilters);
+    }
 
     @Override
     public StanderHttpResponse<T,E>  request(FunctionProperty property) throws Exception {
@@ -33,10 +48,4 @@ public class ExecuteImpl<T,E> implements IExecute<T,E> {
         return shr;
     }
 
-    @Bean
-    public void builderInvoker(List<ExecuteBeforeFilter<FunctionProperty, ExecuteProperty>> beforeFilters,
-                               List<ExecuteAfterFilter<StanderHttpResponse, FunctionProperty>> afterFilters) throws Exception {
-        beforeInvoker = Invoker.buildInvokerChain(beforeFilters);
-        afterInvoker = Invoker.buildInvokerChain(afterFilters);
-    }
 }

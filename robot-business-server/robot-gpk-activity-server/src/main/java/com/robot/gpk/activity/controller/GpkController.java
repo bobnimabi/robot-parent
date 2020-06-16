@@ -19,6 +19,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -28,7 +30,6 @@ import java.math.BigDecimal;
 @Slf4j
 @RestController
 public class GpkController extends ControllerBase {
-
     /**
      * 机器人登录
      * 注意：登录的第一个接口isNewCookie：true

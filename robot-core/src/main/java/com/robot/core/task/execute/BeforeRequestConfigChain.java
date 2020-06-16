@@ -100,8 +100,8 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<FunctionProper
      */
     private void setTimeout(HttpRequestConfig config, ExecuteProperty result) {
         RequestConfig.Builder builder = result.getRequestConfigBuilder();
-        builder.setConnectionRequestTimeout(config.getConnectRequestTimeout());
-        builder.setConnectTimeout(config.getConnectTimeout());
+        builder.setConnectionRequestTimeout(config.getConnectRequestTimeout() * 1000);
+        builder.setConnectTimeout(config.getConnectTimeout() * 1000);
         // 5.0版本将ResponseTimeOut加上，现在暂时暂时
     }
 

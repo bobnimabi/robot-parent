@@ -1,16 +1,22 @@
 package com.robot.core.task.dispatcher;
 
 import com.robot.code.dto.Response;
+import com.robot.code.service.IRequestRecordService;
+import com.robot.core.common.RedisConsts;
+import com.robot.core.common.TContext;
+import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.IFunction;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.IDispatcherFacde;
 import com.robot.core.robot.manager.RobotWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.util.Map;
 
 /**
@@ -18,13 +24,20 @@ import java.util.Map;
  * @Date 2020/5/28 11:47
  * @Version 2.0
  */
+@Slf4j
 public abstract class AbstractDispatcher {
-
+    private static final String EXTERNAL_NO = RedisConsts.PROJECT + "EXTERNAL_NO:";
     @Autowired
-    private Map<String, IFunction> functionMap;
+    private Map<String, IAssemFunction> functionMap;
 
     @Autowired
     protected IDispatcherFacde dispatcherFacde;
+
+    @Autowired
+    private StringRedisTemplate redis;
+
+    @Autowired
+    private IRequestRecordService requestRecordService;
 
     /**
      * 调用Function执行功能，并返回机器人
@@ -36,7 +49,7 @@ public abstract class AbstractDispatcher {
      * @throws Exception
      */
     protected final Response dispatch(ParamWrapper paramWrapper, IFunctionEnum functionEnum, RobotWrapper robotWrapper) throws Exception {
-        IFunction iFunction = getFunction(functionEnum);
+        IAssemFunction iFunction = getFunction(functionEnum);
         return iFunction.doFunction(paramWrapper, robotWrapper);
     }
 
@@ -47,11 +60,46 @@ public abstract class AbstractDispatcher {
      * @param functionEnum
      * @return
      */
-    protected final IFunction getFunction(IFunctionEnum functionEnum) {
-        IFunction iFunction = functionMap.get(functionEnum.getName());
+    protected final IAssemFunction getFunction(IFunctionEnum functionEnum) {
+        IAssemFunction iFunction = functionMap.get(functionEnum.getName());
         if (null == iFunction) {
             throw new IllegalArgumentException("Dispatcher：未获取到Function，请管理员检查,FunctionName:" + functionEnum.getName());
         }
         return iFunction;
+    }
+
+    /**
+     * 外部订单号重复性检查
+     * @param externalNo 外部订单号
+     * @return
+     */
+    protected boolean isRedo(String externalNo) {
+        // redis检查
+        String cacheKey = createExteralNoCacheKey(externalNo);
+        Boolean isSave = redis.opsForValue().setIfAbsent(cacheKey, "", Duration.ofDays(3));
+        if (!isSave) {
+            log.info("redis:该外部订单已经存在：{}", externalNo);
+            return true;
+        }
+
+        // mysql检查
+        boolean isRepeate = requestRecordService.isRepeate(externalNo);
+        if (isRepeate) {
+            log.info("mysql:该外部订单已经存在：{}", externalNo);
+            return true;
+        }
+        return false;
+    }
+
+    // 组装redis-key：外部订单号
+    private String createExteralNoCacheKey(String externalNo) {
+        return new StringBuilder(30)
+                .append(EXTERNAL_NO)
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
+                .append(externalNo)
+                .toString();
     }
 }

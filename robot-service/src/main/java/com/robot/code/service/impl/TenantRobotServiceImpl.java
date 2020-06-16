@@ -17,6 +17,7 @@ import com.robot.code.service.ITenantRobotService;
 import com.robot.code.vo.TenantRobotVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -26,7 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2019-10-21
  */
 @Slf4j
-public abstract class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapper, TenantRobot> implements ITenantRobotService {
+@Service
+public class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapper, TenantRobot> implements ITenantRobotService {
 
     @Autowired
     private IPlatformService platformService;

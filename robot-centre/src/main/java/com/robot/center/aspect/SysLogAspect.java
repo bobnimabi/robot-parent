@@ -25,7 +25,7 @@ public class SysLogAspect {
      * 当然，我们也可以通过切点表达式直接指定需要拦截的package,需要拦截的class 以及 method
      * 切点表达式:   execution(...)
      */
-    @Pointcut("execution(public * com.robot.center.controller.RobotControllerBase+.*(..))")
+    @Pointcut("execution(public * com.robot.center.controller.ControllerBase+.*(..))")
     public void logPointCut() {}
 
     /**

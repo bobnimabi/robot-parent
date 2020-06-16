@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author admin
- * @since 2020-05-18
+ * @since 2020-06-16
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -49,7 +49,7 @@ public class TenantRobotDomain implements Serializable {
     /**
      * 域名等级，默认1，同一租户下可能出现多个域名,比如二级域名
      */
-    private Integer rank;
+    private Integer domainRank;
 
     /**
      * 访问domain

@@ -5,8 +5,10 @@ import com.robot.code.dto.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.service.ITenantRobotService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,8 @@ import java.util.UUID;
  * @Date 2020/5/26 15:50
  * @Version 2.0
  */
+@Slf4j
+@Service
 public class Manager implements IManager {
 
     @Autowired
@@ -166,19 +170,23 @@ public class Manager implements IManager {
 
     @Override
     public void giveBackCookieAndToken(RobotWrapper robotWrapper) {
-        Long robotId = robotWrapper.getId();
-        String idCard = robotWrapper.getIdCard();
-        Assert.hasText(idCard,"返还Cookie：idCard为空");
-        Assert.notNull(robotId,"返还Cookie：robotId为空");
-        Assert.notNull(robotWrapper.getCookieStore(),"返还Cookie：CookieStore为空");
-        boolean pushToken = tokenQueue.pushToken(new Token(robotId, idCard));
-        if (pushToken) {
-            boolean putCookie = cloudCookie.putCookie(robotWrapper);
-            if (putCookie) {
-                return;
+        try {
+            Long robotId = robotWrapper.getId();
+            String idCard = robotWrapper.getIdCard();
+            Assert.hasText(idCard,"返还Cookie：idCard为空");
+            Assert.notNull(robotId,"返还Cookie：robotId为空");
+            Assert.notNull(robotWrapper.getCookieStore(),"返还Cookie：CookieStore为空");
+            boolean pushToken = tokenQueue.pushToken(new Token(robotId, idCard));
+            if (pushToken) {
+                boolean putCookie = cloudCookie.putCookie(robotWrapper);
+                if (putCookie) {
+                    return;
+                }
             }
+            throw new IllegalArgumentException("返还Cookie和Token：失败");
+        } catch (IllegalArgumentException e) {
+            log.error("返还Cookie和Token：失败,robotWrapper:{}",robotWrapper,e);
         }
-        throw new IllegalArgumentException("返还Cookie和Token：失败");
     }
 
     @Override

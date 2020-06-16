@@ -73,13 +73,14 @@ public class LoginServer extends AbstractFunction<LoginDTO, String, ResponseBO> 
         @Override
         public Response parse2Obj(StanderHttpResponse<String, ResponseBO> shr) {
             String result = shr.getOriginalEntity();
+            log.info("登录响应：{}", result);
             JSONObject jsonObject = JSON.parseObject(result);
             Boolean isSuccess = (Boolean) jsonObject.get("result");
             if (!isSuccess) {
                 log.error("登录失败：{}", result);
                 return Response.FAIL(jsonObject.getString("message"));
             }
-            return Response.LOGIN_SUCCESS(JSON.parseObject(result, ResponseBO.class));
+            return Response.LOGIN_SUCCESS();
         }
     }
 

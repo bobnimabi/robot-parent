@@ -1,5 +1,6 @@
 package com.robot.core.task.dispatcher;
 
+import com.robot.code.dto.LoginDTO;
 import com.robot.code.dto.Response;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.IPathEnum;
@@ -33,7 +34,7 @@ public class Dispatcher implements IDispatcher {
     }
 
     @Override
-    public Response disPatcherLogin(ParamWrapper paramWrapper, IFunctionEnum functionEnum, long robotId, boolean isNewCookie) throws Exception {
-        return syncDispatcher.disPatcherLogin(paramWrapper, functionEnum, robotId, isNewCookie);
+    public Response disPatcherLogin(ParamWrapper<LoginDTO> paramWrapper, IFunctionEnum functionEnum, boolean isNewCookie) throws Exception {
+        return syncDispatcher.disPatcherLogin(paramWrapper, functionEnum, isNewCookie);
     }
 }

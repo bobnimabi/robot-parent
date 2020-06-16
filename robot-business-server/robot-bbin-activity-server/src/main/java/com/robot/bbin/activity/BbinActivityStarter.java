@@ -1,7 +1,7 @@
 package com.robot.bbin.activity;
 
 import com.bbin.common.feignInterceptor.FeignClientInterceptor;
-import com.robot.center.tenant.FeignTenantInterceptor;
+import com.bbin.common.feignInterceptor.FeignTenantInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

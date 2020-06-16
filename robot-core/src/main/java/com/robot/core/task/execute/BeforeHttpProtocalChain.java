@@ -1,5 +1,6 @@
 package com.robot.core.task.execute;
 
+import com.alibaba.fastjson.JSON;
 import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.entity.TenantRobotHead;
 import com.robot.code.entity.TenantRobotPath;
@@ -59,7 +60,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
      */
     private void setUrlAndMethod(FunctionProperty params, ExecuteProperty result) {
         TenantRobotPath path = pathService.getPath(params.getPathEnum().getPathCode());
-        TenantRobotDomain domain = domainService.getDomain(path.getRank());
+        TenantRobotDomain domain = domainService.getDomain(path.getDomainRank());
 
         // 请求URl
         result.setUrl(URI.create(domain.getDomain() + path.getPath() + params.getUrlSuffix()));
@@ -78,6 +79,12 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
     private void setHeads(FunctionProperty params, ExecuteProperty result) {
         List<TenantRobotHead> publicHeaders = headService.getPublicHeaders();
         CustomHeaders headers = params.getHeaders();
+        if (null != headers) {
+            log.info("特殊请求头：{}", headers.toString());
+        } else {
+            headers = CustomHeaders.custom(publicHeaders.size());
+        }
+
         for (TenantRobotHead head : publicHeaders) {
             Assert.hasText(head.getHeadName(), "执行前拦截：头信息:headName为空");
             Assert.hasText(head.getHeadValue(), "执行前拦截：头信息:headValue为空");
@@ -85,7 +92,6 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
         }
         if (!headers.isEmpty()) {
             result.setHeaders(headers);
-            log.info("请求头：{}", headers.toString());
         }
     }
 

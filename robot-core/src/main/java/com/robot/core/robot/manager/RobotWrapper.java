@@ -3,6 +3,7 @@ package com.robot.core.robot.manager;
 import com.robot.code.entity.TenantRobot;
 import lombok.Data;
 import org.apache.http.client.CookieStore;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Properties;
@@ -10,6 +11,7 @@ import java.util.Properties;
 /**
  * Created by mrt on 2019/7/5 0005 下午 7:30
  */
+@Component
 @Data
 public class RobotWrapper extends TenantRobot implements Serializable {
     /**

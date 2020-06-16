@@ -114,11 +114,6 @@ public class ControllerBase {
         return Response.SUCCESS(templateService.getTemplate());
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "ok";
-    }
-
     /**
      * 租户id等信息填充
      * @return

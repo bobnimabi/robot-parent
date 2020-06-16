@@ -15,6 +15,12 @@
         <module>robot-bbin-activity-server</module>
         <module>robot-gpk-activity-server</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.netflix.feign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

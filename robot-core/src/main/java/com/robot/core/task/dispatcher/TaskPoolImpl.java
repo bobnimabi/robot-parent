@@ -1,26 +1,16 @@
 package com.robot.core.task.dispatcher;
 
 import com.alibaba.fastjson.JSON;
-import com.robot.code.entity.AsyncRequestConfig;
 import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
-import com.robot.core.function.base.ParamWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.ThreadContext;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.MethodInvoker;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -45,14 +35,14 @@ public class TaskPoolImpl implements ITaskPool {
      */
     private static final String CACHE_TASK_QUEUE = RedisConsts.PROJECT + "TASK:QUEUE:";
 
-    @Resource
+    @Resource(name = "redisTemplate")
     private RedisTemplate<String,TaskWrapper> taskRedis;
 
     @Autowired
     private StringRedisTemplate redis;
 
     @Autowired
-    private Reactor reactor;
+    private ISelector reactor;
 
     @Override
     public void taskAdd(TaskWrapper taskWrapper) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException {

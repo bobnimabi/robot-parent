@@ -187,10 +187,6 @@ public class Manager implements IManager {
     public void giveBackCookie(RobotWrapper robotWrapper) {
         Assert.notNull(robotWrapper.getId(),"返还Cookie：robotId为空");
         Assert.notNull(robotWrapper.getCookieStore(),"返还Cookie：CookieStore为空");
-        boolean putCookie = cloudCookie.putCookie(robotWrapper);
-        if (putCookie) {
-            return;
-        }
-        throw new IllegalArgumentException("返还Cookie：失败");
+        cloudCookie.putCookie(robotWrapper);
     }
 }

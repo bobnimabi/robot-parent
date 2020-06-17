@@ -55,7 +55,7 @@ public class CloudIdCard implements ICloudIdCard{
     @Override
     public boolean delIdCard(long robotId) {
         String key = this.idCardKey(robotId);
-        boolean isFailure = !redis.delete(key) && redis.hasKey(key);
+        boolean isFailure = redis.hasKey(key) && !redis.delete(key);
         if (isFailure) {
             log.error("CloudIdCard:删除ID_CARD失败：robotId:{}", robotId);
         }

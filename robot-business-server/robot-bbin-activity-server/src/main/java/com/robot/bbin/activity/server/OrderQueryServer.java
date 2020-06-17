@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * 局查询（BB电子）
- * 查询注单
+ * 使用：查询注单
  * @Author mrt
  * @Date 2020/6/2 16:34
  * @Version 2.0

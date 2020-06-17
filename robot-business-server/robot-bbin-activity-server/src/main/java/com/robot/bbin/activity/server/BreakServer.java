@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 查询消消除游戏
+ * 使用：查询消消除游戏
  * @Author mrt
  * @Date 2020/6/2 14:56
  * @Version 2.0

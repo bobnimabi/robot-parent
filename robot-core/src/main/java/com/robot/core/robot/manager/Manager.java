@@ -176,14 +176,8 @@ public class Manager implements IManager {
             Assert.hasText(idCard,"返还Cookie：idCard为空");
             Assert.notNull(robotId,"返还Cookie：robotId为空");
             Assert.notNull(robotWrapper.getCookieStore(),"返还Cookie：CookieStore为空");
-            boolean pushToken = tokenQueue.pushToken(new Token(robotId, idCard));
-            if (pushToken) {
-                boolean putCookie = cloudCookie.putCookie(robotWrapper);
-                if (putCookie) {
-                    return;
-                }
-            }
-            throw new IllegalArgumentException("返还Cookie和Token：失败");
+            tokenQueue.pushToken(new Token(robotId, idCard));
+            cloudCookie.putCookie(robotWrapper);
         } catch (IllegalArgumentException e) {
             log.error("返还Cookie和Token：失败,robotWrapper:{}",robotWrapper,e);
         }

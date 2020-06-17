@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 查询消消除游戏和其投注金额
+ * 使用：查询消消除游戏和其投注金额
  * @Author mrt
  * @Date 2020/6/2 16:34
  * @Version 2.0

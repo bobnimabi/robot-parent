@@ -19,6 +19,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -29,6 +30,7 @@ import java.util.Map;
  * @Date 2020/6/2 14:58
  * @Version 2.0
  */
+@Service
 public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQueryBO> {
 
     @Autowired

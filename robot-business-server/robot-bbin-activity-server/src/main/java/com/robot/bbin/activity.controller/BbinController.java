@@ -96,7 +96,7 @@ public class BbinController extends ControllerBase {
     }
 
     /**
-     * 机器人：获取投注、亏损、充值信息
+     * 机器人：获取投注、亏损（暂时没查）、充值信息
      */
     @PostMapping("/getTotalAmount")
     public Response getTotalAmount(@RequestBody BreakThroughDTO dto) throws Exception {

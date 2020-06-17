@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 获取平台投注总金额和总损益
+ * 使用：获取平台投注总金额和总损益
  */
 @Slf4j
 @Service

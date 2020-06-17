@@ -87,4 +87,7 @@ logging:
 PERMIT_URL: /** #测试放行
 
 
-#打款url
+# 响应文本存放根路径
+html:
+  output:
+    root: e:html/

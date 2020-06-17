@@ -63,7 +63,7 @@ public class CloudIdCard implements ICloudIdCard{
     }
 
     private void expireFlush(String key) {
-        Boolean isFailure = !redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS) && redis.hasKey(key);
+        Boolean isFailure = redis.hasKey(key) && !redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS);
         if (isFailure) {
             log.error("CloudIdCard:刷新过期时间失败：key：{}", key);
         }

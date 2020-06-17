@@ -2,7 +2,7 @@ package com.robot.gpk.base.server;
 
 import com.bbin.common.pojo.TaskAtomDto;
 import com.robot.center.util.MoneyUtil;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;

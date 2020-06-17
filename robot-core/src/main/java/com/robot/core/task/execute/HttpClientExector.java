@@ -77,8 +77,8 @@ public class HttpClientExector {
 					UrlEntity urlCustomEntity = (UrlEntity) entity;
 					String encodeUrl = URLEncodedUtils.format(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
 					httpGet.setURI(new URI(httpGet.getURI().toString().indexOf("?") > 0 ? httpGet.getURI().toString() + "&" + encodeUrl : httpGet.getURI().toString() + "?" + encodeUrl));
-					return httpGet;
 				}
+				return httpGet;
 			}
 			case POST_FORM: {
 				HttpPost httpPost = new HttpPost(url);
@@ -86,8 +86,8 @@ public class HttpClientExector {
 					UrlEntity urlCustomEntity = (UrlEntity) entity;
 					HttpEntity httpEntity = new UrlEncodedFormEntity(urlCustomEntity.getEntity(), StandardCharsets.UTF_8);
 					httpPost.setEntity(httpEntity);
-					return httpPost;
 				}
+				return httpPost;
 			}
 			case POST_JSON: {
 				HttpPost httpPost = new HttpPost(url);
@@ -95,8 +95,8 @@ public class HttpClientExector {
 					JsonEntity jsonEntity = (JsonEntity) entity;
 					StringEntity stringEntity = new StringEntity(JSON.toJSONString(jsonEntity.getEntity()), ContentType.APPLICATION_JSON);
 					httpPost.setEntity(stringEntity);
-					return httpPost;
 				}
+				return httpPost;
 			}
 			case POST_FILE:{
 				File file = new File(filePath);

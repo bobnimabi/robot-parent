@@ -79,7 +79,7 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
     private void setHeads(FunctionProperty params, ExecuteProperty result) {
         List<TenantRobotHead> publicHeaders = headService.getPublicHeaders();
         CustomHeaders headers = params.getHeaders();
-        if (null != headers) {
+        if (null != headers && !headers.isEmpty()) {
             log.info("特殊请求头：{}", headers.toString());
         } else {
             headers = CustomHeaders.custom(publicHeaders.size());
@@ -101,8 +101,10 @@ public class BeforeHttpProtocalChain extends ExecuteBeforeFilter<FunctionPropert
      * @param result
      */
     private void setEntity(FunctionProperty params, ExecuteProperty result) {
-        result.setCustomEntity(params.getEntity());
-        log.info("请求体：{}", params.getEntity().toString());
+        if (null != params.getEntity()) {
+            result.setCustomEntity(params.getEntity());
+            log.info("请求体：{}", params.getEntity().toString());
+        }
     }
 
     /**

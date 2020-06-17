@@ -2,11 +2,10 @@ package com.robot.center.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
-import com.bbin.common.pojo.PayResponseVo;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.ThreadLocalUtils;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

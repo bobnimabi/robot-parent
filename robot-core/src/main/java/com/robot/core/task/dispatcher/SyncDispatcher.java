@@ -2,18 +2,14 @@ package com.robot.core.task.dispatcher;
 
 import com.alibaba.fastjson.JSON;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
-import com.robot.code.entity.AsyncRequestConfig;
-import com.robot.code.service.IAsyncRequestConfigService;
-import com.robot.core.function.base.IPathEnum;
+import com.robot.code.response.Response;
+import com.robot.code.response.ResponseEnum;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 
 /**
@@ -59,7 +55,7 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
             return response;
         }finally {
             super.dispatcherFacde.giveBackCookie(robot);
-            if (null  != response && response.isSuccess() && Response.LOGIN_SUCCESS_CODE == response.getCode()) {
+            if (null  != response && response.isSuccess() && ResponseEnum.LOGIN_SUCCESS.getCode() == response.getCode()) {
                 super.dispatcherFacde.online(robot);
             }
         }

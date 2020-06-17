@@ -2,8 +2,10 @@ package com.robot.gpk.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
+import com.robot.code.response.ResponseEnum;
 import com.robot.core.function.base.AbstractFunction;
+import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
@@ -42,6 +44,14 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String,Object> {
     }
 
     /**
+     * 注意：与登录相关的接口，返回null，不进行掉线检查
+     */
+    @Override
+    protected ICheckLost getCHECK_LOST_SERVICE() {
+        return null;
+    }
+
+    /**
      * 响应转换
      * 登录响应：
      *  {"IsSuccess": true,"Methods": null}
@@ -54,6 +64,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String,Object> {
         @Override
         public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
             String result = shr.getOriginalEntity();
+            log.info("登录功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("未响应");
             }
@@ -63,7 +74,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String,Object> {
                 return Response.FAIL(loginResultVo.getErrorMessage());
             }
             // 登录的最后一个接口成功后，要使用登录成功标记
-            return Response.LOGIN_SUCCESS();
+            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS);
         }
     }
 

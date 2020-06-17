@@ -8,7 +8,7 @@ import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.ControllerBase;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.gpk.base.basic.FunctionEnum;
@@ -19,7 +19,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -67,7 +66,6 @@ public class GpkController extends ControllerBase {
             ) {
                 ResponseResult.FAIL("参数不全");
             }
-            log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
             if (taskAtomDto.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
                 log.error("金额不能小于等于0,paidAmount:"+taskAtomDto.getPaidAmount());
                 return;
@@ -96,6 +94,20 @@ public class GpkController extends ControllerBase {
      */
     @PostMapping("/tempPay")
     public void tempPay(@RequestBody TaskAtomDto taskAtomDto) throws Exception {
-        this.payAmountMq(taskAtomDto, null, null);
+        log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
+        if (null == taskAtomDto
+                || StringUtils.isEmpty(taskAtomDto.getUsername())
+                || null == taskAtomDto.getPaidAmount()
+                || StringUtils.isEmpty(taskAtomDto.getMemo())
+                || StringUtils.isEmpty(taskAtomDto.getOutPayNo())
+        ) {
+            ResponseResult.FAIL("参数不全");
+        }
+        if (taskAtomDto.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            log.error("金额不能小于等于0,paidAmount:"+taskAtomDto.getPaidAmount());
+            return;
+        }
+        taskAtomDto.setUsername(taskAtomDto.getUsername().trim());
+        super.dispatcher.asyncDispatch(new ParamWrapper(taskAtomDto),taskAtomDto.getOutPayNo(), PathEnum.PAY,FunctionEnum.PAY_SERVER);
     }
 }

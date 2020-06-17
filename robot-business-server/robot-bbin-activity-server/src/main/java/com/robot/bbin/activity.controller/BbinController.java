@@ -12,7 +12,7 @@ import com.robot.bbin.base.basic.PathEnum;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.ControllerBase;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.ParamWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -129,7 +129,6 @@ public class BbinController extends ControllerBase {
             ) {
                 ResponseResult.FAIL("参数不全");
             }
-            log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
             if (taskAtomDto.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
                 log.error("金额不能小于等于0,paidAmount:"+taskAtomDto.getPaidAmount());
                 return;

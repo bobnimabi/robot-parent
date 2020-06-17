@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.Platform;
 import com.robot.code.entity.TenantRobot;

@@ -1,7 +1,7 @@
 package com.robot.core.robot.manager;
 
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobot;
 import com.robot.code.service.ITenantRobotService;

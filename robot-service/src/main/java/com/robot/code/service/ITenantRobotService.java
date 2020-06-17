@@ -1,7 +1,6 @@
 package com.robot.code.service;
 
-import com.bbin.common.response.ResponseResult;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.entity.TenantRobot;
 import com.baomidou.mybatisplus.extension.service.IService;

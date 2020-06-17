@@ -2,7 +2,7 @@ package com.robot.bbin.base.server;
 
 import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.bbin.base.function.QueryBalanceFunction;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;

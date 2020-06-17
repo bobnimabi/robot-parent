@@ -1,7 +1,7 @@
 package com.robot.core.task.dispatcher;
 
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.ParamWrapper;

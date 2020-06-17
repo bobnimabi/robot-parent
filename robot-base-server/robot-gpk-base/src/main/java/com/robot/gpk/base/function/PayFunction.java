@@ -1,7 +1,7 @@
 package com.robot.gpk.base.function;
 
 import com.robot.center.mq.MqSenter;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
@@ -40,7 +40,7 @@ public class PayFunction extends AbstractFunction<PayFinalAO,String,Object> {
         Response<Object> response = super.doFunction(paramWrapper, robotWrapper);
         PayFinalAO payFinalAO = paramWrapper.getObj();
         mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,new BigDecimal(payFinalAO.getAmount()));
-        return null;
+        return response;
     }
 
     @Override
@@ -80,6 +80,7 @@ public class PayFunction extends AbstractFunction<PayFinalAO,String,Object> {
         @Override
         public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
             String result = shr.getOriginalEntity();
+            log.info("打款功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 log.info("打款未有任何响应");
                 return Response.FAIL("打款未有任何响应：" + result);

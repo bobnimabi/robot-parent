@@ -9,6 +9,14 @@ import java.util.Map;
  * boyer-moore 字符串匹配算法
  */
 public class BoyerMoore {
+    /**
+     * 查找
+     * @param pattern
+     * @param text
+     * @return
+     * -1 未查找到
+     * >=0 寻找到
+     */
     public static int find(String pattern, String text) {
         if (StringUtils.isEmpty(pattern) || StringUtils.isEmpty(text)) {
             return -1;

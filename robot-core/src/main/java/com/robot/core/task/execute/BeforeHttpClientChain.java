@@ -28,9 +28,7 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<FunctionProperty,
     /**
      * httpClient容器
      */
-    private static volatile Map<Long, HttpClientWrapper> httpClientMap = new HashMap<>(12);
-
-    private static ReentrantLock lock = new ReentrantLock();
+    private static Map<Long, HttpClientWrapper> httpClientMap = new HashMap<>(12);
 
     @Override
     public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
@@ -47,27 +45,17 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<FunctionProperty,
     }
     /**
      * httpclient的获取
-     * 1.httpclient创建成本比较高，保证一个机器人只创建一个httpclient
-     * 2.并发不高，暂时使用公共锁
+     * 需要创建的情况
+     * 1.首次使用时（项目重启）
+     * 2.机器人重新登录以后
      */
     private CloseableHttpClient getHttpClient(long robotId, String idCard) throws Exception {
         HttpClientWrapper hcw = httpClientMap.get(robotId);
-
         // 首次使用Httpclient，或项目重启
         if (this.idNeedCreate(idCard, hcw)) {
-            if (lock.tryLock()) {
-                try {
-                    hcw = httpClientMap.get(robotId);
-                    if (!this.idNeedCreate(idCard, hcw)) {
-                        return hcw.getHttpClient();
-                    }
-                    CloseableHttpClient httpClient = httpClientFactory.create();
-                    httpClientMap.put(robotId, new HttpClientWrapper(httpClient, idCard));
-                    return httpClient;
-                } finally {
-                    lock.unlock();
-                }
-            }
+            CloseableHttpClient httpClient = httpClientFactory.create();
+            hcw = new HttpClientWrapper(httpClient, idCard);
+            httpClientMap.put(robotId, hcw);
         }
         return hcw.getHttpClient();
     }
@@ -75,5 +63,4 @@ public class BeforeHttpClientChain extends ExecuteBeforeFilter<FunctionProperty,
     private boolean idNeedCreate(String idCard, HttpClientWrapper hcw) {
         return null == hcw || null == hcw.getHttpClient() || StringUtils.isEmpty(hcw.getIdCard()) || StringUtils.isEmpty(idCard) || !idCard.equalsIgnoreCase(hcw.getIdCard());
     }
-
 }

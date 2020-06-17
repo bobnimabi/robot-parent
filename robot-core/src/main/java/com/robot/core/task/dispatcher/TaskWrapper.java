@@ -33,7 +33,7 @@ public class TaskWrapper implements Serializable {
     /**
      * 异步请求配置
      */
-    AsyncRequestConfig config;
+    private AsyncRequestConfig config;
 
     /**
      * path的枚举

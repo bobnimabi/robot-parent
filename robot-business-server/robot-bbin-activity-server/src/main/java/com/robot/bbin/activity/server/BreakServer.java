@@ -6,7 +6,7 @@ import com.robot.core.function.base.IAssemFunction;
 import com.robot.bbin.base.ao.JuQueryDetailAO;
 import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.bbin.base.function.JuQueryDetailFunction;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;

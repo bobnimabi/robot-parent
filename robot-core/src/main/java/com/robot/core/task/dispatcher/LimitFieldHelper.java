@@ -37,7 +37,7 @@ public class LimitFieldHelper {
      * 缓存反射对象的容器，提升性能
      * 注意：正常情况下，就一个打款需要
      */
-    private static Map<String, MethodInvoker> map = new HashMap<>(1);
+    private static Map<String, MethodInvoker> map = new HashMap<>(3);
 
     /**
      * 入队时：计算分数（预计出队时间戳）
@@ -103,8 +103,8 @@ public class LimitFieldHelper {
         if (-1L == expire) {
             throw new IllegalStateException("存在不过期的WaitField" + timeLimitKey);
         }
-        expire = -2L == expire ? 0L : expire * 1000;
-        redis.opsForValue().set(timeLimitKey, "", waitTime.plusMillis(expire));
+        expire = -2L == expire ? 0L : expire;
+        redis.opsForValue().set(timeLimitKey, "", waitTime.plusSeconds(expire));
         return expire + currentTime;
     }
 

@@ -34,7 +34,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AsyncDispatcher extends AbstractDispatcher implements IAsyncDispatcher{
     @Autowired
     private ITaskPool taskPool;
-
     @Autowired
     private IAsyncRequestConfigService asyncConfigService;
 

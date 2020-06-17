@@ -68,9 +68,9 @@ public class CloudTokenQueue implements ICloudTokenQueue {
 
     private void expireFlush() {
         String key = this.tokenQueueKey();
-        Boolean isExpire = redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS);
-        if (!isExpire) {
-            log.error("CloudTokenQueue:刷新过期时间失败：key：{}", key);
+        Boolean isFailure = redis.hasKey(key) && !redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS);
+        if (isFailure) {
+            log.error("令牌队列:刷新过期时间失败：key：{}", key);
         }
     }
 

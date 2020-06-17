@@ -2,7 +2,7 @@ package com.robot.center.controller;
 
 import com.bbin.common.util.ThreadLocalUtils;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.code.dto.TenantRobotDTO;
 import com.robot.code.service.ITenantRobotTemplateService;
 import com.robot.core.common.TContext;

@@ -1,11 +1,10 @@
 package com.robot.core.task.dispatcher;
 
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.code.service.IRequestRecordService;
 import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.IAssemFunction;
-import com.robot.core.function.base.IFunction;
 import com.robot.core.function.base.IFunctionEnum;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.IDispatcherFacde;
@@ -13,11 +12,8 @@ import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.util.Assert;
 
 import java.time.Duration;
-import java.util.Map;
 
 /**
  * @Author mrt
@@ -28,7 +24,7 @@ import java.util.Map;
 public abstract class AbstractDispatcher {
     private static final String EXTERNAL_NO = RedisConsts.PROJECT + "EXTERNAL_NO:";
     @Autowired
-    private Map<String, IAssemFunction> functionMap;
+    private AssumFunctionHelper assumFunctionHelper;
 
     @Autowired
     protected IDispatcherFacde dispatcherFacde;
@@ -49,24 +45,12 @@ public abstract class AbstractDispatcher {
      * @throws Exception
      */
     protected final Response dispatch(ParamWrapper paramWrapper, IFunctionEnum functionEnum, RobotWrapper robotWrapper) throws Exception {
-        IAssemFunction iFunction = getFunction(functionEnum);
+        IAssemFunction iFunction = assumFunctionHelper.getFunction(functionEnum);
         return iFunction.doFunction(paramWrapper, robotWrapper);
     }
 
 
-    /**
-     * 获取Function
-     *
-     * @param functionEnum
-     * @return
-     */
-    protected final IAssemFunction getFunction(IFunctionEnum functionEnum) {
-        IAssemFunction iFunction = functionMap.get(functionEnum.getName());
-        if (null == iFunction) {
-            throw new IllegalArgumentException("Dispatcher：未获取到Function，请管理员检查,FunctionName:" + functionEnum.getName());
-        }
-        return iFunction;
-    }
+
 
     /**
      * 外部订单号重复性检查

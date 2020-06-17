@@ -1,6 +1,5 @@
 package com.robot.core.task.dispatcher;
 
-import com.alibaba.fastjson.JSON;
 import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.IAssemFunction;
@@ -10,6 +9,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -35,8 +35,7 @@ public class AsyncSelector extends AbstractDispatcher implements ISelector, Runn
     @Autowired
     private StringRedisTemplate redis;
     @Autowired
-    @Lazy
-    private AsyncSelector selector;
+    private AsyncTask asyncTask;
 
     /**
      * 注册事件
@@ -54,6 +53,10 @@ public class AsyncSelector extends AbstractDispatcher implements ISelector, Runn
         register.putIfAbsent(registerBody, "");
     }
 
+    /**
+     * 1.机器人拿出来后一定要归还
+     * 2.不能由于异常导致循环有终止的情况
+     */
     @Override
     public void run() {
         while (true) {
@@ -104,24 +107,9 @@ public class AsyncSelector extends AbstractDispatcher implements ISelector, Runn
         // 分布式并发下，这里有可能拿不出任务
         taskWrapper = taskPool.taskGet();
         if (null != taskWrapper) {
-            selector.dispatchAsync(taskWrapper.getParamWrapper(), taskWrapper.getFunctionEnum(), robotWrapper, registerBody);
+            asyncTask.doAssumFunction(taskWrapper.getParamWrapper(), taskWrapper.getFunctionEnum(), robotWrapper, registerBody);
         } else {
             super.dispatcherFacde.giveBackCookieAndToken(robotWrapper);
-        }
-    }
-
-    @Async
-    public void dispatchAsync(ParamWrapper paramWrapper, IFunctionEnum functionEnum, RobotWrapper robotWrapper, RegisterBody registerBody) throws Exception {
-        handTenant(registerBody);
-        try {
-            IAssemFunction iFunction = super.getFunction(functionEnum);
-            iFunction.doFunction(paramWrapper, robotWrapper);
-        }finally {
-            try{
-                super.dispatcherFacde.giveBackCookieAndToken(robotWrapper);
-            }finally {
-                TContext.clean();
-            }
         }
     }
 

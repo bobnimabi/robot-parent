@@ -11,7 +11,7 @@ import com.robot.bbin.base.bo.BetDetailBO;
 import com.robot.bbin.base.bo.InOutCashBO;
 import com.robot.bbin.base.function.BetDetailFunction;
 import com.robot.bbin.base.function.BetFunction;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;

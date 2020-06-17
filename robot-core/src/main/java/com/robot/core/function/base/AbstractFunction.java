@@ -1,13 +1,14 @@
 package com.robot.core.function.base;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.response.CustomResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.core.task.execute.IExecute;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
  * @Date 2020/5/19 13:01
  * @Version 2.0
  */
+@Slf4j
 public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     @Autowired
@@ -34,8 +36,10 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
 
     @Override
     public Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        IPathEnum pathEnum = getPathEnum();
+        log.info("-----------------{}-----------------", pathEnum.getPathCode());
         FunctionProperty property = new FunctionProperty(
-                getPathEnum(),
+                pathEnum,
                 getHeaders(robotWrapper),
                 getEntity(paramWrapper.getObj(), robotWrapper),
                 getUrlSuffix(paramWrapper.getObj()),
@@ -84,6 +88,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
     /**
      * 是否检查掉线
      * 1.如果该接口不用公共掉线检查，通过@Override
+     * 2.如果返回null，则不进行掉线检查（与登录相关接口）
      * @return
      */
     protected ICheckLost getCHECK_LOST_SERVICE() {

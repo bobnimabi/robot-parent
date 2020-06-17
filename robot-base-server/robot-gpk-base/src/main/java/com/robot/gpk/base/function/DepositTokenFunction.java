@@ -1,7 +1,7 @@
 package com.robot.gpk.base.function;
 
 import com.bbin.common.pojo.TaskAtomDto;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
@@ -46,6 +46,7 @@ ss     */
         @Override
         public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
+            log.info("打款前：DepositToken：功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("DepositTokenFunction:未响应");
             }

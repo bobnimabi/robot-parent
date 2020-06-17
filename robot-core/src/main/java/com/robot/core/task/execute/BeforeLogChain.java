@@ -22,12 +22,14 @@ public class BeforeLogChain extends ExecuteBeforeFilter<FunctionProperty, Execut
 
     @Override
     public void dofilter(FunctionProperty params, ExecuteProperty result, Invoker<FunctionProperty, ExecuteProperty> invoker) throws Exception {
+        String entity= null != params.getEntity() ? JSON.toJSONString(params.getEntity().toString()) : "";
         requestRecordService.addRequestRecord(
                 params.getRecordId(),
                 params.getRobotWrapper().getId(),
                 params.getPathEnum().getPathCode(),
                 params.getExteralNo(),
-                JSON.toJSONString(params.getEntity().toString()));
+                entity
+        );
 
         invoker.invoke(params, result);
     }

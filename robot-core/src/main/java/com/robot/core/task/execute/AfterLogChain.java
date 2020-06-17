@@ -5,7 +5,7 @@ import com.robot.code.service.IRequestRecordService;
 import com.robot.code.service.IResponseRecordService;
 import com.robot.core.chain.Invoker;
 import com.robot.core.function.base.FunctionProperty;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +28,8 @@ public class AfterLogChain extends ExecuteAfterFilter<StanderHttpResponse, Funct
     public void dofilter(StanderHttpResponse params, FunctionProperty result, Invoker<StanderHttpResponse, FunctionProperty> invoker) throws Exception {
         Response response = params.getResponse();
         requestRecordService.updateRequestRecord(result.getRecordId(), response.isSuccess(), response.getMessage());
-        if (response.isSuccess() && null != params.getOriginalEntity()) {
-            responseRecordService.addResponseRecord(result.getRecordId(), params.getOriginalEntity(), JSON.toJSONString(response.getObj()));
+        if (null != params.getOriginalEntity()) {
+            responseRecordService.addResponseRecord(result.getRecordId(), params.getOriginalEntity(), JSON.toJSONString(response));
         }
 
         invoker.invoke(params, result);

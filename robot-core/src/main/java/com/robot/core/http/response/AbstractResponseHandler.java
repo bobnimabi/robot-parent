@@ -66,17 +66,17 @@ public abstract class AbstractResponseHandler implements ResponseHandler<Stander
     private StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
         HttpEntity entity = response.getEntity();
         ContentType contentType = ContentType.get(entity);
-        if (ContentType.TEXT_HTML.equals(contentType)) {
+        if (ContentType.TEXT_HTML.getMimeType().equalsIgnoreCase(contentType.getMimeType())) {
             byte[] bytes = EntityUtils.toByteArray(entity);
             Charset charset = CharsetHelper.getCharset(response, bytes);
             return new StanderHttpResponse(response, new String(bytes, charset));
         } else if (
-                ContentType.IMAGE_GIF.equals(contentType) ||
-                        ContentType.IMAGE_JPEG.equals(contentType) ||
-                        ContentType.IMAGE_PNG.equals(contentType) ||
-                        ContentType.IMAGE_SVG.equals(contentType) ||
-                        ContentType.IMAGE_TIFF.equals(contentType) ||
-                        ContentType.IMAGE_WEBP.equals(contentType)
+                ContentType.IMAGE_GIF.getMimeType().equalsIgnoreCase(contentType.getMimeType()) ||
+                        ContentType.IMAGE_JPEG.getMimeType().equalsIgnoreCase(contentType.getMimeType()) ||
+                        ContentType.IMAGE_PNG.getMimeType().equalsIgnoreCase(contentType.getMimeType()) ||
+                        ContentType.IMAGE_SVG.getMimeType().equalsIgnoreCase(contentType.getMimeType()) ||
+                        ContentType.IMAGE_TIFF.getMimeType().equalsIgnoreCase(contentType.getMimeType()) ||
+                        ContentType.IMAGE_WEBP.getMimeType().equalsIgnoreCase(contentType.getMimeType())
         ) {
             return new StanderHttpResponse(response, EntityUtils.toByteArray(entity));
         } else {

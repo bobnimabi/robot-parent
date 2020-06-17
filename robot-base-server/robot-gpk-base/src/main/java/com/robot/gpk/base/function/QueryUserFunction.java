@@ -1,7 +1,7 @@
 package com.robot.gpk.base.function;
 
 import com.alibaba.fastjson.JSON;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
@@ -52,6 +52,7 @@ public class QueryUserFunction extends AbstractFunction<String,String,Object> {
         @Override
         public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
             String result = shr.getOriginalEntity();
+            log.info("查询会员存在功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("未响应");
             }

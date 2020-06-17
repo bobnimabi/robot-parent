@@ -35,7 +35,7 @@ public class TaskPoolImpl implements ITaskPool {
      */
     private static final String CACHE_TASK_QUEUE = RedisConsts.PROJECT + "TASK:QUEUE:";
 
-    @Resource(name = "redisTemplate")
+    @Autowired
     private RedisTemplate<String,TaskWrapper> taskRedis;
 
     @Autowired

@@ -1,7 +1,6 @@
 package com.robot.core.http.response;
 
-import com.robot.code.dto.Response;
-import lombok.Data;
+import com.robot.code.response.Response;
 import org.apache.http.*;
 
 import java.util.Locale;

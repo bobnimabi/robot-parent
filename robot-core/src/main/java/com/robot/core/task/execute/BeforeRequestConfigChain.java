@@ -74,7 +74,9 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<FunctionProper
     private void setRetry(HttpRequestConfig config, ExecuteProperty result) {
         HttpContext httpContext = result.getHttpContext();
         httpContext.setAttribute(HttpConsts.RETRY_FLAG, config.getIsRetry());
-        log.info("请求拦截：重试：{}", config.getIsRetry());
+        if (config.getIsRetry()) {
+            log.info("请求拦截：重试：{}", true);
+        }
     }
 
     /**

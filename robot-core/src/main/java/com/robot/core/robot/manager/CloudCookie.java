@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.robot.core.common.RedisConsts;
 import com.robot.core.common.TContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,8 +37,9 @@ public class CloudCookie implements ICloudCookie {
      */
     public static final int EXPIRE_DAYS = 30;
 
-    @Resource(name = "redisTemplate")
+    @Autowired
     private RedisTemplate<String,RobotWrapper> redis;
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private ICloudIdCard cloudIdCard;
@@ -66,7 +70,7 @@ public class CloudCookie implements ICloudCookie {
     }
 
     private void expireFlush(String key) {
-        Boolean isFailure = !redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS) && redis.hasKey(key);
+        Boolean isFailure = redis.hasKey(key) && !redis.expire(key, EXPIRE_DAYS, TimeUnit.DAYS);
         if (isFailure) {
             log.error("CloudCookie:刷新过期时间失败：key：{}", key);
         }

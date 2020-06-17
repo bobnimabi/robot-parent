@@ -2,12 +2,9 @@ package com.robot.core.task.dispatcher;//package com.bbin.robotWrapper.core.sche
 
 
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.IFunctionEnum;
-import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.ParamWrapper;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by mrt on 2019/7/11 0011 下午 6:35
@@ -22,7 +19,7 @@ public interface ISyncDispatcher {
     Response dispatch(ParamWrapper paramWrapper, IFunctionEnum functionEnum) throws Exception;
 
     /**
-     * 指定机器人同步调用
+     * 登录专用
      * 1.登录相关接口使用
      * 2.指定特定机器人使用
      * @param paramWrapper

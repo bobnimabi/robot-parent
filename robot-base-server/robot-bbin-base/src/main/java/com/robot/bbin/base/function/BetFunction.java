@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.ao.BetAO;
 import com.robot.bbin.base.bo.BetBO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;

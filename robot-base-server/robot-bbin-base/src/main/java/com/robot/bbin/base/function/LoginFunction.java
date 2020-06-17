@@ -5,7 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.bo.ResponseBO;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
+import com.robot.code.response.ResponseEnum;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
@@ -80,7 +81,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
                 log.error("登录失败：{}", result);
                 return Response.FAIL(jsonObject.getString("message"));
             }
-            return Response.LOGIN_SUCCESS();
+            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS);
         }
     }
 

@@ -6,7 +6,7 @@ import com.robot.bbin.base.ao.JuQueryAO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.center.util.MoneyUtil;
-import com.robot.code.dto.Response;
+import com.robot.code.response.Response;
 import com.robot.code.service.ITenantRobotDictService;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;

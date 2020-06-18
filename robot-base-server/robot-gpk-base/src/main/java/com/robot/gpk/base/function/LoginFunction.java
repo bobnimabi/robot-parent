@@ -68,7 +68,6 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String,Object> {
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("未响应");
             }
-            log.info("登录响应：{}", result);
             GeneralBO loginResultVo = JSON.parseObject(result, GeneralBO.class);
             if (!loginResultVo.getIsSuccess()) {
                 return Response.FAIL(loginResultVo.getErrorMessage());

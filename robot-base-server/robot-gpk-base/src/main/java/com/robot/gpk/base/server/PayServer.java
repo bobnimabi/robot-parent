@@ -55,15 +55,16 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      */
     private ParamWrapper<PayFinalAO> createParams(TaskAtomDto taskAtomDto,String token) {
         PayFinalAO payFinalAO = new PayFinalAO();
-                payFinalAO.setAccountsString(taskAtomDto.getUsername());
-                payFinalAO.setDepositToken(token);
-                payFinalAO.setType("5");
-                payFinalAO.setIsReal( "false");
-                payFinalAO.setPortalMemo(taskAtomDto.getFrontMemo());
-                payFinalAO.setMemo(taskAtomDto.getMemo());
-                payFinalAO.setAmount( MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
-                payFinalAO.setAmountString(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
-                payFinalAO.setTimeStamp(System.currentTimeMillis() + "");
+        payFinalAO.setAccountsString(taskAtomDto.getUsername());
+        payFinalAO.setDepositToken(token);
+        payFinalAO.setType("5");
+        payFinalAO.setIsReal( "false");
+        payFinalAO.setPortalMemo(taskAtomDto.getFrontMemo());
+        payFinalAO.setMemo(taskAtomDto.getMemo());
+        payFinalAO.setAmount( MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
+        payFinalAO.setAmountString(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
+        payFinalAO.setTimeStamp(System.currentTimeMillis() + "");
+        payFinalAO.setExteralNo(taskAtomDto.getOutPayNo());
 
         if (taskAtomDto.getIsAudit()) {
             payFinalAO.setAuditType("Discount");
@@ -71,7 +72,8 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         } else {
             if (null != taskAtomDto.getMultipleTransaction()) {
                 payFinalAO.setAuditType("Discount");
-                payFinalAO.setAudit( MoneyUtil.formatYuan(taskAtomDto.getPaidAmount().multiply(new BigDecimal(taskAtomDto.getMultipleTransaction()))).toString());
+                payFinalAO.setAudit(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount().multiply(new BigDecimal(taskAtomDto.getMultipleTransaction()))).toString());
+            } else {
                 payFinalAO.setAuditType("None");
             }
         }

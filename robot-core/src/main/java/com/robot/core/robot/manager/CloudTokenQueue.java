@@ -40,7 +40,9 @@ public class CloudTokenQueue implements ICloudTokenQueue {
     @Override
     public Token popToken() {
         Token token = redis.opsForList().rightPop(tokenQueueKey());
-        log.info("令牌出队：RobotID:{}", token.getRobotId());
+        if (null != token) {
+            log.info("令牌出队：RobotID:{}", token.getRobotId());
+        }
         return isTokenValid(token) ? token : null;
     }
 

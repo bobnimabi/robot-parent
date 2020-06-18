@@ -27,24 +27,9 @@ public class TenantRobotTemplate implements Serializable {
     private Long id;
 
     /**
-     * 表tenant的id，租户的id
-     */
-    private Long tenantId;
-
-    /**
-     * 表tenant_channel的id，渠道id
-     */
-    private Long channelId;
-
-    /**
      * 所属平台的id  tenant_platform表的id
      */
     private Long platformId;
-
-    /**
-     * 功能：1.活动  2.出款  3.入款
-     */
-    private Integer functionCode;
 
     /**
      * 栏位排序

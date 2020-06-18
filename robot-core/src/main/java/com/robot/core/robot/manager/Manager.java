@@ -92,14 +92,13 @@ public class Manager implements IManager {
     @Transactional
     @Override
     public boolean offline(long robotId) {
-        boolean isOfflineDB = dbRobot.offlineDB(robotId);
-        if (isOfflineDB) {
-            boolean isDelIdCard = cloudIdCard.delIdCard(robotId);
-            if (isDelIdCard) {
-                return true;
-            }
+        dbRobot.offlineDB(robotId);
+        boolean isDel = cloudIdCard.delIdCard(robotId);
+        if (!isDel) {
+            throw new IllegalArgumentException("下线机器人失败，robotId：" + robotId);
         }
-        throw new IllegalArgumentException("下线机器人失败，robotId:" + robotId);
+
+        return true;
     }
 
 

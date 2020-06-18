@@ -10,7 +10,7 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.bbin.base.ao.PayFinalAO;
+import com.robot.gpk.base.ao.PayFinalAO;
 import com.robot.gpk.base.basic.PathEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

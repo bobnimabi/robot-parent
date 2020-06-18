@@ -1,4 +1,4 @@
-package com.robot.bbin.base.ao;
+package com.robot.gpk.base.ao;
 
 import com.bbin.common.pojo.TaskAtomDto;
 import com.robot.center.mq.PayCommonParams;

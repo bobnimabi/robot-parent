@@ -6,7 +6,7 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.bbin.base.ao.PayFinalAO;
+import com.robot.gpk.base.ao.PayFinalAO;
 import com.robot.gpk.base.function.DepositTokenFunction;
 import com.robot.gpk.base.function.PayFunction;
 import org.springframework.beans.factory.annotation.Autowired;

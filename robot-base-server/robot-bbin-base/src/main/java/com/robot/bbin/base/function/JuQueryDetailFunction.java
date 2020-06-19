@@ -35,7 +35,8 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
                 .add("wid", queryDTO.getOrderNo())// 注单编号
                 .add("id", queryDTO.getPageId()) // 平台编码
                 .add("gametype", queryDTO.getGameType()) // 游戏编码
-                .add("key", queryDTO.getKey()); // 页面携带参数
+                .add("key", queryDTO.getKey()) // 页面携带参数
+                .add("rounddate", queryDTO.getRounddate());
     }
 
     @Override
@@ -60,7 +61,6 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
                 Elements tds = tbody_tr.getElementsByTag("td");
                 if (tds.size() >= 2) {
                     Element td1 = tbody_tr.getElementsByTag("td").get(0);
-                    System.out.println(td1);
                     Element td2 = tbody_tr.getElementsByTag("td").get(1);
                     if ("-".equals(td2.text())) {
                         return Response.SUCCESS(Integer.parseInt(td1.text()) - 1);

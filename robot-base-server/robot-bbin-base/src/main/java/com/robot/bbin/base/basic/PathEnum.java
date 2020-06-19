@@ -15,6 +15,7 @@ public enum PathEnum implements IPathEnum {
 
     /*-------------------------自定义部分-------------------------*/
     QUERY_BALANCE("query_balance","查询会员余额"),
+    BAR_ID("bar_id","局查询"),
     JU_QUERY("ju_query","局查询"),
     JU_QUERY_DETAIL("ju_query_detail","局查询:窗口信息"),
     PAY_ORDER("pay_order","出款"),

@@ -1,5 +1,6 @@
 package com.robot.bbin.base.function;
 
+import com.robot.bbin.base.ao.JuQueryAO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.ao.TotalBetGameAO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
@@ -7,6 +8,7 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
+import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
@@ -47,6 +49,19 @@ public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String
                 .add("date_start", gameDTO.getDateStart())
                 .add("date_end", gameDTO.getDateEnd())
                 .add("UserID", gameDTO.getUserID());
+    }
+
+    @Override
+    protected String getUrlSuffix(TotalBetGameAO params) {
+        return params.getGameKind();
+    }
+
+    /**
+     * get不需要携带这个头，故意覆盖掉全局头
+     */
+    @Override
+    protected CustomHeaders getHeaders(RobotWrapper robotWrapper) {
+        return CustomHeaders.custom(4).add("X-Requested-With","");
     }
 
     @Override

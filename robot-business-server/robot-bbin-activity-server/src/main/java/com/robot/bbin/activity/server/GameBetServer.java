@@ -23,7 +23,7 @@ import java.util.List;
  * @Version 2.0
  */
 @Service
-public class QueryBetListServer implements IAssemFunction<OrderNoQueryDTO> {
+public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
     private TotalBetGameFunction totalBetGame;

@@ -11,8 +11,11 @@ import lombok.Data;
 public class JuQueryDetailAO {
     // 注单编码
     private String orderNo;
+    // 平台编码
     private String pageId;
     private String key;
+    // 日期
+    private String rounddate;
     //游戏编码
     private String gameType;
 }

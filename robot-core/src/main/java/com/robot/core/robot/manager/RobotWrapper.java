@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.http.client.CookieStore;
+import org.apache.http.impl.cookie.BasicClientCookie2;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class RobotWrapper extends TenantRobot implements Serializable {
      * 存放属性
      */
     private Properties properties;
+
 
 
 }

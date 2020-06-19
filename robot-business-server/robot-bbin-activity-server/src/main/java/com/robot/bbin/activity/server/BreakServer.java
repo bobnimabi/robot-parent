@@ -2,6 +2,10 @@ package com.robot.bbin.activity.server;
 
 import com.bbin.common.dto.order.GameChild;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
+import com.bbin.common.util.DateUtils;
+import com.bbin.utils.project.MyBeanUtil;
+import com.robot.bbin.base.bo.JuQueryDetailBO;
+import com.robot.bbin.base.function.BarIdFunction;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.bbin.base.ao.JuQueryDetailAO;
 import com.robot.bbin.base.bo.JuQueryBO;
@@ -20,6 +24,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
+
+
     @Autowired
     private OrderQueryServer orderQueryServer;
 
@@ -45,7 +51,12 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
         // 局查询细节（消消除层数）
         Response<Integer> detailResponse = juQueryDetailServer.doFunction(params.getObj(), robotWrapper);
-        return detailResponse;
+        if (!detailResponse.isSuccess()) {
+            return detailResponse;
+        }
+        JuQueryDetailBO juQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, JuQueryDetailBO.class);
+        juQueryDetailBO.setLevel(detailResponse.getObj());
+        return Response.SUCCESS(juQueryDetailBO);
 
     }
 
@@ -56,6 +67,8 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
         JuQueryDetailAO ao = new JuQueryDetailAO();
         ao.setPageId(juQueryBO.getPageId());
         ao.setKey(juQueryBO.getKey());
+        ao.setOrderNo(queryDTO.getOrderNo());
+        ao.setRounddate(juQueryBO.getOrderTime().format(DateUtils.DF_3));
         String gameName = juQueryBO.getGameName();
         boolean flag = false;
         for (GameChild child : queryDTO.getChildren()) {

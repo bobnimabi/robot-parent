@@ -11,6 +11,7 @@ import com.robot.code.service.ITenantRobotDictService;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
+import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
@@ -33,12 +34,6 @@ import java.util.Map;
 @Service
 public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQueryBO> {
 
-    @Autowired
-    private ITenantRobotDictService dictService;
-
-    // 字典表：获取注单查询的barID的前缀
-    private String DICT_BAR_ID = "BBIN:ORDER_QUERY:";
-
     @Override
     protected IPathEnum getPathEnum() {
         return PathEnum.JU_QUERY;
@@ -53,6 +48,19 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
                 .add("Wagersid", juQueryAO.getOrderNo())
                 .add("Limit", juQueryAO.getLimit())
                 .add("Sort", juQueryAO.getSort());
+    }
+
+    @Override
+    protected String getUrlSuffix(JuQueryAO params) {
+        return params.getGameKind();
+    }
+
+    /**
+     * get不需要携带这个头，故意覆盖掉全局头
+     */
+    @Override
+    protected CustomHeaders getHeaders(RobotWrapper robotWrapper) {
+        return CustomHeaders.custom(4).add("X-Requested-With","");
     }
 
     @Override

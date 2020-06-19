@@ -42,7 +42,7 @@ public class GpkController extends ControllerBase {
         if (!response.isSuccess()) {
             return response;
         }
-        return Response.SUCCESS();
+        return Response.SUCCESS("登录成功");
     }
 
     /**

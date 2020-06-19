@@ -1,5 +1,6 @@
 package com.robot.bbin.base.ao;
 
+import com.robot.center.mq.PayCommonParams;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @Version 2.0
  */
 @Data
-public class PayAO {
+public class PayAO extends PayCommonParams {
     // 搜索名称：会员账号
     private String search_name;
     // 来自于查询余额的返回

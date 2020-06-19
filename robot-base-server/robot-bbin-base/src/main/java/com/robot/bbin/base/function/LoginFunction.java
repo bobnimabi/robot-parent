@@ -5,21 +5,25 @@ import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.bo.ResponseBO;
 import com.robot.code.dto.LoginDTO;
+import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.response.Response;
 import com.robot.code.response.ResponseEnum;
-import com.robot.core.function.base.AbstractFunction;
-import com.robot.core.function.base.IPathEnum;
-import com.robot.core.function.base.IResultHandler;
-import com.robot.core.function.base.ParamWrapper;
+import com.robot.code.service.ITenantRobotDomainService;
+import com.robot.core.function.base.*;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.sun.jndi.toolkit.url.Uri;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.CookieStore;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -28,19 +32,17 @@ import org.springframework.util.StringUtils;
 @Slf4j
 @Service
 public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO> {
+    @Autowired
+    private ITenantRobotDomainService domainService;
 
     /**
      * 这里重写的原因是：登录完成后，需要手动添加特定cookie
-     * @param paramWrapper
-     * @param robotWrapper
-     * @return
-     * @throws Exception
      */
     @Override
     public Response<ResponseBO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         Response<ResponseBO> response = super.doFunction(paramWrapper, robotWrapper);
         ResponseBO loginResp = response.getObj();
-        if (response.isSuccess() && null != loginResp && true == loginResp.getResult()) {
+        if (response.isSuccess()) {
             this.addCookies(robotWrapper,loginResp.getData().getSession_id());
         }
         return response;
@@ -62,6 +64,14 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
         return entity;
     }
 
+    /**
+     * 注意：与登录相关的接口，返回null，不进行掉线检查
+     */
+    @Override
+    protected ICheckLost getCHECK_LOST_SERVICE() {
+        return null;
+    }
+
     @Override
     protected IResultHandler<String, ResponseBO> getResultHandler() {
         return ResultHandler.INSTANCE;
@@ -81,7 +91,8 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
                 log.error("登录失败：{}", result);
                 return Response.FAIL(jsonObject.getString("message"));
             }
-            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS);
+            ResponseBO responseBO = JSON.parseObject(result, ResponseBO.class);
+            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS, responseBO);
         }
     }
 
@@ -90,12 +101,14 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
      * @param robotWrapper
      * @param sid
      */
-    private void addCookies(RobotWrapper robotWrapper,String sid) {
+    private void addCookies(RobotWrapper robotWrapper,String sid) throws MalformedURLException {
         CookieStore cookieStore = robotWrapper.getCookieStore();
-        String domain = cookieStore.getCookies().get(0).getDomain();
-        this.addCookie(cookieStore, "sid", sid, domain);
-        this.addCookie(cookieStore, "langx", "zh-cn", domain);
-        this.addCookie(cookieStore, "langcode", "zh-cn", domain);
+        TenantRobotDomain domain = domainService.getDomain(1);
+        URL url = new URL(domain.getDomain());
+        String host = url.getHost();
+        this.addCookie(cookieStore, "sid", sid, host);
+        this.addCookie(cookieStore, "langx", "zh-cn", host);
+        this.addCookie(cookieStore, "langcode", "zh-cn", host);
     }
 
     private void addCookie(CookieStore cookieStore, String key, String value,String domain) {

@@ -22,9 +22,9 @@ public class JuQueryAO {
 
     /**
      * 局查询额外参数
-     * bb电子是2，先临时写死
+     * bb电子:2
      */
-    private String barId = "2";
+    private String barId;
 
 
 }

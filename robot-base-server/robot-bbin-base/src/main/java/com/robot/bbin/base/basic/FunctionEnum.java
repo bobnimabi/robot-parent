@@ -11,7 +11,7 @@ public enum FunctionEnum implements IFunctionEnum {
     BREAK_AND_BET_SERVER("breakAndBetServer"),
     BREAK_SERVER("breakerServer"),
     ORDER_QUERY_SERVER("orderQueryServer"),
-    QUERY_BET_LIST_SERVER("queryBetListServer"),
+    GAME_BET_SERVER("gameBetServer"),
     Query_User_Server("queryUserServer"),
     QUERY_RECHARGE_SERVER("queryRechargeServer"),
     PAY_SERVER("payServer"),

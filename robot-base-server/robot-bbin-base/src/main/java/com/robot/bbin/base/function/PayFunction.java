@@ -2,16 +2,21 @@ package com.robot.bbin.base.function;
 
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.ao.PayAO;
+import com.robot.center.mq.MqSenter;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
+import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +27,17 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service
 public class PayFunction extends AbstractFunction<PayAO,String,Object> {
+
+    @Autowired
+    private MqSenter mqSenter;
+
+    @Override
+    public Response<Object> doFunction(ParamWrapper<PayAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        Response<Object> response = super.doFunction(paramWrapper, robotWrapper);
+        PayAO payFinalAO = paramWrapper.getObj();
+        mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,new BigDecimal(payFinalAO.getAmount()));
+        return response;
+    }
 
     @Override
     protected IPathEnum getPathEnum() {

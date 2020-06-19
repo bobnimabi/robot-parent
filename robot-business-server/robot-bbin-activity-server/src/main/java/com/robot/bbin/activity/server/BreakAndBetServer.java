@@ -2,6 +2,7 @@ package com.robot.bbin.activity.server;
 
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.vo.OrderNoQueryVO;
+import com.robot.bbin.base.bo.JuQueryDetailBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
@@ -25,24 +26,24 @@ public class BreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
     private BreakServer breakServer;
 
     @Autowired
-    private QueryBetListServer queryBetList;
+    private GameBetServer gameBetServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<Integer> breakResult = breakServer.doFunction(paramWrapper, robotWrapper);
+        Response<JuQueryDetailBO> breakResult = breakServer.doFunction(paramWrapper, robotWrapper);
         if (!breakResult.isSuccess()) {
             return breakResult;
         }
         OrderNoQueryVO breakerQueryVO = new OrderNoQueryVO();
-        breakerQueryVO.setAccumulativeWins(breakResult.getObj());
+        breakerQueryVO.setAccumulativeWins(breakResult.getObj().getLevel());
 
-        Response<List<TotalBetGameBO>> betListResult = queryBetList.doFunction(paramWrapper, robotWrapper);
+        Response<List<TotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
 
         if (!betListResult.isSuccess()) {
             return betListResult;
         }
         List<TotalBetGameBO> list = betListResult.getObj();
-        TotalBetGameBO totalBetGameBO = filterByGameName(list, breakerQueryVO.getGameName());
+        TotalBetGameBO totalBetGameBO = filterByGameName(list, breakResult.getObj().getGameName());
         if (null == totalBetGameBO) {
             return Response.FAIL("未查询到游戏对应的总投注金额");
         }

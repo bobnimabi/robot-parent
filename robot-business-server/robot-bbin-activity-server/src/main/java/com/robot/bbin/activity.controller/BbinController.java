@@ -39,7 +39,11 @@ public class BbinController extends ControllerBase {
         if (null == loginDTO || null == loginDTO.getId()) {
             return Response.FAIL("未传入参数");
         }
-        return super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER,true);
+        Response response = super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER, true);
+        if (!response.isSuccess()) {
+            return response;
+        }
+        return Response.SUCCESS("登录成功");
     }
 
     /**
@@ -157,6 +161,20 @@ public class BbinController extends ControllerBase {
      */
     @PostMapping("/tempPay")
     public void tempPay(@RequestBody TaskAtomDto taskAtomDto) throws Exception {
-        this.payAmountMq(taskAtomDto, null, null);
+        log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
+        if (null == taskAtomDto
+                || StringUtils.isEmpty(taskAtomDto.getUsername())
+                || null == taskAtomDto.getPaidAmount()
+                || StringUtils.isEmpty(taskAtomDto.getMemo())
+                || StringUtils.isEmpty(taskAtomDto.getOutPayNo())
+        ) {
+            ResponseResult.FAIL("参数不全");
+        }
+        if (taskAtomDto.getPaidAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            log.error("金额不能小于等于0,paidAmount:"+taskAtomDto.getPaidAmount());
+            return;
+        }
+        taskAtomDto.setUsername(taskAtomDto.getUsername().trim());
+        super.dispatcher.asyncDispatch(new ParamWrapper(taskAtomDto),taskAtomDto.getOutPayNo(), PathEnum.PAY,FunctionEnum.PAY_SERVER);
     }
 }

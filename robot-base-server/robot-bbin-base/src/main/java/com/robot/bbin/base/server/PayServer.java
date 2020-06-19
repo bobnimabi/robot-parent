@@ -32,7 +32,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
 
     @Override
     public Response doFunction(ParamWrapper<TaskAtomDto> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<QueryBalanceBO> response = queryUserFunction.doFunction(new ParamWrapper<String>(), robotWrapper);
+        Response<QueryBalanceBO> response = queryUserFunction.doFunction(createQueryBalanceParams(paramWrapper), robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }

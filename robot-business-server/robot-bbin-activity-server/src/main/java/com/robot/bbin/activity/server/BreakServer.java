@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
-
     @Autowired
     private OrderQueryServer orderQueryServer;
 

@@ -46,7 +46,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
             return response;
         }
         JuQueryBO juQueryBO = response.getObj();
-        if (StringUtils.isEmpty(juQueryBO.getPageId())) {
+        if (StringUtils.isEmpty(juQueryBO.getPageId()) || juQueryBO.getOrderTime().isBefore(queryDTO.getStartDate())) {
             return Response.FAIL("订单已过期,订单号："+juQueryBO.getPlatFormOrderNo());
         }
         if (!juQueryBO.getUserName().equals(queryDTO.getUserName())) {

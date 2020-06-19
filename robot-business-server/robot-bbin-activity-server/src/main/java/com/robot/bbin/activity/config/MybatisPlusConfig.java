@@ -1,4 +1,4 @@
-package com.robot.gpk.activity.config;
+package com.robot.bbin.activity.config;
 
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;

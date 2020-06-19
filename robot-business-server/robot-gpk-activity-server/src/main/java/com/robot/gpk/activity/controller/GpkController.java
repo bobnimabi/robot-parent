@@ -38,7 +38,11 @@ public class GpkController extends ControllerBase {
         if (null == loginDTO || null == loginDTO.getId()) {
             return Response.FAIL("未传入参数");
         }
-        return super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO),FunctionEnum.LOGIN_SERVER,true);
+        Response response = super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER, true);
+        if (!response.isSuccess()) {
+            return response;
+        }
+        return Response.SUCCESS();
     }
 
     /**

@@ -67,7 +67,7 @@ public class ResponseRecordServiceImpl extends ServiceImpl<ResponseRecordMapper,
         }
 
         // 存储
-        String fileName = id + ".text";
+        String fileName = id + ".txt";
         try (
                 InputStream inputStream = IOUtils.toInputStream(html, charset);
                 OutputStream outputStream = new FileOutputStream(directory + fileName);) {

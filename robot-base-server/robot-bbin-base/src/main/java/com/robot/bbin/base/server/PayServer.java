@@ -70,6 +70,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         payDTO.setAmount_memo(moneyDTO.getMemo());
         payDTO.setCommissionCheck("Y");
         payDTO.setDepositItem("ARD8");
+        payDTO.setExteralNo(moneyDTO.getOutPayNo());
         if (moneyDTO.getIsAudit()) {
             payDTO.setComplexAuditCheck("1");
             payDTO.setComplex(moneyDTO.getPaidAmount().toString());

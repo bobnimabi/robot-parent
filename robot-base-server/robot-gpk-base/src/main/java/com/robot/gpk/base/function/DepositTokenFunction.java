@@ -46,7 +46,6 @@ ss     */
         @Override
         public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
-            log.info("打款前：DepositToken：功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("DepositTokenFunction:未响应");
             }

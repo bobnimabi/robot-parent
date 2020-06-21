@@ -126,10 +126,12 @@ public class LimitFieldHelper {
             invoker = new MethodInvoker();
             invoker.setTargetObject(paramWrapper.getObj());
             invoker.setTargetMethod(targetMethodStr);
-            if (!invoker.isPrepared()) {
-                invoker.prepare();
-            }
             map.put(key, invoker);
+        }else{
+            invoker.setTargetObject(paramWrapper.getObj());
+        }
+        if (!invoker.isPrepared()) {
+            invoker.prepare();
         }
         String value = (String) invoker.invoke();
         Assert.hasText(value, "反射获取：" + field + " 没有值");

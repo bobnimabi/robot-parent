@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by mrt on 11/15/2019 12:29 PM
- * 局查询
+ * 局查询   /查询会员余额
  */
 @Service
 public class QueryBalanceFunction extends AbstractFunction<String,String, QueryBalanceBO> {

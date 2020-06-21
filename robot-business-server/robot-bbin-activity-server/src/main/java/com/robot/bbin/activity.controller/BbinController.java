@@ -100,6 +100,20 @@ public class BbinController extends ControllerBase {
     }
 
     /**
+     * 消消乐查询XBB专用
+     */
+    @PostMapping("/getEliminateToLe3")
+    public Response getEliminateToLe3(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
+        if (null == queryDTO
+                || StringUtils.isEmpty(queryDTO.getOrderNo())
+                || null == queryDTO.getStartDate()
+                || null == queryDTO.getEndDate()
+                || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
+        ) return Response.FAIL("参数不全");
+        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_AND_BET_SERVER);
+    }
+
+    /**
      * 机器人：获取投注、亏损（暂时没查）、充值信息
      */
     @PostMapping("/getTotalAmount")

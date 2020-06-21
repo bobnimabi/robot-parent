@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-base-server.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-base-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-bbin-activity-server/robot-bbin-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-bbin-activity-server/robot-bbin-activity-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-bbin-base/robot-bbin-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-bbin-base/robot-bbin-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-business-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-business-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-centre/robot-centre.iml" filepath="$PROJECT_DIR$/robot-centre/robot-centre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-core/robot-core.iml" filepath="$PROJECT_DIR$/robot-core/robot-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-generator/robot-generator.iml" filepath="$PROJECT_DIR$/robot-generator/robot-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/robot-gpk-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/robot-gpk-activity-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-gpk-base/robot-gpk-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-gpk-base/robot-gpk-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/robot-jgpk-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/robot-jgpk-activity-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-og-activity-server/robot-og-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-og-activity-server/robot-og-activity-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-og-base/robot-og-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-og-base/robot-og-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-parent.iml" filepath="$PROJECT_DIR$/robot-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robot-service/robot-service.iml" filepath="$PROJECT_DIR$/robot-service/robot-service.iml" />
+    </modules>
+  </component>
+</project>

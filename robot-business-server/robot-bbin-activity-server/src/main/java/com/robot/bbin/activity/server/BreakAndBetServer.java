@@ -34,8 +34,15 @@ public class BreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
         if (!breakResult.isSuccess()) {
             return breakResult;
         }
+        JuQueryDetailBO detailBO = breakResult.getObj();
         OrderNoQueryVO breakerQueryVO = new OrderNoQueryVO();
-        breakerQueryVO.setAccumulativeWins(breakResult.getObj().getLevel());
+        breakerQueryVO.setAccumulativeWins(detailBO.getLevel());
+        breakerQueryVO.setGameName(detailBO.getGameName());
+        breakerQueryVO.setOrderTime(detailBO.getOrderTime());
+        breakerQueryVO.setPlatFormOrderNo(detailBO.getPlatFormOrderNo());
+        breakerQueryVO.setUserName(detailBO.getUserName());
+        breakerQueryVO.setGameCode(detailBO.getGameCode());
+        breakerQueryVO.setRebateAmount(detailBO.getRebateAmount());
 
         Response<List<TotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
 

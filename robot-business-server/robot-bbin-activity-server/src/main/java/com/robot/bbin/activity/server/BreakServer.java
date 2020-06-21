@@ -43,7 +43,8 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
         // 组装局查询细节参数并校验
         JuQueryBO juQueryBO = response.getObj();
-        Response<ParamWrapper<JuQueryDetailAO>> params = juQueryDetailAO(queryDTO, juQueryBO);
+        JuQueryDetailBO juQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, JuQueryDetailBO.class);
+        Response<ParamWrapper<JuQueryDetailAO>> params = juQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
         if (!params.isSuccess()) {
             return params;
         }
@@ -53,7 +54,7 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
         if (!detailResponse.isSuccess()) {
             return detailResponse;
         }
-        JuQueryDetailBO juQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, JuQueryDetailBO.class);
+
         juQueryDetailBO.setLevel(detailResponse.getObj());
         return Response.SUCCESS(juQueryDetailBO);
 
@@ -61,8 +62,9 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
     /**
      * 局查询细节参数组装
-      */
-    private Response<ParamWrapper<JuQueryDetailAO>> juQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO) {
+     */
+    private Response<ParamWrapper<JuQueryDetailAO>> juQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {
+
         JuQueryDetailAO ao = new JuQueryDetailAO();
         ao.setPageId(juQueryBO.getPageId());
         ao.setKey(juQueryBO.getKey());
@@ -73,6 +75,7 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
         for (GameChild child : queryDTO.getChildren()) {
             if (gameName.equals(child.getName())) {
                 ao.setGameType(child.getGameCode());
+                juQueryDetailBO.setGameCode(child.getGameCode());
                 flag = true;
                 break;
             }

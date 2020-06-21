@@ -88,7 +88,6 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
             JSONObject jsonObject = JSON.parseObject(result);
             Boolean isSuccess = (Boolean) jsonObject.get("result");
             if (!isSuccess) {
-                log.error("登录失败：{}", result);
                 return Response.FAIL(jsonObject.getString("message"));
             }
             ResponseBO responseBO = JSON.parseObject(result, ResponseBO.class);

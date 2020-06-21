@@ -17,6 +17,7 @@ public class CheckLostImpl implements ICheckLost {
 
     private static final String LOST_FLAG = "請重新登入";
     private static final String LOST_FLAG2 ="System Error";
+    private static final String LOST_FLAG3 = "请重新登入";
 
 
 
@@ -26,7 +27,9 @@ public class CheckLostImpl implements ICheckLost {
         if (null != originalEntity) {
             String entity = (String) originalEntity;
             if (!StringUtils.isEmpty(entity) ) {
-                if (-1 != BoyerMoore.find(LOST_FLAG, entity) || -1 != BoyerMoore.find(LOST_FLAG2, entity)) {
+                if (-1 != BoyerMoore.find(LOST_FLAG, entity)
+                        || -1 != BoyerMoore.find(LOST_FLAG2, entity)
+                        || -1 != BoyerMoore.find(LOST_FLAG3, entity)) {
                     return true;
                 }
             }

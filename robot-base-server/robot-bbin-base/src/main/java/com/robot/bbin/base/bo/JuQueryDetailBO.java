@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 public class JuQueryDetailBO extends JuQueryBO{
     private Integer level;
 
+    private String gameCode;
+
     // 隐藏参数
     private String pageId;
     private String key;

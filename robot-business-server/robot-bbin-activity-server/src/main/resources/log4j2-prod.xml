@@ -69,7 +69,7 @@
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
         <logger name="org.springframework" level="INFO"></logger>
         <logger name="com.robot" level="INFO"></logger>
-        <logger name="org.apache.http" level="DEBUG"></logger>
+<!--        <logger name="org.apache.http" level="DEBUG"></logger>-->
         <!--<logger name="org.mybatis" level="INFO"></logger>-->
         <root level="info">
             <appender-ref ref="Console"/>

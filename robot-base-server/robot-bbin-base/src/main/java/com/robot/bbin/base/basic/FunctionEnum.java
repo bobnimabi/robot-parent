@@ -9,6 +9,7 @@ import com.robot.core.function.base.IFunctionEnum;
 public enum FunctionEnum implements IFunctionEnum {
     BET_AMOUNT_AND_RECHARGE_SERVER("betAmountAndRechargeServer"),
     BREAK_AND_BET_SERVER("breakAndBetServer"),
+    XBB_BREAK_AND_BET_SERVER("xbbBreakAndBetServer"),
     BREAK_SERVER("breakerServer"),
     ORDER_QUERY_SERVER("orderQueryServer"),
     GAME_BET_SERVER("gameBetServer"),

@@ -83,7 +83,7 @@ public class BarIdFunction extends AbstractFunction<BarIdAO, String, String> {
             String result = shr.getOriginalEntity();
             Matcher matcher = PATTERN.matcher(result);
             if (matcher.find()) {
-                String barID = matcher.group(1);
+                String barID = matcher.group(1);///group(0)
                 return Response.SUCCESS(barID);
             }
             return Response.FAIL("获取BarID失败");

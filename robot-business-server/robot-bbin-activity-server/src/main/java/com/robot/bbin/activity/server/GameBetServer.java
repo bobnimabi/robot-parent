@@ -2,6 +2,7 @@ package com.robot.bbin.activity.server;
 
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.utils.project.DateUtils;
+import com.robot.bbin.base.ao.JuQueryAO;
 import com.robot.bbin.base.ao.TotalBetGameAO;
 import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
@@ -54,6 +55,25 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         OrderNoQueryDTO breakThroughDTO = paramWrapper.getObj();
         return new ParamWrapper<String>(breakThroughDTO.getUserName());
     }
+/*
+    *//**
+     * 组装投注查询参数
+     * @param paramWrapper
+     * @param balanceBO
+     * @return
+     *//*
+    private ParamWrapper<TotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO) {
+        OrderNoQueryDTO queryDTO = paramWrapper.getObj();
+        TotalBetGameAO gameDTO = new TotalBetGameAO();
+        gameDTO.setDateStart(queryDTO.getStartDate().format(DateUtils.DF_3));
+        gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
+        gameDTO.setUserID(balanceBO.getUser_id());
+        gameDTO.setGameKind(queryDTO.getGameCode());
+        gameDTO.setBarId("2");
+       *//* JuQueryAO juQueryAO = new JuQueryAO();
+        gameDTO.setBarId(juQueryAO.getBarId());*//*
+        return new ParamWrapper<TotalBetGameAO>(gameDTO);
+    }*/
 
     /**
      * 组装投注查询参数
@@ -63,6 +83,7 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
      */
     private ParamWrapper<TotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO) {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
+
         TotalBetGameAO gameDTO = new TotalBetGameAO();
         gameDTO.setDateStart(queryDTO.getStartDate().format(DateUtils.DF_3));
         gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));

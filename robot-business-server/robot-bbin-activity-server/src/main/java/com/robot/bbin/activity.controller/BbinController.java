@@ -110,7 +110,7 @@ public class BbinController extends ControllerBase {
                 || null == queryDTO.getEndDate()
                 || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
         ) return Response.FAIL("参数不全");
-        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_AND_BET_SERVER);
+        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.XBB_BREAK_AND_BET_SERVER);
     }
 
     /**

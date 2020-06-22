@@ -53,6 +53,7 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
     @Override
     protected String getUrlSuffix(JuQueryAO params) {
         return params.getGameKind();
+
     }
 
     /**

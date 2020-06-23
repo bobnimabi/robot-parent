@@ -23,10 +23,10 @@ import java.util.List;
 public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
-    private BreakServer breakServer;
+    private XBBBreakServer breakServer;
 
     @Autowired
-    private GameBetServer gameBetServer;
+    private XBBGameBetServer gameBetServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {

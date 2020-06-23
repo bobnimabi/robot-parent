@@ -2,7 +2,6 @@ package com.robot.bbin.activity.server;
 
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.utils.project.DateUtils;
-import com.robot.bbin.base.ao.JuQueryAO;
 import com.robot.bbin.base.ao.TotalBetGameAO;
 import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
@@ -24,7 +23,7 @@ import java.util.List;
  * @Version 2.0
  */
 @Service
-public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
+public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
     private TotalBetGameFunction totalBetGame;
@@ -70,7 +69,7 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
-        gameDTO.setBarId("2");
+        gameDTO.setBarId("1");
         return new ParamWrapper<TotalBetGameAO>(gameDTO);
     }
 }

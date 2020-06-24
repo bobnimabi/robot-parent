@@ -6,8 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="robot-bbin-base" />
-        <module name="robot-jgpk-activity-server" />
+        <module name="robot-core" />
         <module name="robot-og-base" />
         <module name="robot-bbin-activity-server" />
         <module name="robot-generator" />
@@ -16,7 +15,7 @@
         <module name="robot-gpk-activity-server" />
         <module name="robot-centre" />
         <module name="robot-service" />
-        <module name="robot-core" />
+        <module name="robot-bbin-base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -29,7 +28,6 @@
       <module name="robot-generator" target="1.8" />
       <module name="robot-gpk-activity-server" target="1.8" />
       <module name="robot-gpk-base" target="1.8" />
-      <module name="robot-jgpk-activity-server" target="1.8" />
       <module name="robot-jiuwu-activity-server" target="1.8" />
       <module name="robot-jiuwu-base" target="1.8" />
       <module name="robot-jiuwu-pay-server" target="1.8" />
@@ -48,7 +46,6 @@
       <module name="robot-generator" options="-parameters" />
       <module name="robot-gpk-activity-server" options="-parameters" />
       <module name="robot-gpk-base" options="-parameters" />
-      <module name="robot-jgpk-activity-server" options="-parameters" />
       <module name="robot-jiuwu-activity-server" options="-parameters" />
       <module name="robot-jiuwu-base" options="-parameters" />
       <module name="robot-jiuwu-pay-server" options="-parameters" />

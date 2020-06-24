@@ -12,7 +12,7 @@
     <groupId>com.bbin</groupId>
     <artifactId>robot-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <packaging>pom</packaging>
     <modules>
         <module>robot-service</module>
         <module>robot-generator</module>
@@ -22,7 +22,7 @@
         <module>robot-core</module>
     </modules>
 
-    <packaging>pom</packaging>
+
 
     <dependencies>
         <dependency>

@@ -19,6 +19,7 @@ public enum PathEnum implements IPathEnum {
     JU_QUERY("ju_query","局查询"),
     JU_QUERY_DETAIL("ju_query_detail","局查询:窗口信息"),
     XBB_JU_QUERY_DETAIL("xbb_ju_query_detail","局查询:窗口信息"),
+    XBB_REQUERY_DETAIL("xbb_requery_detail","XBB局查询:窗口信息"),
     PAY_ORDER("pay_order","出款"),
     QUERY_LEVEL("query_level","查询层级"),
     PAY("pay","充值"),

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Welcome</title>
+    <link rel="shortcut icon" type="image/png" href="/vi/static/image/icon/favicon.png" />
+    <link href="/vi/static/css/chunk-vendors.5438ec9e.css" rel="stylesheet"><link href="/vi/static/css/app.40983f46.css" rel="stylesheet"></head>
+<body>
+<div id="app">
+    <style>
+        .wrap {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .text {
+            color: #42a5f5;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .bounceball {
+            position: relative;
+            display: inline-block;
+            height: 37px;
+            width: 15px;
+        }
+        .bounceball:before {
+            position: absolute;
+            content: '';
+            display: block;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #42a5f5;
+            transform-origin: 50%;
+            animation: bounce 500ms alternate infinite ease;
+        }
+
+        @-webkit-keyframes bounce {
+            0% {
+                top: 30px;
+                height: 5px;
+                border-radius: 60px 60px 20px 20px;
+                transform: scaleX(2);
+            }
+            35% {
+                height: 15px;
+                border-radius: 50%;
+                transform: scaleX(1);
+            }
+            100% {
+                top: 0;
+            }
+        }
+
+        @keyframes bounce {
+            0% {
+                top: 30px;
+                height: 5px;
+                border-radius: 60px 60px 20px 20px;
+                transform: scaleX(2);
+            }
+            35% {
+                height: 15px;
+                border-radius: 50%;
+                transform: scaleX(1);
+            }
+            100% {
+                top: 0;
+            }
+        }
+    </style>
+    <div class="wrap">
+        <div class="loading">
+            <div class="bounceball"></div>
+            <div class="text">NOW LOADING</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/vi/static/js/vendor/vendor.dll.js"></script>
+<script type="text/javascript" src="/vi/static/js/chunk-vendors.6a1172d6.js"></script><script type="text/javascript" src="/vi/static/js/app.0583f3f6.js"></script></body>
+</html>

@@ -18,4 +18,7 @@ public class XBBJuQueryDetailAO {
     // 固定参数
     private String SearchData;
 
+    //游戏编码
+    private String gameType;
+
 }

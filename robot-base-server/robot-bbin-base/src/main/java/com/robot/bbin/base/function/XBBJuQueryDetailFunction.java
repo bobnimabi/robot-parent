@@ -86,7 +86,7 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<XBBJuQueryDetailA
         }
 
         /**
-         * 解析响应层数测试
+         * 测试解析响应层数
          * @param args
          */
        /* public static void main(String[] args) {

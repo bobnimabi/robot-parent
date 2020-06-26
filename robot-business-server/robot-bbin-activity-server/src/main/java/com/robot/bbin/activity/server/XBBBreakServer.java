@@ -74,7 +74,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
         boolean flag = false;
         for (GameChild child : queryDTO.getChildren()) {
             if (gameName.equals(child.getName())) {
-              //  ao.setGameType(child.getGameCode());
+                ao.setGameType(child.getGameCode());
 
 
                 juQueryDetailBO.setGameCode(child.getGameCode());

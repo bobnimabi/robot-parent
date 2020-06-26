@@ -5,9 +5,9 @@ import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.util.DateUtils;
 import com.bbin.utils.project.MyBeanUtil;
 import com.robot.bbin.base.ao.JuQueryDetailAO;
+import com.robot.bbin.base.ao.XBBJuQueryDetailAO;
 import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.bbin.base.bo.JuQueryDetailBO;
-import com.robot.bbin.base.function.JuQueryDetailFunction;
 import com.robot.bbin.base.function.XBBJuQueryDetailFunction;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
@@ -29,7 +29,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
     private OrderQueryServer orderQueryServer;
 
     @Autowired
-    private XBBJuQueryDetailFunction juQueryDetailServer;
+    private XBBJuQueryDetailFunction XBBjuQueryDetailServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -44,13 +44,13 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
         // 组装局查询细节参数并校验
         JuQueryBO juQueryBO = response.getObj();
         JuQueryDetailBO juQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, JuQueryDetailBO.class);
-        Response<ParamWrapper<JuQueryDetailAO>> params = juQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
+        Response<ParamWrapper<XBBJuQueryDetailAO>> params = xBBJuQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
         if (!params.isSuccess()) {
             return params;
         }
 
         // 局查询细节（消消除层数）
-        Response<Integer> detailResponse = juQueryDetailServer.doFunction(params.getObj(), robotWrapper);
+        Response<Integer> detailResponse = XBBjuQueryDetailServer.doFunction(params.getObj(), robotWrapper);
         if (!detailResponse.isSuccess()) {
             return detailResponse;
         }
@@ -63,18 +63,20 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
     /**
      * 局查询细节参数组装
      */
-    private Response<ParamWrapper<JuQueryDetailAO>> juQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {
+    private Response<ParamWrapper<XBBJuQueryDetailAO>> xBBJuQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {
 
-        JuQueryDetailAO ao = new JuQueryDetailAO();
-        ao.setPageId(juQueryBO.getPageId());
-        ao.setKey(juQueryBO.getKey());
-        ao.setOrderNo(queryDTO.getOrderNo());
-        ao.setRounddate(juQueryBO.getOrderTime().format(DateUtils.DF_3));
+        XBBJuQueryDetailAO ao = new XBBJuQueryDetailAO();
+        ao.setGamekind("76");
+        ao.setUserid(juQueryBO.getKey());
+        ao.setWagersid(queryDTO.getOrderNo());
+        ao.setSearchData(juQueryBO.getOrderTime().format(DateUtils.DF_3));
         String gameName = juQueryBO.getGameName();
         boolean flag = false;
         for (GameChild child : queryDTO.getChildren()) {
             if (gameName.equals(child.getName())) {
-                ao.setGameType(child.getGameCode());
+              //  ao.setGameType(child.getGameCode());
+
+
                 juQueryDetailBO.setGameCode(child.getGameCode());
                 flag = true;
                 break;
@@ -83,6 +85,6 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
         if (!flag) {
             return Response.FAIL("消消除：参数的children里面未包含此游戏：" + gameName);
         }
-        return Response.SUCCESS(new ParamWrapper<JuQueryDetailAO>(ao));
+        return Response.SUCCESS(new ParamWrapper<XBBJuQueryDetailAO>(ao));
     }
 }

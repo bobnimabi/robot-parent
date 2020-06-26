@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.ao.JuQueryDetailAO;
+import com.robot.bbin.base.ao.XBBJuQueryDetailAO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,String,Integer> {
+public class XBBJuQueryDetailFunction extends AbstractFunction<XBBJuQueryDetailAO,String,Integer> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -30,14 +31,13 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,S
     }
 
     @Override
-    protected IEntity getEntity(JuQueryDetailAO queryDTO, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(5)
-                .add("lang", "cn")
-                .add("wid", queryDTO.getOrderNo())// 注单编号
-                .add("id", queryDTO.getPageId()) // 平台编码
-                .add("gametype", queryDTO.getGameType()) // 游戏编码
-                .add("key", queryDTO.getKey()) // 页面携带参数
-                .add("rounddate", queryDTO.getRounddate());
+    protected IEntity getEntity(XBBJuQueryDetailAO xQueryDTO, RobotWrapper robotWrapper) {
+        return UrlEntity.custom(4)
+                .add("gamekind", "76")
+                .add("userid", xQueryDTO.getUserid())// 注单编号
+                .add("wagersid", xQueryDTO.getWagersid()) // 平台编码
+                .add("SearchData", " BetQuery") ;// 游戏编码
+
     }
 
     @Override

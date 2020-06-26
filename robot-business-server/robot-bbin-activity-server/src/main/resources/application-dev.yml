@@ -7,8 +7,8 @@ spring:
   jackson:
     default-property-inclusion: non_null #不返回空值和null
   redis:
-    host: redis.com
-    password: admin1234
+    host: 192.168.18.113
+    password: 666666
     port: 6379
     timeout: 5000 #连接超时 毫秒
     database: 0
@@ -20,9 +20,9 @@ spring:
         maxWait: -1 #连接池最大等行时间 -1没有限制
   datasource:
     username: root
-    password: '0PKpK0JJD?mM'
+    password: '666666'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql.com/second_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.18.113/second_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -31,11 +31,13 @@ spring:
       pool-name: DatebookHikariCP
       max-lifetime: 1800000
       connection-timeout: 10000
+
+
   rabbitmq:
     #    host: dev.rabbitmq.com
     #    port: 5672
-    username: user_admin
-    password: admin123456
+    username: admin
+    password: 666666
     publisher-returns: true
     publisher-confirms: true
     listener:
@@ -51,8 +53,7 @@ spring:
     cache:
       channel:
         size: 500
-    addresses: node1:5672 , node2:5672 , node3:5672
-
+    addresses: 192.168.18.113:5672 #, node2:5672 , node3:5672
 server:
   port: 8212
   servlet:
@@ -70,7 +71,7 @@ eureka:
     #表示是否从Eureka Server获取注册信息，默认为true。
     #    fetch-registry: false
     serviceUrl:
-      defaultZone: http://eureka.com:8761/eureka
+      defaultZone: http://192.168.18.113:8761/eureka
 
 ribbon:
   ServerListRefreshInterval: 2  # ribbon cache时间

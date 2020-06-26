@@ -10,20 +10,19 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by mrt on 11/15/2019 12:29 PM
- * 局查询弹窗(消消除-查询消除次数)
+ * 局查询弹窗(彩球加赠-查询彩球个数)
  */
 @Service
-public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,String,Integer> {
-
+public class PomponFunction extends AbstractFunction<JuQueryDetailAO,String,Integer> {
     @Override
     protected IPathEnum getPathEnum() {
         return PathEnum.JU_QUERY_DETAIL;
@@ -39,6 +38,8 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
                 .add("key", queryDTO.getKey()) // 页面携带参数
                 .add("rounddate", queryDTO.getRounddate());
     }
+
+
 
     @Override
     protected IResultHandler<String, Integer> getResultHandler() {
@@ -58,19 +59,25 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
             Document doc = Jsoup.parse(result);
             Element table = doc.select("table").get(1);// :eq(1)
             Elements tbody_trs = table.select("tbody tr");
+            int num = 0;
             for (Element tbody_tr : tbody_trs) {
                 Elements tds = tbody_tr.getElementsByTag("td");
-                if (tds.size() >= 2) {
-                    Element td1 = tbody_tr.getElementsByTag("td").get(0);
-                    Element td2 = tbody_tr.getElementsByTag("td").get(1);
-                    if ("-".equals(td2.text())) {
-                        if (NumberUtils.isDigits(td1.text())) {
-                            return Response.SUCCESS(Integer.parseInt(td1.text()) - 1);
+                if (null != tds) {
+                    if (tds.size() >= 2) {
+                        Element element = tds.get(1);
+                        if (null != element) {
+                            String text = element.html();
+                            if (!StringUtils.isEmpty(text) && text.contains("id=7")) {
+                                ++num;
+                            }
                         }
                     }
                 }
             }
-            return Response.FAIL("未查询到消除层数");
+            if (0 == num) {
+                return Response.FAIL("有注单未包含彩球");
+            }
+            return Response.SUCCESS(num);
         }
     }
 }

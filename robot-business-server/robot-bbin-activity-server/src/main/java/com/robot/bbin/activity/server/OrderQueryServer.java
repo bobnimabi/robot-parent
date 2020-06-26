@@ -16,10 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
- * 局查询（BB电子）
+ * 局查询（所有平台均可使用）
  * 使用：查询注单
+ * 注意：局查询页面必须是：
+ *      请选择：注单编码
  * @Author mrt
  * @Date 2020/6/2 16:34
  * @Version 2.0
@@ -34,21 +37,25 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
     @Autowired
     private JuQueryFunction juQueryServer;
 
+    private static final String SELECT = "注单编号";
+
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
-        Response<String> barIdResult = barIdFunction.doFunction(barIDParams(queryDTO), robotWrapper);
+        Response<Map<String, String>> barIdResult = barIdFunction.doFunction(barIDParams(queryDTO), robotWrapper);
         if (!barIdResult.isSuccess()) {
             return barIdResult;
         }
-        Response<JuQueryBO> response = juQueryServer.doFunction(juQueryAO(queryDTO, barIdResult.getObj()), robotWrapper);
+        Response<JuQueryBO> response = juQueryServer.doFunction(juQueryAO(queryDTO, barIdResult.getObj().get(SELECT)), robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }
+        // 校验日期
         JuQueryBO juQueryBO = response.getObj();
-        if (StringUtils.isEmpty(juQueryBO.getPageId()) || juQueryBO.getOrderTime().isBefore(queryDTO.getStartDate())) {
+        if (juQueryBO.getOrderTime().isBefore(queryDTO.getStartDate())) {
             return Response.FAIL("订单已过期,订单号："+juQueryBO.getPlatFormOrderNo());
         }
+        // 校验会员账号
         if (!juQueryBO.getUserName().equals(queryDTO.getUserName())) {
             return Response.FAIL("会员账号不匹配，传入：" + queryDTO.getUserName() + " 实际：" + juQueryBO.getUserName());
         }

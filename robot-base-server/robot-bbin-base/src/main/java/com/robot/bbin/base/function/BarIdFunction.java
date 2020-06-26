@@ -19,12 +19,14 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +38,7 @@ import java.util.regex.Pattern;
  * @Version 2.0
  */
 @Service
-public class BarIdFunction extends AbstractFunction<BarIdAO, String, String> {
+public class BarIdFunction extends AbstractFunction<BarIdAO, String, Map<String, String>> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -66,27 +68,34 @@ public class BarIdFunction extends AbstractFunction<BarIdAO, String, String> {
     }
 
     @Override
-    protected IResultHandler<String, String> getResultHandler() {
+    protected IResultHandler<String, Map<String, String>> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
     /**
      * 响应结果转换类
      */
-    private static final class ResultHandler implements IResultHandler<String, String> {
+    private static final class ResultHandler implements IResultHandler<String, Map<String, String>> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private static final Pattern PATTERN = Pattern.compile("var BarID = '([\\w-]*)'");
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, String> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, Map<String, String>> shr) {
+
             String result = shr.getOriginalEntity();
-            Matcher matcher = PATTERN.matcher(result);
-            if (matcher.find()) {
-                String barID = matcher.group(1);///group(0)
-                return Response.SUCCESS(barID);
+            Document document = Jsoup.parse(result);
+            Element selects = document.getElementById("functionselects");
+            Elements options = selects.children();
+            Map<String, String> map = new HashMap<>(4);
+            for (Element option : options) {
+                map.put(option.text(), option.val());
             }
-            return Response.FAIL("获取BarID失败");
+            if (CollectionUtils.isEmpty(map)) {
+                return Response.FAIL("获取BarID失败");
+            }
+            return Response.SUCCESS(map);
         }
+
     }
 }

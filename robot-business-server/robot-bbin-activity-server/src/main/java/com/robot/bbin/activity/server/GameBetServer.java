@@ -70,7 +70,6 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
-        gameDTO.setBarId("2");
         return new ParamWrapper<TotalBetGameAO>(gameDTO);
     }
 }

@@ -4,31 +4,32 @@ import com.bbin.common.dto.order.GameChild;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.util.DateUtils;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.bbin.base.bo.JuQueryDetailBO;
-import com.robot.core.function.base.IAssemFunction;
 import com.robot.bbin.base.ao.JuQueryDetailAO;
 import com.robot.bbin.base.bo.JuQueryBO;
-import com.robot.bbin.base.function.JuQueryDetailFunction;
+import com.robot.bbin.base.bo.JuQueryDetailBO;
+import com.robot.bbin.base.function.PomponFunction;
 import com.robot.code.response.Response;
+import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 使用：查询消消除游戏
+ * 活动：彩球加赠（消消除游戏）
+ * 查询彩球个数
  * @Author mrt
  * @Date 2020/6/2 14:56
  * @Version 2.0
  */
 @Service
-public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
+public class PomponServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
     private OrderQueryServer orderQueryServer;
 
     @Autowired
-    private JuQueryDetailFunction juQueryDetailServer;
+    private PomponFunction pomponFunction;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -40,7 +41,8 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
             return response;
         }
 
-        // 组装局查询细节参数并校验
+        // 组装局查询细节参数
+        // 校验游戏
         JuQueryBO juQueryBO = response.getObj();
         JuQueryDetailBO juQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, JuQueryDetailBO.class);
         Response<ParamWrapper<JuQueryDetailAO>> params = juQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
@@ -48,13 +50,14 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
             return params;
         }
 
-        // 局查询细节（消消除层数）
-        Response<Integer> detailResponse = juQueryDetailServer.doFunction(params.getObj(), robotWrapper);
-        if (!detailResponse.isSuccess()) {
-            return detailResponse;
+        // 局查询细节（消消除彩球个数）
+        // 校验有无彩球
+        Response<Integer> ballresp = pomponFunction.doFunction(params.getObj(), robotWrapper);
+        if (!ballresp.isSuccess()) {
+            return ballresp;
         }
 
-        juQueryDetailBO.setLevel(detailResponse.getObj());
+        juQueryDetailBO.setBallNumber(ballresp.getObj());
         return Response.SUCCESS(juQueryDetailBO);
 
     }

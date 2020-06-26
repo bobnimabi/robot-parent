@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -97,6 +98,23 @@ public class BbinController extends ControllerBase {
                 || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
         ) return Response.FAIL("参数不全");
         return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_AND_BET_SERVER);
+    }
+
+
+    /**
+     * 获取彩球加赠信息
+     */
+    @PostMapping("/getPompon")
+    public Response getPompon(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
+        if (null == queryDTO
+                || null == queryDTO.getStartDate()
+                || null == queryDTO.getEndDate()
+                || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
+        ) return Response.FAIL("参数不全");
+        if (CollectionUtils.isEmpty(queryDTO.getChildren()) || CollectionUtils.isEmpty(queryDTO.getOrderNos())) {
+            return Response.FAIL("未传游戏种类或多个注单");
+        }
+        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.POMPON_AND_BETSERVER);
     }
 
     /**

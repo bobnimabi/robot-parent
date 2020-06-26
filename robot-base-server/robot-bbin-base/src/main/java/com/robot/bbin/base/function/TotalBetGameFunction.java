@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * Created by mrt on 11/15/2019 12:29 PM
- * 查询投注总金额(游戏)
+ * 查询投注总金额(每种游戏在一段时间内的投注总额)
  */
 @Service
 public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String,List<TotalBetGameBO>> {

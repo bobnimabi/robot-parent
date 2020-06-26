@@ -11,7 +11,6 @@
       <module fileurl="file://$PROJECT_DIR$/robot-generator/robot-generator.iml" filepath="$PROJECT_DIR$/robot-generator/robot-generator.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-gpk-base/robot-gpk-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-gpk-base/robot-gpk-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/robot-jgpk-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/robot-jgpk-activity-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-jiuwu-base/robot-jiuwu-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-jiuwu-base/robot-jiuwu-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-og-activity-server/robot-og-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-og-activity-server/robot-og-activity-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-og-base/robot-og-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-og-base/robot-og-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-parent.iml" filepath="$PROJECT_DIR$/robot-parent.iml" />

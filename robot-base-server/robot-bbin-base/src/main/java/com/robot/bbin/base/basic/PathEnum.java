@@ -17,6 +17,7 @@ public enum PathEnum implements IPathEnum {
     QUERY_BALANCE("query_balance","查询会员余额"),
     BAR_ID("bar_id","局查询"),
     JU_QUERY("ju_query","局查询"),
+    //bb电子查询详情  或者XBB获取token
     JU_QUERY_DETAIL("ju_query_detail","局查询:窗口信息"),
     XBB_JU_QUERY_DETAIL("xbb_ju_query_detail","局查询:窗口信息"),
     XBB_REQUERY_DETAIL("xbb_requery_detail","XBB局查询:窗口信息"),

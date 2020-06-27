@@ -4,7 +4,7 @@ import com.bbin.common.dto.order.GameChild;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.util.DateUtils;
 import com.bbin.utils.project.MyBeanUtil;
-import com.robot.bbin.base.ao.JuQueryDetailAO;
+import com.robot.bbin.base.ao.XBBJuQueryAO;
 import com.robot.bbin.base.ao.XBBJuQueryDetailAO;
 import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.bbin.base.bo.JuQueryDetailBO;
@@ -51,6 +51,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
         // 局查询细节（消消除层数）
         Response<Integer> detailResponse = XBBjuQueryDetailServer.doFunction(params.getObj(), robotWrapper);
+
         if (!detailResponse.isSuccess()) {
             return detailResponse;
         }
@@ -63,13 +64,13 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
     /**
      * 局查询细节参数组装
      */
-    private Response<ParamWrapper<XBBJuQueryDetailAO>> xBBJuQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {
+    private Response<ParamWrapper<XBBJuQueryDetailAO>> xBBJuQueryDetailAO(OrderNoQueryDTO queryDTO,
+                                                                    JuQueryBO juQueryBO,
+                                                                    JuQueryDetailBO juQueryDetailBO) {
 
         XBBJuQueryDetailAO ao = new XBBJuQueryDetailAO();
-        ao.setGamekind("76");
-        ao.setUserid(juQueryBO.getKey());
-        ao.setWagersid(queryDTO.getOrderNo());
-        ao.setSearchData(juQueryBO.getOrderTime().format(DateUtils.DF_3));
+
+        ao.setToken(juQueryBO.getToken());
         String gameName = juQueryBO.getGameName();
         boolean flag = false;
         for (GameChild child : queryDTO.getChildren()) {

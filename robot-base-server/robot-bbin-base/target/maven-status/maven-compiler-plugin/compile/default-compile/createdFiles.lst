@@ -10,6 +10,7 @@ com\robot\bbin\base\function\BetFunction$ResultHandler.class
 com\robot\bbin\base\basic\PathEnum.class
 com\robot\bbin\base\basic\FunctionEnum.class
 com\robot\bbin\base\ao\GameChild.class
+com\robot\bbin\base\function\XBBGetTokenFunction.class
 com\robot\bbin\base\bo\SessionData.class
 com\robot\bbin\base\function\JuQueryDetailFunction.class
 com\robot\bbin\base\function\XBBJuQueryDetailFunction$ResultHandler.class
@@ -41,9 +42,11 @@ com\robot\bbin\base\function\InOutCashFunction$ResultHandler.class
 com\robot\bbin\base\function\InOutCashFunction.class
 com\robot\bbin\base\function\JuQueryRoundFunction$JuQueryParse.class
 com\robot\bbin\base\bo\JuQueryBO.class
+com\robot\bbin\base\function\XBBGetTokenFunction$ResultHandler.class
 com\robot\bbin\base\ao\XBBJuQueryDetailAO.class
 com\robot\bbin\base\function\BetDetailFunction.class
 com\robot\bbin\base\bo\BreakerQueryBO.class
+com\robot\bbin\base\ao\XBBJuQueryAO.class
 com\robot\bbin\base\server\LoginServer.class
 com\robot\bbin\base\function\XBBJuQueryDetailFunction.class
 com\robot\bbin\base\function\JuQueryDetailFunction$ResultHandler.class

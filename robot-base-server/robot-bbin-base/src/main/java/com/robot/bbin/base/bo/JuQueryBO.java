@@ -33,4 +33,5 @@ public class JuQueryBO {
     // 隐藏参数
     private String pageId;
     private String key;
+    private String token;
 }

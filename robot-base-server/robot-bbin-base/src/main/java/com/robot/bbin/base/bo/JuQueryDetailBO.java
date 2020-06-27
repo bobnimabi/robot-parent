@@ -15,6 +15,7 @@ public class JuQueryDetailBO extends JuQueryBO{
 
     private String gameCode;
 
+
     // 彩球个数
     private Integer ballNumber;
 

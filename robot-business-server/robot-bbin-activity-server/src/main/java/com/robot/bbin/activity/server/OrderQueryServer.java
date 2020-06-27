@@ -83,4 +83,5 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         juQueryAO.setBarId(barID);
         return new ParamWrapper<JuQueryAO>(juQueryAO);
     }
+
 }

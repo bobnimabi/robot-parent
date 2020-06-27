@@ -34,6 +34,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
     @Resource(name = "checkLostImpl")
     private ICheckLost CHECK_LOST_SERVICE;
 
+
     @Override
     public Response<E> doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         IPathEnum pathEnum = getPathEnum();

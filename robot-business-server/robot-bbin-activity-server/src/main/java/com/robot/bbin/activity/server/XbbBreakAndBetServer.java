@@ -23,15 +23,15 @@ import java.util.List;
 public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
-    private XBBBreakServer breakServer;
+    private XBBBreakServer XBBBreakServer;
 
     @Autowired
     private XBBGameBetServer gameBetServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        //查询消消除游戏
-        Response<JuQueryDetailBO> breakResult = breakServer.doFunction(paramWrapper, robotWrapper);
+        //查询消消除游戏,会查询出来消除的level和gameCode
+        Response<JuQueryDetailBO> breakResult = XBBBreakServer.doFunction(paramWrapper, robotWrapper);
         if (!breakResult.isSuccess()) {
             return breakResult;
         }

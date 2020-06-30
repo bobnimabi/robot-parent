@@ -3,7 +3,7 @@ package com.robot.bbin.base.function;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.robot.bbin.base.ao.XBBJuQueryDetailAO;
+import com.robot.bbin.base.ao.JuQueryDetailAO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -14,46 +14,35 @@ import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
- * Created by mrt on 11/15/2019 12:29 PM
+ * Created by tanke on 11/15/2019 12:29 PM
  * XBB局查层数(消消除)
  */
 @Slf4j
 @Service
-public class XBBJuQueryDetailFunction extends AbstractFunction<XBBJuQueryDetailAO,String,Integer> {
-
-    @Autowired
-    private XBBGetTokenFunction getTokenserver;
+public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,String,Integer> {
 
 
      @Override
     protected IPathEnum getPathEnum() {
         return PathEnum.XBB_JU_QUERY_DETAIL;
 
-
-
-
     }
 
-
-
-
-
-     //制定请求体 加token
+    // TODO 这里的AO也是,XBB电子的局查询细节是一个独立的FUNtion,这里也应该有xbb的局查询细节的AO
      @Override
-    protected IEntity getEntity(XBBJuQueryDetailAO xQueryDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(JuQueryDetailAO xQueryDTO, RobotWrapper robotWrapper) {
 
 
 
         return UrlEntity.custom(1)
                 .add("token",xQueryDTO.getToken());
 
-
     }
-
 
 
     @Override
@@ -69,7 +58,6 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<XBBJuQueryDetailA
     private static final class ResultHandler implements IResultHandler<String,Integer> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
-
 
 
        /**
@@ -103,31 +91,6 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<XBBJuQueryDetailA
             return Response.FAIL("未查询到消除层数");
         }
 
-
-
-        /**
-         * 测试解析响应token
-         * @param args
-       */
-
-
-        /*
-        public static void main(String[] args) {
-
-
-        String result=("{\"error_code\":0,\"error_message\":null,\"execution_time\":\"308 ms\",\"server_name\":\"outside9-backend.pid.prod\",\"data\":\"https:\\/\\/ex.xbb-slot.com\\/wager-detail\\/#\\/externalWagerDetail\\/?token=5663033b07f7048f0e3da4a033ac4a31&lang=zh-cn\",\"trace_id\":\"5ef5a28d42587\"}");
-
-            JSONObject jsonObject = JSON.parseObject(result);
-            String data = jsonObject.getString("data");
-
-            Pattern P= Pattern.compile("token=(.*?)&");
-            Matcher m=P.matcher(data);
-            while (m.find()) {
-                System.out.println(m.group(1));
-            }
-
-
-        }*/
     }
 }
 

@@ -1,14 +1,10 @@
 package com.robot.bbin.base.function;
 
-import com.bbin.utils.UrlUtils;
-import com.bbin.utils.project.DateUtils;
+
 import com.robot.bbin.base.ao.BarIdAO;
-import com.robot.bbin.base.ao.JuQueryAO;
+
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.bo.JuQueryBO;
-import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
-import com.robot.code.service.ITenantRobotDictService;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
@@ -21,14 +17,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**

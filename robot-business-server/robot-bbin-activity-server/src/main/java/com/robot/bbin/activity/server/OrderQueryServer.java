@@ -62,7 +62,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         return response;
     }
     /**
-     *  BarID参数组装
+     *  查询BarID所用参数组装
      */
     private ParamWrapper<BarIdAO> barIDParams(OrderNoQueryDTO queryDTO) {
         BarIdAO barIdAO = new BarIdAO();
@@ -74,7 +74,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
     }
 
     /**
-     * 局查询参数组装
+     * 查询 局查询参数组装
      */
     private ParamWrapper<JuQueryAO> juQueryAO(OrderNoQueryDTO queryDTO,String barID) {
         JuQueryAO juQueryAO = new JuQueryAO();

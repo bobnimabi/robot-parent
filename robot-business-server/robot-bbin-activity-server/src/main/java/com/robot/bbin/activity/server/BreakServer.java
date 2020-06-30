@@ -28,7 +28,7 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
     private OrderQueryServer orderQueryServer;
 
     @Autowired
-    private JuQueryDetailFunction juQueryDetailServer;
+    private JuQueryDetailFunction juQueryDetailFunction;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -49,7 +49,7 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
         }
 
         // 局查询细节（消消除层数）
-        Response<Integer> detailResponse = juQueryDetailServer.doFunction(params.getObj(), robotWrapper);
+        Response<Integer> detailResponse = juQueryDetailFunction.doFunction(params.getObj(), robotWrapper);
         if (!detailResponse.isSuccess()) {
             return detailResponse;
         }

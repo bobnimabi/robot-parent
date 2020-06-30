@@ -48,6 +48,7 @@ public class QueryBalanceBO implements Serializable {
        private String Balance_JDBCard;
        private String Balance_YG;
        private String Balance_FG;
+
        private String user_id;
        private String user_name;
        private String Balance_BB;

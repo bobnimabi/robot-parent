@@ -3,6 +3,7 @@ E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robo
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\BetDetailBO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BarIdFunction.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetAO.java
+E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBJuQueryDetailBO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\Cq9BO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\InOutCashData.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\TotalBetGameBO.java
@@ -30,7 +31,6 @@ E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robo
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\JuQueryAO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\QueryBalanceBO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\LoginServer.java
-E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBJuQueryDetailAO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\BetBO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\QueryBalanceFunction.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\basic\FunctionEnum.java

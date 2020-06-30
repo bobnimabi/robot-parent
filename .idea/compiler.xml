@@ -6,6 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="robot-jiuwu-activity-server" />
+        <module name="robot-jiuwu-base" />
         <module name="robot-jgpk-activity-server" />
         <module name="robot-og-base" />
         <module name="robot-bbin-activity-server" />

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-bbin-server
+    name: robot-bbin-server-tanke
   cloud:
     refresh:
       refreshable: none #防止循环依赖

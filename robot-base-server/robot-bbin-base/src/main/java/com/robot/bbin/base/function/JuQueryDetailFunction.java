@@ -31,7 +31,7 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
 
     @Override
     protected IEntity getEntity(JuQueryDetailAO queryDTO, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(5)
+        return UrlEntity.custom(6)
                 .add("lang", "cn")
                 .add("wid", queryDTO.getOrderNo())// 注单编号
                 .add("id", queryDTO.getPageId()) // 平台编码

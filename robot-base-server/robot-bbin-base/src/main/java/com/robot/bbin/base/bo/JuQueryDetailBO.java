@@ -11,15 +11,12 @@ import java.time.LocalDateTime;
  */
 @Data
 public class JuQueryDetailBO extends JuQueryBO{
+    // 消除次数
     private Integer level;
 
+    // 消消除:游戏编码,这个带上最好
     private String gameCode;
-
 
     // 彩球个数
     private Integer ballNumber;
-
-    // 隐藏参数
-    private String pageId;
-    private String key;
 }

@@ -4,7 +4,9 @@ package com.robot.jiuwu.base.server;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.*;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.jiuwu.base.function.ImageCodeFunction;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -16,9 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImageCodeServer implements IAssemFunction<Object> {
 
+    @Autowired
+    private ImageCodeFunction ImageCodeFinal;
+
+
     @Override
     public Response doFunction(ParamWrapper<Object> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        return null;
+        return ImageCodeFinal.doFunction(paramWrapper,robotWrapper);
     }
 
 

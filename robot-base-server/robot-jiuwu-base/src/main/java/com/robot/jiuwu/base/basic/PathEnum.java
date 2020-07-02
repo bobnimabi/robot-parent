@@ -28,10 +28,9 @@ public enum PathEnum implements IPathEnum {
     BET_AMOUNT_AND_RECHARGE_SERVER("betAmountAndRechargeServer"," "),
 /*-------------------改版-------------------------------*/
     QUERY_USER("onlineRechargeServer"," 2查询用户"),
-    PAY("pay","充值")
+    PAY("pay","充值"),
+    DEPOSIT_TOKEN("deposit_token","充值功能：获取充值Token")
     ;
-
-
 
 	private final String pathCode;
     private final String message;

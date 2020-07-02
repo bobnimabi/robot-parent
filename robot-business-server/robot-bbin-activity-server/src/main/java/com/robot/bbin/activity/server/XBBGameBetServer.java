@@ -3,8 +3,10 @@ package com.robot.bbin.activity.server;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.utils.project.DateUtils;
 import com.robot.bbin.base.ao.TotalBetGameAO;
+import com.robot.bbin.base.ao.XBBTotalBetGameAO;
 import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
+import com.robot.bbin.base.bo.XBBTotalBetGameBO;
 import com.robot.bbin.base.function.QueryBalanceFunction;
 import com.robot.bbin.base.function.TotalBetGameFunction;
 import com.robot.bbin.base.function.XBBTotalBetGameFunction;
@@ -42,7 +44,7 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         QueryBalanceBO balanceBO = balanceResult.getObj();
 
         // 查询游戏总投注
-        Response<List<TotalBetGameBO>> betResult = totalBetGame.doFunction(createBetParams(paramWrapper, balanceBO), robotWrapper);
+        Response<List<XBBTotalBetGameBO>> betResult = totalBetGame.doFunction(createBetParams(paramWrapper, balanceBO), robotWrapper);
         return betResult;
     }
 
@@ -62,15 +64,15 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
      * @param balanceBO
      * @return
      */
-    private ParamWrapper<TotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO) {
+    private ParamWrapper<XBBTotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO) {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
-        TotalBetGameAO gameDTO = new TotalBetGameAO();
+        XBBTotalBetGameAO gameDTO = new XBBTotalBetGameAO();
         gameDTO.setDateStart(queryDTO.getStartDate().format(DateUtils.DF_3));
         gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
-        gameDTO.setBarId("4");
-        return new ParamWrapper<TotalBetGameAO>(gameDTO);
+        gameDTO.setBarId("1");
+        return new ParamWrapper<XBBTotalBetGameAO>(gameDTO);
     }
 }

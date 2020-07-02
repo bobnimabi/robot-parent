@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * Created by mrt on 2019/8/1 0001 下午 9:07
+ * Created by mrt on 2019/8/1 0001 下午 9:07   用于查用户userid
  */
 @Data
 public class QueryBalanceBO implements Serializable {

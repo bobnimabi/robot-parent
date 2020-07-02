@@ -4,6 +4,7 @@ import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.vo.OrderNoQueryVO;
 import com.robot.bbin.base.bo.JuQueryDetailBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
+import com.robot.bbin.base.bo.XBBTotalBetGameBO;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
@@ -46,13 +47,13 @@ public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
         breakerQueryVO.setRebateAmount(detailBO.getRebateAmount());
 
         //查询投注金额
-        Response<List<TotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
+        Response<List<XBBTotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
 
         if (!betListResult.isSuccess()) {
             return betListResult;
         }
-        List<TotalBetGameBO> list = betListResult.getObj();
-        TotalBetGameBO totalBetGameBO = filterByGameName(list, breakResult.getObj().getGameName());
+        List<XBBTotalBetGameBO> list = betListResult.getObj();
+        XBBTotalBetGameBO totalBetGameBO = filterByGameName(list, breakResult.getObj().getGameName());
         if (null == totalBetGameBO) {
             return Response.FAIL("未查询到游戏对应的总投注金额");
         }
@@ -66,8 +67,8 @@ public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
      * @param gameName
      * @return
      */
-    private TotalBetGameBO filterByGameName(List<TotalBetGameBO> list, String gameName) {
-        for (TotalBetGameBO totalBetGameVO : list) {
+    private XBBTotalBetGameBO filterByGameName(List<XBBTotalBetGameBO> list, String gameName) {
+        for (XBBTotalBetGameBO totalBetGameVO : list) {
             if (gameName.equals(totalBetGameVO.getGameName())) {
                 return totalBetGameVO;
             }

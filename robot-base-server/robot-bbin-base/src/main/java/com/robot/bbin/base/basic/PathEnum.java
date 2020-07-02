@@ -15,11 +15,12 @@ public enum PathEnum implements IPathEnum {
 
     /*-------------------------自定义部分-------------------------*/
     QUERY_BALANCE("query_balance","查询会员余额"),
+    GET_USERID("get_userid","查询会员余额获取userId"),
     BAR_ID("bar_id","局查询"),
     JU_QUERY("ju_query","局查询"),
     //bb电子查询详情  或者XBB获取token
     JU_QUERY_DETAIL("ju_query_detail","局查询:窗口信息"),
-    XBB_JU_QUERY_DETAIL("xbb_ju_query_detail","局查询:獲取token"),
+    XBB_GETTOKEN("xbb_gettoken","局查询:獲取token"),
     XBB_REQUERY_DETAIL("xbb_requery_detail","XBB局查询:窗口信息"),
     PAY_ORDER("pay_order","出款"),
     QUERY_LEVEL("query_level","查询层级"),
@@ -32,6 +33,7 @@ public enum PathEnum implements IPathEnum {
     ;
     private final String pathCode;
     private final String message;
+
 
     private PathEnum(String actionCode, String message) {
         this.pathCode = actionCode;

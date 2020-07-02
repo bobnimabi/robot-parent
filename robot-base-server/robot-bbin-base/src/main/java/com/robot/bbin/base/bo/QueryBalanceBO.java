@@ -70,4 +70,8 @@ public class QueryBalanceBO implements Serializable {
        private String HallID;
        private String CHK_ID;
        private String date;
+
+
+       //新增
+       private String Balance_XBB;
 }

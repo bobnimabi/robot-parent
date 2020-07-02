@@ -8,6 +8,7 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
+import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
@@ -30,7 +31,7 @@ public class XBBGetTokenFunction extends AbstractFunction<XBBJuQueryAO, String, 
     //获取token路径和bb电子路径相同
     @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.XBB_JU_QUERY_DETAIL;
+        return PathEnum.XBB_GETTOKEN;
     }
 
     // TODO token获取是一个单独的function,应该单独搞一个自己的AO和BO,如果参数有重合就继承,但是要独立,也就是以后每个funtion都要有自己的AO和BO
@@ -38,10 +39,9 @@ public class XBBGetTokenFunction extends AbstractFunction<XBBJuQueryAO, String, 
     @Override
     protected IEntity getEntity(XBBJuQueryAO xQueryDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(4)
-                          .add("gamekind", "76")
-                          .add("userid", xQueryDTO.getUserid())
+                          .add("userid","258042083")  //xQueryDTO.getUserid()
                           .add("wagersid", xQueryDTO.getWagersid())
-                          .add("SearchData", " BetQuery") ;
+                          .add("SearchData", "BetQuery") ;
 
     }
 

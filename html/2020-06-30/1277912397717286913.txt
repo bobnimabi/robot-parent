@@ -1,0 +1,3 @@
+<script type="text/javascript">
+            self.location.href = " /agv3/cl/?module=Deposit&method=Source&sort=1";
+            </script>

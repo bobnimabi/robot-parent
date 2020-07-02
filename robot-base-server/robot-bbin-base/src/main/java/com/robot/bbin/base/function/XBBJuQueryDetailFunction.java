@@ -10,6 +10,7 @@ import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
+import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -29,7 +30,7 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,S
 
      @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.XBB_JU_QUERY_DETAIL;
+        return PathEnum.XBB_REQUERY_DETAIL;
 
     }
 
@@ -39,7 +40,7 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,S
 
 
 
-        return UrlEntity.custom(1)
+        return JsonEntity.custom(1)
                 .add("token",xQueryDTO.getToken());
 
     }

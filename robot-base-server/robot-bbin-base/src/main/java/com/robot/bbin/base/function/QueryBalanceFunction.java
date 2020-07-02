@@ -23,7 +23,7 @@ public class QueryBalanceFunction extends AbstractFunction<String,String, QueryB
 
     @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.QUERY_BALANCE;
+        return PathEnum.GET_USERID;
     }
 
     @Override

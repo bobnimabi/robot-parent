@@ -46,7 +46,6 @@ public class BbinController extends ControllerBase {
         }
         return Response.SUCCESS("登录成功");
     }
-
     /**
      * 查询用户是否存在
      */

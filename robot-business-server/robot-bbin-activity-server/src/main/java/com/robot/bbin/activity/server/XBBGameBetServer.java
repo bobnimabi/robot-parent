@@ -7,6 +7,7 @@ import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
 import com.robot.bbin.base.function.QueryBalanceFunction;
 import com.robot.bbin.base.function.TotalBetGameFunction;
+import com.robot.bbin.base.function.XBBTotalBetGameFunction;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
@@ -26,7 +27,7 @@ import java.util.List;
 public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
-    private TotalBetGameFunction totalBetGame;
+    private XBBTotalBetGameFunction totalBetGame;
 
     @Autowired
     private QueryBalanceFunction queryBalanceServer;
@@ -69,7 +70,7 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
-        gameDTO.setBarId("1");
+        gameDTO.setBarId("4");
         return new ParamWrapper<TotalBetGameAO>(gameDTO);
     }
 }

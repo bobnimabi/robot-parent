@@ -29,12 +29,14 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
     @Autowired
     private OrderQueryServer orderQueryServer;
 
-    @Autowired
-    private XBBDetailServer xBBDetailServer;
 
     //查询用户id
     @Autowired
     private QueryBalanceFunction queryBalanceServer;
+
+
+    @Autowired
+    private XBBDetailServer xBBDetailServer;
 
 
 
@@ -64,7 +66,10 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
             return balanceResult;
         }
 
+     /*   QueryBalanceBO balanceBO = balanceResult.getObj();
+        balanceBO.getUser_id();
 
+*/
 
         // 局查询细节（xbb消消除层数）
         Response<ParamWrapper<JuQueryDetailAO>> paramWrapperResponse = juQueryDetailAO(queryDTO, juQueryBO);
@@ -83,7 +88,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
     }
 
     /**
-     * 组装查询余额参数    /userID
+     * 组装查询userID参数    /
      * @param paramWrapper
      * @return
      */

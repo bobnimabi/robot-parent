@@ -1,0 +1,1 @@
+{"error_code":0,"error_message":null,"execution_time":"587 ms","server_name":"api04-si.pid.prod","data":"https:\/\/ex.xbb-slot.com\/wager-detail\/#\/externalWagerDetail\/?token=ae851367da7c5683f2a3cbf4caaed838&lang=zh-cn","trace_id":"5efc87e8f0bab"}

@@ -1,0 +1,1 @@
+[{"index":"","agentId":"72678386","key":"617241636","wagersTotal":2431,"wagersAmount":"20674.08","commissionable":"20720.52","payoff":"-5984.25","percentage":"-28.88","member":"huanyu","agent":"djin5588"}]

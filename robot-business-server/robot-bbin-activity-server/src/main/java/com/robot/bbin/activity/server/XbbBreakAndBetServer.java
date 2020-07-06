@@ -3,7 +3,7 @@ package com.robot.bbin.activity.server;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.vo.OrderNoQueryVO;
 import com.robot.bbin.base.bo.JuQueryDetailBO;
-import com.robot.bbin.base.bo.TotalBetGameBO;
+import com.robot.bbin.base.bo.XBBJuQueryDetailBO;
 import com.robot.bbin.base.bo.XBBTotalBetGameBO;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
@@ -24,7 +24,7 @@ import java.util.List;
 public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
-    private XBBBreakServer XBBBreakServer;
+    private XBBBreakServer xBBBreakServer;
 
     @Autowired
     private XBBGameBetServer gameBetServer;
@@ -32,11 +32,11 @@ public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         //查询消消除游戏,会查询出来消除的level和gameCode
-        Response<JuQueryDetailBO> breakResult = XBBBreakServer.doFunction(paramWrapper, robotWrapper);
+        Response<XBBJuQueryDetailBO> breakResult = xBBBreakServer.doFunction(paramWrapper, robotWrapper);
         if (!breakResult.isSuccess()) {
             return breakResult;
         }
-        JuQueryDetailBO detailBO = breakResult.getObj();
+        XBBJuQueryDetailBO detailBO = breakResult.getObj();
         OrderNoQueryVO breakerQueryVO = new OrderNoQueryVO();
         breakerQueryVO.setAccumulativeWins(detailBO.getLevel());
         breakerQueryVO.setGameName(detailBO.getGameName());

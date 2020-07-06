@@ -1,83 +1,66 @@
 package com.robot.jiuwu.base.server;
 
 import com.bbin.common.pojo.TaskAtomDto;
-import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
-//import com.robot.gpk.base.ao.PayFinalAO;
-
-import com.robot.jiuwu.base.dto.PayFinalAO;
+import com.robot.jiuwu.base.ao.PayAO;
 import com.robot.jiuwu.base.function.PayFunction;
+import com.robot.jiuwu.base.function.QueryUserFunction;
+import com.robot.jiuwu.base.vo.QueryUserResultBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
+import org.springframework.util.DigestUtils;
 
 /**
+ * 打款：先查后打
  * @Author mrt
- * @Date 2020/6/15 15:25
+ * @Date 2020/6/15 15:12
  * @Version 2.0
  */
 @Service
 public class PayServer implements IAssemFunction<TaskAtomDto> {
 
     @Autowired
-    private PayFunction payFunction;
-    @Autowired
-    private DepositTokenFunction tokenFunction;
+    private QueryUserFunction queryUserFunction;
 
-    /**
-     * 异步任务
-     * 无需有返回
-     * @param paramWrapper 参数包装类
-     * @param robotWrapper 机器人
-     * @return
-     * @throws Exception
-     */
+    @Autowired
+    private PayFunction payFunction;
+
     @Override
     public Response doFunction(ParamWrapper<TaskAtomDto> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<String> tokenResult = tokenFunction.doFunction(paramWrapper, robotWrapper);
-        if (!tokenResult.isSuccess()) {
-            return null;
+        Response<QueryUserResultBO> response = queryUserFunction.doFunction(createQueryUserParams(paramWrapper), robotWrapper);
+        if (!response.isSuccess()) {
+            return response;
         }
-        String token = tokenResult.getObj();
-
-      //  payFunction.doFunction(createParams(paramWrapper.getObj(),token), robotWrapper);
-        return null;
+        return payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj(),robotWrapper), robotWrapper);
     }
 
     /**
-     * 组装支付参数
-     * @param taskAtomDto
-     * @param token  //todo payfinalAO
+     * 组装查询用户参数
+     * @param paramWrapper
      * @return
      */
-    private ParamWrapper<PayFinalAO> createParams(TaskAtomDto taskAtomDto, String token) {
-        PayFinalAO payFinalAO = new PayFinalAO();
-        payFinalAO.setAccountsString(taskAtomDto.getUsername());
-        payFinalAO.setDepositToken(token);
-        payFinalAO.setType("5");
-        payFinalAO.setIsReal( "false");
-        payFinalAO.setPortalMemo(taskAtomDto.getFrontMemo());
-        payFinalAO.setMemo(taskAtomDto.getMemo());
-        payFinalAO.setAmount( MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
-        payFinalAO.setAmountString(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
-        payFinalAO.setTimeStamp(System.currentTimeMillis() + "");
-        payFinalAO.setExteralNo(taskAtomDto.getOutPayNo());
+    private ParamWrapper<String> createQueryUserParams(ParamWrapper<TaskAtomDto> paramWrapper) {
+        TaskAtomDto taskAtomDto = paramWrapper.getObj();
+        return new ParamWrapper<String>(taskAtomDto.getUsername());
+    }
 
-        if (taskAtomDto.getIsAudit()) {
-            payFinalAO.setAuditType("Discount");
-            payFinalAO.setAudit(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount()).toString());
-        } else {
-            if (null != taskAtomDto.getMultipleTransaction()) {
-                payFinalAO.setAuditType("Discount");
-                payFinalAO.setAudit(MoneyUtil.formatYuan(taskAtomDto.getPaidAmount().multiply(new BigDecimal(taskAtomDto.getMultipleTransaction()))).toString());
-            } else {
-                payFinalAO.setAuditType("None");
-            }
-        }
-        return new ParamWrapper<PayFinalAO>(payFinalAO);
+    /**
+     * 组装打款参数
+     * @param moneyDTO
+     * @param
+     * @return
+     * @throws Exception
+     */
+    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, QueryUserResultBO userResultBO,RobotWrapper robotWrapper) throws Exception {
+        PayAO payDTO = new PayAO();
+        payDTO.setAmount(moneyDTO.getPaidAmount().toString());
+        payDTO.setGameId(userResultBO.getData().getGameid()+"");
+        payDTO.setPassword(DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes()));
+        payDTO.setRemark(moneyDTO.getMemo());
+        payDTO.setType("2");
+        return new ParamWrapper<PayAO>(payDTO);
     }
 }

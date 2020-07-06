@@ -1,6 +1,10 @@
 package com.robot.jiuwu.base.function;
 
+import com.alibaba.fastjson.JSON;
+import com.bbin.common.response.ResponseResult;
+import com.robot.center.constant.RobotConsts;
 import com.robot.code.response.Response;
+import com.robot.core.common.TContext;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IPathEnum;
@@ -10,6 +14,7 @@ import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
+import com.robot.jiuwu.base.vo.ImageCodeResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,8 +39,8 @@ public class ImageCodeFunction extends AbstractFunction<Object,String,Object> {
 
 	@Override
 	protected IEntity getEntity(Object params, RobotWrapper robotWrapper) {
-		return UrlEntity.custom(2);
-		//todo
+		return UrlEntity.custom(0);
+
 	}
 
 	@Override
@@ -69,8 +74,14 @@ public class ImageCodeFunction extends AbstractFunction<Object,String,Object> {
 			if (StringUtils.isEmpty(result)) {
 				return Response.FAIL("未响应");
 			}
-			// todo    解析并转换响应结果
-			return null;
+			ImageCodeResultVO imageCodeResult = JSON.parseObject(result, ImageCodeResultVO.class);
+			if (null == imageCodeResult.getCode()) {
+				return Response.FAIL("转换失败");
+			}
+			return Response.SUCCESS(imageCodeResult);
 		}
 	}
+
+
+
 }

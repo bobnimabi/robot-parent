@@ -27,7 +27,7 @@ import java.util.List;
 public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
-    private TotalBetGameFunction totalBetGame;
+    private TotalBetGameFunction totalBetGameFunction;
 
     @Autowired
     private QueryBalanceFunction queryBalanceServer;
@@ -42,7 +42,7 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         QueryBalanceBO balanceBO = balanceResult.getObj();
 
         // 查询游戏总投注
-        Response<List<TotalBetGameBO>> betResult = totalBetGame.doFunction(createBetParams(paramWrapper, balanceBO), robotWrapper);
+        Response<List<TotalBetGameBO>> betResult = totalBetGameFunction.doFunction(createBetParams(paramWrapper, balanceBO), robotWrapper);
         return betResult;
     }
 

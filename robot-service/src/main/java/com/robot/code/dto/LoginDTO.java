@@ -33,4 +33,7 @@ public class LoginDTO {
      * 图片验证码
      */
     private String imageCode;
+    //新增token  for jiuwu
+    private String captchaToken;
+
 }

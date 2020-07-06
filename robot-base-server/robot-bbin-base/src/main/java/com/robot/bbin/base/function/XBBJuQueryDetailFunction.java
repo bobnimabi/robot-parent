@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.ao.JuQueryDetailAO;
+import com.robot.bbin.base.ao.XBBJuQueryDetailAO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  */
 @Slf4j
 @Service
-public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,String,Integer> {
+public class XBBJuQueryDetailFunction extends AbstractFunction<XBBJuQueryDetailAO,String,Integer> {
 
 
      @Override
@@ -36,7 +37,7 @@ public class XBBJuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,S
 
     // TODO 这里的AO也是,XBB电子的局查询细节是一个独立的FUNtion,这里也应该有xbb的局查询细节的AO
      @Override
-    protected IEntity getEntity(JuQueryDetailAO xQueryDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(XBBJuQueryDetailAO xQueryDTO, RobotWrapper robotWrapper) {
 
 
 

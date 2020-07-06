@@ -72,6 +72,5 @@ public class QueryBalanceBO implements Serializable {
        private String date;
 
 
-       //新增
-       private String Balance_XBB;
+
 }

@@ -80,8 +80,6 @@ public class JiuWuController extends ControllerBase {
 
 
 
-
-
 	// 获取vip和总打码量
 	@PostMapping("/getVipAndTotalAmount")
 	public Response getVipAndTotalAmount(@RequestBody VipTotalAmountDTO vipTotalAmountDTO) throws Exception{
@@ -117,7 +115,7 @@ public class JiuWuController extends ControllerBase {
 
 
 
-//	@ApiOperation("机器人：获取实际投注详细")
+//	@ApiOperation("机器人：获取实际投注详细")     ????????
 	@PostMapping("/getBetDetail")
 	public Response getBetDetail(
 			@RequestBody BetQueryDto betQueryDto
@@ -185,28 +183,6 @@ public class JiuWuController extends ControllerBase {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * 打款
 	 * @param taskAtomDto
@@ -245,13 +221,6 @@ public class JiuWuController extends ControllerBase {
 			}
 			TContext.clean();
 		}
-
-
-
-
-
-
-
 
 
 

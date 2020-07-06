@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 查询用户是否存在，和基本信息
+ * 查询用户是否存在，和基本信息  todo
  */
 @Slf4j
 @Service
@@ -29,8 +29,8 @@ public class QueryUserFunction extends AbstractFunction<String,String,Object> {
     }
 
     @Override
-    protected IEntity getEntity(String userName, RobotWrapper robotWrapper) {
-        return JsonEntity.custom(1).add("Account", userName);
+    protected IEntity getEntity(String gameid, RobotWrapper robotWrapper) {
+        return JsonEntity.custom(1).add("gameid", gameid);
     }
 
     @Override

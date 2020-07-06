@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.robot.code.response.Response;
 import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.IEntity;
+import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.CustomResponseHandler;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
@@ -77,6 +78,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      * @return
      */
     protected abstract IEntity getEntity(T params, RobotWrapper robotWrapper);
+
 
     /**
      * 获取URL后缀，默认：""

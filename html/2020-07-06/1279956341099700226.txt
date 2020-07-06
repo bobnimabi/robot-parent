@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Redirect</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #AAAAAA;
+    }
+    .alert-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    .alert-dialog {
+      width: 450px;
+      padding: 30px 20px;
+      background-color: #FFFFFF;
+      background-image: none;
+      border: 1px solid #AAAAAA;
+      box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
+    }
+    .alert-btn {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      padding-top: 20px;
+    }
+    .alert-btn .btn-ok {
+      background-color: #007fff;
+      padding: 5px 20px;
+      color: #FFFFFF;
+      font-size: 18px;
+      outline: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="alert-container">
+    <div class="alert-dialog">
+      <div class="alert-main">
+        请重新登入,谢谢  登入前IP : 103.240.202.12 , 登入后IP : 116.66.213.212 (ErrorCode: 130102029)      </div>
+      <div class="alert-btn">
+        <button class="btn-ok" onclick="go_index()">OK</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function go_index() {
+      top.location.href = '/';
+    }
+  </script>
+</body>
+</html>

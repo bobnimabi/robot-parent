@@ -1,15 +1,19 @@
-package com.robot.jiuwu.base.dto;
+package com.robot.jiuwu.base.ao;
 
 import com.robot.center.mq.PayCommonParams;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author mrt
- * @Date 2020/5/15 14:02
+ * @Date 2020/5/15 14:02  需修改
  * @Version 2.0
  */
 @Data
-public class PayFinalAO extends PayCommonParams {
+@AllArgsConstructor
+@NoArgsConstructor
+public class PayAO extends PayCommonParams {
     // 存入帐号
     private String AccountsString;
     // 应该是防止表单重复提交的
@@ -36,5 +40,10 @@ public class PayFinalAO extends PayCommonParams {
     private String Audit;
     // 打款前：调接口DepositTokenServer获取的防表单重复提交的Token
     private String depositToken;
+
+    //新增
+    private String gameId;
+    //备注
+    private String remark;
 
 }

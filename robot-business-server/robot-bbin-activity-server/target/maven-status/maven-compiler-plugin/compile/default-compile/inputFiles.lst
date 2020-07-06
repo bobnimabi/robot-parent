@@ -1,10 +1,10 @@
-E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\XBBDetailServer.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\XBBBreakServer.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\config\MybatisPlusConfig.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\BbinActivityStarter.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\QueryRechargeServer.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\config\WebMvcConfig.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\BetAmountAndRechargeServer.java
+E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\GetTokenServer.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity.interceptor\BbinActivityTenant.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\BreakServer.java
 E:\project\robot-parent\robot-business-server\robot-bbin-activity-server\src\main\java\com\robot\bbin\activity\server\PomponAndBetServer.java

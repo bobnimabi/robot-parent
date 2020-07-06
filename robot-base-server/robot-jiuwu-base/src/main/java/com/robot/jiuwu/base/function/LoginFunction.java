@@ -2,27 +2,36 @@ package com.robot.jiuwu.base.function;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bbin.common.response.ResponseResult;
+import com.robot.center.constant.RobotConsts;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.response.Response;
 import com.robot.code.response.ResponseEnum;
 import com.robot.code.service.ITenantRobotDomainService;
+import com.robot.core.common.TContext;
 import com.robot.core.function.base.*;
 import com.robot.core.http.request.IEntity;
+import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
+import com.robot.jiuwu.base.common.Constant;
+import com.robot.jiuwu.base.vo.LoginResultVO;
 import com.robot.jiuwu.base.vo.ResponseBO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.CookieStore;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -30,21 +39,46 @@ import java.net.URL;
  */
 @Slf4j
 @Service
-public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO> {
+public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResultVO> {
     @Autowired
     private ITenantRobotDomainService domainService;
+
+    @Autowired
+    private StringRedisTemplate redis;
 
     /**
      * 这里重写的原因是：登录完成后，需要手动添加特定cookie
      */
     @Override
-    public Response<ResponseBO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<ResponseBO> response = super.doFunction(paramWrapper, robotWrapper);
-        ResponseBO loginResp = response.getObj();
+    public Response<LoginResultVO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+  Response<LoginResultVO> response = super.doFunction(paramWrapper, robotWrapper);
+        LoginResultVO loginResp = response.getObj();
         if (response.isSuccess()) {
-            this.addCookies(robotWrapper,loginResp.getData().getSession_id());
+            this.addCookies(robotWrapper,loginResp.getData().getToken()); //getSession_id()
         }
         return response;
+
+/*
+
+        LoginDTO robotDTO = paramWrapper.getObj();
+        // 获取验证码的的CaptchaToken
+        String captchaToken = redis.opsForValue().get(ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
+        if (StringUtils.isEmpty(captchaToken)) {
+            return Response.FAIL("缓存验证码过期");
+        }
+        // 执行
+        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createLoginParams(robotWrapper, robotDTO, captchaToken), null, LoginParse.INSTANCE, false);
+        Response loginResponse = standerHttpResponse.getResponseResult();
+        if (!loginResponse.isSuccess()) {
+            return loginResponse;
+        }
+        LoginResultVO entity = (LoginResultVO) loginResponse.getObj();
+        if (!Constant.SUCCESS.equals(entity.getCode())) {
+            return Response.FAIL(entity.getMsg());
+        }
+        // 保存token
+        redis.opsForValue().set(createCacheKeyLoginToken(robotWrapper.getId()), entity.getData().getToken(), Duration.ofDays(1));
+        return Response.SUCCESS();*/
     }
 
     @Override
@@ -53,14 +87,16 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
     }
 
     @Override
-    protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot) {
-        UrlEntity entity = UrlEntity.custom(3)
+    protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot ) {
+
+        return JsonEntity.custom(5)
                 .add("username", robot.getPlatformAccount())
-                .add("password", robot.getPlatformPassword());
-        if (!StringUtils.isEmpty(loginDTO.getOpt())) {
-            entity.add("otp", loginDTO.getOpt());
-        }
-        return entity;
+                .add("password",  DigestUtils.md5DigestAsHex(robot.getPlatformPassword().getBytes()))
+                .add("captcha", loginDTO.getImageCode())
+                .add("code", loginDTO.getOpt())
+               .add("captchaToken", loginDTO.getCaptchaToken());
+
+
     }
 
     /**
@@ -72,16 +108,16 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
     }
 
     @Override
-    protected IResultHandler<String, ResponseBO> getResultHandler() {
+    protected IResultHandler<String, LoginResultVO> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
-    private static final class ResultHandler implements IResultHandler<String, ResponseBO> {
+    private static final class ResultHandler implements IResultHandler<String, LoginResultVO> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler() {}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, ResponseBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, LoginResultVO> shr) {
             String result = shr.getOriginalEntity();
             log.info("登录响应：{}", result);
             JSONObject jsonObject = JSON.parseObject(result);
@@ -89,8 +125,12 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
             if (!isSuccess) {
                 return Response.FAIL(jsonObject.getString("message"));
             }
-            ResponseBO responseBO = JSON.parseObject(result, ResponseBO.class);
-            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS, responseBO);
+
+            LoginResultVO loginResult = JSON.parseObject(result, LoginResultVO.class);
+            if (null == loginResult.getCode()) {
+                return Response.FAIL("转换失败");
+            }
+            return Response.SUCCESS(loginResult);
         }
     }
 
@@ -113,5 +153,18 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
         BasicClientCookie cookie = new BasicClientCookie(key, value);
         cookie.setDomain(domain);
         cookieStore.addCookie(cookie);
+    }
+
+
+    // 创建机器人的登录TOKEN
+    public static String createCacheKeyLoginToken(long robotId) {
+        return new StringBuilder(50)
+                .append(RobotConsts.CAPTCHA_TOKEN)
+                .append(TContext.getTenantId()).append(":")
+                .append(TContext.getChannelId()).append(":")
+                .append(TContext.getPlatformId()).append(":")
+                .append(TContext.getFunction()).append(":")
+                .append(robotId)
+                .toString();
     }
 }

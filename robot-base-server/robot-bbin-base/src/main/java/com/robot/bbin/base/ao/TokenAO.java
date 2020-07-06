@@ -7,16 +7,15 @@ import lombok.NoArgsConstructor;
 /**
  * @Author mrt
  * @Date 2020/6/2 15:54
- * @Version 2.0
+ * @Version 2.0   获取token 路径参数对象
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class XBBJuQueryAO {
+public class TokenAO {
     // 平台编码
     private String gamekind;
-    // 用户名,这个userId是什么意思?  局查询细节时候的参数
-    // 从哪里来?现在不知道?   你意思是jack那边传递给你?    是从
+
     private String userid;
     //    主单号
     private String wagersid;

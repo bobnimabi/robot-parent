@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * 局查询VO：对应Promotion的OrderNoQueryVO
  */
 @Data
-public class XBBJuQueryDetailBO {
+public class XBBJuQueryDetailBO extends JuQueryBO {
     // 时间
     private LocalDateTime orderTime;
     // 注单编号
@@ -29,9 +29,15 @@ public class XBBJuQueryDetailBO {
     private BigDecimal sendAmount;
     // 场次（申博电子）
     private String round;
+    private String gameCode;
 
     // 隐藏参数
     private String pageId;
     private String key;
     private String token;
+
+
+    // 消除次数
+    private Integer level;
+
 }

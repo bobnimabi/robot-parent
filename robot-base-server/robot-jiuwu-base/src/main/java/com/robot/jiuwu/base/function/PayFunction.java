@@ -1,5 +1,4 @@
 package com.robot.jiuwu.base.function;
-
 import com.robot.center.mq.MqSenter;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -10,9 +9,8 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-
 import com.robot.jiuwu.base.basic.PathEnum;
-import com.robot.jiuwu.base.dto.PayFinalAO;
+import com.robot.jiuwu.base.ao.PayAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,39 +24,35 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @Service
-public class PayFunction extends AbstractFunction<PayFinalAO,String,Object> {
+public class PayFunction extends AbstractFunction<PayAO,String,Object> {
 
     @Autowired
     private MqSenter mqSenter;
+
+
+    @Override
+    public Response<Object> doFunction(ParamWrapper<PayAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        Response<Object> response = super.doFunction(paramWrapper, robotWrapper);
+        PayAO payFinalAO = paramWrapper.getObj();
+        mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,new BigDecimal(payFinalAO.getAmount()));
+        return response;
+    }
 
     @Override
     protected IPathEnum getPathEnum() {
         return PathEnum.PAY;
     }
 
-    @Override
-    public Response<Object> doFunction(ParamWrapper<PayFinalAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<Object> response = super.doFunction(paramWrapper, robotWrapper);
-        PayFinalAO payFinalAO = paramWrapper.getObj();
-        mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,new BigDecimal(payFinalAO.getAmount()));
-        return response;
-    }
 
     @Override
-    protected IEntity getEntity(PayFinalAO params, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(PayAO payAO, RobotWrapper robotWrapper) {
         return JsonEntity.custom(12)
-                .add("AccountsString", params.getAccountsString())
-                .add("DepositToken", params.getDepositToken())
-                .add("Type", params.getType())
-                .add("IsReal", params.getIsReal())
-                .add("PortalMemo", params.getPortalMemo())
-                .add("Memo", params.getMemo())
-                .add("Password", robotWrapper.getPlatformPassword())
-                .add("Amount", params.getAmount())
-                .add("AmountString", params.getAmountString())
-                .add("TimeStamp", params.getTimeStamp())
-                .add("AuditType", params.getAuditType())
-                .add("Audit",params.getAudit());
+                .add("amount", payAO.getAmount()) // 金额
+                .add("gameids", payAO.getGameId()) // 游戏ids
+                .add("password", payAO.getPassword()) // 密码
+                .add("remark", payAO.getMemo()) // 备注
+                .add("type","2") // 0人工充值 1线上补单 2活动彩金 3补单 6其他
+                ;
     }
 
     @Override

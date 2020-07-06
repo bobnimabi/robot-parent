@@ -3,8 +3,10 @@ package com.robot.code.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -19,6 +21,8 @@ import java.time.LocalDateTime;
  * @since 2020-05-18
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TenantRobotDTO extends Page implements Serializable {
 
     private static final long serialVersionUID = 1L;

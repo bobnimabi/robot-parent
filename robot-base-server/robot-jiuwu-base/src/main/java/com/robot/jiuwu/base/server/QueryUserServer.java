@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Author mrt
  * @Date 2020/6/15 15:12
  * @Version 2.0
- * 登录用接口
+ * 查询用户
  */
 @Service
 public class QueryUserServer implements IAssemFunction<String> {

@@ -35,18 +35,22 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
     private BarIdFunction barIdFunction;
 
     @Autowired
-    private JuQueryFunction juQueryServer;
+    private JuQueryFunction juQueryFunction;
 
     private static final String SELECT = "注单编号";
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        //查询 barid
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
+
         Response<Map<String, String>> barIdResult = barIdFunction.doFunction(barIDParams(queryDTO), robotWrapper);
         if (!barIdResult.isSuccess()) {
             return barIdResult;
         }
-        Response<JuQueryBO> response = juQueryServer.doFunction(juQueryAO(queryDTO, barIdResult.getObj().get(SELECT)), robotWrapper);
+
+        //局查询  
+        Response<JuQueryBO> response = juQueryFunction.doFunction(juQueryAO(queryDTO, barIdResult.getObj().get(SELECT)), robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }

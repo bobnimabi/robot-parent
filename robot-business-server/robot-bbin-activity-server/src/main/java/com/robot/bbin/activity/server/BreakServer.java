@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 使用：查询消消除游戏
+ * 使用：查询消消除游戏层数
  * @Author mrt
  * @Date 2020/6/2 14:56
  * @Version 2.0
@@ -43,7 +43,7 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
         // 组装局查询细节参数并校验
         JuQueryBO juQueryBO = response.getObj();
         JuQueryDetailBO juQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, JuQueryDetailBO.class);
-        Response<ParamWrapper<JuQueryDetailAO>> params = juQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
+        Response<ParamWrapper<JuQueryDetailAO>> params = getjuQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
         if (!params.isSuccess()) {
             return params;
         }
@@ -62,7 +62,7 @@ public class BreakServer implements IAssemFunction<OrderNoQueryDTO> {
     /**
      * 局查询细节参数组装
      */
-    private Response<ParamWrapper<JuQueryDetailAO>> juQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {
+    private Response<ParamWrapper<JuQueryDetailAO>> getjuQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {
 
         JuQueryDetailAO ao = new JuQueryDetailAO();
         ao.setPageId(juQueryBO.getPageId());

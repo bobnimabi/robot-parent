@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServer implements IAssemFunction<LoginDTO> {
 
+
     @Autowired
     private LoginFunction loginFunction;
 

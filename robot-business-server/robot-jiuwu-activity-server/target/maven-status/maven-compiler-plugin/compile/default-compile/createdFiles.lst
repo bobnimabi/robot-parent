@@ -1,0 +1,12 @@
+com\robot\jiuwu\activity\server\TotalRechargeServer.class
+com\robot\jiuwu\activity\interceptor\JiuWuActivityTenant.class
+com\robot\jiuwu\activity\interceptor\JiuWutokenInterceptor.class
+com\robot\jiuwu\activity\controller\JiuWuController.class
+com\robot\jiuwu\activity\JiuWuActivityStarter.class
+com\robot\jiuwu\activity\config\MybatisPlusConfig.class
+com\robot\jiuwu\activity\interceptor\JiuWutokenInterceptor$TokenInterceptor.class
+com\robot\jiuwu\activity\config\MybatisPlusConfig$2.class
+com\robot\jiuwu\activity\config\MybatisPlusConfig$1.class
+com\robot\jiuwu\activity\server\BetAmountAndRechargeServer.class
+com\robot\jiuwu\activity\server\QueryVipAmountServer.class
+com\robot\jiuwu\activity\config\WebMvcConfig.class

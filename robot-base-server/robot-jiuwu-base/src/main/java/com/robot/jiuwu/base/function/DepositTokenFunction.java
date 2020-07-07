@@ -1,3 +1,4 @@
+package com.robot.jiuwu.base.function;/*
 package com.robot.jiuwu.base.function;
 
 import com.bbin.common.pojo.TaskAtomDto;
@@ -14,10 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+*/
 /**
  * Created by mrt on 11/14/2019 8:06 PM
  * 付款前：获取Token（防表单重复提交）   todo   没看见有路径 数据库中
- */
+ *//*
+
 @Slf4j
 @Service
 public class DepositTokenFunction extends AbstractFunction<TaskAtomDto,String,String> {
@@ -38,9 +41,11 @@ public class DepositTokenFunction extends AbstractFunction<TaskAtomDto,String,St
         return ResultHandler.INSTANCE;
     }
 
-    /**
+    */
+/**
      * 响应转换
-ss     */
+ss     *//*
+
     private static final class ResultHandler implements IResultHandler<String,String>{
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
@@ -55,3 +60,4 @@ ss     */
         }
     }
 }
+*/

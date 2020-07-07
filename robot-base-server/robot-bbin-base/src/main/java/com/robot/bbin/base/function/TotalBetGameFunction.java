@@ -13,6 +13,7 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,6 +27,7 @@ import java.util.List;
  * Created by mrt on 11/15/2019 12:29 PM
  * 查询投注总金额(每种游戏在一段时间内的投注总额)
  */
+@Slf4j
 @Service
 public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String,List<TotalBetGameBO>> {
 

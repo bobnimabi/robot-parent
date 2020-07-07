@@ -15,6 +15,7 @@
         <module>robot-bbin-base</module>
         <module>robot-gpk-base</module>
         <module>robot-og-base</module>
+        <module>robot-jiuwu-base</module>
     </modules>
 
     <dependencies>

@@ -17,4 +17,8 @@ public class RechargeData {
     private BigDecimal revenue;
     // 游戏种类ID
     private Integer kindID;
+
+    private Integer kindName;
+
+
 }

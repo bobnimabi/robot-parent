@@ -1,0 +1,6 @@
+com\robot\og\activity\config\MybatisPlusConfig$1.class
+com\robot\og\activity\config\MybatisPlusConfig$2.class
+com\robot\og\activity\interceptor\OGActivityTenant.class
+com\robot\og\activity\config\MybatisPlusConfig.class
+com\robot\og\activity\OGActivityStarter.class
+com\robot\og\activity\config\WebMvcConfig.class

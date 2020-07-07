@@ -1,25 +1,19 @@
 package com.robot.jiuwu.base.function;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bbin.common.response.ResponseResult;
 import com.robot.center.constant.RobotConsts;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.response.Response;
-import com.robot.code.response.ResponseEnum;
 import com.robot.code.service.ITenantRobotDomainService;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.*;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
-import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
-import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.vo.LoginResultVO;
-import com.robot.jiuwu.base.vo.ResponseBO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.CookieStore;
 import org.apache.http.impl.cookie.BasicClientCookie;
@@ -35,7 +29,7 @@ import java.time.Duration;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 登录   //todo    根据95后台
+ * 登录
  */
 @Slf4j
 @Service
@@ -46,39 +40,38 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
     @Autowired
     private StringRedisTemplate redis;
 
+    @Autowired
+    private com.robot.jiuwu.base.server.ImageCodeServer ImageCodeServer;
+
     /**
      * 这里重写的原因是：登录完成后，需要手动添加特定cookie
      */
     @Override
     public Response<LoginResultVO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-  Response<LoginResultVO> response = super.doFunction(paramWrapper, robotWrapper);
-        LoginResultVO loginResp = response.getObj();
-        if (response.isSuccess()) {
-            this.addCookies(robotWrapper,loginResp.getData().getToken()); //getSession_id()
-        }
-        return response;
 
-/*
-
-        LoginDTO robotDTO = paramWrapper.getObj();
         // 获取验证码的的CaptchaToken
         String captchaToken = redis.opsForValue().get(ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
         if (StringUtils.isEmpty(captchaToken)) {
             return Response.FAIL("缓存验证码过期");
         }
-        // 执行
-        StanderHttpResponse standerHttpResponse = execute.request(robotWrapper, CustomHttpMethod.POST_JSON, action, null, createLoginParams(robotWrapper, robotDTO, captchaToken), null, LoginParse.INSTANCE, false);
-        Response loginResponse = standerHttpResponse.getResponseResult();
-        if (!loginResponse.isSuccess()) {
-            return loginResponse;
+
+
+  Response<LoginResultVO> response = super.doFunction(paramWrapper, robotWrapper);
+       // LoginResultVO loginResp = response.getObj();
+        if (!response.isSuccess()) {
+          return Response.FAIL();
         }
-        LoginResultVO entity = (LoginResultVO) loginResponse.getObj();
-        if (!Constant.SUCCESS.equals(entity.getCode())) {
-            return Response.FAIL(entity.getMsg());
-        }
+
+
+
+
+
         // 保存token
-        redis.opsForValue().set(createCacheKeyLoginToken(robotWrapper.getId()), entity.getData().getToken(), Duration.ofDays(1));
-        return Response.SUCCESS();*/
+     //   redis.opsForValue().set(createCacheKeyLoginToken(robotWrapper.getId()), imageVO.getData().getToken(), Duration.ofDays(1));
+
+
+        return Response.SUCCESS();
+
     }
 
     @Override
@@ -94,7 +87,8 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
                 .add("password",  DigestUtils.md5DigestAsHex(robot.getPlatformPassword().getBytes()))
                 .add("captcha", loginDTO.getImageCode())
                 .add("code", loginDTO.getOpt())
-               .add("captchaToken", loginDTO.getCaptchaToken());
+                .add("captchaToken", loginDTO.getCaptchaToken());
+
 
 
     }

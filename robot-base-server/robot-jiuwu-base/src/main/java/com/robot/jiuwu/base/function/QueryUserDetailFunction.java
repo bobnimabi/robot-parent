@@ -44,7 +44,7 @@ public class QueryUserDetailFunction extends AbstractFunction<String,String,User
 
 
 	private static final class ResultHandler implements IResultHandler<String, UserInfoDetailResultVO>{
-		private static final QueryUserDetailFunction.ResultHandler INSTANCE = new QueryUserDetailFunction.ResultHandler();
+		private static final ResultHandler INSTANCE = new ResultHandler();
 		private ResultHandler(){}
 
 		@Override

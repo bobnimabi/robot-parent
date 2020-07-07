@@ -1,7 +1,6 @@
 package com.robot.jiuwu.activity;
 
 import com.bbin.common.feignInterceptor.FeignClientInterceptor;
-//import com.robot.center.tenant.FeignTenantInterceptor;
 import com.bbin.common.feignInterceptor.FeignTenantInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -18,17 +17,19 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by mrt on 11/13/2019 7:51 PM
  */
+@ComponentScan(basePackages = {
+        "com.robot.code",
+        "com.robot.core",
+        "com.robot.center",
+        "com.robot.jiuwu.base",
+        "com.robot.jiuwu.activity"
+}
+)
 @ComponentScan(excludeFilters = @ComponentScan.Filter(
         type = FilterType.REGEX,
         pattern = {"com.bbin.common.rabbitmq.sms.*","com.bbin.common.redis.*"}),
-        basePackages={
-                "com.bbin.common",
-                "com.robot.code",
-                "com.robot.center",
-                "com.robot.jiuwu.base",
-                "com.robot.jiuwu.activity",
-            }
-        )
+        basePackages={"com.bbin.common"}
+)
 @MapperScan("com.robot.code.mapper")
 @EnableEurekaClient
 @EnableFeignClients

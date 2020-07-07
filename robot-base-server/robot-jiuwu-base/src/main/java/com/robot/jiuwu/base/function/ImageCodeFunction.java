@@ -1,10 +1,7 @@
 package com.robot.jiuwu.base.function;
 
 import com.alibaba.fastjson.JSON;
-import com.bbin.common.response.ResponseResult;
-import com.robot.center.constant.RobotConsts;
 import com.robot.code.response.Response;
-import com.robot.core.common.TContext;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IPathEnum;
@@ -21,17 +18,17 @@ import org.springframework.util.StringUtils;
 
 /**
  * <p>
- *
+ *获取图片验证码
  * </p>
  *
- * @author tank
+ * @author tanke
  * @date 2020/7/2
  */
 
 
 @Slf4j
 @Service
-public class ImageCodeFunction extends AbstractFunction<Object,String,Object> {
+public class ImageCodeFunction extends AbstractFunction<Object,String,ImageCodeResultVO> {
 	@Override
 	protected IPathEnum getPathEnum() {
 		return PathEnum.IMAGE_CODE;
@@ -57,7 +54,7 @@ public class ImageCodeFunction extends AbstractFunction<Object,String,Object> {
 	}
 
 
-	private static final class ResultHandler implements IResultHandler<String, Object> {
+	private static final class ResultHandler implements IResultHandler<String, ImageCodeResultVO> {
 		private static final ResultHandler INSTANCE = new ResultHandler();
 
 		private ResultHandler() {
@@ -65,7 +62,7 @@ public class ImageCodeFunction extends AbstractFunction<Object,String,Object> {
 
 
 		@Override
-		public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
+		public Response parse2Obj(StanderHttpResponse<String, ImageCodeResultVO> shr) {
 
 			String result = shr.getOriginalEntity();
 			log.info("获取图片验证码响应：{}", result);
@@ -81,7 +78,5 @@ public class ImageCodeFunction extends AbstractFunction<Object,String,Object> {
 			return Response.SUCCESS(imageCodeResult);
 		}
 	}
-
-
 
 }

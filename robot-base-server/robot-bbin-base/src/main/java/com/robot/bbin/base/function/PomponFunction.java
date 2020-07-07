@@ -10,6 +10,7 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,6 +22,7 @@ import org.springframework.util.StringUtils;
  * Created by mrt on 11/15/2019 12:29 PM
  * 局查询弹窗(彩球加赠-查询彩球个数)
  */
+@Slf4j
 @Service
 public class PomponFunction extends AbstractFunction<JuQueryDetailAO,String,Integer> {
     @Override

@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>robot-og-activity-server</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.bbin</groupId>
+            <artifactId>robot-centre</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>

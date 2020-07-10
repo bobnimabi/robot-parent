@@ -21,12 +21,11 @@ public enum FunctionEnum implements IFunctionEnum {
     LOGIN_SERVER("loginServer"),
     ;
 
-    private String serverName;
+    private final String serverName;
 
     private FunctionEnum(String serverName) {
         this.serverName = serverName;
     }
-
 
     @Override
     public String getName() {

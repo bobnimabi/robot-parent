@@ -7,8 +7,8 @@ spring:
   jackson:
     default-property-inclusion: non_null #不返回空值和null
   redis:
-    host: 192.168.18.113
-    password: 666666
+    host: dev.redis.com
+    password: admin1234
     port: 6379
     timeout: 5000 #连接超时 毫秒
     database: 0
@@ -20,9 +20,9 @@ spring:
         maxWait: -1 #连接池最大等行时间 -1没有限制
   datasource:
     username: root
-    password: '666666'
+    password: '0PKpK0JJD?mM'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.18.113/second_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql.bbin.com/second_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -34,10 +34,10 @@ spring:
 
 
   rabbitmq:
-    #    host: dev.rabbitmq.com
-    #    port: 5672
-    username: admin
-    password: 666666
+    host: dev.rabbitmq.com
+    port: 5672
+    username: user_admin
+    password: admin123456
     publisher-returns: true
     publisher-confirms: true
     listener:
@@ -53,7 +53,7 @@ spring:
     cache:
       channel:
         size: 500
-    addresses: 192.168.18.113:5672 #, node2:5672 , node3:5672
+    addresses: dev.rabbitmq.com:5672 #, node2:5672 , node3:5672
 server:
   port: 8212
   servlet:
@@ -71,7 +71,7 @@ eureka:
     #表示是否从Eureka Server获取注册信息，默认为true。
     #    fetch-registry: false
     serviceUrl:
-      defaultZone: http://192.168.18.113:8761/eureka
+      defaultZone: http://dev.eureka.com:8761/eureka
 
 ribbon:
   ServerListRefreshInterval: 2  # ribbon cache时间

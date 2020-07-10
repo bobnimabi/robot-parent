@@ -5,6 +5,7 @@ import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
+import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
@@ -32,6 +33,7 @@ public class QueryBalanceFunction extends AbstractFunction<String,String, QueryB
     protected IEntity getEntity(String params, RobotWrapper robotWrapper) {
         return UrlEntity.custom(1).add("search_name", params);
     }
+
 
     @Override
     protected IResultHandler<String, QueryBalanceBO> getResultHandler() {

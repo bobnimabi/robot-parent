@@ -7,3 +7,4 @@ E:\project\robot-parent\robot-business-server\robot-jiuwu-activity-server\src\ma
 E:\project\robot-parent\robot-business-server\robot-jiuwu-activity-server\src\main\java\com\robot\jiuwu\activity\server\QueryVipAmountServer.java
 E:\project\robot-parent\robot-business-server\robot-jiuwu-activity-server\src\main\java\com\robot\jiuwu\activity\server\TotalRechargeServer.java
 E:\project\robot-parent\robot-business-server\robot-jiuwu-activity-server\src\main\java\com\robot\jiuwu\activity\config\WebMvcConfig.java
+E:\project\robot-parent\robot-business-server\robot-jiuwu-activity-server\src\main\java\com\robot\jiuwu\activity\interceptor\LoginLogInterceptor1.java

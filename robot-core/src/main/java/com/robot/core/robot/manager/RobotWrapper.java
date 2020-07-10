@@ -14,9 +14,9 @@ import java.util.Properties;
 /**
  * Created by mrt on 2019/7/5 0005 下午 7:30
  */
-@Data
+/*@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor*/
 public class RobotWrapper extends TenantRobot implements Serializable {
     /**
      * 身份标识，用于携带Token的IdCard
@@ -34,6 +34,36 @@ public class RobotWrapper extends TenantRobot implements Serializable {
      */
     private Properties properties;
 
+    public String getIdCard() {
+        return idCard;
+    }
 
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
 
+    public CookieStore getCookieStore() {
+        return cookieStore;
+    }
+
+    public void setCookieStore(CookieStore cookieStore) {
+        this.cookieStore = cookieStore;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
+    public RobotWrapper(String idCard, CookieStore cookieStore, Properties properties) {
+        this.idCard = idCard;
+        this.cookieStore = cookieStore;
+        this.properties = properties;
+    }
+    public RobotWrapper() {
+
+    }
 }

@@ -14,6 +14,7 @@ com\robot\jiuwu\base\vo\OnlineRechargeData.class
 com\robot\jiuwu\base\vo\Roles.class
 com\robot\jiuwu\base\basic\FunctionEnum.class
 com\robot\jiuwu\base\vo\OfflineRechargeData.class
+com\robot\jiuwu\base\basic\CheckLostImpl2.class
 com\robot\jiuwu\base\vo\SessionData.class
 com\robot\jiuwu\base\dto\TotalRechargeDTO.class
 com\robot\jiuwu\base\vo\OfflineRechargeVO.class
@@ -36,6 +37,7 @@ com\robot\jiuwu\base\vo\InfoData.class
 com\robot\jiuwu\base\vo\UserInfoDetailResultVO.class
 com\robot\jiuwu\base\function\PayFunction$ResultHandler.class
 com\robot\jiuwu\base\function\LoginFunction$ResultHandler.class
+com\robot\jiuwu\base\function\JiuWuAbstractFunction.class
 com\robot\jiuwu\base\function\TotalRechargeDetailFunction.class
 com\robot\jiuwu\base\vo\UpdateRemark2VO.class
 com\robot\jiuwu\base\vo\ResponseBO.class

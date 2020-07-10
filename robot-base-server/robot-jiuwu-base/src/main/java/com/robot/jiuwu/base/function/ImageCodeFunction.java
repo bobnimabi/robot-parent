@@ -65,13 +65,12 @@ public class ImageCodeFunction extends AbstractFunction<Object,String,ImageCodeR
 		public Response parse2Obj(StanderHttpResponse<String, ImageCodeResultVO> shr) {
 
 			String result = shr.getOriginalEntity();
-			log.info("获取图片验证码响应：{}", result);
-
 
 			if (StringUtils.isEmpty(result)) {
-				return Response.FAIL("未响应");
+				return Response.FAIL("图片验证码未响应");
 			}
 			ImageCodeResultVO imageCodeResult = JSON.parseObject(result, ImageCodeResultVO.class);
+			//需要修改
 			if (null == imageCodeResult.getCode()) {
 				return Response.FAIL("转换失败");
 			}

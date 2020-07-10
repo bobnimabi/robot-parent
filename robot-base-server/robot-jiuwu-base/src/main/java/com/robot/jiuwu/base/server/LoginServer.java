@@ -26,5 +26,6 @@ public class LoginServer implements IAssemFunction<LoginDTO> {
     @Override
     public Response doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         return loginFunction.doFunction(paramWrapper, robotWrapper);
+
     }
 }

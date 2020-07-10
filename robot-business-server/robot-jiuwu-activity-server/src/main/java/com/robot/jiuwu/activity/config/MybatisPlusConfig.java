@@ -1,12 +1,15 @@
 package com.robot.jiuwu.activity.config;
 
+import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.config.MybatisPlusConfigBase;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -15,6 +18,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @Configuration
 public class MybatisPlusConfig extends MybatisPlusConfigBase {
+    /**
+     * SQL执行效率插件
+     */
+    @Bean
+    @Profile({"dev", "test", "prod"})// 设置 dev test 环境开启
+    public PerformanceInterceptor performanceInterceptorProd() {
+        return new PerformanceInterceptor().setWriteInLog(true).setMaxTime(500);
+    }
     @Override
     protected TenantSqlParser getPlatformSqlParser() {
         TenantSqlParser tenantSqlParser = new TenantSqlParser();

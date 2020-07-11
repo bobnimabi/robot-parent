@@ -47,6 +47,8 @@ public class QueryUserDetailFunction extends AbstractFunction<String,String,User
 		private static final ResultHandler INSTANCE = new ResultHandler();
 		private ResultHandler(){}
 
+		//VIP等级  usesrResultVO.getData().getInfo().getMemberOrder()
+
 		@Override
 		public Response parse2Obj(StanderHttpResponse<String, UserInfoDetailResultVO> shr) {
 			String result = shr.getOriginalEntity();
@@ -60,7 +62,6 @@ public class QueryUserDetailFunction extends AbstractFunction<String,String,User
 				return Response.FAIL("转换失败");
 			}
 			return Response.SUCCESS(usesrResultVO);
-
 
 		}
 	}

@@ -45,5 +45,17 @@ public class PayAO extends PayCommonParams {
     private String gameId;
     //备注
     private String remark;
+    //新增95打款用
+    private String codingDouble;
+    //新增95打款用
+    private String gameids;
 
+    /**  95打款参数
+     * password: "B99CD5E49B8B364059325AC605070B77"
+     * amount: 100
+     * codingDouble: 1
+     * remark: "测试打款"
+     * type: 0
+     * gameids: "481849"
+     */
 }

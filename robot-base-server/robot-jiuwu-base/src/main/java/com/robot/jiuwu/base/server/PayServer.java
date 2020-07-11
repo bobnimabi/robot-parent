@@ -61,6 +61,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         payDTO.setPassword(DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes()));
         payDTO.setRemark(moneyDTO.getMemo());
         payDTO.setType("2");
+        payDTO.setCodingDouble("1");
         return new ParamWrapper<PayAO>(payDTO);
     }
 }

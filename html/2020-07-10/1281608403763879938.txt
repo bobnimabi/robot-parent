@@ -1,0 +1,1 @@
+{"code":"0","msg":"ok","id":"eac572f9c45946fd952de7510763177d","data":{"gameid":481849,"nickname":"U348390","userid":348390}}

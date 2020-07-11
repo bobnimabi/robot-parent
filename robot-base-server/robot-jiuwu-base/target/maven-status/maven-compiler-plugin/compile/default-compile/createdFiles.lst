@@ -36,6 +36,7 @@ com\robot\jiuwu\base\function\TotalRechargeDetailFunction$ResultHandler.class
 com\robot\jiuwu\base\vo\InfoData.class
 com\robot\jiuwu\base\vo\UserInfoDetailResultVO.class
 com\robot\jiuwu\base\function\PayFunction$ResultHandler.class
+com\robot\jiuwu\base\bo\PayBO.class
 com\robot\jiuwu\base\function\LoginFunction$ResultHandler.class
 com\robot\jiuwu\base\function\JiuWuAbstractFunction.class
 com\robot\jiuwu\base\function\TotalRechargeDetailFunction.class

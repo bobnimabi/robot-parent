@@ -144,7 +144,7 @@ public class JiuWuController extends ControllerBase {
 	/**
 	 * 打款
 	 * @param taskAtomDto
-	 * @param channel    todo
+	 * @param channel
 	 * @param message
 	 */
     @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_95_CARD)

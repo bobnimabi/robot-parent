@@ -3,18 +3,17 @@ package com.robot.bbin.activity.server;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.util.DateUtils;
 import com.robot.bbin.base.ao.BarIdAO;
-import com.robot.bbin.base.function.BarIdFunction;
-import com.robot.bbin.base.function.XBBJuQueryFunction;
-import com.robot.core.function.base.IAssemFunction;
 import com.robot.bbin.base.ao.JuQueryAO;
 import com.robot.bbin.base.bo.JuQueryBO;
+import com.robot.bbin.base.function.BarIdFunction;
 import com.robot.bbin.base.function.JuQueryFunction;
+import com.robot.bbin.base.function.XBBJuQueryFunction;
 import com.robot.code.response.Response;
+import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -30,28 +29,22 @@ import java.util.Map;
  *
  */
 @Service
-public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
+public class XBBOrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
+
 
     @Autowired
-    private BarIdFunction barIdFunction;
+    private XBBJuQueryFunction juQueryFunction;
 
-    @Autowired
-    private JuQueryFunction juQueryFunction;
 
-    private static final String SELECT = "注单编号";
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         //查询 barid
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
-        Response<Map<String, String>> barIdResult = barIdFunction.doFunction(barIDParams(queryDTO), robotWrapper);
-        if (!barIdResult.isSuccess()) {
-            return barIdResult;
-        }
 
         //局查询  
-        Response<JuQueryBO> response = juQueryFunction.doFunction(juQueryAO(queryDTO, barIdResult.getObj().get(SELECT)), robotWrapper);
+        Response<JuQueryBO> response = juQueryFunction.doFunction(juQueryAO(queryDTO), robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }
@@ -66,26 +59,16 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         }
         return response;
     }
-    /**
-     *  查询BarID所用参数组装
-     */
-    private ParamWrapper<BarIdAO> barIDParams(OrderNoQueryDTO queryDTO) {
-        BarIdAO barIdAO = new BarIdAO();
-        barIdAO.setGameKind(queryDTO.getGameCode());
-        barIdAO.setSearchData("BetQuery");
-        barIdAO.setDate_start(LocalDateTime.now().format(DateUtils.DF_3));
-        barIdAO.setDate_end(LocalDateTime.now().format(DateUtils.DF_3));
-        return new ParamWrapper<BarIdAO>(barIdAO);
-    }
+
 
     /**
      * 查询 局查询参数组装
      */
-    private ParamWrapper<JuQueryAO> juQueryAO(OrderNoQueryDTO queryDTO,String barID) {
+    private ParamWrapper<JuQueryAO> juQueryAO(OrderNoQueryDTO queryDTO) {
         JuQueryAO juQueryAO = new JuQueryAO();
         juQueryAO.setGameKind(queryDTO.getGameCode());
         juQueryAO.setOrderNo(queryDTO.getOrderNo());
-        juQueryAO.setBarId(barID);
+        juQueryAO.setBarId("4");
         return new ParamWrapper<JuQueryAO>(juQueryAO);
     }
 

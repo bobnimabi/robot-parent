@@ -35,7 +35,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
  //局查询获取游戏名字
 
     @Autowired
-    private OrderQueryServer orderQueryServer;
+    private  XBBOrderQueryServer orderQueryServer;
 
     @Autowired
     private XBBJuQueryDetailFunction juQueryDetailFunction;

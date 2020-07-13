@@ -15,10 +15,14 @@ public class RechargeData {
     private BigDecimal grade;
     // 税收
     private BigDecimal revenue;
+
+
+    private String kindName;
+
     // 游戏种类ID
     private Integer kindID;
 
-    private Integer kindName;
+
 
 
 }

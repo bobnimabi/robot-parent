@@ -49,7 +49,7 @@ public class ImageCodeServer implements IAssemFunction<Object> {
             return Response.FAIL(imageVO.getMsg());
         }
 
-        String captchaToken = imageVO.getData().getCaptchaToken();
+        String captchaToken = imageVO.getData().getCaptchaToken();  //getCaptchaToken()
 
         redis.opsForValue().set(createCacheKeyCaptchaToken(robotWrapper.getId()),captchaToken , Duration.ofMinutes(5));  //imageVO.getData().getCaptchaToken()
         String s = redis.opsForValue().get(createCacheKeyCaptchaToken(robotWrapper.getId()));

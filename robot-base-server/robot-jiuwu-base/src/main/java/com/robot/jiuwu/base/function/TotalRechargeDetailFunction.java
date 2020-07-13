@@ -6,9 +6,11 @@ import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
+import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.jiuwu.base.ao.TotalRechargeAO;
 import com.robot.jiuwu.base.basic.PathEnum;
 import com.robot.jiuwu.base.dto.TotalRechargeDTO;
 import com.robot.jiuwu.base.vo.RechargeResultBO;
@@ -22,7 +24,7 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service
-public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeDTO,String, RechargeResultBO> {
+public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeAO,String, RechargeResultBO> {
 
 
     @Override
@@ -31,12 +33,12 @@ public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeD
     }
 
     @Override
-    protected IEntity getEntity(TotalRechargeDTO rechargeDTO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(TotalRechargeAO rechargeDTO, RobotWrapper robotWrapper) {
 
-        return UrlEntity.custom(6)
-                .add("gameid", rechargeDTO.getUserName())
-                .add("start", rechargeDTO.getBeginDate())
-                .add("end", rechargeDTO.getEndDate());
+        return JsonEntity.custom(6)
+                .add("gameid", rechargeDTO.getGameid())
+                .add("start", rechargeDTO.getStart())
+                .add("end", rechargeDTO.getEnd());
 
     }
 
@@ -64,7 +66,7 @@ public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeD
             }
             RechargeResultBO rechargeResultVO = JSON.parseObject(result, RechargeResultBO.class);
             if (null == rechargeResultVO.getCode()) {
-                return Response.FAIL("转换失败");
+                return Response.FAIL("响应结果转换失败");
 
 
             }

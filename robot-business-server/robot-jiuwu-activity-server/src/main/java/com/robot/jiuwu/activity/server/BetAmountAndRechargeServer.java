@@ -5,11 +5,13 @@ import com.bbin.common.client.TenantBetDetailVo;
 import com.bbin.common.client.TenantBetVo;
 import com.bbin.common.dto.robot.BreakThroughDTO;
 
+import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.jiuwu.base.ao.TotalRechargeAO;
 import com.robot.jiuwu.base.dto.OfflineDataDTO;
 import com.robot.jiuwu.base.dto.OnlineRechargeDTO;
 import com.robot.jiuwu.base.dto.TotalRechargeDTO;
@@ -40,8 +42,6 @@ public class BetAmountAndRechargeServer implements IAssemFunction<BreakThroughDT
     private TotalRechargeDetailFunction rechargeDetailServer;
 
 
-
-
     @Override
     public Response doFunction(ParamWrapper<BreakThroughDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
 
@@ -49,12 +49,12 @@ public class BetAmountAndRechargeServer implements IAssemFunction<BreakThroughDT
         BreakThroughDTO breakThroughDTO = paramWrapper.getObj();
 
         // 查询总投注和总损益
-        Response rechargeDetailResult = rechargeDetailServer.doFunction(new ParamWrapper<TotalRechargeDTO>(createTotalRechargeDTO(breakThroughDTO)), robotWrapper);
+        Response<RechargeResultBO> rechargeDetailResult = rechargeDetailServer.doFunction(getTotalRechargeAO(paramWrapper), robotWrapper);
         if (!rechargeDetailResult.isSuccess()) {
             return rechargeDetailResult;
         }
 
-        RechargeResultBO rechargeResultVO = (RechargeResultBO) rechargeDetailResult.getObj();
+        RechargeResultBO rechargeResultVO = rechargeDetailResult.getObj();
         List<RechargeData> rechargeDataList = rechargeResultVO.getData();
         TenantBetDetailVo betAndLoss = createBetAndLoss(rechargeDataList);
 
@@ -84,10 +84,18 @@ public class BetAmountAndRechargeServer implements IAssemFunction<BreakThroughDT
 /**
  * 区间查询参数
  */
-    private TotalRechargeDTO createTotalRechargeDTO(BreakThroughDTO breakThroughDTO)throws Exception {
-        TotalRechargeDTO rechargeDTO = new TotalRechargeDTO(breakThroughDTO.getUserName(), breakThroughDTO.getBeginDate(), breakThroughDTO.getEndDate());
+   private ParamWrapper<TotalRechargeAO> getTotalRechargeAO(ParamWrapper<BreakThroughDTO> paramWrapper)throws Exception {
 
-        return rechargeDTO;
+       BreakThroughDTO breakThroughDTO = paramWrapper.getObj();
+
+       TotalRechargeAO rechargeDTO = new TotalRechargeAO();
+       rechargeDTO.setGameid(breakThroughDTO.getUserName());
+       rechargeDTO.setStart(breakThroughDTO.getBeginDate());
+       rechargeDTO.setEnd(breakThroughDTO.getEndDate());
+
+
+
+        return new ParamWrapper<TotalRechargeAO>(rechargeDTO);
     }
 
 
@@ -141,6 +149,5 @@ public class BetAmountAndRechargeServer implements IAssemFunction<BreakThroughDT
         vo.setTotalLoss(MoneyUtil.convertToYuan(totalShou));
         return vo;
     }
-
 
 }

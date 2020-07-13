@@ -125,8 +125,9 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
            // JSONObject jsonObject = JSON.parseObject(result);
 
             LoginResultVO loginResult = JSON.parseObject(result, LoginResultVO.class);
-            if (null == loginResult.getCode()) {
-                return Response.FAIL("转换失败");
+            if (Constant.LOSE .equals(loginResult.getCode()) ) {
+                return Response.FAIL(loginResult.getMsg());
+
             }
             return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,loginResult);
         }

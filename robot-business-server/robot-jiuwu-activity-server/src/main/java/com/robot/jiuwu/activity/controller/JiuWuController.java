@@ -74,7 +74,7 @@ public class JiuWuController extends ControllerBase {
 
 
 
-	// 获取vip和总打码量   todo
+	// 获取vip和总打码量
 	@PostMapping("/getVipAndTotalAmount")
 	public Response getVipAndTotalAmount(@RequestBody VipTotalAmountDTO vipTotalAmountDTO) throws Exception{
 		if (StringUtils.isEmpty(vipTotalAmountDTO.getUserName())) {

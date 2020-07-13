@@ -8,7 +8,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.ao.PayAO;
 import com.robot.jiuwu.base.function.PayFunction;
 import com.robot.jiuwu.base.function.QueryUserFunction;
-import com.robot.jiuwu.base.vo.QueryUserResultBO;
+import com.robot.jiuwu.base.bo.QueryUserResultBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -56,7 +56,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      */
     private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, QueryUserResultBO userResultBO,RobotWrapper robotWrapper) throws Exception {
         PayAO payDTO = new PayAO();
-        payDTO.setAmount(moneyDTO.getPaidAmount().toString());
+        payDTO.setAmount(moneyDTO.getPaidAmount());
         payDTO.setGameId(userResultBO.getData().getGameid()+"");
         payDTO.setPassword(DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes()));
         payDTO.setRemark(moneyDTO.getMemo());

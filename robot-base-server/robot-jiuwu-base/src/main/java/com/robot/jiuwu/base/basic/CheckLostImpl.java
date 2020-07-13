@@ -20,11 +20,11 @@ import org.springframework.util.StringUtils;
 @Service
 public class CheckLostImpl implements ICheckLost {
     private static final String HEAD_NAME = "Location";
-    private static final String LOST_FLAG = "未經授權";
+    private static final String LOST_FLAG = "没有登录";
 
     @Override
     public boolean isLose(RobotWrapper robotWrapper, StanderHttpResponse shp) {
-        return lost1(shp);
+        return false;
     }
 
     /**
@@ -43,7 +43,7 @@ public class CheckLostImpl implements ICheckLost {
 
     /**
      * 暂时不用
-     * gpk掉线标志2：
+     * 掉线标志2：
      * 状态码：302
      * Location: /Account/Login
      * @return

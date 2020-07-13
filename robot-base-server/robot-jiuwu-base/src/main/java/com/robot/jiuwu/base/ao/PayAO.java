@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * @Author mrt
  * @Date 2020/5/15 14:02  需修改
@@ -29,7 +31,7 @@ public class PayAO extends PayCommonParams {
     // 登录密码
     private String Password;
     // 存款金额
-    private String Amount;
+    private BigDecimal Amount;
     // 金额字符串
     private String AmountString;
     // 时间戳

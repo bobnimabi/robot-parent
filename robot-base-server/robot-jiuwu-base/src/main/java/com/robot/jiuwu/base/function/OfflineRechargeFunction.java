@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
+import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
@@ -39,7 +40,7 @@ public class OfflineRechargeFunction extends AbstractFunction<OfflineDataDTO,Str
         BigDecimal minamount = offlineDataDTO.getMinamount();
         BigDecimal maxamount = offlineDataDTO.getMaxamount();
 
-        return JsonEntity.custom(1)
+        return JsonEntity.custom(12)
                 .add("current", offlineDataDTO.getCurrent())
                 .add("size", offlineDataDTO.getSize())
                 .add("recordid", offlineDataDTO.getRecordid())
@@ -53,6 +54,8 @@ public class OfflineRechargeFunction extends AbstractFunction<OfflineDataDTO,Str
                 .add("maxamount", null != maxamount ? MoneyUtil.formatYuan(offlineDataDTO.getMaxamount()).toString() : "")
                 .add("remark", offlineDataDTO.getRemark());
     }
+
+
 
     @Override
     protected IResultHandler<String, OfflineRechargeVO> getResultHandler() {
@@ -73,10 +76,11 @@ public class OfflineRechargeFunction extends AbstractFunction<OfflineDataDTO,Str
         @Override
         public Response parse2Obj(StanderHttpResponse<String, OfflineRechargeVO> shr) {
             String result = shr.getOriginalEntity();
-            log.info("查询会员存在功能响应：{}", result);
+            log.info("查询线下充值功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("未响应");
             }
+            //添加判断充值为0时候响应错误信息  todo
 
             OfflineRechargeVO OfflineRechargeVO = JSON.parseObject(result, OfflineRechargeVO.class);
             if (null == OfflineRechargeVO.getCode()) {

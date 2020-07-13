@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
  * 查询打码明细路径参数对象
  *
  */
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Data
 public class TotalRechargeAO {
     private String gameid;

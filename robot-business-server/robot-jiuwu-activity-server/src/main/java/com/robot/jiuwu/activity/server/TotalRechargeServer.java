@@ -2,14 +2,12 @@ package com.robot.jiuwu.activity.server;
 
 import com.bbin.common.dto.robot.VipTotalAmountDTO;
 import com.bbin.common.vo.VipTotalAmountVO;
-import com.bbin.utils.project.MyBeanUtil;
 import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.ao.TotalRechargeAO;
-import com.robot.jiuwu.base.dto.TotalRechargeDTO;
 import com.robot.jiuwu.base.function.TotalRechargeDetailFunction;
 import com.robot.jiuwu.base.vo.RechargeData;
 import com.robot.jiuwu.base.vo.RechargeResultBO;
@@ -34,10 +32,8 @@ public class TotalRechargeServer implements IAssemFunction<VipTotalAmountDTO> {
 
     @Override
     public Response doFunction(ParamWrapper<VipTotalAmountDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        VipTotalAmountDTO vipTotalAmountDTO = paramWrapper.getObj();
-        TotalRechargeDTO rechargeDTO = MyBeanUtil.copyProperties(vipTotalAmountDTO, TotalRechargeDTO.class);
 
-        Response <RechargeResultBO>  rechargeDetailResult = rechargeDetailFunction.doFunction(new ParamWrapper<TotalRechargeDTO>(rechargeDTO), robotWrapper);
+        Response <RechargeResultBO>  rechargeDetailResult = rechargeDetailFunction.doFunction(getTotalRechargeAO(paramWrapper), robotWrapper);
         if (!rechargeDetailResult.isSuccess()) {
             return rechargeDetailResult;
         }
@@ -62,7 +58,8 @@ public class TotalRechargeServer implements IAssemFunction<VipTotalAmountDTO> {
     /**
      * 查询游戏打码总量之和参数组装
      */
-    private ParamWrapper<TotalRechargeAO> getTotalRechargeAO(VipTotalAmountDTO queryDTO) {
+    private ParamWrapper<TotalRechargeAO> getTotalRechargeAO(ParamWrapper<VipTotalAmountDTO> paramWrapper) {
+        VipTotalAmountDTO queryDTO = paramWrapper.getObj();
         TotalRechargeAO ao = new TotalRechargeAO();
         ao.setGameid(queryDTO.getUserName());
         ao.setStart(queryDTO.getBeginDate());

@@ -1,6 +1,6 @@
 package com.robot.og.base.function;
 
-import com.alibaba.fastjson.JSON;
+
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -10,8 +10,6 @@ import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.PathEnum;
-import com.robot.og.base.bo.PayBO;
-import com.robot.og.base.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -61,20 +59,13 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
         @Override
         public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
-            log.info("打款功能响应：{}", result);
-            PayBO payBO = JSON.parseObject(result, PayBO.class);
+            log.info("图片验证码功能响应：{}", result);
 
             if (StringUtils.isEmpty(result)) {
-                log.info("打款未有任何响应");
-                return Response.FAIL("打款未有任何响应：" + result);
+                return Response.FAIL("图片验证码未响应：" + result);
             }
-            if (Constant.SUCCESS.equals(payBO.getCode())) {
-                return Response.SUCCESS("打款成功");
-            } else {
-                return Response.FAIL("打款失败：" + result);
-            }
+            return Response.SUCCESS(result);
         }
     }
-
 
 }

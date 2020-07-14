@@ -87,7 +87,14 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
             if (StringUtils.isEmpty(result)) {
                 log.info("打款未有任何响应");
                 return Response.FAIL("打款未有任何响应：" + result);
+            }else if ( Constant.LOSE.equals(payBO.getCode())){
+                return Response.FAIL(payBO.getMsg());
+
+            }else if ( Constant.LOSE2.equals(payBO.getCode())){
+                return Response.FAIL(payBO.getMsg());
             }
+
+
             if (Constant.SUCCESS.equals(payBO.getCode())) {
                 return Response.SUCCESS("打款成功");
             } else {

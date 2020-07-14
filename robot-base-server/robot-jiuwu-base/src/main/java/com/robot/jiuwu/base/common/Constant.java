@@ -10,5 +10,6 @@ public class Constant {
 
     // 九五棋牌掉线
     public static final String LOSE = "1";
+    public static final String LOSE2 = "-1";
 
 }

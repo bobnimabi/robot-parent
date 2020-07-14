@@ -12,9 +12,11 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.og.base.ao.PayAO;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.PayBO;
-import common.Constant;
+
+import com.robot.og.base.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

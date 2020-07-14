@@ -57,7 +57,8 @@ public class JiuWuController extends ControllerBase {
 	 */
 	@PostMapping("/robotLogin")
 	public Response robotLogin(@RequestBody LoginDTO loginDTO) throws Exception {
-		if (null == loginDTO || null == loginDTO.getId()) {
+		if (null == loginDTO || null == loginDTO.getId()
+		) {
 			return Response.FAIL("未传入参数");
 		}
 		Response response = super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER, false);
@@ -93,7 +94,7 @@ public class JiuWuController extends ControllerBase {
 	// 查询总打码量
 	@PostMapping("/QueryTotalRecharge")
 	public Response QueryTotalRecharge(@RequestBody VipTotalAmountDTO vipTotalAmountDTO) throws Exception {
-		if (StringUtils.isEmpty(vipTotalAmountDTO.getUserName())) {
+		if (null==(vipTotalAmountDTO.getUserName())) {
 			return Response.FAIL("未传入gameid");
 		}
 		if (StringUtils.isEmpty(vipTotalAmountDTO.getEndDate())) {
@@ -122,7 +123,7 @@ public class JiuWuController extends ControllerBase {
 
 
 
-//	@ApiOperation("机器人：获取投注、亏损、充值信息")    todo
+//	@ApiOperation("机器人：获取投注、亏损、充值信息")
 	@PostMapping("/getTotalAmount")
 	public Response getTotalAmount(@RequestBody BreakThroughDTO dto) throws Exception {
 		if (StringUtils.isEmpty(dto.getUserName())) {
@@ -137,8 +138,6 @@ public class JiuWuController extends ControllerBase {
 
 		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto), FunctionEnum.BET_AMOUNT_AND_RECHARGE_SERVER);
 	}
-
-
 
 
 	/**

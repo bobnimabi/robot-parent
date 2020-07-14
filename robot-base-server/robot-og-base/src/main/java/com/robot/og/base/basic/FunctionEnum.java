@@ -9,7 +9,20 @@ import com.robot.core.function.base.IFunctionEnum;
 public enum FunctionEnum implements IFunctionEnum {
     LOGIN_SERVER("logInServer"),
     QUERY_USER_SERVER("queryUserServer"),
+    Image_CODE_SERVER("imageCodeServer"),
     PAY_SERVER("payServer"),
+
+    //------------------------------------//
+    GETDETAIL_SERVER("getBetDetailServer"),
+    GETTOTALAMOUNT_SERVER("getTotalAmountServer"),
+    GETRECHARGE_SERVER("getRechargeServer"),
+    GETLOST_DETAIL_SERVER("getLostDetailServer"),
+    QUERY_BALANCE_SERVER("queryBalanceServer"),
+    QUERY_LEVEL_SERVER("queryLevelServer"),
+    QUERY_ODERNO_SERVER("queryOrderNoServer"),
+    QUERY_ACCOUNT_SERVER("queryAccountServer"),
+    QUERY_USER_INFO("queryUserInfoServer"),
+    QUERY_USERRECORD_SERVER("queryUserRecordServer"),
     ;
 
     private final String serverName;
@@ -23,3 +36,11 @@ public enum FunctionEnum implements IFunctionEnum {
         return this.serverName;
     }
 }
+
+
+
+
+
+
+
+

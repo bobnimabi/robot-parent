@@ -5,10 +5,11 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.jiuwu.base.ao.PayAO;
-import com.robot.jiuwu.base.function.PayFunction;
-import com.robot.jiuwu.base.function.QueryUserFunction;
-//import com.robot.jiuwu.base.vo.QueryUserResultBO;
+
+import com.robot.og.base.ao.PayAO;
+import com.robot.og.base.bo.QueryUserResultBO;
+import com.robot.og.base.function.PayFunction;
+import com.robot.og.base.function.QueryUserFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -54,7 +55,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      * @return
      * @throws Exception
      */
-    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, QueryUserResultBO userResultBO,RobotWrapper robotWrapper) throws Exception {
+    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, QueryUserResultBO userResultBO, RobotWrapper robotWrapper) throws Exception {
         PayAO payDTO = new PayAO();
         payDTO.setAmount(moneyDTO.getPaidAmount());
         payDTO.setGameId(userResultBO.getData().getGameid()+"");

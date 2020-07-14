@@ -20,6 +20,7 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="robot-og-base" />
     <orderEntry type="module" module-name="robot-centre" />
     <orderEntry type="module" module-name="robot-core" />
     <orderEntry type="module" module-name="robot-service" />

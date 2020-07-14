@@ -14,11 +14,11 @@ com\robot\jiuwu\base\vo\OnlineRechargeData.class
 com\robot\jiuwu\base\vo\Roles.class
 com\robot\jiuwu\base\basic\FunctionEnum.class
 com\robot\jiuwu\base\vo\OfflineRechargeData.class
-com\robot\jiuwu\base\basic\CheckLostImpl2.class
 com\robot\jiuwu\base\vo\SessionData.class
 com\robot\jiuwu\base\dto\TotalRechargeDTO.class
 com\robot\jiuwu\base\vo\OfflineRechargeVO.class
 com\robot\jiuwu\base\ao\QueryUserAO.class
+com\robot\jiuwu\base\bo\QueryUserResultBO.class
 com\robot\jiuwu\base\function\QueryUserFunction.class
 com\robot\jiuwu\base\dto\JWImageCodeDTO.class
 com\robot\jiuwu\base\server\LoginServer.class

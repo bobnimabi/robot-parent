@@ -25,8 +25,9 @@ import org.springframework.web.client.RestTemplate;
         basePackages={
                 "com.bbin.common",
                 "com.robot.code",
+                "com.robot.core",
                 "com.robot.center",
-                "com.robot.og",
+                "com.robot.og.base",
                 "com.robot.og.activity",
             }
         )

@@ -54,4 +54,5 @@ public class JiuWuActivityStarter {
     public FeignTenantInterceptor getFeignTenantInterceptor(){
         return new FeignTenantInterceptor();
     }
+
 }

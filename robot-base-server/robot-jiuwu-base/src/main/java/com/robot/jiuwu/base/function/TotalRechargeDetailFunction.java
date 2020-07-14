@@ -12,6 +12,7 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.ao.TotalRechargeAO;
 import com.robot.jiuwu.base.basic.PathEnum;
+import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.dto.TotalRechargeDTO;
 import com.robot.jiuwu.base.vo.RechargeResultBO;
 import lombok.extern.slf4j.Slf4j;
@@ -65,8 +66,8 @@ public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeA
                 return Response.FAIL("未响应");
             }
             RechargeResultBO rechargeResultVO = JSON.parseObject(result, RechargeResultBO.class);
-            if (null == rechargeResultVO.getCode()) {
-                return Response.FAIL("响应结果转换失败");
+            if (Constant.LOSE.equals(rechargeResultVO.getCode()) ) {
+                return Response.FAIL("查询细节失败",rechargeResultVO.getMsg());
 
 
             }

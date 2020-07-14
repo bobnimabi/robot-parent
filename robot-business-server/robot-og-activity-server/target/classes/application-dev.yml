@@ -7,7 +7,7 @@ spring:
   jackson:
     default-property-inclusion: non_null #不返回空值和null
   redis:
-    host: redis.com
+    host: dev.redis.com
     password: admin1234
     port: 6379
     timeout: 5000 #连接超时 毫秒
@@ -22,7 +22,7 @@ spring:
     username: root
     password: '0PKpK0JJD?mM'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql.bbin.com/middle_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -51,7 +51,7 @@ spring:
     cache:
       channel:
         size: 500
-    addresses: node1:5672 , node2:5672 , node3:5672
+    addresses: dev.rabbitmq.com:5672  # , node2:5672 , node3:5672
 
 server:
   port: 8214
@@ -70,7 +70,7 @@ eureka:
     #表示是否从Eureka Server获取注册信息，默认为true。
     #    fetch-registry: false
     serviceUrl:
-      defaultZone: http://eureka.com:8761/eureka
+      defaultZone: http://dev.eureka.com:8761/eureka
 
 ribbon:
   ServerListRefreshInterval: 2  # ribbon cache时间
@@ -88,3 +88,9 @@ PERMIT_URL: /** #测试放行
 
 
 #打款url
+
+
+# 响应文本存放根路径
+html:
+  output:
+    root: e:html/

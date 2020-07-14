@@ -1,0 +1,1 @@
+{"code":"0","msg":"ok","id":"c8d32221ae944bb8bdba2d54cf0ad2c8","data":[{"score":-8172,"revenue":4872,"grade":206300,"kindName":"豪车俱乐部","kindID":140},{"score":6930,"revenue":470,"grade":11400,"kindName":"龙虎斗","kindID":145},{"score":-1350,"revenue":194,"grade":8956,"kindName":"斗地主","kindID":200},{"score":-378972,"revenue":361935,"grade":13523856,"kindName":"红包扫雷","kindID":201}]}

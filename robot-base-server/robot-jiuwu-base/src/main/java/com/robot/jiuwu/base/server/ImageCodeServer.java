@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.UUID;
 
 
 /**
@@ -39,7 +40,7 @@ public class ImageCodeServer implements IAssemFunction<Object> {
     public Response doFunction(ParamWrapper<Object> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         Object imageCodeDTO = paramWrapper.getObj();
 
-        Response<ImageCodeResultVO>  imageResponse = ImageCodeFunction.doFunction(new ParamWrapper<>(imageCodeDTO),robotWrapper);
+        Response<ImageCodeResultVO> imageResponse = ImageCodeFunction.doFunction(new ParamWrapper<>(imageCodeDTO), robotWrapper);
         if (!imageResponse.isSuccess()) {
             return imageResponse;
         }
@@ -51,13 +52,13 @@ public class ImageCodeServer implements IAssemFunction<Object> {
 
         String captchaToken = imageVO.getData().getCaptchaToken();  //getCaptchaToken()
 
-        redis.opsForValue().set(createCacheKeyCaptchaToken(robotWrapper.getId()),captchaToken , Duration.ofMinutes(5));  //imageVO.getData().getCaptchaToken()
+        redis.opsForValue().set(createCacheKeyCaptchaToken(robotWrapper.getId()), captchaToken, Duration.ofMinutes(5));  //imageVO.getData().getCaptchaToken()
         String s = redis.opsForValue().get(createCacheKeyCaptchaToken(robotWrapper.getId()));
         return Response.SUCCESS(imageVO.getData().getImg());
     }
 
     // 创建图片验证码的缓存标志
-  public   static String createCacheKeyCaptchaToken(long robotId) {
+    public static String createCacheKeyCaptchaToken(long robotId) {
         return new StringBuilder(50)
                 .append(RobotConsts.CAPTCHA_TOKEN)
                 .append(TContext.getTenantId()).append(":")
@@ -68,7 +69,7 @@ public class ImageCodeServer implements IAssemFunction<Object> {
                 .toString();
     }
 
-
+}
 
 
 /*
@@ -87,5 +88,3 @@ public class ImageCodeServer implements IAssemFunction<Object> {
     }*/
 
 
-
-}

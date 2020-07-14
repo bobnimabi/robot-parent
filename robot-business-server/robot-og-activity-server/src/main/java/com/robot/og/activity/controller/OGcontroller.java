@@ -75,7 +75,7 @@ public class OGcontroller extends ControllerBase {
 		return Response.SUCCESS("登录成功");
 	}
 
-	//查询用户是否存在
+	//查询用户是否存在    OK
 	@GetMapping("/isExist")
 	public Response isExist(@RequestParam String username) throws Exception {
 		if(null==username){

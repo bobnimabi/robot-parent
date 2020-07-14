@@ -40,8 +40,6 @@ import java.util.Properties;
 @Slf4j
 @Service
 public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResultVO> {
-    @Autowired
-    private ITenantRobotDomainService domainService;
 
     @Autowired
     private StringRedisTemplate redis;
@@ -68,7 +66,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
 
         Response<LoginResultVO> loginResponse = super.doFunction(paramWrapper, robotWrapper);
         if (!loginResponse.isSuccess()) {
-            return Response.FAIL("登录未响应");
+            return Response.FAIL(loginResponse.getMessage());
         }
         LoginResultVO entity = loginResponse.getObj();
 

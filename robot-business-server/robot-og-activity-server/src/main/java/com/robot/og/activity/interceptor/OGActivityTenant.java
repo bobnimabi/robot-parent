@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 /**
  * @Author mrt
  * @Date 2020/6/2 14:01
- * @Version 2.0  //todo
+ * @Version 2.0
  */
 @Service
 public class OGActivityTenant extends TenantInterceptor {
     @Override
     protected void setDevVariable() {
-        TContext.setTenantId("7");
-        TContext.setChannelId("7");
+        TContext.setTenantId("1");
+        TContext.setChannelId("1");
     }
 
     @Override

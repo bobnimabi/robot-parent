@@ -7,9 +7,12 @@ import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
+import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.og.base.ao.GetBetDetailAO;
 import com.robot.og.base.basic.PathEnum;
+import com.robot.og.base.bo.GetBetDetailBO;
 import com.robot.og.base.bo.QueryUserResultBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,20 +24,20 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service
-public class GetBetDetailFunction extends AbstractFunction<String,String, QueryUserResultBO> {
+public class GetBetDetailFunction extends AbstractFunction<GetBetDetailAO,String, GetBetDetailBO> {
 
     @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.QUERY_USER;
+        return PathEnum.GET_DETAIL;
     }
 
     @Override
-    protected IEntity getEntity(String params, RobotWrapper robotWrapper) {
-        return JsonEntity.custom(1).add("gameid", params);
+    protected IEntity getEntity(GetBetDetailAO getBetDetailAO, RobotWrapper robotWrapper) {
+        return UrlEntity.custom(1).add("gameid", getBetDetailAO.toString());
     }
 
     @Override
-    protected IResultHandler<String, QueryUserResultBO> getResultHandler() {
+    protected IResultHandler<String, GetBetDetailBO> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
@@ -45,12 +48,12 @@ public class GetBetDetailFunction extends AbstractFunction<String,String, QueryU
      * 不存在返回：
      *      {"code":1,"IsSuccess":false,}
      */
-    private static final class ResultHandler implements IResultHandler<String, QueryUserResultBO>{
+    private static final class ResultHandler implements IResultHandler<String, GetBetDetailBO>{
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, QueryUserResultBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, GetBetDetailBO> shr) {
             String result = shr.getOriginalEntity();
             log.info("查询会员存在功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {

@@ -73,6 +73,6 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
             return Response.FAIL("未查询到消除层数");
         }
     }
-    //秦皇密宝游戏解析有误
+
 
 }

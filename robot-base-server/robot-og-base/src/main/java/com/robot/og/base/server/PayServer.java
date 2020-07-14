@@ -31,7 +31,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
 
     @Override
     public Response doFunction(ParamWrapper<TaskAtomDto> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<QueryUserResultBO> response = queryUserFunction.doFunction(createQueryUserParams(paramWrapper), robotWrapper);
+        Response<String> response = queryUserFunction.doFunction(createQueryUserParams(paramWrapper), robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }
@@ -55,10 +55,10 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      * @return
      * @throws Exception
      */
-    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, QueryUserResultBO userResultBO, RobotWrapper robotWrapper) throws Exception {
+    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, String account  , RobotWrapper robotWrapper) throws Exception {
         PayAO payDTO = new PayAO();
         payDTO.setAmount(moneyDTO.getPaidAmount());
-        payDTO.setGameId(userResultBO.getData().getGameid()+"");
+        payDTO.setGameId(account);
         payDTO.setPassword(DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes()));
         payDTO.setRemark(moneyDTO.getMemo());
         payDTO.setType("2");

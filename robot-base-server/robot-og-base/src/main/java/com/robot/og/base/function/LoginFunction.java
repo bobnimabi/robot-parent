@@ -49,9 +49,9 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
     public Response<LoginResultVO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
 
 
-
+/*
         // 获取验证码的的CaptchaToken
-        String captchaToken = redis.opsForValue().get(ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
+        String captchaToken = redis.opsForValue().get(ImageCodeServer.(robotWrapper.getId()));
         if (StringUtils.isEmpty(captchaToken)) {
             return Response.FAIL("缓存验证码 captchaToken 过期");
         }
@@ -73,7 +73,8 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
         // 保存token
      //  redis.opsForValue().set(createCacheKeyLoginToken(robotWrapper.getId()), entity.getData().getToken(), Duration.ofDays(1));
 
-        return loginResponse;
+        return loginResponse;*/
+        return null;
 
     }
 

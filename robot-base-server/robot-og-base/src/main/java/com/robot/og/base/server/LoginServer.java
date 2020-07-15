@@ -6,6 +6,7 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.og.base.bo.LoginResultVO;
 import com.robot.og.base.function.LoginFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,5 @@ public class LoginServer implements IAssemFunction<LoginDTO> {
     @Override
     public Response doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         return loginFunction.doFunction(paramWrapper, robotWrapper);
-
     }
 }

@@ -17,6 +17,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * Created by mrt on 11/15/2019 12:29 PM
  * 局查询弹窗(消消除-查询消除次数)
@@ -58,21 +62,45 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
             Document doc = Jsoup.parse(result);
             Element table = doc.select("table").get(1);// :eq(1)
             Elements tbody_trs = table.select("tbody tr");
+            ArrayList<Object> list = new ArrayList<>();
             for (Element tbody_tr : tbody_trs) {
                 Elements tds = tbody_tr.getElementsByTag("td");
                 if (tds.size() >= 2) {
                     Element td1 = tbody_tr.getElementsByTag("td").get(0);
-                    Element td2 = tbody_tr.getElementsByTag("td").get(1);
-                    if ("-".equals(td2.text())) {
-                        if (NumberUtils.isDigits(td1.text())) {
-                            return Response.SUCCESS(Integer.parseInt(td1.text()) - 1);
-                        }
+
+                    if (NumberUtils.isDigits(td1.text())) {
+                        list.add(td1);
                     }
                 }
+            }
+            if (list.size()>=2){
+                return Response.SUCCESS(list.size()-1);
             }
             return Response.FAIL("未查询到消除层数");
         }
     }
 
 
+  /*  public static void main(String[] args) throws IOException {
+
+        File input = new File("E:\\project\\robot-parent\\robot-business-server\\robot-bbin-activity-server\\src\\main\\resources\\fail.html");
+        Document doc = Jsoup.parse(input, "UTF-8");
+        Element table = doc.select("table").get(1);// :eq(1)
+
+        Elements tbody_trs = table.select("tbody tr");
+
+        ArrayList<Object> list = new ArrayList<>();
+
+        for (Element tbody_tr : tbody_trs) {
+            Elements tds = tbody_tr.getElementsByTag("td");
+            if (tds.size() >= 2) {
+                Element td1 = tbody_tr.getElementsByTag("td").get(0);
+
+                if (NumberUtils.isDigits(td1.text())) {
+                    list.add(td1);
+                }
+            }
+        }
+        System.out.println(list.size()-1);
+    }*/
 }

@@ -45,7 +45,7 @@ public class OGcontroller extends ControllerBase {
 	 * 获取图片验证码
 	 *
 	 * @param robotId
-	 * @return
+	 * @return            OK
 	 * @throws Exception
 	 */
 	@GetMapping("/getImageCode")
@@ -112,7 +112,7 @@ public class OGcontroller extends ControllerBase {
 			return Response.FAIL("未传入参数");
 		}
 
-		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETTOTALAMOUNT_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETTOTAL_AMOUNT_SERVER);
 	}
 
 

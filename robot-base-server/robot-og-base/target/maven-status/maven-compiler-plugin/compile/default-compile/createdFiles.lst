@@ -3,6 +3,7 @@ com\robot\og\base\function\QueryUserFunction$ResultHandler.class
 com\robot\og\base\function\PayFunction$ResultHandler.class
 com\robot\og\base\function\QueryOrderNoFunction$ResultHandler.class
 com\robot\og\base\function\GetBetDetailFunction.class
+com\robot\og\base\ao\GetBetDetailAO.class
 com\robot\og\base\server\PayServer.class
 com\robot\og\base\basic\FunctionEnum.class
 com\robot\og\base\basic\PathEnum.class
@@ -12,6 +13,7 @@ com\robot\og\base\function\GetTotalAmountFunction$ResultHandler.class
 com\robot\og\base\function\QueryUserFunction.class
 com\robot\og\base\bo\LoginResultVO.class
 com\robot\og\base\bo\QueryUserData.class
+com\robot\og\base\bo\GetBetDetailBO.class
 com\robot\og\base\function\LoginFunction.class
 com\robot\og\base\function\GetBetDetailFunction$ResultHandler.class
 com\robot\og\base\function\QueryUserRecordFunction$ResultHandler.class
@@ -21,6 +23,7 @@ com\robot\og\base\common\Constant.class
 com\robot\og\base\function\GetTotalAmountFunction.class
 com\robot\og\base\ao\QueryUserAO.class
 com\robot\og\base\basic\CheckLostImpl.class
+com\robot\og\base\function\ImageCodeFunction.class
 com\robot\og\base\function\QueryLevelFunction.class
 com\robot\og\base\bo\PayBO.class
 com\robot\og\base\function\GetRechargeFunction.class
@@ -28,6 +31,7 @@ com\robot\og\base\bo\User.class
 com\robot\og\base\function\GetLostDetailFunction.class
 com\robot\og\base\function\QueryOrderNoFunction.class
 com\robot\og\base\function\GetRechargeFunction$ResultHandler.class
+com\robot\og\base\function\ImageCodeFunction$ResultHandler.class
 com\robot\og\base\server\ImageCodeServer.class
 com\robot\og\base\bo\LoginData.class
 com\robot\og\base\function\GetLostDetailFunction$ResultHandler.class

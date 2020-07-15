@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>公告</title>
+    <script type="text/javascript">
+        var ctx="";
+        var MEMBER_DIR="ogmember";
+        var OG_MEMBER_DIR="ogmember";
+        var static_url = "//sj.ctshzl.cn/v21";
+        // 国际化参数
+        var systemLanguage = "zh_CN"
+    </script>
+    <script type="text/javascript" src="/common/js/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="/common/js/yl.js"></script>
+    <script type="text/javascript" src="/common/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/common/js/announment.js"></script>
+    <script type="text/javascript" src="/common/js/onlineCommon.js"></script>
+    <script type="text/javascript" src="/common/js/jquery.form1.js"></script>
+    <script type="text/javascript" src="/common/js/faqIcon.js"></script>
+    <link rel="stylesheet" type="text/css" href="/common/css/ann.css" />
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/js/south-street/jquery-ui-1.9.1.custom.min.css">
+    <link rel="stylesheet" type="text/css" href="/common/css/messageTip.css">
+    <link rel="stylesheet" type="text/css" href="/common/css/faqIcon.css" />
+    <script type="text/javascript" src="/common/js/i18n/message_zh_CN.js"></script>
+    <script>
+        /**
+         * 字符串占位符格式  'B在{0}与{1}之间'.format('A','C');
+         */
+        String.prototype.format = function () {
+            // 数据长度为空，则直接返回
+            if (arguments.length == 0) {
+                return this;
+            }
+
+            // 使用正则表达式，循环替换占位符数据
+            for (var result = this, i = 0; i < arguments.length; i++) {
+                result = result.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+            }
+            return result;
+        };
+        /**
+         * 维护公告
+         * edit by  adaf
+         */
+        var num = 0;
+        var time = 0;
+        $(function() {
+            // 初始化弹出公告为未显示
+            window.localStorage.announcementWindowShow = 0;
+
+            $.ajax({
+                url:ctx+"/agent/GlobalAnnounceServlet",
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{
+                    type:"3",
+                    op:"queryMaintainDate"
+                },
+                success:function(data){
+                    if(data&&data.maintainDate)
+                        time = data.maintainDate;
+                }
+            });
+            num = 0;
+            timingMaintain();
+
+            var pageUrl = window.location.href;
+            //主页
+            if (pageUrl == "/" || pageUrl == "" || pageUrl.indexOf("/index.jsp")>0 || pageUrl.indexOf("/member/memberServlet")>0) {
+                setTimeout(function() {
+                    ajaxAnnoument2();
+                },1000*5);
+                setTimeout(function() {
+                    ajaxAnnoument();
+                },1000*11);
+            } else {
+                setTimeout(function() {
+                    ajaxAnnoument();
+                },1000*5);
+            }
+        });
+        function annoumentData(result){
+            $(document.body).announment({
+                type : 1,
+                width : 200,
+                height : 80,
+                top :window.screen.availHeight-332,
+                left : document.body.clientWidth-205,
+                titleCls : 'anotitle',
+                containCls : 'anoContain',
+                btnCls : 'anoBtn',
+                contextCls : 'anoContext',
+                announcementId : result.id,
+                title : result.announcementname,
+                content : result.content,
+                sign : result.sign
+            });
+        }
+        function ajaxAnnoument() {
+            var url = ctx+"/agent/GlobalAnnounceServlet";
+            $.post(url,{type:'3'},function(result) {
+                if (result.content != "" && result.content!=undefined) {
+                    $('#annoument_win').remove();//将层移除掉
+                    annoumentData(result);
+                }
+            }, 'json');
+
+        }
+        function ajaxAnnoument2() {
+            var url = ctx+"/agent/GlobalAnnounceServlet";
+            $.post(url,{type:'2'},function(result) {
+                if (result.content != "" && result.content!=undefined) {
+                    $(document.body).announment({
+                        type : 0,
+                        top :window.screen.availHeight-500,
+                        left : document.body.clientWidth-395,
+                        content : result.content,
+                        glAnoCls : 'glAnoCls'
+                    });
+                }
+            }, 'json');
+
+        }
+        function timingMaintain(){
+            if(time>0){
+                num++;
+                if(time<=600){ //当维护时间小于10分钟时进入判断
+                    if(num==60){ //每分钟弹出一次维护公告
+                        ajaxAnnoument(); //弹出维护公告
+                        num=0;
+                    }
+                }else{
+                    if(num==300){//每五分钟弹出一次维护公告
+                        ajaxAnnoument(); //弹出维护公告
+                        num=0;
+                    }
+                }
+                time--;
+            }
+            setTimeout(timingMaintain,1000);
+        }
+        function  operatePromptShow(msg){
+            var hideDiv=$('#_hideDiv');
+            var loading=$('#_loading');
+            var body=$("body");
+            if(!hideDiv[0]){
+                body.append('<div id="_hideDiv"></div>');
+            }
+            if(!loading[0]){
+                body.append('<div id="_loading"><img src="/jsp/agency/images/loaderc.gif"/><span style="font-weight: bold;">'+msg+'</span></div>');
+            }
+            $('#_hideDiv').show();
+            $('#_loading').show();
+        }
+        function  operatePromptHide(){
+            $('#_hideDiv').hide();
+            $('#_loading').hide();
+        }
+        function  T_MessageShow(msg){
+            $("body").prepend("<div class='msgbox_layer_wrap'><span id='mode_tips_v2' style='z-index: 10000;' class='msgbox_layer'><span class='gtl_ico_clear'></span><img alt='' src='/common/images/loading.gif'>"+msg+"<span class='gtl_end'></span></span></div>");
+            $(".msgbox_layer_wrap").show();
+        }
+        function  T_MessageHide(){
+            $(".msgbox_layer_wrap").hide();
+        }
+
+
+
+
+        // 中文对象
+        var chineseName = {
+            '彩票': 'Lottery',
+            '视讯': 'Video',
+            '电子': 'Slot',
+            '捕鱼': 'Fishing',
+            '棋牌': 'Chess',
+            '体育': 'Sports',
+            '电竞': 'Esports',
+        };
+        // 通过中文获取对应的英文
+        function getEnglishName(chinese){
+            // 如果当前环境选择是中文语言，直接返回中文
+            if(systemLanguage == 'zh_CN'){
+                return chinese;
+            }
+            var englishName = chineseName[chinese];
+            if(typeof englishName == 'undefined'){
+                return chinese
+            }else{
+                return ' ' + englishName + ' ';
+            }
+        }
+
+
+    </script>
+    <div id="onlinedialog" title='在线详情'></div>
+
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/theme.css" />
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/style.css" />
+    <script type="text/javascript" src="/jsp/agency/js/bounced.js"></script>
+    <!-- 弹框的样式设置 -->
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #pop {
+            background: #fff;
+            width: 250px;
+            border: 1px solid #e0e0e0;
+            font-size: 12px;
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            font-family: "微软雅黑";
+            letter-spacing: 1px;
+        }
+
+        #popHead {
+            line-height: 40px;
+            background: #E0FFFF;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            font-size: 12px;
+            padding: 0 0 0 10px;
+        }
+
+        #popHead h2 {
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 190px;
+            font-size: 12px;
+            overflow: hidden;
+            line-height: 40px;
+            height: 40px;
+        }
+
+        #popHead #popClose {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            line-height: 15px;
+            text-align: center;
+            width: 15px;
+            height: 15px;
+        }
+
+        #popHead #popUp {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            line-height: 15px;
+            text-align: center;
+            width: 15px;
+            height: 15px;
+        }
+
+        #popContent {
+            padding: 5px 10px;
+            background: #E0EEE0;
+        }
+
+        #popIntro {
+            line-height: 180%;
+            margin: 5px 0;
+            overflow: hidden;
+            display: block;
+        }
+    </style>
+    <script>
+        var StyleFile = "theme" + document.cookie.charAt(6) + ".css";
+        document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
+    </script>
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+    <![endif]-->
+    <script type="text/javascript">
+        jumpAnn = function () {
+            if('' && '' == 'true') {
+                var topFrame = window.parent.frames['mbody'];
+                topFrame.window.changedownmenu('');
+                window.location.href=ctx+"/agent/AnnouncementServlet?doQueryAnnMessage=queryMessage";
+            } else {
+                alert("您没有代理公告信息权限，请联系上级")
+            }
+        }
+        function times(tm){
+            window.location.href="/agent/AnnouncementServlet?time="+tm;
+        }
+
+
+        window.onload = function() {
+            if ('' != '')
+                alert('');
+        }
+
+        $(window).load(function(){
+            var name = $("#name").val();
+            var content = $("#content").val();
+            if(name && content){
+                var pop=new Pop(name,content);
+            }
+            function closeAnnounment(){
+                $("#pop").remove();
+            }
+            setTimeout(closeAnnounment,600000);//10分钟自动关掉
+        });
+    </script>
+</head>
+
+<body class="hoverStyle" style="background-image:none; background-color:#f4f9ff">
+
+<div id="container">
+
+    <div id="wrapper">
+        <div id="content1">
+            <div id="box"
+                 style="border-bottom-style: none;border-left-style: none;border-right-style: none;border-top-style: none;">
+
+                <table width="100%" style="text-align:center; line-height:30px">
+                    <thead>
+                    <tr style="background-color: yellow;">
+                        <th height="30" colspan="2">最新公告</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <input type="hidden" id="content" value="" />
+                    <input type="hidden" id="name" value="" />
+                    <tr>
+                        <th width="127" class="a-center">代理公告</th>
+                        <td width="780" align="left">
+                            <pre><marquee id="affiche" align="left" behavior="scroll" width="1000" direction="left" hspace="50" vspace="20" scrollamount="2" scrolldelay="100" style="color:#FF0000; cursor:pointer" onMouseOut="this.start()" onMouseOver="this.stop()"></marquee></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="127" class="a-center">会员公告</th>
+                        <td width="780" align="left">
+                            <marquee id="affiche" align="left" behavior="scroll" width="1000" direction="left"
+                                     hspace="50" vspace="20" scrollamount="2" scrolldelay="100"
+                                     onMouseOut="this.start()" style=" cursor:pointer" onMouseOver="this.stop()">
+                                尊敬的客户您好，香港六合彩第08期开奖时间为2020年02月01日星期六 21:35分，请互相转达通知，谢谢</marquee>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <table width="100%" style="text-align:center; line-height:30px">
+                    <thead>
+                    <tr>
+                        <th height="30" colspan="3">会员 历史公告</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第08期开奖时间为2020年02月01日星期六 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2020-1-21 9:50:54
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第06期开奖时间为2020年01月21日星期二 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2020-1-18 9:46:01
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第05期开奖时间为2020年01月18日星期六 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2020-1-16 9:45:58
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第04期开奖时间为2020年01月16日星期四21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2020-1-12 9:48:01
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第03期开奖时间为2020年01月12日星期日 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2020-1-7 9:51:24
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第02期开奖时间为2020年01月07日星期二 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2020-1-2 10:11:07
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩第01期开奖时间为2020年01月02日星期四 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2019-12-31 9:58:26
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩144期开奖时间为2019年12月31日星期二 21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2019-12-28 9:56:40
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩143期开奖时间为2019年12月28日星期六21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2019-12-24 10:11:22
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="126" class="a-center">六合彩公告</th>
+
+                        <td width="605" align="left">尊敬的客户您好，香港六合彩142期开奖时间为2019年12月24日星期二21:35分，请互相转达通知，谢谢</td>
+                        <td width="172" align="center">
+                            2019-12-22 9:55:39
+                        </td>
+                    </tr>
+
+
+                    <div id="pop" style="display:none;">
+                        <div id="popHead">
+                            <a id="popClose" title="缩小 "
+                               style="background:#ffffff;color:#000000;cursor:pointer;">-</a>
+                            <a id="popUp" title="展开 "
+                               style="background:#ffffff;color:#000;display:none;cursor:pointer;">+</a>
+                            <a href="javascript:jumpAnn()">
+                                <h2 id="popTitle">温馨提示</h2>
+                            </a>
+                        </div>
+                        <div id="popContent">
+                            <dl>
+                                <a style="color:#202020" id="popIntro" href="javascript:jumpAnn()">
+                                    <pre>这里是内容简介</pre></a>
+                            </dl>
+                        </div>
+                    </div>
+
+                    </tbody>
+                </table>
+
+                <!--<div id="pager">页<a href="#"><img src="img/icons/arrow_left.gif" width="16" height="16" /></a>
+                    <input size="1" value="1" type="text" name="page" id="page" />
+                    <a href="#"><img src="img/icons/arrow_right.gif" width="16" height="16" /></a>42页 | 条
+                    <select name="view">
+                                <option>10</option>
+                                <option>20</option>
+                                <option>50</option>
+                                <option>100</option>
+                            </select>
+                每一页 | 总420个记录</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

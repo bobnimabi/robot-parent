@@ -56,7 +56,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
 
 
         // 获取验证码的的CaptchaToken
-        String captchaToken = redis.opsForValue().get(ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
+        String captchaToken = redis.opsForValue().get( ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
         if (StringUtils.isEmpty(captchaToken)) {
             return Response.FAIL("缓存验证码 captchaToken 过期");
         }
@@ -164,12 +164,6 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
         cookieStore.addCookie(cookie);
     }
 
- /*   private void addCookie2(RobotWrapper robotWrapper, String key,String token ) {  //
-        BasicCookieStore cookieStore = new BasicCookieStore();
-        BasicClientCookie cookie = new BasicClientCookie("Cookie", token);
-        cookie.setAttribute("game_admin_token",token);
-        cookieStore.addCookie(cookie);
-    }*/
 
 
 

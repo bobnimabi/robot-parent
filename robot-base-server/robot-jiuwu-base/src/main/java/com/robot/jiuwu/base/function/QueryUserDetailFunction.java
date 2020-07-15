@@ -59,7 +59,7 @@ public class QueryUserDetailFunction extends AbstractFunction<String,String,User
 
 			UserInfoDetailResultVO usesrResultVO = JSON.parseObject(result, UserInfoDetailResultVO.class);
 			if (null == usesrResultVO.getCode()) {
-				return Response.FAIL("转换失败");
+				return Response.FAIL(usesrResultVO.getMsg());
 			}
 			return Response.SUCCESS(usesrResultVO);
 

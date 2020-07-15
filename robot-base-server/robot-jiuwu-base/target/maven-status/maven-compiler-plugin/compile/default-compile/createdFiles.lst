@@ -31,7 +31,6 @@ com\robot\jiuwu\base\function\LoginFunction.class
 com\robot\jiuwu\base\function\OfflineRechargeFunction$ResultHandler.class
 com\robot\jiuwu\base\dto\OnlineRechargeDTO.class
 com\robot\jiuwu\base\vo\UserInfoDetailData.class
-com\robot\jiuwu\base\function\QueryVipAmountFunction.class
 com\robot\jiuwu\base\function\TotalRechargeDetailFunction$ResultHandler.class
 com\robot\jiuwu\base\vo\InfoData.class
 com\robot\jiuwu\base\vo\UserInfoDetailResultVO.class

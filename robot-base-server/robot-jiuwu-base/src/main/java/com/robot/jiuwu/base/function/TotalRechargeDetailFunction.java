@@ -65,11 +65,14 @@ public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeA
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("未响应");
             }
+
             RechargeResultBO rechargeResultVO = JSON.parseObject(result, RechargeResultBO.class);
-            if (Constant.LOSE.equals(rechargeResultVO.getCode()) ) {
+            if (Constant.LOSE2.equals(rechargeResultVO.getCode()) ) {
                 return Response.FAIL("查询细节失败",rechargeResultVO.getMsg());
 
 
+            }else if(Constant.LOSE.equals(rechargeResultVO.getCode())){
+                return Response.FAIL(rechargeResultVO.getMsg());
             }
             return Response.SUCCESS(rechargeResultVO);
         }

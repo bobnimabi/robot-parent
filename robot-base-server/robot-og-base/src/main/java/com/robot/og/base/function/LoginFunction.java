@@ -9,6 +9,7 @@ import com.robot.core.common.TContext;
 import com.robot.core.function.base.*;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
+import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.PathEnum;
@@ -18,65 +19,27 @@ import com.robot.og.base.server.ImageCodeServer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.CookieStore;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
- * Created by mrt on 11/14/2019 8:06 PM
+ * Created by mrt on 11/14/2019 8:06 PM    COOKIE还要加
  * 登录
  */
 @Slf4j
 @Service
 public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResultVO> {
-    @Autowired
-    private ITenantRobotDomainService domainService;
 
-    @Autowired
-    private StringRedisTemplate redis;
-
-   /* @Autowired
-    private com.robot.jiuwu.base.server.ImageCodeServer ImageCodeServer;*/
-
-    /**
-     * 登录完成后，需要手动添加特定cookie
-     */
-    @Override
-    public Response<LoginResultVO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-
-
-/*
-        // 获取验证码的的CaptchaToken
-        String captchaToken = redis.opsForValue().get(ImageCodeServer.(robotWrapper.getId()));
-        if (StringUtils.isEmpty(captchaToken)) {
-            return Response.FAIL("缓存验证码 captchaToken 过期");
-        }
-
-        LoginDTO obj = paramWrapper.getObj();
-        obj.setCaptchaToken(captchaToken);
-
-        Response<LoginResultVO> loginResponse = super.doFunction(paramWrapper, robotWrapper);
-        if (!loginResponse.isSuccess()) {
-            return Response.FAIL("登录未响应");
-        }
-        LoginResultVO entity = loginResponse.getObj();
-
-        if (Constant.SUCCESS.equals(entity.getCode())) {
-            //添加cookie
-            this.addCookies(robotWrapper,entity.getData().getToken());
-        }
-
-        // 保存token
-     //  redis.opsForValue().set(createCacheKeyLoginToken(robotWrapper.getId()), entity.getData().getToken(), Duration.ofDays(1));
-
-        return loginResponse;*/
-        return null;
-
-    }
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -86,12 +49,10 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
     @Override
     protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot ) {
 
-        return JsonEntity.custom(5)
-                .add("username", robot.getPlatformAccount())
-                .add("password",  DigestUtils.md5DigestAsHex(robot.getPlatformPassword().getBytes()))
-                .add("captcha", loginDTO.getImageCode())
-                .add("captchaToken",loginDTO.getCaptchaToken() )  //robot.getProperties().getProperty("captchaToken")
-                .add("code", loginDTO.getOpt());
+        return UrlEntity.custom(3)
+                .add("robotId",loginDTO.getId().toString())
+                .add("imageCode",loginDTO.getImageCode())
+                ;
 
     }
 
@@ -116,57 +77,32 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
         public Response parse2Obj(StanderHttpResponse<String, LoginResultVO> shr) {
             String result = shr.getOriginalEntity();
             log.info("登录响应：{}", result);
-           // JSONObject jsonObject = JSON.parseObject(result);
 
-            LoginResultVO loginResult = JSON.parseObject(result, LoginResultVO.class);
-            if (Constant.LOSE .equals(loginResult.getCode()) ) {
-                return Response.FAIL(loginResult.getMsg());
+            //解析结果有登录表单  id=loginForm  表示跳转到登录页面
+            Document document = Jsoup.parse(result);
+            Element loginForm = document.getElementById("loginForm");
+          if (StringUtils.isEmpty(loginForm)){
+              return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,"登录成功");
+          }
+            return Response.FAIL("姿势不对,请重新登录!");
 
-            }
-            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,loginResult);
         }
     }
 
 
+/*
+    public static void main(String[] args) throws IOException {
 
-    // 创建机器人的登录TOKEN
-    public static String createCacheKeyLoginToken(long robotId) {
-        return new StringBuilder(50)
-                .append(RobotConsts.CAPTCHA_TOKEN)
-                .append(TContext.getTenantId()).append(":")
-                .append(TContext.getChannelId()).append(":")
-                .append(TContext.getPlatformId()).append(":")
-                .append(TContext.getFunction()).append(":")
-                .append(robotId)
-                .toString();
-    }
-
-
-
-
-    /**
-     * 添加特定Cookies
-     * @param robotWrapper
-     * @param
-     */
-    private void addCookies(RobotWrapper robotWrapper,String  game_admin_token) throws MalformedURLException {
-        CookieStore cookieStore = robotWrapper.getCookieStore();
-        this.addCookie(cookieStore, "game_admin_token", game_admin_token);
+        Document document = Jsoup.parse(new File("E:\\project\\robot-parent\\robot-business-server\\robot-og-activity-server\\src\\main\\resources\\test.html"), "utf-8");
+        Element loginForm = document.getElementById("loginForm");
+        if (StringUtils.isEmpty(loginForm)){
+            System.out.println("登录成功");
+        }
+        System.out.println("loginForm = " + loginForm);
 
     }
 
-    private void addCookie(CookieStore cookieStore, String key, String value) {  //,String domain
-        BasicClientCookie cookie = new BasicClientCookie(key, value);
-        cookieStore.addCookie(cookie);
-    }
-
- /*   private void addCookie2(RobotWrapper robotWrapper, String key,String token ) {  //
-        BasicCookieStore cookieStore = new BasicCookieStore();
-        BasicClientCookie cookie = new BasicClientCookie("Cookie", token);
-        cookie.setAttribute("game_admin_token",token);
-        cookieStore.addCookie(cookie);
-    }*/
-
+*/
 
 
 }

@@ -22,7 +22,7 @@ public class MybatisPlusConfig extends MybatisPlusConfigBase {
         tenantSqlParser.setTenantHandler(new TenantHandler() {
             @Override
             public Expression getTenantId() {
-                return new LongValue(RobotConsts.PLATFORM_ID.JIU_WU_CARD);
+                return new LongValue(RobotConsts.PLATFORM_ID.OG);
             }
 
             @Override

@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
-public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
+public class ImageCodeFunction extends AbstractFunction<Object,String, Object> {
 
 
 
@@ -36,7 +36,8 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
     @Override
     protected IEntity getEntity(Object object, RobotWrapper robotWrapper) {
         return UrlEntity.custom(1)
-                .add("t", UUID.randomUUID().toString().replace("-", "")) // 0人工充值 1线上补单 2活动彩金 3补单 6其他
+                .add("type","agent") //
+                .add("t",""+Math.random()) // 图片验证码参数随意 UUID.randomUUID().toString().replace("-", ""
                 ;
     }
 
@@ -50,7 +51,7 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
 
 
     @Override
-    protected IResultHandler<String, String> getResultHandler() {
+    protected IResultHandler<String, Object> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
@@ -59,7 +60,7 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
      * 登录响应：
      *
      */
-    private static final class ResultHandler implements IResultHandler<String, String> {
+    private static final class ResultHandler implements IResultHandler<String, Object> {
 
         private static final ResultHandler INSTANCE = new ResultHandler();
 
@@ -67,8 +68,8 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
         }
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, String> shr) {
-            String result = shr.getOriginalEntity();
+        public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
+            Object result = shr.getOriginalEntity();
             log.info("图片验证码功能响应：{}", result);
 
             if (StringUtils.isEmpty(result)) {

@@ -65,7 +65,10 @@ public class OGcontroller extends ControllerBase {
 	 */
 	@PostMapping("/robotLogin")
 	public Response robotLogin(@RequestBody LoginDTO loginDTO) throws Exception {
-		if (null == loginDTO || null == loginDTO.getId()) {
+		if (null == loginDTO
+				|| null == loginDTO.getId()
+				||null==loginDTO.getImageCode()
+				||null==loginDTO.getOpt()) {
 			return Response.FAIL("未传入参数");
 		}
 		Response response = super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER, false);
@@ -75,7 +78,7 @@ public class OGcontroller extends ControllerBase {
 		return Response.SUCCESS("登录成功");
 	}
 
-	//查询用户是否存在    OK
+	//查询用户是否存在
 	@GetMapping("/isExist")
 	public Response isExist(@RequestParam String username) throws Exception {
 		if(null==username){
@@ -117,7 +120,7 @@ public class OGcontroller extends ControllerBase {
 
 
 	@PostMapping("/getRecharge")
-	//@ApiOperation("查询：获取充值信息")
+	//@ApiOperation("查询：获取充值信息")     OK
 	public Response getRecharge(@RequestBody BreakThroughDTO incomeInfoDTO) throws Exception{
 		if (null == incomeInfoDTO
 				|| StringUtils.isEmpty(incomeInfoDTO.getUserName())

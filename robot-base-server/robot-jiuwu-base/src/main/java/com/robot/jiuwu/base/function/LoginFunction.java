@@ -53,8 +53,6 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
     @Override
     public Response<LoginResultVO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
 
-
-
         // 获取验证码的的CaptchaToken
         String captchaToken = redis.opsForValue().get( ImageCodeServer.createCacheKeyCaptchaToken(robotWrapper.getId()));
         if (StringUtils.isEmpty(captchaToken)) {

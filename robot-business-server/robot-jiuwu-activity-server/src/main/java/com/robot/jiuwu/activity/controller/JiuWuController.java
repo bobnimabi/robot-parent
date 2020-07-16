@@ -58,6 +58,8 @@ public class JiuWuController extends ControllerBase {
 	@PostMapping("/robotLogin")
 	public Response robotLogin(@RequestBody LoginDTO loginDTO) throws Exception {
 		if (null == loginDTO || null == loginDTO.getId()
+				||null==loginDTO.getImageCode()
+				||null==loginDTO.getOpt()
 		) {
 			return Response.FAIL("未传入参数");
 		}

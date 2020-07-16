@@ -54,7 +54,7 @@ spring:
     addresses: dev.rabbitmq.com:5672
 
 server:
-  port: 8214
+  port: 8219
   servlet:
     context-path: /jiuwuActivityRobot
 

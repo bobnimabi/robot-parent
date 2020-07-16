@@ -12,6 +12,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 
 import com.robot.jiuwu.base.basic.PathEnum;
 import com.robot.jiuwu.base.bo.QueryUserResultBO;
+import com.robot.jiuwu.base.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,14 +60,14 @@ public class QueryUserFunction extends AbstractFunction<String,String,QueryUserR
             }
 
             QueryUserResultBO usesrResultVO = JSON.parseObject(result, QueryUserResultBO.class);
-            if (null == usesrResultVO.getCode()) {
-                return Response.FAIL("转换失败");
+
+            if (Constant.LOSE.equals(usesrResultVO.getCode()) ) {
+                return Response.FAIL(usesrResultVO.getMsg());
+            }else if (Constant.LOSE2.equals(usesrResultVO.getCode())){
+                Response.FAIL(usesrResultVO.getMsg());
             }
             return Response.SUCCESS(usesrResultVO);
 
-
-
-                
         }
     }
 

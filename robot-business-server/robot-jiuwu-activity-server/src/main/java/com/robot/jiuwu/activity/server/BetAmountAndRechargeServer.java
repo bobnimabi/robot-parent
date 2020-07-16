@@ -77,11 +77,11 @@ public class BetAmountAndRechargeServer implements IAssemFunction<BreakThroughDT
         if(null==offlineRechargeVO.getData()&&null==onlineRechargeVO.getData()){
             return Response.FAIL("线上线下充值金额为0");
         }else if(offlineRechargeVO.getData()==null){
-            betAndLoss.setIncome(MoneyUtil.convertToYuan(onlineRechargeVO.getData().getAmount()));
+            betAndLoss.setIncome(onlineRechargeVO.getData().getAmount());
         }else if(onlineRechargeVO.getData()==null){
-            betAndLoss.setIncome(MoneyUtil.convertToYuan(offlineRechargeVO.getData().getAmount()));
+            betAndLoss.setIncome(MoneyUtil.convertToYuan(offlineRechargeVO.getData().getAmount()));//MoneyUtil.convertToYuan()
         }else {
-            betAndLoss.setIncome(offlineRechargeVO.getData().getAmount().add(onlineRechargeVO.getData().getAmount()));
+            betAndLoss.setIncome(MoneyUtil.convertToYuan(offlineRechargeVO.getData().getAmount()).add(onlineRechargeVO.getData().getAmount()));
         }
 
 //       betAndLoss.getTenantChannelUser().setUserName(breakThroughDTO.getUserName());

@@ -10,10 +10,15 @@ import com.robot.og.base.bo.LoginResultVO;
 import com.robot.og.base.function.LoginFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.DigestUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 登录
- * @Author mrt
+ * @Author tanke
  * @Date 2020/6/15 15:12
  * @Version 2.0
  */
@@ -26,6 +31,11 @@ public class LoginServer implements IAssemFunction<LoginDTO> {
 
     @Override
     public Response doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        return loginFunction.doFunction(paramWrapper, robotWrapper);
+
+
+        return loginFunction.doFunction(paramWrapper  ,robotWrapper);
     }
+
+
+
 }

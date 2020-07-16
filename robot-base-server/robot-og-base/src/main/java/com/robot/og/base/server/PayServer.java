@@ -7,7 +7,6 @@ import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 
 import com.robot.og.base.ao.PayAO;
-import com.robot.og.base.bo.QueryUserResultBO;
 import com.robot.og.base.function.PayFunction;
 import com.robot.og.base.function.QueryUserFunction;
 import org.springframework.beans.factory.annotation.Autowired;

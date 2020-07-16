@@ -10,6 +10,7 @@ import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
+import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.vo.UserInfoDetailResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -58,8 +59,10 @@ public class QueryUserDetailFunction extends AbstractFunction<String,String,User
 			}
 
 			UserInfoDetailResultVO usesrResultVO = JSON.parseObject(result, UserInfoDetailResultVO.class);
-			if (null == usesrResultVO.getCode()) {
+			if (Constant.LOSE.equals(usesrResultVO.getCode()) ) {
 				return Response.FAIL(usesrResultVO.getMsg());
+			}else if (Constant.LOSE2.equals(usesrResultVO.getCode())){
+				Response.FAIL(usesrResultVO.getMsg());
 			}
 			return Response.SUCCESS(usesrResultVO);
 

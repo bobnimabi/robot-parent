@@ -77,7 +77,7 @@ public abstract class AbstractFunction<T, F, E> implements IFunction<T, F, E> {
      * 获取请求体
      * @return
      */
-    protected abstract IEntity getEntity(T params, RobotWrapper robotWrapper);
+    protected abstract IEntity getEntity(T params, RobotWrapper robotWrapper) throws Exception;
 
 
     /**

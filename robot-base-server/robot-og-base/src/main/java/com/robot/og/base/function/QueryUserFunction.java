@@ -1,29 +1,20 @@
 package com.robot.og.base.function;
 
-import com.alibaba.fastjson.JSON;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
-import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 
 
 import com.robot.og.base.basic.PathEnum;
-import com.robot.og.base.bo.QueryUserResultBO;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM

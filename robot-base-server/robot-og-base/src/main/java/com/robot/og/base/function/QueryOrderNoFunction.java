@@ -10,7 +10,6 @@ import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.PathEnum;
-import com.robot.og.base.bo.QueryUserResultBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

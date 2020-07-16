@@ -2,12 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="robot-jiuwu-activity-server" />
-        <module name="robot-bbin-base" />
         <module name="robot-jiuwu-base" />
         <module name="robot-jgpk-activity-server" />
         <module name="robot-og-base" />
@@ -15,10 +14,12 @@
         <module name="robot-generator" />
         <module name="robot-og-activity-server" />
         <module name="robot-gpk-base" />
-        <module name="robot-gpk-activity-server" />
+        <module name="robot-jiuwu-activity-server" />
         <module name="robot-centre" />
         <module name="robot-core" />
         <module name="robot-service" />
+        <module name="robot-gpk-activity-server" />
+        <module name="robot-bbin-base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

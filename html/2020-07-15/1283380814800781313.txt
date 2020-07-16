@@ -1,0 +1,1 @@
+{"code":"0","msg":"ok","id":"712d06350a9e4cc1b463c05575248658","data":[{"score":-3105,"revenue":1105,"grade":51100,"kindName":"龙虎斗","kindID":145},{"score":-1892,"revenue":178,"grade":8946,"kindName":"斗地主","kindID":200},{"score":-17848,"revenue":13933,"grade":546127,"kindName":"红包扫雷","kindID":201},{"score":-3007,"revenue":0,"grade":43278,"kindName":"金蟾捕鱼","kindID":2029}]}

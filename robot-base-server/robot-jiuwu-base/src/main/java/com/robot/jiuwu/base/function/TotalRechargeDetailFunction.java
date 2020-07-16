@@ -43,7 +43,6 @@ public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeA
 
     }
 
-
     @Override
     protected IResultHandler<String, RechargeResultBO> getResultHandler() {
         return ResultHandler.INSTANCE;
@@ -69,7 +68,6 @@ public class TotalRechargeDetailFunction extends AbstractFunction<TotalRechargeA
             RechargeResultBO rechargeResultVO = JSON.parseObject(result, RechargeResultBO.class);
             if (Constant.LOSE2.equals(rechargeResultVO.getCode()) ) {
                 return Response.FAIL("查询细节失败",rechargeResultVO.getMsg());
-
 
             }else if(Constant.LOSE.equals(rechargeResultVO.getCode())){
                 return Response.FAIL(rechargeResultVO.getMsg());

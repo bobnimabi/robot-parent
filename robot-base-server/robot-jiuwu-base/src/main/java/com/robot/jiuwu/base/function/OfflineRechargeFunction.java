@@ -12,8 +12,10 @@ import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
+import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.dto.OfflineDataDTO;
 import com.robot.jiuwu.base.vo.OfflineRechargeVO;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -81,9 +83,10 @@ public class OfflineRechargeFunction extends AbstractFunction<OfflineDataDTO,Str
                 return Response.FAIL("未响应");
             }
             //添加判断充值为0时候响应错误信息  todo
-
             OfflineRechargeVO OfflineRechargeVO = JSON.parseObject(result, OfflineRechargeVO.class);
-            if (null == OfflineRechargeVO.getCode()) {
+
+
+            if (Constant.LOSE == OfflineRechargeVO.getCode()) {
                 return Response.FAIL("转换失败");
             }
             return Response.SUCCESS(OfflineRechargeVO);

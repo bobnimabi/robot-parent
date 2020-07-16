@@ -1,0 +1,1 @@
+{"code":"0","msg":"ok","id":"f884657874fa457ebc378f8fcbc02c66","data":[{"score":10670,"revenue":330,"grade":11000,"kindName":"飞禽走兽","kindID":123},{"score":5410,"revenue":590,"grade":17600,"kindName":"龙虎斗","kindID":145}]}

@@ -55,7 +55,7 @@ public class OGcontroller extends ControllerBase {
 		}
 		LoginDTO loginDTO = new LoginDTO();
 		loginDTO.setId(robotId);
-		return super.dispatcher.disPatcherLogin(new ParamWrapper<LoginDTO>(loginDTO), FunctionEnum.Image_CODE_SERVER, true);
+		return super.dispatcher.disPatcherLogin(new ParamWrapper<LoginDTO>(loginDTO), FunctionEnum.IMAGE_CODE_SERVER, true);
 
 	}
 

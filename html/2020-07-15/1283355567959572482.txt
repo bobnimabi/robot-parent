@@ -1,0 +1,1 @@
+{"code":"0","msg":"ok","id":"e03095a9d6024d889dde8715dfa37440","data":[{"score":-4710,"revenue":210,"grade":5500,"kindName":"抢庄牛牛","kindID":57},{"score":117895,"revenue":19805,"grade":715500,"kindName":"龙虎斗","kindID":145},{"score":-3069,"revenue":80,"grade":6261,"kindName":"斗地主","kindID":200}]}

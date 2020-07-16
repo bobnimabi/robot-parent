@@ -59,27 +59,34 @@ public class BetAmountAndRechargeServer implements IAssemFunction<BreakThroughDT
         TenantBetDetailVo betAndLoss = createBetAndLoss(rechargeDataList);
 
 
-        //
         Response offlineResult = offlineRechargeServer.doFunction(new ParamWrapper<OfflineDataDTO>(createOfflineParams(breakThroughDTO)), robotWrapper);
         if (!offlineResult.isSuccess()) {
             return rechargeDetailResult;
         }
         OfflineRechargeVO offlineRechargeVO = (OfflineRechargeVO) offlineResult.getObj();
         OfflineRechargeData data = offlineRechargeVO.getData();
-        data.setAmount(MoneyUtil.convertToYuan(data.getAmount()));
 
+    //   data.setAmount(MoneyUtil.convertToYuan(data.getAmount()));
 
         Response onlineResult = onlineRechargeServer.doFunction(new ParamWrapper<OnlineRechargeDTO>(createOnlineParams(breakThroughDTO)), robotWrapper);
         if (!onlineResult.isSuccess()) {
             return rechargeDetailResult;
         }
-        OnlineRechargeVO onlineRechargeVO = (OnlineRechargeVO) onlineResult.getObj();
 
-        betAndLoss.setIncome(offlineRechargeVO.getData().getAmount().add(onlineRechargeVO.getData().getAmount()));
+        OnlineRechargeVO onlineRechargeVO = (OnlineRechargeVO) onlineResult.getObj();
+        if(null==offlineRechargeVO.getData()&&null==onlineRechargeVO.getData()){
+            return Response.FAIL("线上线下充值金额为0");
+        }else if(offlineRechargeVO.getData()==null){
+            betAndLoss.setIncome(MoneyUtil.convertToYuan(onlineRechargeVO.getData().getAmount()));
+        }else if(onlineRechargeVO.getData()==null){
+            betAndLoss.setIncome(MoneyUtil.convertToYuan(offlineRechargeVO.getData().getAmount()));
+        }else {
+            betAndLoss.setIncome(offlineRechargeVO.getData().getAmount().add(onlineRechargeVO.getData().getAmount()));
+        }
+
 //       betAndLoss.getTenantChannelUser().setUserName(breakThroughDTO.getUserName());
         return Response.SUCCESS(betAndLoss);
     }
-
 
 /**
  * 区间查询参数

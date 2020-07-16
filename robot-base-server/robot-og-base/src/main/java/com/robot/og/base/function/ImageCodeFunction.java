@@ -3,6 +3,7 @@ package com.robot.og.base.function;
 
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
+import com.robot.core.function.base.ICheckLost;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
@@ -38,6 +39,15 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, String> {
                 .add("t", UUID.randomUUID().toString().replace("-", "")) // 0人工充值 1线上补单 2活动彩金 3补单 6其他
                 ;
     }
+
+    /**
+     * 注意：与登录相关的接口，返回null，不进行掉线检查
+     */
+    @Override
+    protected ICheckLost getCHECK_LOST_SERVICE() {
+        return null;
+    }
+
 
     @Override
     protected IResultHandler<String, String> getResultHandler() {

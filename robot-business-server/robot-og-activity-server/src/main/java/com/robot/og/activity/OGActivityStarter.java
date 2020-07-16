@@ -13,9 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-
-//import com.robot.center.tenant.FeignTenantInterceptor;
-
 /**
  * Created by mrt on 11/13/2019 7:51 PM
  */

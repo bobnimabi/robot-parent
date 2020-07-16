@@ -11,11 +11,13 @@ import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
+import com.robot.jiuwu.base.common.Constant;
 import com.robot.jiuwu.base.dto.OfflineDataDTO;
 import com.robot.jiuwu.base.dto.OnlineRechargeDTO;
 import com.robot.jiuwu.base.vo.OfflineRechargeVO;
 import com.robot.jiuwu.base.vo.OnlineRechargeVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -86,7 +88,7 @@ public class OnllineRechargeFunction extends AbstractFunction<OnlineRechargeDTO,
             }
 
             OnlineRechargeVO rechargeVO = JSON.parseObject(result, OnlineRechargeVO.class);
-            if (null == rechargeVO.getCode()) {
+            if (Constant.LOSE == rechargeVO.getCode()) {
                 return Response.FAIL("转换失败");
             }
             return Response.SUCCESS(rechargeVO);

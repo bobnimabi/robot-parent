@@ -142,7 +142,7 @@ public class OGcontroller extends ControllerBase {
 			return Response.FAIL("参数不全");
 
 		}
-		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto), FunctionEnum.GETLOST_DETAIL_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto), FunctionEnum.GETDETAIL_SERVER);
 	}
 
 

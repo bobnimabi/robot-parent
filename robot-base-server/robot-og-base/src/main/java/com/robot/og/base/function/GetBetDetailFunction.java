@@ -12,16 +12,13 @@ import com.robot.og.base.ao.GetBetDetailAO;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.GetBetDetailBO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.NameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,119 +34,15 @@ public class GetBetDetailFunction extends AbstractFunction<GetBetDetailAO,String
         return PathEnum.GET_DETAIL;
     }
 
-    //todo  参数
+
     @Override
     protected IEntity getEntity(GetBetDetailAO ao, RobotWrapper robotWrapper) {
-        List<NameValuePair> list = new ArrayList<NameValuePair>();
 
         return UrlEntity.custom(50)
                 .add("account", ao.getAccount())
                 .add("startDate", DateUtil.YEAR_MONTH_DAY_MORE.format(ao.getStartDate()))
                 .add("endDate", DateUtil.YEAR_MONTH_DAY_MORE.format(ao.getEndDate()))
                 .add("gameCode", ao.getGameCode())
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
-                .add("gameid", "")
                 ;
 
 
@@ -178,12 +71,6 @@ public class GetBetDetailFunction extends AbstractFunction<GetBetDetailAO,String
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("查询下注未响应");
             }
-
-          /*  QueryUserResultBO usesrResultVO = JSON.parseObject(result, QueryUserResultBO.class);
-            if (null == usesrResultVO.getCode()) {
-                return Response.FAIL("转换失败");
-            }
-            return Response.SUCCESS(usesrResultVO);*/
 
             Map<String, Map<String, String>> mapout = new HashMap<>();
             Document doc = Jsoup.parse(result);

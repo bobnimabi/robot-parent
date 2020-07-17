@@ -24,7 +24,7 @@ public class GetLostDetailFunction extends AbstractFunction<String,String, Strin
 
     @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.QUERY_USER;
+        return PathEnum.GET_DETAIL;
     }
 
     @Override

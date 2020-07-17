@@ -46,8 +46,8 @@ public class GetBetDetailServer implements IAssemFunction<BetQueryDto> {   //参
 		ao.setAccount(betQueryDto.getUserName());
 		ao.setStartDate(betQueryDto.getStartDate());
 		ao.setEndDate(betQueryDto.getEndDate());
-		//ao.setGameCode(betQueryDto.get());
-	//	ao.getGameCodeList("");   todo
+		ao.setGameCode(betQueryDto.getGameList().toString());  //todo
+
 		return new ParamWrapper<GetBetDetailAO>(ao);
 	}
 

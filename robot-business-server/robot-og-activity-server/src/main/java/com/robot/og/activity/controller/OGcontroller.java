@@ -45,7 +45,7 @@ public class OGcontroller extends ControllerBase {
 	 * 获取图片验证码
 	 *
 	 * @param robotId
-	 * @return            OK
+	 * @return
 	 * @throws Exception
 	 */
 	@GetMapping("/getImageCode")
@@ -120,7 +120,7 @@ public class OGcontroller extends ControllerBase {
 
 
 	@PostMapping("/getRecharge")
-	//@ApiOperation("查询：获取充值信息")     OK
+	//@ApiOperation("查询：获取充值信息")
 	public Response getRecharge(@RequestBody BreakThroughDTO incomeInfoDTO) throws Exception{
 		if (null == incomeInfoDTO
 				|| StringUtils.isEmpty(incomeInfoDTO.getUserName())
@@ -145,13 +145,7 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto), FunctionEnum.GETLOST_DETAIL_SERVER);
 	}
 
-/*
-	//查询用户是否存在
-	@GetMapping("/isExist")
-	public Response isExist(@RequestParam String username) throws Exception {
 
-		return null;
-	}*/
 
 	//查询余额
 	@GetMapping("/queryBalance")
@@ -160,7 +154,7 @@ public class OGcontroller extends ControllerBase {
 			return Response.FAIL("用户名有误");
 		}
 
-		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_BALANCE_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_USER_SERVER);
 	}
 
 	//查询层级信息
@@ -193,9 +187,6 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO),FunctionEnum.QUERY_ODERNO_SERVER);
 	}
 
-
-
-
 	/**
 	 * 大转盘用
 	 * @param userName
@@ -222,8 +213,13 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_USER_INFO);
 	}
 
-
-	//@ApiOperation("子现金：查询会员详细")
+	/**
+	 * 和getRecharge 一样这个是查询所有充值的信息
+	 * @param cashDetailDTO
+	 * @return
+	 * @throws Exception
+	 */
+	//@ApiOperation("子现金：查询会员充值流水详细")
 	@PostMapping("/queryUserRecord")
 	public Response queryUserRecord(@RequestBody CashDetailDTO cashDetailDTO) throws Exception {
 		if (null == cashDetailDTO ||  StringUtils.isBlank(cashDetailDTO.getUserName())) {

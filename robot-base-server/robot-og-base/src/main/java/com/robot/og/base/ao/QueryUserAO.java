@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
  *打款前查询用户
  * </p>
  *
- * @author tank   todo
+ * @author tank
  * @date 2020/7/4
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class QueryUserAO {
-	private String gameId;
+	private String type;
+	private String account;
 
 }

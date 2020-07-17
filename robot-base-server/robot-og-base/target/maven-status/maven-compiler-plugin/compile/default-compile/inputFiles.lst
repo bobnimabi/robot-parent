@@ -12,15 +12,14 @@ E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryUserFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\LoginServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryUserAO.java
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\LoginData.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryLevelFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\PayBO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetBetDetailFunction.java
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\ParentResultVO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryAccountFunction.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryRechargeAO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\basic\PathEnum.java
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryBalanceFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\PayAO.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\dto\Convert.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\ImageCodeServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetRechargeFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\GetBetDetailBO.java
@@ -30,5 +29,3 @@ E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\GetBetDetailAO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\QueryUserData.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\basic\CheckLostImpl.java
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\QueryUserResultBO.java
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryUserInfoFunction.java

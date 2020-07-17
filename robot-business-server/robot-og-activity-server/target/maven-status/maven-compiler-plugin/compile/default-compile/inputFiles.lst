@@ -1,6 +1,5 @@
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\interceptor\OGActivityTenant.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\config\MybatisPlusConfig.java
-E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\QueryBalanceServer.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\config\WebMvcConfig.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\GetTotalAmountServer.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\QueryUserServer.java
@@ -12,5 +11,4 @@ E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\GetBetDetailServer.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\QueryUserRecordServer.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\OGActivityStarter.java
-E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\QueryUserInfoServer.java
 E:\project\robot-parent\robot-business-server\robot-og-activity-server\src\main\java\com\robot\og\activity\server\QueryOrderNoServer.java

@@ -10,6 +10,7 @@ import com.robot.core.function.base.IResultHandler;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
+import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.ao.PayAO;
@@ -22,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -39,7 +43,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
     public Response<PayBO> doFunction(ParamWrapper<PayAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         Response<PayBO> response = super.doFunction(paramWrapper, robotWrapper);
         PayAO payFinalAO = paramWrapper.getObj();
-        mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,payFinalAO.getAmount());
+        mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,new BigDecimal(payFinalAO.getDepositMoney()));
         return response;
     }
 
@@ -50,15 +54,23 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
 
 
     @Override
-    protected IEntity getEntity(PayAO payAO, RobotWrapper robotWrapper) {
-        return JsonEntity.custom(12)
-                .add("amount", MoneyUtil.convertToFen(payAO.getAmount())) // 金额
-                .add("gameids", payAO.getGameId()) // 游戏ids
-                .add("password", DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes())) // 密码
-                .add("remark", payAO.getMemo()) // 备注
-                .add("type","2") // 0人工充值 1线上补单 2活动彩金 3补单 6其他
-                .add("codingDouble","1") //打码量倍数  新增
+    protected IEntity getEntity(PayAO ao, RobotWrapper robotWrapper) {
+        return UrlEntity.custom(12)
+                .add("type", ao.getType())
+                .add("memberId", ao.getMemberId())  //todo
+                .add("depositMoney", ao.getDepositMoney())//todo
+                .add("depositPreStatus", "0")//todo
+                .add("depositPre", "1")
+                .add("otherPreStatus", "0")
+                .add("otherPre", "0")
+                .add("compBetCheckStatus", "1")
+                .add("compBet", "1")
+                .add("normalStatus", "1")
+                .add("depositPro", "2存款优惠")
+                .add("token", UUID.randomUUID().toString().replaceAll("-",""))  //生成随机token
+
                 ;
+
     }
 
     @Override
@@ -95,4 +107,6 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
             }
         }
     }
+
+
 }

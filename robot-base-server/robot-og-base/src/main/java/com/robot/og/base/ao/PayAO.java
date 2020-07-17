@@ -9,55 +9,31 @@ import java.math.BigDecimal;
 
 /**
  * @Author mrt
- * @Date 2020/5/15 14:02  需修改  todo
+ * @Date 2020/5/15 14:02
  * @Version 2.0
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PayAO extends PayCommonParams {
-    // 存入帐号
-    private String AccountsString;
-    // 应该是防止表单重复提交的
-    private String DepositToken;
-    // 类型：人工存提：4 优惠活动：5 返水：6 补发派彩：7 其他 99
-    private String Type;
-    // 实际存提，true或false
-    private String IsReal;
-    // 前台备注
-    private String PortalMemo;
-    // 后台备注
-    private String Memo;
-    // 登录密码
-    private String Password;
-    // 存款金额
-    private BigDecimal Amount;
-    // 金额字符串
-    private String AmountString;
-    // 时间戳
-    private String TimeStamp;
-    // 稽核方式 免稽核：None 存款稽核：Deposit 优惠稽核：Discount
-    private String AuditType;
-    // 稽核金额
-    private String Audit;
-    // 打款前：调接口DepositTokenServer获取的防表单重复提交的Token
-    private String depositToken;
 
-    //新增
-    private String gameId;
+    private String type;
+//    用户id
+    private String memberId;
+    //打款金额
+    private String depositMoney;
     //备注
-    private String remark;
-    //新增95打款用
-    private String codingDouble;
-    //新增95打款用
-    private String gameids;
+    private String depositMoneyRemark;
+    private String depositPreStatus;
+    private Double depositPre;
+    private String otherPreStatus;
+    private String otherPre;
+    private String compBetCheckStatus;
+    private String compBet;
+    private String normalStatus;
+//    打款类型
+    private String depositPro;
+    //随机token
+    private String token;
 
-    /**  95打款参数
-     * password: "B99CD5E49B8B364059325AC605070B77"
-     * amount: 100
-     * codingDouble: 1
-     * remark: "测试打款"
-     * type: 0
-     * gameids: "481849"
-     */
 }

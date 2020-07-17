@@ -5,7 +5,6 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.og.base.function.QueryBalanceFunction;
 import com.robot.og.base.function.QueryLevelFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 

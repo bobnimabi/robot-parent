@@ -7,11 +7,15 @@ import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 
 import com.robot.og.base.ao.PayAO;
+import com.robot.og.base.ao.QueryUserAO;
 import com.robot.og.base.function.PayFunction;
 import com.robot.og.base.function.QueryUserFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * 打款：先查后打
@@ -34,7 +38,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         if (!response.isSuccess()) {
             return response;
         }
-        return payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj(),robotWrapper), robotWrapper);
+        return payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj()), robotWrapper);
     }
 
     /**
@@ -42,9 +46,12 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      * @param paramWrapper
      * @return
      */
-    private ParamWrapper<String> createQueryUserParams(ParamWrapper<TaskAtomDto> paramWrapper) {
+    private ParamWrapper<QueryUserAO> createQueryUserParams(ParamWrapper<TaskAtomDto> paramWrapper) {
         TaskAtomDto taskAtomDto = paramWrapper.getObj();
-        return new ParamWrapper<String>(taskAtomDto.getUsername());
+        QueryUserAO queryUserAO = new QueryUserAO();
+        queryUserAO.setType("queryManDeposit");
+        queryUserAO.setAccount(taskAtomDto.getUsername());
+        return new ParamWrapper<QueryUserAO>(queryUserAO);
     }
 
     /**
@@ -54,14 +61,25 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      * @return
      * @throws Exception
      */
-    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, String account  , RobotWrapper robotWrapper) throws Exception {
-        PayAO payDTO = new PayAO();
-        payDTO.setAmount(moneyDTO.getPaidAmount());
-        payDTO.setGameId(account);
-        payDTO.setPassword(DigestUtils.md5DigestAsHex(robotWrapper.getPlatformPassword().getBytes()));
-        payDTO.setRemark(moneyDTO.getMemo());
-        payDTO.setType("2");
-        payDTO.setCodingDouble("1");
-        return new ParamWrapper<PayAO>(payDTO);
+    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, String account  ) throws Exception {
+
+        PayAO payAO = new PayAO();
+        payAO.setType("saveSet");
+        payAO.setMemberId(moneyDTO.getMemberId());  //todo
+        payAO.setDepositMoney(moneyDTO.getPaidAmount().toString());   //Bigdecimal
+        payAO.setDepositMoneyRemark(moneyDTO.getMemo());
+        payAO.setDepositPreStatus("0");
+        payAO.setDepositPre(Math.random());
+        payAO.setOtherPreStatus("0");
+        payAO.setOtherPre("0");
+        payAO.setCompBetCheckStatus("1");
+        payAO.setCompBet("1");
+        payAO.setNormalStatus("1");
+        payAO.setDepositPro("1");
+        payAO.setToken(UUID.randomUUID().toString().replaceAll("-",""));
+
+        return new ParamWrapper<PayAO>(payAO);
+
+
     }
 }

@@ -10,6 +10,7 @@ import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.PathEnum;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,7 +21,7 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service
-public class QueryOrderNoFunction extends AbstractFunction<String,String, QueryUserResultBO> {
+public class QueryOrderNoFunction extends AbstractFunction<String,String, String> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -33,7 +34,7 @@ public class QueryOrderNoFunction extends AbstractFunction<String,String, QueryU
     }
 
     @Override
-    protected IResultHandler<String, QueryUserResultBO> getResultHandler() {
+    protected IResultHandler<String, String> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
@@ -44,23 +45,24 @@ public class QueryOrderNoFunction extends AbstractFunction<String,String, QueryU
      * 不存在返回：
      *      {"code":1,"IsSuccess":false,}
      */
-    private static final class ResultHandler implements IResultHandler<String, QueryUserResultBO>{
+    private static final class ResultHandler implements IResultHandler<String, String>{
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, QueryUserResultBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
             log.info("查询会员存在功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("未响应");
             }
 
-            QueryUserResultBO usesrResultVO = JSON.parseObject(result, QueryUserResultBO.class);
+         /*   QueryUserResultBO usesrResultVO = JSON.parseObject(result, QueryUserResultBO.class);
             if (null == usesrResultVO.getCode()) {
                 return Response.FAIL("转换失败");
             }
-            return Response.SUCCESS(usesrResultVO);
+            return Response.SUCCESS(usesrResultVO);*/
+            return null;
 
 
 

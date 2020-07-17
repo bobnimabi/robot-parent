@@ -1,5 +1,8 @@
 package com.robot.og.base.function;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -10,11 +13,16 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 
 
+import com.robot.og.base.ao.QueryUserAO;
 import com.robot.og.base.basic.PathEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -22,7 +30,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class QueryUserFunction extends AbstractFunction<String,String, String> {
+public class QueryUserFunction extends AbstractFunction<QueryUserAO,String, String> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -30,10 +38,10 @@ public class QueryUserFunction extends AbstractFunction<String,String, String> {
     }
 
     @Override
-    protected IEntity getEntity(String account, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(QueryUserAO ao, RobotWrapper robotWrapper) {
         return UrlEntity.custom(1)
                 .add("type", "queryManDeposit")
-                .add("account", account)
+                .add("account", ao.getAccount())
                 ;
     }
 
@@ -62,7 +70,7 @@ public class QueryUserFunction extends AbstractFunction<String,String, String> {
             if (null == account) {
                 return Response.FAIL("会员账号不存在");
             }
-            return Response.SUCCESS("会员账号存在");
+            return Response.SUCCESS("会员账号存在:"+account);
 
 
 
@@ -82,6 +90,24 @@ public class QueryUserFunction extends AbstractFunction<String,String, String> {
 
 
     }*/
+
+
+/*  原解析方式
+
+    JSONObject jsonObject = JSON.parseObject(result);
+    JSONArray up = jsonObject.getJSONArray("up");
+    JSONObject jsonObject1 = up.getJSONObject(0);
+    String id = jsonObject1.getString("id");
+            if (StringUtils.isEmpty(id)) {
+        return Response.FAIL("用户不存在");
+    }
+    Map<String, String> respMap = new HashMap<>();
+            respMap.put("userName", jsonObject1.getString("username"));
+            respMap.put("lv", jsonObject1.getString("lv"));
+            respMap.put("distance", jsonObject1.getString("distance"));
+            return Response.SUCCESS(respMap);
+*/
+
 
 
 

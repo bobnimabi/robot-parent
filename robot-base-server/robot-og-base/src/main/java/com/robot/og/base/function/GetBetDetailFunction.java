@@ -1,6 +1,5 @@
 package com.robot.og.base.function;
-
-import com.alibaba.fastjson.JSON;
+import com.robot.center.util.DateUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -13,12 +12,21 @@ import com.robot.og.base.ao.GetBetDetailAO;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.GetBetDetailBO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.NameValuePair;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Created by mrt on 11/14/2019 8:06 PM
- * 查询用户是否存在，和基本信息
+ * Created by tanke on 11/14/2019 8:06 PM
+ * 下注详情
  */
 @Slf4j
 @Service
@@ -29,9 +37,122 @@ public class GetBetDetailFunction extends AbstractFunction<GetBetDetailAO,String
         return PathEnum.GET_DETAIL;
     }
 
+    //todo  参数
     @Override
-    protected IEntity getEntity(GetBetDetailAO getBetDetailAO, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(1).add("gameid", getBetDetailAO.toString());
+    protected IEntity getEntity(GetBetDetailAO ao, RobotWrapper robotWrapper) {
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+
+        return UrlEntity.custom(50)
+                .add("account", ao.getAccount())
+                .add("startDate", DateUtil.YEAR_MONTH_DAY_MORE.format(ao.getStartDate()))
+                .add("endDate", DateUtil.YEAR_MONTH_DAY_MORE.format(ao.getEndDate()))
+                .add("gameCode", ao.getGameCode())
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                .add("gameid", "")
+                ;
+
+
     }
 
     @Override
@@ -53,21 +174,40 @@ public class GetBetDetailFunction extends AbstractFunction<GetBetDetailAO,String
         @Override
         public Response parse2Obj(StanderHttpResponse<String, GetBetDetailBO> shr) {
             String result = shr.getOriginalEntity();
-            log.info("查询会员存在功能响应：{}", result);
+            log.info("查询下注详情功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
-                return Response.FAIL("未响应");
+                return Response.FAIL("查询下注未响应");
             }
 
-            QueryUserResultBO usesrResultVO = JSON.parseObject(result, QueryUserResultBO.class);
+          /*  QueryUserResultBO usesrResultVO = JSON.parseObject(result, QueryUserResultBO.class);
             if (null == usesrResultVO.getCode()) {
                 return Response.FAIL("转换失败");
             }
-            return Response.SUCCESS(usesrResultVO);
+            return Response.SUCCESS(usesrResultVO);*/
+
+            Map<String, Map<String, String>> mapout = new HashMap<>();
+            Document doc = Jsoup.parse(result);
+            Elements tables = doc.getElementsByTag("table");
+            for (Element table: tables) {
+                Map<String, String> mapinner = new HashMap<>();
+                Elements theadTrThs = table.select("thead tr th");
+                String catagoryStr = theadTrThs.get(0).text();
+                String catagory = catagoryStr.substring(0, catagoryStr.indexOf(" "));
+                String onClickAttr = table.select("tbody tr").get(0).attr("onclick");
+                Elements tbodyTrTds = table.select("tbody tr td");
+                for (int i = 0; i < tbodyTrTds.size(); i++) {
+                    mapinner.put(theadTrThs.get(i + 1).text(),tbodyTrTds.get(i).text());
+                }
+                mapout.put(catagory, mapinner);
+            }
+
+            return Response.SUCCESS(mapout);
 
 
 
                 
         }
+
     }
 
 }

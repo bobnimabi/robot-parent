@@ -7,6 +7,7 @@ import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.JsonEntity;
+import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.ao.QueryRechargeAO;
@@ -38,7 +39,7 @@ public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO,String
 
     @Override
     protected IEntity getEntity(QueryRechargeAO ao, RobotWrapper robotWrapper) {
-        return JsonEntity.custom(1)
+        return UrlEntity.custom(1)
                 .add("type", "queryRecord")
                 .add("tradeTypes", "31,12,15,")
                 .add("isPostback", "1")

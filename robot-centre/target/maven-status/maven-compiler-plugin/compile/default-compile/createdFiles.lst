@@ -17,6 +17,7 @@ com\robot\center\config\MybatisPlusConfigBase$StatusTenantSqlParser.class
 com\robot\center\constant\RobotConsts$RobotRecord.class
 com\robot\center\config\AuthConfigProd.class
 com\robot\center\config\MybatisPlusConfigBase.class
+com\robot\center\util\DateUtil.class
 com\robot\center\util\NetWorkUtil.class
 com\robot\center\interceptor\LoginLogInterceptor.class
 com\robot\center\util\JsonUtil.class

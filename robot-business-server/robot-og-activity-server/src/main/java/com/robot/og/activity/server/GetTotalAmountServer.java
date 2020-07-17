@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class GetTotalAmountServer implements IAssemFunction<VipTotalAmountDTO> {
 
 	@Autowired
-	private GetTotalAmountFunction getRechargeFunction;
+	private GetTotalAmountFunction getTotalAmountFunction;
 
 	@Override
 	public Response doFunction(ParamWrapper<VipTotalAmountDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {

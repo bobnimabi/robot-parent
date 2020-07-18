@@ -40,6 +40,7 @@ E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robo
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetDetailAO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BetDetailFunction.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\QueryUserServer.java
+E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\OGResponseHandler.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\QueryBalanceBO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBTotalBetGameAO.java
 E:\project\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBJuQueryDetailAO.java

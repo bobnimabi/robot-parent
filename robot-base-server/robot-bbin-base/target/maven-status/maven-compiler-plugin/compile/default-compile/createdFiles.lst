@@ -54,6 +54,7 @@ com\robot\bbin\base\function\InOutCashFunction.class
 com\robot\bbin\base\function\JuQueryRoundFunction$JuQueryParse.class
 com\robot\bbin\base\bo\JuQueryBO.class
 com\robot\bbin\base\function\XBBGetTokenFunction$ResultHandler.class
+com\robot\bbin\base\function\OGResponseHandler.class
 com\robot\bbin\base\ao\XBBJuQueryDetailAO.class
 com\robot\bbin\base\function\BetDetailFunction.class
 com\robot\bbin\base\bo\BreakerQueryBO.class

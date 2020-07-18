@@ -28,37 +28,11 @@ import java.net.URL;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 付款
+ * 登录
  */
 @Slf4j
 @Service
 public class LoginFunction extends AbstractFunction<LoginDTO,String, LoginResultVO> {
-
-
-
-    /**
-     * 登录完成后，需要手动添加特定cookie
-     */
-    @Override
-    public Response<LoginResultVO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-
-
-
-
-        Response<LoginResultVO> response = super.doFunction(paramWrapper, robotWrapper);
-        LoginResultVO loginResp = response.getObj();
-       /* if (!response.isSuccess()) {
-            return Response.FAIL(response.getMessage());
-        }
-        if (response.isSuccess()) {
-            this.addCookies(robotWrapper,loginResp.getData().getSession_id());
-        }*/
-        return response;
-
-    }
-
-
-
 
     @Override
     protected IPathEnum getPathEnum() {

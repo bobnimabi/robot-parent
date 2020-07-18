@@ -38,7 +38,7 @@ public class QueryOrderNoServer implements IAssemFunction<OrderNoQueryDTO> {
 	private ParamWrapper<QueryOrderNoAO> creatParams(ParamWrapper<OrderNoQueryDTO> paramWrapper) {
 		OrderNoQueryDTO noQueryDTO = paramWrapper.getObj();
 		QueryOrderNoAO ao = new QueryOrderNoAO();
-		ao.setType("queryMemberReportDetail");   //todo
+		ao.setType("queryMemberReportDetail");
 		ao.setAccountId(noQueryDTO.getOrderNo());
 		ao.setType("queryMemberReportDetail");
 		ao.setType("queryMemberReportDetail");

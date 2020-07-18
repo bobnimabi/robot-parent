@@ -1,6 +1,7 @@
 package com.robot.core.http.response;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -68,7 +69,8 @@ public abstract class AbstractResponseHandler implements ResponseHandler<Stander
     private StanderHttpResponse handleEntity(HttpResponse response) throws IOException {
         HttpEntity entity = response.getEntity();
         ContentType contentType = ContentType.get(entity);
-        if (ContentType.TEXT_HTML.getMimeType().equalsIgnoreCase(contentType.getMimeType())) {
+        //OG的响应 contentType为null
+        if (contentType==null||ContentType.TEXT_HTML.getMimeType().equalsIgnoreCase(contentType.getMimeType())) {
             byte[] bytes = EntityUtils.toByteArray(entity);
             Charset charset = CharsetHelper.getCharset(response, bytes);
             return new StanderHttpResponse(response, new String(bytes, charset));

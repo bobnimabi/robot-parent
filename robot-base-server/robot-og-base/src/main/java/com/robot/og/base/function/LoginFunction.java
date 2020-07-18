@@ -1,5 +1,8 @@
 package com.robot.og.base.function;
+
+
 import com.robot.code.dto.LoginDTO;
+import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.response.Response;
 import com.robot.code.response.ResponseEnum;
 import com.robot.core.function.base.*;
@@ -19,19 +22,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
+
 import java.net.MalformedURLException;
-
-
+import java.net.URL;
 
 /**
- * Created by mrt on 11/14/2019 8:06 PM    COOKIE还要加
- *
- *
- * 登录
+ * Created by mrt on 11/14/2019 8:06 PM
+ * 付款
  */
 @Slf4j
 @Service
-public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResultVO> {
+public class LoginFunction extends AbstractFunction<LoginDTO,String, LoginResultVO> {
+
+
 
     /**
      * 登录完成后，需要手动添加特定cookie
@@ -42,25 +45,19 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
 
 
 
-        Response<LoginResultVO> loginResponse = super.doFunction(paramWrapper, robotWrapper);
-        if (!loginResponse.isSuccess()) {
-            return Response.FAIL(loginResponse.getMessage());
+        Response<LoginResultVO> response = super.doFunction(paramWrapper, robotWrapper);
+        LoginResultVO loginResp = response.getObj();
+       /* if (!response.isSuccess()) {
+            return Response.FAIL(response.getMessage());
         }
-     //   LoginResultVO entity = loginResponse.getObj();
-/*
-
-        if (Constant.SUCCESS.equals(entity.getCode())) {
-            //添加cookie
-            this.addCookies(robotWrapper,entity.getData().getToken());
-        }
-*/
-
-        // 保存token
-        //  redis.opsForValue().set(createCacheKeyLoginToken(robotWrapper.getId()), entity.getData().getToken(), Duration.ofDays(1));
-
-        return loginResponse;
+        if (response.isSuccess()) {
+            this.addCookies(robotWrapper,loginResp.getData().getSession_id());
+        }*/
+        return response;
 
     }
+
+
 
 
     @Override
@@ -68,18 +65,17 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
         return PathEnum.LOGIN;
     }
 
+
     @Override
     protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot ) throws Exception {
-
-        return UrlEntity.custom(5)
+        return UrlEntity.custom(6)
                 .add("account",accountEncrypt(robot.getPlatformAccount()))  // 账号加密
                 .add("password",passwordEncrypt(robot.getPlatformPassword()))  //robot.getPlatformPassword()
                 .add("dynamicPassword",loginDTO.getOpt())  //动态口令
                 .add("type","agentLogin")    //固定参数
                 .add("rmNum",loginDTO.getImageCode())   //图片验证码
-                .add("systemLanguage","zh_CN")   //图片验证码
+                .add("systemLanguage","zh_CN")
                 ;
-
     }
 
     /**
@@ -90,14 +86,23 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
         return null;
     }
 
+
     @Override
     protected IResultHandler<String, LoginResultVO> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
+    /**
+     * 响应转换
+     * 登录响应：
+     *
+     */
     private static final class ResultHandler implements IResultHandler<String, LoginResultVO> {
+
         private static final ResultHandler INSTANCE = new ResultHandler();
-        private ResultHandler() {}
+
+        private ResultHandler() {
+        }
 
         @Override
         public Response parse2Obj(StanderHttpResponse<String, LoginResultVO> shr) {
@@ -107,9 +112,9 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
             //解析结果有登录表单  id=loginForm  表示跳转到登录页面
             Document document = Jsoup.parse(result);
             Element loginForm = document.getElementById("loginForm");
-          if (StringUtils.isEmpty(loginForm)){
-              return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,"登录成功");
-          }
+            if (StringUtils.isEmpty(loginForm)){
+                return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,"登录成功");
+            }
             return Response.FAIL("登录失败,请重新登录!");
 
         }
@@ -127,23 +132,21 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
 
 
 
-    /**
-     * 添加特定Cookies
-     * @param robotWrapper
-     * @param
-     */
-    private void addCookies(RobotWrapper robotWrapper,String  game_admin_token) throws MalformedURLException {
+    private void addCookies(RobotWrapper robotWrapper,String sid) throws MalformedURLException {
         CookieStore cookieStore = robotWrapper.getCookieStore();
-        this.addCookie(cookieStore, "game_admin_token", game_admin_token);
-
+      //  TenantRobotDomain domain = domainService.getDomain(1);
+    //    URL url = new URL(domain.getDomain());
+    //    String host = url.getHost();
+       // this.addCookie(cookieStore, "sid", sid, host);
+      //  this.addCookie(cookieStore, "langx", "zh-cn", host);
+    //    this.addCookie(cookieStore, "langcode", "zh-cn", host);
     }
 
-    private void addCookie(CookieStore cookieStore, String key, String value) {  //,String domain
+    private void addCookie(CookieStore cookieStore, String key, String value,String domain) {
         BasicClientCookie cookie = new BasicClientCookie(key, value);
+     //   cookie.setDomain(domain);
         cookieStore.addCookie(cookie);
     }
-
-
 
 
 

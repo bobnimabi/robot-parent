@@ -22,6 +22,7 @@ E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\dto\Convert.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\ImageCodeServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetRechargeFunction.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryOrderNoAO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\GetBetDetailBO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryUserRecordFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\LoginFunction.java

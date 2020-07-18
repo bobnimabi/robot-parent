@@ -6,15 +6,9 @@ import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.og.base.bo.LoginResultVO;
 import com.robot.og.base.function.LoginFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.DigestUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 登录

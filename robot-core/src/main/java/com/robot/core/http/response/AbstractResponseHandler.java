@@ -12,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 /**
  * Created by mrt on 10/22/2019 8:52 PM
@@ -38,6 +39,7 @@ public abstract class AbstractResponseHandler implements ResponseHandler<Stander
         if (null == response) {
             throw new IllegalStateException("数据包：服务器未响应或被中间代理拦截");
         }
+
         HttpEntity httpEntity = response.getEntity();
         StatusLine statusLine = response.getStatusLine();
         if (this.errorStatus(statusLine)) {

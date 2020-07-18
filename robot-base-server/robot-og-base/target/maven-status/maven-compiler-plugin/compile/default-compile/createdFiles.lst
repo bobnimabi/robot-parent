@@ -24,6 +24,7 @@ com\robot\og\base\ao\QueryUserAO.class
 com\robot\og\base\basic\CheckLostImpl.class
 com\robot\og\base\function\ImageCodeFunction.class
 com\robot\og\base\function\QueryLevelFunction.class
+com\robot\og\base\ao\QueryOrderNoAO.class
 com\robot\og\base\bo\PayBO.class
 com\robot\og\base\function\GetRechargeFunction.class
 com\robot\og\base\bo\User.class

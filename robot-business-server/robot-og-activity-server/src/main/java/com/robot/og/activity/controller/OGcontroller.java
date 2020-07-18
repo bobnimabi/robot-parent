@@ -234,10 +234,7 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<CashDetailDTO>(cashDetailDTO),FunctionEnum.QUERY_USERRECORD_SERVER);
 	}
 
-
-
 /*----------------------------分割线---------------------------------------*/
-
 
 
 	/**

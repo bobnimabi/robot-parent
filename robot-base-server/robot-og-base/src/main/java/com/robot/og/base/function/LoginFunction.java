@@ -1,8 +1,8 @@
 package com.robot.og.base.function;
 
 
+import com.alibaba.fastjson.JSON;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.response.Response;
 import com.robot.code.response.ResponseEnum;
 import com.robot.core.function.base.*;
@@ -13,18 +13,9 @@ import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.LoginResultVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.CookieStore;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -66,11 +57,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String, LoginResult
         return ResultHandler.INSTANCE;
     }
 
-    /**
-     * 响应转换
-     * 登录响应：
-     *
-     */
+
     private static final class ResultHandler implements IResultHandler<String, LoginResultVO> {
 
         private static final ResultHandler INSTANCE = new ResultHandler();
@@ -83,13 +70,15 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String, LoginResult
             String result = shr.getOriginalEntity();
             log.info("登录响应：{}", result);
 
-            //解析结果有登录表单  id=loginForm  表示跳转到登录页面
-            Document document = Jsoup.parse(result);
-            Element loginForm = document.getElementById("loginForm");
-            if (StringUtils.isEmpty(loginForm)){
-                return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,"登录成功");
+            LoginResultVO loginResultVo = JSON.parseObject(result, LoginResultVO.class);
+
+
+            if (loginResultVo.getSuccess()== false) {
+                return Response.FAIL(loginResultVo.getMsg());
             }
-            return Response.FAIL("登录失败,请重新登录!");
+
+
+            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS,"登录成功");
 
         }
     }
@@ -103,25 +92,5 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String, LoginResult
     private String passwordEncrypt(String platPassword) throws Exception{
         return new String(Base64Utils.encode(DigestUtils.md5DigestAsHex(platPassword.trim().getBytes()).getBytes()));
     }
-
-
-
-    private void addCookies(RobotWrapper robotWrapper,String sid) throws MalformedURLException {
-        CookieStore cookieStore = robotWrapper.getCookieStore();
-      //  TenantRobotDomain domain = domainService.getDomain(1);
-    //    URL url = new URL(domain.getDomain());
-    //    String host = url.getHost();
-       // this.addCookie(cookieStore, "sid", sid, host);
-      //  this.addCookie(cookieStore, "langx", "zh-cn", host);
-    //    this.addCookie(cookieStore, "langcode", "zh-cn", host);
-    }
-
-    private void addCookie(CookieStore cookieStore, String key, String value,String domain) {
-        BasicClientCookie cookie = new BasicClientCookie(key, value);
-     //   cookie.setDomain(domain);
-        cookieStore.addCookie(cookie);
-    }
-
-
 
 }

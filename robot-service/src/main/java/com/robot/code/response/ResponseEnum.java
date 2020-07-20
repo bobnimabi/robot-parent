@@ -9,6 +9,7 @@ public enum ResponseEnum {
      */
     GENERAL_SUCCESS(true, 10000, "操作成功"),
     LOGIN_SUCCESS(true, 10001, "登录成功"),
+   OG_LOGIN_SUCCESS(true, 1000, "登录成功"),
 
 
     /**

@@ -47,7 +47,7 @@ public class JiuWuController extends ControllerBase {
 		}
 		LoginDTO loginDTO = new LoginDTO();
 		loginDTO.setId(robotId);
-		return super.dispatcher.disPatcherLogin(new ParamWrapper<LoginDTO>(loginDTO),FunctionEnum.Image_CODE_SERVER,true);
+		return super.dispatcher.disPatcherLogin(new ParamWrapper<LoginDTO>(loginDTO),FunctionEnum.Image_CODE_SERVER,false);
 
 	}
 
@@ -63,7 +63,7 @@ public class JiuWuController extends ControllerBase {
 		) {
 			return Response.FAIL("未传入参数");
 		}
-		Response response = super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER, false);
+		Response response = super.dispatcher.disPatcherLogin(new ParamWrapper(loginDTO), FunctionEnum.LOGIN_SERVER, true);
 		if (!response.isSuccess()) {
 			return response;
 		}

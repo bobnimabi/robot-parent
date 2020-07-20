@@ -1,9 +1,20 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>公告</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+
+
+
+
+
+
+
+
+
+
+
     <script type="text/javascript">
         var ctx="";
         var MEMBER_DIR="ogmember";
@@ -16,7 +27,7 @@
     <script type="text/javascript" src="/common/js/yl.js"></script>
     <script type="text/javascript" src="/common/js/jquery-ui.js"></script>
     <script type="text/javascript" src="/common/js/announment.js"></script>
-    <script type="text/javascript" src="/common/js/onlineCommon.js"></script>
+    <script type="text/javascript" src="/common/js/onlineCommon.js" ></script>
     <script type="text/javascript" src="/common/js/jquery.form1.js"></script>
     <script type="text/javascript" src="/common/js/faqIcon.js"></script>
     <link rel="stylesheet" type="text/css" href="/common/css/ann.css" />
@@ -198,292 +209,758 @@
     </script>
     <div id="onlinedialog" title='在线详情'></div>
 
-    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/theme.css" />
-    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/style.css" />
-    <script type="text/javascript" src="/jsp/agency/js/bounced.js"></script>
-    <!-- 弹框的样式设置 -->
-    <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        #pop {
-            background: #fff;
-            width: 250px;
-            border: 1px solid #e0e0e0;
-            font-size: 12px;
-            position: fixed;
-            right: 10px;
-            bottom: 10px;
-            font-family: "微软雅黑";
-            letter-spacing: 1px;
-        }
-
-        #popHead {
-            line-height: 40px;
-            background: #E0FFFF;
-            border-bottom: 1px solid #e0e0e0;
-            position: relative;
-            font-size: 12px;
-            padding: 0 0 0 10px;
-        }
-
-        #popHead h2 {
-            display: block;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            width: 190px;
-            font-size: 12px;
-            overflow: hidden;
-            line-height: 40px;
-            height: 40px;
-        }
-
-        #popHead #popClose {
-            position: absolute;
-            right: 15px;
-            top: 12px;
-            line-height: 15px;
-            text-align: center;
-            width: 15px;
-            height: 15px;
-        }
-
-        #popHead #popUp {
-            position: absolute;
-            right: 15px;
-            top: 12px;
-            line-height: 15px;
-            text-align: center;
-            width: 15px;
-            height: 15px;
-        }
-
-        #popContent {
-            padding: 5px 10px;
-            background: #E0EEE0;
-        }
-
-        #popIntro {
-            line-height: 180%;
-            margin: 5px 0;
-            overflow: hidden;
-            display: block;
-        }
-    </style>
-    <script>
-        var StyleFile = "theme" + document.cookie.charAt(6) + ".css";
-        document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
-    </script>
-    <!--[if IE]>
-    <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
-    <![endif]-->
+    <script type="text/javascript"
+            src="/common/js/jquery.pager_2.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="/jsp/agency/css/theme.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="/jsp/agency/css/style.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="/common/css/page.css">
+    <script type="text/javascript"
+            src="/common/js/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript">
-        jumpAnn = function () {
-            if('' && '' == 'true') {
-                var topFrame = window.parent.frames['mbody'];
-                topFrame.window.changedownmenu('');
-                window.location.href=ctx+"/agent/AnnouncementServlet?doQueryAnnMessage=queryMessage";
+        var over = false;
+        $(function () {
+            //总控控制‘人工额度转换’是否显示
+            var menuList = eval('[{"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/InstantBettingServlet/queryInstantBettingInfo?pageGroupId=0","sort":"3","level":"0","authorityId":"218","isMenu":"0","authorityName":"即时注单","isEnabled":"1"}, {"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/CustomizeServlet?type=setList","sort":"5","level":"0","authorityId":"63","isMenu":"0","authorityName":"现金系统","isEnabled":"1"}, {"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/ReportServlet","sort":"8","level":"0","authorityId":"68","isMenu":"0","authorityName":"报表查询","isEnabled":"1"}, {"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/AnnouncementServlet","sort":"9","level":"0","authorityId":"37","isMenu":"0","authorityName":"公告/讯息","isEnabled":"1"}, {"isDownLevel":"1","parentId":"37","authorityUrl":"agent/AnnouncementServlet","sort":"1","level":"1","authorityId":"38","isMenu":"0","authorityName":"公告信息","isEnabled":"1"}, {"isDownLevel":"1","parentId":"68","authorityUrl":"agent/MemberReport?type=showSelectPage","sort":"2","level":"1","authorityId":"117","isMenu":"0","authorityName":"会员报表","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/CompanyAccountServlet?op=query&shutdown=1&currencyId=1","sort":"4","level":"1","authorityId":"77","isMenu":"0","authorityName":"公司账号管理","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/DrawRecordServlet?type=queryPage","sort":"5","level":"1","authorityId":"78","isMenu":"0","authorityName":"出入款记录","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/ComRecordServlet?type=queryManDeposit","sort":"6","level":"1","authorityId":"79","isMenu":"0","authorityName":"人工线上存提","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/BBRecordServlet?type=queryRecord","sort":"7","level":"1","authorityId":"81","isMenu":"0","authorityName":"子现金系统","isEnabled":"1"}, {"isDownLevel":"1","parentId":"79","authorityUrl":"/agent/ComRecordServlet?type=queryManDeposit","sort":"1","level":"2","authorityId":"135","isMenu":"0","authorityName":"人工存入","isEnabled":"1"}, {"isDownLevel":"1","parentId":"77","authorityUrl":"agent/companyAccount/readOnly","sort":"1","level":"2","authorityId":"162","isMenu":"0","authorityName":"只读权限","isEnabled":"1"}, {"isDownLevel":"1","parentId":"78","authorityUrl":"agent/agent/DrawRecordServlet?type=queryPage","sort":"1","level":"2","authorityId":"263","isMenu":"0","authorityName":"出款记录","isEnabled":"0"}, {"isDownLevel":"1","parentId":"263","authorityUrl":"agent/readOnly","sort":"1","level":"3","authorityId":"285","isMenu":"0","authorityName":"只读权限","isEnabled":"0"}, {"isDownLevel":"1","parentId":"263","authorityUrl":"agent/drawRecord/opreation","sort":"2","level":"3","authorityId":"286","isMenu":"0","authorityName":"操作权限","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=autoDraw","sort":"2","level":"4","authorityId":"288","isMenu":"0","authorityName":"自动出款","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=todraw","sort":"3","level":"4","authorityId":"289","isMenu":"0","authorityName":"确定","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=toCancel","sort":"4","level":"4","authorityId":"290","isMenu":"0","authorityName":"取消","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=toRefuse","sort":"5","level":"4","authorityId":"291","isMenu":"0","authorityName":"拒绝","isEnabled":"0"}]');
+            var isTra = false;
+            var isBatch = false;
+            if (menuList.length > 0) {
+                for (var i = 0; i < menuList.length; i++) {
+                    if (menuList[i].authorityName == "人工额度转换") isTra = true;
+                    if (menuList[i].authorityName == "批次处理") isBatch = true;
+                }
+            }
+            if (isTra) $("#traConversion").show();
+            if (isBatch) $("#batchDeposit").show();
+
+
+            var maccount = $("#memAccount").val();
+            var memid = $("#memberId").val();
+            $("#memAccount").blur(function () {
+                $(this).val($(this).val().toLowerCase());
+            });
+            if (maccount != "" && memid == "") {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                alert(i18n.others.userNotExist);
+                window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit";
+            }
+            toCheck = function () {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit&account=" + document.getElementById("memAccount").value.toLowerCase();
+            };
+
+            if (localStorage.manDepositTime) {
+                var timeDiff = Math.ceil((new Date() - Date.parse(localStorage.manDepositTime)) / 1000);
+                if (timeDiff && timeDiff < 10) {
+                    timeDiff = 10 - timeDiff;
+                    var timeInterval = setInterval(function () {
+                        if (timeDiff < 10 && timeDiff > 0) {
+                            timeDiff--;
+                            var conform = 确定 +" " + timeDiff;
+                            $("#saveBtn").val(conform);
+                        } else {
+                            $("#saveBtn").removeAttr("disabled")
+                            $("#saveBtn").val(确定);
+                            clearInterval(timeInterval);
+                            localStorage.removeItem('manDepositTime');
+                        }
+                    }, 1000);
+                } else {
+                    console.log("exit")
+                    $("#saveBtn").removeAttr("disabled")
+                    localStorage.removeItem('manDepositTime');
+                }
             } else {
-                alert("您没有代理公告信息权限，请联系上级")
+                $("#saveBtn").removeAttr("disabled")
             }
-        }
-        function times(tm){
-            window.location.href="/agent/AnnouncementServlet?time="+tm;
-        }
+
+            saveSet = function () {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                over = true;
+                var memberId = $("#memberId").val();
+                if (null == memberId || memberId == "" || !memberId) {
+                    $("#accountmsgs").html("<font color=red>该用户不存在.</font>");
+                    over = false;
+                    return;
+                }
+
+                //新增测试线会员类型的判断 ，为了区分试玩会员与测试会员 纯提示作用 modify by robben on time 20171226
+                //用于区分用户不存在与测试线下的会员信息存在,但当前功能不对测试会员开发的限制
+                //---------------start
+                var memType = $('#memberType').val();
+                if (memType == '98') {
+                    over = false;
+                    alert(i18n.manDepositAndDraw.notAvailable);
+                    return;
+                }
+                //----------------end
+
+                var depositMoney = $("#depositMoney").val();
+                var otherPre = $("#otherPre").val();
+                var depositPre = $("#depositPre").val();
+                var typeid = $("#depositPro").val().substring(0, 1);
+
+                if (null == depositMoney || depositMoney == "") {
+                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountTips + "</font>");
+                    over = false;
+                    return;
+                }
+                if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(depositMoney))) {
+                    $("#depositMoneymsgs").html("<font color=red>" +  i18n.manDepositAndDraw.depositAmountFormatError + "</font>");
+                    over = false;
+                    return;
+                }
+                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositMoney))) {
+                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountLimit + "</font>");
+                    over = false;
+                    return;
+                }
+                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(otherPre)) && typeid == 1) {
+                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
+                    over = false;
+                    return;
+                }
+                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositPre)) && typeid == 1) {
+                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
+                    over = false;
+                    return;
+                }
+                var depositMoneyRemark = $("#depositMoneyRemark").val();
+                var depositMoneyRemark1 = $.trim($("#depositMoneyRemark1").val());
+                if (depositMoneyRemark.length > 100) {
+                    $("#depositMoneyRemarkmsgs").html("<font color=red>"+ i18n.manDepositAndDraw.depositAmountMaxLimit + "<br></font>");
+                    over = false;
+                    return;
+                }
+                var depositPreStatus = $("#depositPreStatus").attr('checked');
+                if ('checked' == depositPreStatus) {
+                    depositPreStatus = '1';
+                } else {
+                    depositPreStatus = '0';
+                }
+                var depositPre = $("#depositPre").val();
+
+                if (null != depositPre && depositPre != "") {
+
+                    if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(depositPre))) {
+                        $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositPromotionFormatError + "</font>");
+                        over = false;
+                        return;
+                    }
+                } else {
+                    depositPre = 0.0;
+                }
+                var depositPreRemark = $("#depositPreRemark").val();
+                var depositPreRemark1 = $.trim($("#depositPreRemark1").val());
+                if (depositPreRemark.length > 100) {
+                    $("#depositPreRemarkmsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositPromotionLimit + "</font>");
+                    over = false;
+                    return;
+                }
+                var otherPreStatus = $("#otherPreStatus").attr('checked');
+                if ('checked' == otherPreStatus) {
+                    otherPreStatus = '1';
+                } else {
+                    otherPreStatus = '0';
+                }
+                var otherPre = $("#otherPre").val();
+                if (null != otherPre && otherPre != "") {
+                    if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(otherPre))) {
+                        $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.remittanceFormatError + "</font>");
+                        over = false;
+                        return;
+                    }
+                } else {
+                    otherPre = 0.0;
+                }
+
+                var otherPreRemark = $("#otherPreRemark").val();
+                var otherPreRemark1 = $.trim($("#otherPreRemark1").val());
+                if (otherPreRemark.length > 100) {
+                    $("#otherPreRemarkmsgs").html("<font color=red>" + i18n.manDepositAndDraw.remittanceRemarkLimit + "</font>");
+                    over = false;
+                    return;
+                }
+                var compBetCheckStatus = $("#compBetCheckStatus").attr('checked');
+                var compBet = $("#compBet").val();
+                if ('checked' == compBetCheckStatus) {
+                    compBetCheckStatus = '1';
+                    if (compBet == null || compBet == '') {
+                        $("#compBetmsgs").html("<font color=red>" + i18n.manDepositAndDraw.pleaseEnterStake + "</font>");
+                        over = false;
+                        return;
+                    }
+                } else {
+                    compBetCheckStatus = '0';
+                }
+
+                if (compBetCheckStatus == "1" && null != compBet && compBet != "") {
+                    if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(compBet))) {
+                        $("#compBetmsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
+                        over = false;
+                        return;
+                    }
+                }
+                var normalStatus = $("#normalStatus").attr('checked');
+                if ('checked' == normalStatus) {
+                    normalStatus = '1';
+                } else {
+                    normalStatus = '0';
+                }
+                var depositPro = $("#depositPro").val();
+                if (!confirm(i18n.manDepositAndDraw.isSureDeposit)) {
+                    over = false;
+                    return false;
+                }
+                //var dynamicPassword = $("#dynamicPassword").val();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: ctx + '/agent/ComRecordServlet',
+                    data: "type=saveSet" +
+                        "&memberId=" + memberId + "&depositMoney=" + depositMoney + "&depositMoneyRemark=" + encodeURIComponent(depositMoneyRemark) +
+                        "&depositPreStatus=" + depositPreStatus + "&depositPre=" + depositPre + "&depositPreRemark=" + encodeURIComponent(depositPreRemark) +
+                        "&otherPreStatus=" + otherPreStatus + "&otherPre=" + otherPre + "&otherPreRemark=" + encodeURIComponent(otherPreRemark) + /* "&dynamicPassword="+dynamicPassword+ */
+                        "&depositMoneyRemark1=" + encodeURIComponent(depositMoneyRemark1) + "&depositPreRemark1=" + encodeURIComponent(depositPreRemark1) +
+                        "&otherPreRemark1=" + encodeURIComponent(otherPreRemark1) +
+                        "&compBetCheckStatus=" + compBetCheckStatus + "&compBet=" + compBet + "&normalStatus=" + normalStatus + "&depositPro=" + depositPro + "&token=" + new Date().getTime(),
+                    success: function (data) {
+                        try {
+                            var login = $.parseJSON(data);
+                            if (typeof login == "object") {
+                                if (login && !login.success) {
+                                    alert(login.msg);
+                                    window.location.href = "/agent/agent?type=" + 'logOut';
+                                    return;
+                                }
+                            }
+                        }
+                        catch (e) {
+
+                        }
+
+                        if (data.success) {
+                            alert(i18n.manDepositAndDraw.operateSucceed);
+                            localStorage.manDepositTime = new Date();
+                            window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit&account=" + document.getElementById("memAccount").value;
+                            return;
+                        } else {
+                            alert(data.message);
+                            localStorage.manDepositTime = new Date();
+                            window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit&account=" + document.getElementById("memAccount").value;
+                            return;
+                        }
+
+                        /*if(data=='1'){
+                            alert("操作成功！");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else if(data=='2'){
+                            alert("大大股东余额不足，无法存入！");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else if(data=='7'){
+                            alert("上笔交易正在处理中，请不要重复提交！");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else if(data=='8'){
+                            alert("人工存提页面过期，请重新刷新页面！");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else if(data=='9'){
+                            alert("额度太高，无权操作，请联系上级！");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else if(data=='10'){
+                            alert("会员账号不正确，请重新输入并查询！");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else if(data=='9999'){
+                            alert("动态口令未填写或动态口令错误!");
+                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
+                            return;
+                        }else{
+                            alert("系统繁忙,请稍后再试,谢谢！");
+                            return;
+                        }*/
+                    },
+                    error: function (err) {
+                        if (err && typeof(err) == 'string') {
+                            alert(err);
+                        }
+                        alert(i18n.manDepositAndDraw.systemBusy);
+                        return false;
+                    }, complete: function () {
+                        over = false;
+                    }
+                });
+            };
 
 
-        window.onload = function() {
-            if ('' != '')
-                alert('');
-        }
+            setType = function () {
+                $("#depositPreStatus").removeAttr('disabled');
+                $("#compBetCheckStatus").removeAttr('disabled');
+                $("#depositPre").removeAttr('disabled');
+                $("#compBet").removeAttr('disabled');
+                $('#depositPreStatus').attr('checked', false);
+                $('#compBetCheckStatus').attr('checked', false);
+                var typeid = $("#depositPro").val().substring(0, 1);
+                if (typeid == 1) {
+                    $('#depositpre').show();
+                    $('#otherpre').show();
+                    $('#compbetcheck').show();
+                    $('#normalcheck').show();
+                } else if (typeid == 2) {
+                    $('#depositpre').hide();
+                    $('#otherpre').hide();
+                    $('#compbetcheck').show();
+                    $('#normalcheck').hide();
+                } else {
+                    $('#depositpre').hide();
+                    $('#otherpre').hide();
+                    $('#compbetcheck').hide();
+                    $('#normalcheck').show();
+                }
+                changeByDepositMoney();
+            };
 
-        $(window).load(function(){
-            var name = $("#name").val();
-            var content = $("#content").val();
-            if(name && content){
-                var pop=new Pop(name,content);
-            }
-            function closeAnnounment(){
-                $("#pop").remove();
-            }
-            setTimeout(closeAnnounment,600000);//10分钟自动关掉
+            changeByDepositMoney = function () {
+                var typeid = $("#depositPro").val().substring(0, 1);
+                $("#depositPre").removeAttr('disabled');
+                $("#depositPreStatus").removeAttr('disabled');
+                $("#otherPre").removeAttr('disabled');
+                $("#otherPreStatus").removeAttr('disabled');
+                $("#compBetCheckStatus").removeAttr('disabled');
+                $('#depositPreStatus').attr('checked', false);
+                $("#compBet").removeAttr('disabled');
+                $('#compBetCheckStatus').attr('checked', false);
+                var depositMoney = $("#depositMoney").val();
+                var preStandardCompany = $("#preStandardCompany").val();
+                var prePerCompany = $("#prePerCompany").val();
+                var preUpCompany = $("#preUpCompany").val();
+
+                var opreStandardCompany = $("#opreStandardCompany").val();
+                var oprePerCompany = $("#oprePerCompany").val();
+                var opreUpCompany = $("#opreUpCompany").val();
+                //var numCompCompany = $("#numCompCompany").val();
+                //存入金额为空
+                if (null == depositMoney || depositMoney == "") {
+                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountTips + "</font>");
+                    return;
+                }
+                if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/).test(depositMoney)) {
+                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
+                    return;
+                } else if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositMoney))) {
+                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
+                    return;
+                } else if (depositMoney <= 0) {
+                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountMinLimit + "</font>");
+                    return;
+                } else {
+                    $("#depositMoneymsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
+                }
+                if (typeid == 1) {
+                    //存入金额小于优惠标准
+                    if (parseFloat(depositMoney) < parseFloat(preStandardCompany)) {
+                        $("#depositPre").val("0");
+                        $("#depositPre").attr('disabled', 'disabled');
+                        $("#depositPreStatus").attr('disabled', 'disabled');
+                        $("#compBet").val("0");
+                        $("#compBet").attr('disabled', 'disabled');
+                        $("#compBetCheckStatus").attr('disabled', 'disabled');
+                    } else {
+                        var res = parseFloat(depositMoney) * prePerCompany * 0.01;
+                        if (parseFloat(res) >= parseFloat(preUpCompany)) {
+                            res = preUpCompany;
+                        }
+                        $("#depositPre").val(parseFloat(res).toFixed(2));
+                        $("#compBet").val("0");
+                        $("#compBet").attr('disabled', 'disabled');
+                        $("#compBetCheckStatus").attr('disabled', 'disabled');
+                    }
+                    //存入金额小于其他优惠标准
+                    if (parseFloat(depositMoney) < parseFloat(opreStandardCompany)) {
+                        $("#otherPre").val("0");
+                        $("#otherPre").attr('disabled', 'disabled');
+                        $("#otherPreStatus").attr('disabled', 'disabled');
+                    }
+                    if (parseFloat(depositMoney) < parseFloat(opreStandardCompany)) {
+                        $("#otherPre").val("0");
+                    } else {
+                        var result = parseFloat(depositMoney) * oprePerCompany * 0.01;
+                        if (result >= opreUpCompany) {
+                            $("#otherPre").val(parseFloat(opreUpCompany).toFixed(2));
+                        } else {
+                            $("#otherPre").val(parseFloat(result).toFixed(2));
+                        }
+                    }
+
+                }
+
+            };
+
+            manDeposit = function () {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                window.location.href = "/agent/ComRecordServlet?type=queryManDeposit";
+            };
+
+            manDraw = function () {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                window.location.href = "/agent/DrawRecordServlet?type=queryManDraw";
+            };
+
+            batchManDeposit = function () {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                window.location.href = "/agent/ComRecordServlet?type=batchManDeposit";
+            };
+
+            batchManConversion = function () {
+                if (over) {
+                    alert(i18n.manDepositAndDraw.submitting);
+                    return;
+                }
+                window.location.href = "/agent/ComRecordServlet?type=batchManConversion";
+            };
+            judgeDepositPre = function () {
+                var depositPre = $("#depositPre").val();
+                if (null == depositPre || depositPre == "") {
+                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositOfferTips + "</font>");
+                    return;
+                }
+                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositPre))) {
+                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
+                    return;
+                } else if ((/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(depositPre))) {
+                    $("#depositPremsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
+                    return;
+                } else {
+                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
+                    return;
+                }
+            };
+            judgeOtherPre = function () {
+                var otherPre = $("#otherPre").val();
+                if (null == otherPre || otherPre == "") {
+                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.otherOfferTips + "</font>");
+                    return;
+                }
+                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(otherPre))) {
+                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
+                    return;
+                } else if ((/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(otherPre))) {
+                    $("#otherPremsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
+                    return;
+                } else {
+                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
+                    return;
+                }
+            };
+
+            judgeCompBet = function () {
+                var compBet = $("#compBet").val();
+                if ((/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(compBet))) {
+                    $("#compBetmsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
+                    return;
+                } else {
+                    $("#compBetmsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
+                    return;
+                }
+            };
+
+            $("#depositMoneyRemark").keyup(function () {
+                var l = 100;
+                var sl = $("#depositMoneyRemark").val().length;
+
+                if (l - sl < 0) {
+                    $('#depositMoneyRemarkmsgs').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
+                    return;
+                } else {
+                    $('#depositMoneyRemarkmsgs').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
+                }
+            });
+            $("#depositMoneyRemark1").keyup(function () {
+                var l = 100;
+                var sl = $("#depositMoneyRemark1").val().length;
+                $('#depositMoneyRemarkmsgs1').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
+            });
+
+            $("#otherPreRemark").keyup(function () {
+                var l = 100;
+                var sl = $("#otherPreRemark").val().length;
+
+                if (l - sl < 0) {
+                    $('#otherPreRemarkmsgs').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
+                    return;
+                } else {
+                    $('#otherPreRemarkmsgs').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
+                }
+            });
+
+            $("#otherPreRemark1").keyup(function () {
+                var l = 100;
+                var sl = $("#otherPreRemark1").val().length;
+                $('#otherPreRemarkmsgs1').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
+            });
+
+            $("#depositPreRemark").keyup(function () {
+                var l = 100;
+                var sl = $("#depositPreRemark").val().length;
+
+                if (l - sl < 0) {
+                    $('#depositPreRemarkmsgs').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
+                    return;
+                } else {
+                    $('#depositPreRemarkmsgs').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
+                }
+            });
+
+            $("#depositPreRemark1").keyup(function () {
+                var l = 100;
+                var sl = $("#depositPreRemark1").val().length;
+
+                if (l - sl < 0) {
+                    $('#depositPreRemarkmsgs1').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
+                    return;
+                } else {
+                    $('#depositPreRemarkmsgs1').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
+                }
+            });
+            depositPreStatusCheckbox = function () {
+                $("#depositPreStatus").removeAttr('disabled');
+                $("#compBetCheckStatus").removeAttr('disabled');
+                $("#depositPre").removeAttr('disabled');
+                $("#compBet").removeAttr('disabled');
+                if ($('#depositPreStatus').attr('checked')) {
+                    $('#compBetCheckStatus').attr('checked', true);
+                    var depositMoney = $("#depositMoney").val();
+                    if (null == depositMoney || depositMoney == "") {
+                        depositMoney = 0.0;
+                    }
+                    var depositPre = $("#depositPre").val();
+                    if (null == depositPre || depositPre == "") {
+                        depositPre = 0.0;
+                    }
+                    var numCompCompany = $("#numCompCompany").val();
+                    var res = (parseFloat(depositMoney) + parseFloat(depositPre)) * numCompCompany;
+                    //$("#compBet").val(parseFloat(res).toFixed(2));
+                    $("#compBet").val((Math.floor(res * 100) / 100));
+                } else {
+                    $('#compBetCheckStatus').attr('checked', false);
+                    $("#compBet").val("0");
+                    $("#compBet").attr('disabled', 'disabled');
+                    $("#compBetCheckStatus").attr('disabled', 'disabled');
+                }
+            };
+
         });
-    </script>
-</head>
 
-<body class="hoverStyle" style="background-image:none; background-color:#f4f9ff">
+
+    </script>
+<body style="background-image:none; background-color:#f4f9ff">
+<input type="hidden" id="preStandardCompany" name="preStandardCompany" value="1.00000"></input>
+<input type="hidden" id="prePerCompany" name="prePerCompany" value="0.5"></input>
+<input type="hidden" id="preUpCompany" name="preUpCompany" value="999999999.00000"></input>
+<input type="hidden" id="opreUpCompany" name="opreUpCompany" value="0.00000"></input>
+<input type="hidden" id="opreStandardCompany" name="opreStandardCompany" value="1000000.00000"></input>
+<input type="hidden" id="oprePerCompany" name="oprePerCompany" value="0.5"></input>
+<input type="hidden" id="numCompCompany" name="numCompCompany" value="1"></input>
+<input type="hidden" id="comRecordId" name="comRecordId" value=""></input>
+<input type="hidden" id="memberId" name="memberId" value="9750742"></input>
+
+<!-- 新增针对测试线会员人工额度转换时,非用户区分提示 -->
+<input type="hidden" id="memberType" name="type" value="0"></input>
+
 
 <div id="container">
-
     <div id="wrapper">
         <div id="content1">
-            <div id="box"
-                 style="border-bottom-style: none;border-left-style: none;border-right-style: none;border-top-style: none;">
-
-                <table width="100%" style="text-align:center; line-height:30px">
-                    <thead>
-                    <tr style="background-color: yellow;">
-                        <th height="30" colspan="2">最新公告</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <input type="hidden" id="content" value="" />
-                    <input type="hidden" id="name" value="" />
-                    <tr>
-                        <th width="127" class="a-center">代理公告</th>
-                        <td width="780" align="left">
-                            <pre><marquee id="affiche" align="left" behavior="scroll" width="1000" direction="left" hspace="50" vspace="20" scrollamount="2" scrolldelay="100" style="color:#FF0000; cursor:pointer" onMouseOut="this.start()" onMouseOver="this.stop()"></marquee></pre>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th width="127" class="a-center">会员公告</th>
-                        <td width="780" align="left">
-                            <marquee id="affiche" align="left" behavior="scroll" width="1000" direction="left"
-                                     hspace="50" vspace="20" scrollamount="2" scrolldelay="100"
-                                     onMouseOut="this.start()" style=" cursor:pointer" onMouseOver="this.stop()">
-                                尊敬的客户您好，香港六合彩第08期开奖时间为2020年02月01日星期六 21:35分，请互相转达通知，谢谢</marquee>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
-
-                <table width="100%" style="text-align:center; line-height:30px">
-                    <thead>
-                    <tr>
-                        <th height="30" colspan="3">会员 历史公告</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第08期开奖时间为2020年02月01日星期六 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2020-1-21 9:50:54
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第06期开奖时间为2020年01月21日星期二 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2020-1-18 9:46:01
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第05期开奖时间为2020年01月18日星期六 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2020-1-16 9:45:58
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第04期开奖时间为2020年01月16日星期四21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2020-1-12 9:48:01
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第03期开奖时间为2020年01月12日星期日 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2020-1-7 9:51:24
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第02期开奖时间为2020年01月07日星期二 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2020-1-2 10:11:07
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩第01期开奖时间为2020年01月02日星期四 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2019-12-31 9:58:26
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩144期开奖时间为2019年12月31日星期二 21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2019-12-28 9:56:40
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩143期开奖时间为2019年12月28日星期六21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2019-12-24 10:11:22
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th width="126" class="a-center">六合彩公告</th>
-
-                        <td width="605" align="left">尊敬的客户您好，香港六合彩142期开奖时间为2019年12月24日星期二21:35分，请互相转达通知，谢谢</td>
-                        <td width="172" align="center">
-                            2019-12-22 9:55:39
-                        </td>
-                    </tr>
+            <form name="searchForm" id="searchForm" style="width: 660px;">
+                <div id="mnav">
+                    <input type="button" onclick="manDeposit()" class="them_02"
+                           value="人工存入 "
+                           style="cursor: pointer;"></input>
+                    <input type="button" onclick="manDraw()"
+                           value="人工提出"
+                           style="cursor: pointer;"></input>
+                    <input type="button" onclick="batchManDeposit()"
+                           value="批次处理"
+                           id="batchDeposit" style="cursor: pointer;display: none;"></input>
+                    <input type="button" onclick="batchManConversion()"
+                           value="人工额度转换"
+                           style="cursor: pointer;display:none;" id="traConversion"></input>
+                </div>
 
 
-                    <div id="pop" style="display:none;">
-                        <div id="popHead">
-                            <a id="popClose" title="缩小 "
-                               style="background:#ffffff;color:#000000;cursor:pointer;">-</a>
-                            <a id="popUp" title="展开 "
-                               style="background:#ffffff;color:#000;display:none;cursor:pointer;">+</a>
-                            <a href="javascript:jumpAnn()">
-                                <h2 id="popTitle">温馨提示</h2>
-                            </a>
-                        </div>
-                        <div id="popContent">
-                            <dl>
-                                <a style="color:#202020" id="popIntro" href="javascript:jumpAnn()">
-                                    <pre>这里是内容简介</pre></a>
-                            </dl>
-                        </div>
-                    </div>
+                <div>
+                    <table style="text-align: left;">
+                        <tr>
+                            <td align="left"
+                                style="border-bottom-style: none;border-left-style: none;border-right-style: none;border-top-style: none;">
+                                账号：<input type="text"
+                                          id="memAccount"
+                                          value="aaa9500"></input>
+                                <input type="button"
+                                       value="查询"
+                                       onclick="toCheck()" style="cursor: pointer;"></input>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="box"
+                     style="border-bottom-style: none;border-right-style: none;border-top-style: none;border-left-style: none;">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th colspan="2" height="30">人工存入</th>
+                            <th height="30" width="200">后台备注</th>
+                            <th height="30" width="200">前端备注</th>
+                        </tr>
+                        </thead>
 
-                    </tbody>
-                </table>
+                        <tbody>
+                        <tr>
+                            <td height="30" width="159" align="center">账号</td>
+                            <td height="30" width="230" id="inputaccount">aaa9500<span id="accountmsgs"></span></td>
+                            <td height="30" width="159"></td>
+                            <td height="30" width="159"></td>
+                        </tr>
+                        <tr>
+                            <td height="30" align="center">现金余额</td>
+                            <td height="30">
+                                16120.45
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td height="30" align="center">存入金额</td>
+                            <td height="30"><input type="text" id="depositMoney" name="depositMoney"
+                                                   onblur="changeByDepositMoney()"/><span id="depositMoneymsgs"></span>
+                            </td>
+                            <td height="30"><span id="depositMoneyRemarkmsgs"></span><textarea id="depositMoneyRemark"
+                                                                                               maxlength="100"></textarea>
+                            </td>
+                            <td height="30"><span id="depositMoneyRemarkmsgs1"></span><textarea id="depositMoneyRemark1"
+                                                                                                maxlength="100"></textarea>
+                            </td>
+                        </tr>
+                        <tr id="depositpre">
+                            <td height="30" align="center">存款优惠</td>
+                            <td height="30"><input type="checkbox" name="depositPreStatus" id="depositPreStatus"
+                                                   value="1" onclick="depositPreStatusCheckbox();">
+                                存入，金额：
+                                <input type="text" id="depositPre" name="depositPre" onblur="judgeDepositPre()"></input><span
+                                        id="depositPremsgs"></span></td>
+                            <td height="30"><span id="depositPreRemarkmsgs"></span><br><textarea id="depositPreRemark"
+                                                                                                 maxlength="100"></textarea>
+                            </td>
+                            <td height="30"><span id="depositPreRemarkmsgs1"></span><br><textarea id="depositPreRemark1"
+                                                                                                  maxlength="100"></textarea>
+                            </td>
+                        </tr>
+                        <tr id="otherpre">
+                            <td height="30" align="center">汇款优惠</td>
+                            <td height="30"><input type="checkbox" name="otherPreStatus" id="otherPreStatus" value="1">
+                                存入，金额：
+                                <input type="text" id="otherPre" name="otherPre" onblur="judgeOtherPre()"></input><span
+                                        id="otherPremsgs"></span></td>
+                            <td height="30"><span id="otherPreRemarkmsgs"></span><br><textarea id="otherPreRemark"
+                                                                                               maxlength="100"></textarea>
+                            </td>
+                            <td height="30"><span id="otherPreRemarkmsgs1"></span><br><textarea id="otherPreRemark1"
+                                                                                                maxlength="100"></textarea>
+                            </td>
+                        </tr>
 
-                <!--<div id="pager">页<a href="#"><img src="img/icons/arrow_left.gif" width="16" height="16" /></a>
-                    <input size="1" value="1" type="text" name="page" id="page" />
-                    <a href="#"><img src="img/icons/arrow_right.gif" width="16" height="16" /></a>42页 | 条
-                    <select name="view">
-                                <option>10</option>
-                                <option>20</option>
-                                <option>50</option>
-                                <option>100</option>
-                            </select>
-                每一页 | 总420个记录</div>-->
-            </div>
+                        <tr height="30" id="compbetcheck">
+                            <td height="30" align="center">综合打码量稽核</td>
+                            <td height="30"><input type="checkbox" name="compBetCheckStatus" id="compBetCheckStatus">
+                                稽核，打码量
+                                <input type="text" id="compBet" name="compBet" onblur="judgeCompBet()"></input><span
+                                        id="compBetmsgs"></span></td>
+                            <td height="30"></td>
+                            <td height="30"></td>
+                        </tr>
+                        <tr height="30" id="normalcheck">
+                            <td height="30" align="center">常态性稽核</td>
+                            <td height="30"><input type="checkbox" name="normalStatus" id="normalStatus"
+                                                   checked="checked">
+                                稽核
+                            </td>
+                            <td height="30"></td>
+                            <td height="30"></td>
+                        </tr>
+                        <tr height="30">
+                            <td height="30" align="center">存入项目</td>
+                            <td height="30">
+                                <select id="depositPro" name="depositPro" onchange="setType()">
+
+                                    <option value="1人工存入"
+
+                                    >人工存入</option>
+
+                                    <option value="2存款优惠"
+
+                                    >存款优惠</option>
+
+                                    <option value="3负数额度归零"
+
+                                    >负数额度归零</option>
+
+                                    <option value="4取消出款"
+
+                                    >取消出款</option>
+
+                                    <option value="5其他"
+
+                                    >其他</option>
+
+                                </select>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- <tr>
+                            <td align="center">动态口令(操作人)</td>
+                            <td>
+                                <input type="text" name="dynamicPassword"  id="dynamicPassword" value="" onkeyup="if(isNaN(value))execCommand('undo')" maxlength="6" />
+                            </td>
+                            <td  height="30">（未绑定请留空）</td>
+                        </tr> -->
+                        <tr>
+                            <td height="30" colspan="4" align="center"><input id="saveBtn" type="button"
+                                                                              value="确定"
+                                                                              onclick="saveSet()" disabled
+                                                                              style="cursor: pointer;"></input><span
+                                    id="msgs"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 </body>
-
 </html>

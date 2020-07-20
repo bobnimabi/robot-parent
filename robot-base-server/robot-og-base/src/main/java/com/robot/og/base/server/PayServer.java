@@ -8,6 +8,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 
 import com.robot.og.base.ao.PayAO;
 import com.robot.og.base.ao.QueryUserAO;
+import com.robot.og.base.bo.QueryUserBO;
 import com.robot.og.base.function.PayFunction;
 import com.robot.og.base.function.QueryUserFunction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
 
     @Override
     public Response doFunction(ParamWrapper<TaskAtomDto> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<String> response = queryUserFunction.doFunction(createQueryUserParams(paramWrapper), robotWrapper);
+        Response<QueryUserBO> response = queryUserFunction.doFunction(createQueryUserParams(paramWrapper), robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }
@@ -61,11 +62,11 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
      * @return
      * @throws Exception
      */
-    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, String account  ) throws Exception {
+    private ParamWrapper<PayAO> createPayParams(TaskAtomDto moneyDTO, QueryUserBO queryUserBO  ) throws Exception {
 
         PayAO payAO = new PayAO();
         payAO.setType("saveSet");
-        payAO.setMemberId(moneyDTO.getMemberId());  //todo
+        payAO.setMemberId(queryUserBO.getMemberId());
         payAO.setDepositMoney(moneyDTO.getPaidAmount().toString());   //Bigdecimal
         payAO.setDepositMoneyRemark(moneyDTO.getMemo());
         payAO.setDepositPreStatus("0");

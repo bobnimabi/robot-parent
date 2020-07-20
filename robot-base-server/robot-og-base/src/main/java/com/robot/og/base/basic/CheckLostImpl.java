@@ -20,7 +20,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class CheckLostImpl implements ICheckLost {
 
-    private static final String LOST_FLAG = "未經授權";
+    private static final String LOST_FLAG = "登录超时,请重新登录!";
 
     @Override
     public boolean isLose(RobotWrapper robotWrapper, StanderHttpResponse shp) {
@@ -29,7 +29,7 @@ public class CheckLostImpl implements ICheckLost {
 
     /**
      * og掉线状态1
-     * 返回的HTML里包含：未經授權
+     * 返回的HTML里包含：登录超时,请重新登录!
      */
     private boolean lost1(StanderHttpResponse shp) {
         if (shp.getOriginalEntity() instanceof String) {

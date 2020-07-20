@@ -101,7 +101,7 @@ public class TenantRobotServiceImpl extends ServiceImpl<TenantRobotMapper, Tenan
 
     @Override
     public boolean onlineDB(long robotId) {
-        // 数据库：下线机器人
+        // 数据库：上线机器人
         return update(new LambdaUpdateWrapper<TenantRobot>()
                 .eq(TenantRobot::getId, robotId)
                 .set(TenantRobot::getIsOnline, true)

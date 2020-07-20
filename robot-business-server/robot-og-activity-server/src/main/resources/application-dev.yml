@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-jiuwu-activity-server
+    name: robot-OG-activity-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖

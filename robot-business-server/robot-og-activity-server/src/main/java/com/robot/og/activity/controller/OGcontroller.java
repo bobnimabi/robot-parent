@@ -1,6 +1,7 @@
 package com.robot.og.activity.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.bbin.common.Exception.ExceptionCast;
 import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.constant.RabbitMqConstants;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
@@ -9,13 +10,16 @@ import com.bbin.common.pojo.CashDetailDTO;
 import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.DateUtils;
+import com.bbin.common.util.ThreadLocalUtils;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.ControllerBase;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.response.Response;
+import com.robot.code.response.ResponseEnum;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.ParamWrapper;
+import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.FunctionEnum;
 import com.robot.og.base.basic.PathEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -77,6 +81,18 @@ public class OGcontroller extends ControllerBase {
 		}
 		return Response.SUCCESS("登录成功");
 	}
+
+//	@ApiOperation("机器人：开启或停止工作")
+	@PostMapping("/robotStatus")
+//    @PreAuthorize("hasAuthority('robotStatus')")
+	public Response robotStatus(@RequestBody RobotWrapper robotDto) throws Exception {
+		if (null == robotDto
+				|| null == robotDto.getIsOnline()
+		) ExceptionCast.castFail("参数不全");
+		return super.dispatcher.dispatch(new ParamWrapper<RobotWrapper>(robotDto),FunctionEnum.GETDETAIL_SERVER);
+	}
+
+
 
 	//查询用户是否存在
 	@GetMapping("/isExist")
@@ -151,13 +167,13 @@ public class OGcontroller extends ControllerBase {
 	@GetMapping("/queryBalance")
 	public Response queryBalance(@RequestParam String userName) throws Exception {
 		if(StringUtils.isEmpty(userName)){
-			return Response.FAIL("用户名有误");
+			return Response.FAIL("请输入正确用户名");
 		}
 
 		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_USER_SERVER);
 	}
 
-	//查询层级信息
+	//查询层级信息    先不用了  出款的接口
 	@GetMapping("queryLevel")
 	public Response queryLevel() throws Exception {
 
@@ -210,7 +226,7 @@ public class OGcontroller extends ControllerBase {
 		if (StringUtils.isEmpty(userName)) {
 			return Response.FAIL("未传入会员账号");
 		}
-		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_USER_INFO);
+		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_USER_SERVER);
 	}
 
 	/**

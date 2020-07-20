@@ -55,7 +55,7 @@ public class SyncDispatcher extends AbstractDispatcher implements ISyncDispatche
             return response;
         }finally {
             super.dispatcherFacde.giveBackCookie(robot);
-            if (null  != response && response.isSuccess() && ResponseEnum.LOGIN_SUCCESS.getCode() == response.getCode()) {
+            if (null  != response && response.isSuccess() && ResponseEnum.LOGIN_SUCCESS.getCode() == response.getCode()) {    //|| ResponseEnum.OG_LOGIN_SUCCESS.getCode() ==response.getCode()
                 super.dispatcherFacde.online(robot);
             }
         }

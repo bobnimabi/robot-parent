@@ -33,6 +33,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO,String,Object> {
 
     @Override
     protected IEntity getEntity(LoginDTO params, RobotWrapper robotWrapper) {
+
         return JsonEntity.custom(2)
                 .add("account", robotWrapper.getPlatformAccount())
                 .add("password", robotWrapper.getPlatformPassword())

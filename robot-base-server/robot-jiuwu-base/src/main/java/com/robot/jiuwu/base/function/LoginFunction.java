@@ -1,13 +1,9 @@
 package com.robot.jiuwu.base.function;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.bbin.common.response.ResponseResult;
 import com.robot.center.constant.RobotConsts;
 import com.robot.code.dto.LoginDTO;
-import com.robot.code.entity.TenantRobotDomain;
 import com.robot.code.response.Response;
 import com.robot.code.response.ResponseEnum;
-import com.robot.code.service.ITenantRobotDomainService;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.*;
 import com.robot.core.http.request.IEntity;
@@ -16,22 +12,16 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.jiuwu.base.basic.PathEnum;
 import com.robot.jiuwu.base.common.Constant;
-import com.robot.jiuwu.base.server.ImageCodeServer;
 import com.robot.jiuwu.base.vo.LoginResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.CookieStore;
-import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
-import java.util.Properties;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -118,7 +108,6 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, LoginResul
         public Response parse2Obj(StanderHttpResponse<String, LoginResultVO> shr) {
             String result = shr.getOriginalEntity();
             log.info("登录响应：{}", result);
-           // JSONObject jsonObject = JSON.parseObject(result);
 
             LoginResultVO loginResult = JSON.parseObject(result, LoginResultVO.class);
             if (Constant.LOSE .equals(loginResult.getCode()) ) {

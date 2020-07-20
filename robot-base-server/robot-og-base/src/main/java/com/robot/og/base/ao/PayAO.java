@@ -36,4 +36,7 @@ public class PayAO extends PayCommonParams {
     //随机token
     private String token;
 
+    //前台备注
+    private String depositMoneyRemark1;
+
 }

@@ -1,7 +1,6 @@
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetLostDetailFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\PayServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\common\Constant.java
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetTotalAmountFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\QueryUserServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryOrderNoFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\User.java
@@ -19,6 +18,7 @@ E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryRechargeAO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\basic\PathEnum.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\PayAO.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\dto\VsGame.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\dto\Convert.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\ImageCodeServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetRechargeFunction.java
@@ -30,3 +30,4 @@ E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\GetBetDetailAO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\QueryUserData.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\basic\CheckLostImpl.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\QueryUserBO.java

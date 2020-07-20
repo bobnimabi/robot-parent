@@ -13,4 +13,7 @@ import lombok.Data;
 @Data
 public class GetBetDetailBO {
 
+	private String catagory;
+	private String mapinner;
+
 }

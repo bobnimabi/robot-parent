@@ -1,5 +1,7 @@
 package com.robot.og.base.bo;
 
+import lombok.Data;
+
 /**
  * <p>
  * 打款响应结果
@@ -8,28 +10,30 @@ package com.robot.og.base.bo;
  * @author tanke
  * @date 2020/7/10
  */
+@Data
 public class PayBO {
-	private String code;
-	private String msg;
-	private String id;
-	public void setCode(String code) {
-		this.code = code;
+	private boolean success;
+	private String message;
+	private int data;
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
-	public String getCode() {
-		return code;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-	public String getMsg() {
-		return msg;
+	public boolean getSuccess() {
+		return success;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-	public String getId() {
-		return id;
+	public String getMessage() {
+		return message;
 	}
+
+	public void setData(int data) {
+		this.data = data;
+	}
+	public int getData() {
+		return data;
+	}
+
 }

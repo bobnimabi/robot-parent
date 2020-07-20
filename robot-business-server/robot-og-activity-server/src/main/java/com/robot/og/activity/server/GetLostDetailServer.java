@@ -1,3 +1,4 @@
+/*
 package com.robot.og.activity.server;
 
 import com.bbin.common.client.BetQueryDto;
@@ -12,6 +13,9 @@ import com.robot.og.base.function.GetBetDetailFunction;
 import com.robot.og.base.function.GetLostDetailFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Map;
+
+*/
 /**
  * <p>
  *  查询损益
@@ -19,7 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author tank
  * @date 2020/7/14
- */
+ *//*
+
 public class GetLostDetailServer  implements IAssemFunction<BetQueryDto> {
 
 	@Autowired
@@ -27,19 +32,21 @@ public class GetLostDetailServer  implements IAssemFunction<BetQueryDto> {
 
 	@Override
 	public Response doFunction(ParamWrapper<BetQueryDto> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-		Response<GetBetDetailBO> getBetDetailBOResponse = getBetDetailFunction.doFunction(createBetDetailParams(paramWrapper), robotWrapper);
+		Response<Map<String, Map<String, String>>> getBetDetailBOResponse = getBetDetailFunction.doFunction(paramWrapper, robotWrapper);
 		if (!getBetDetailBOResponse.isSuccess()) {
 			return getBetDetailBOResponse;
 		}
 		return getBetDetailBOResponse;
 	}
 
-	/**
+	*/
+/**
 	 * 组装查询下注详情参数    /
 	 *
 	 * @param paramWrapper
 	 * @return
-	 */
+	 *//*
+
 
 
 	private ParamWrapper<GetBetDetailAO> createBetDetailParams(ParamWrapper<BetQueryDto> paramWrapper) {
@@ -48,8 +55,8 @@ public class GetLostDetailServer  implements IAssemFunction<BetQueryDto> {
 		ao.setAccount(betQueryDto.getUserName());
 		ao.setStartDate(betQueryDto.getStartDate());
 		ao.setEndDate(betQueryDto.getEndDate());
-		ao.setGameCode(betQueryDto.getGameList().toString());  //todo
+		ao.setGameCode(betQueryDto.getGameList().toString());
 
 		return new ParamWrapper<GetBetDetailAO>(ao);
 	}
-}
+}*/

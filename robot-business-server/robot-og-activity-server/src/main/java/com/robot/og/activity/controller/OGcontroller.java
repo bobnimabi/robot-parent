@@ -106,7 +106,7 @@ public class OGcontroller extends ControllerBase {
 
 
 
-	/* ------------分割线------------------------*/
+
 
 	//	@ApiOperation("机器人：获取实际投注详细")
 	@PostMapping("/getBetDetail")
@@ -122,7 +122,7 @@ public class OGcontroller extends ControllerBase {
 
 
 
-	//	@ApiOperation("机器人：获取投注和充值信息")
+	//	@ApiOperation("机器人：获取投注和充值信息")    getBetDetail  getLostDetail
 	@PostMapping("/getTotalAmount")
 	public Response getTotalAmount(@RequestBody BreakThroughDTO dto) throws Exception {
 		if (StringUtils.isEmpty(dto.getUserName())
@@ -131,7 +131,7 @@ public class OGcontroller extends ControllerBase {
 			return Response.FAIL("未传入参数");
 		}
 
-		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETTOTAL_AMOUNT_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETDETAIL_SERVER);
 	}
 
 
@@ -174,11 +174,11 @@ public class OGcontroller extends ControllerBase {
 	}
 
 	//查询层级信息    先不用了  出款的接口
-	@GetMapping("queryLevel")
+/*	@GetMapping("queryLevel")
 	public Response queryLevel() throws Exception {
 
 		return super.dispatcher.dispatch(new ParamWrapper<>(),FunctionEnum.QUERY_LEVEL_SERVER);
-	}
+	}*/
 
 
 
@@ -250,7 +250,7 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<CashDetailDTO>(cashDetailDTO),FunctionEnum.QUERY_USERRECORD_SERVER);
 	}
 
-/*----------------------------分割线---------------------------------------*/
+
 
 
 	/**
@@ -302,7 +302,7 @@ public class OGcontroller extends ControllerBase {
 	 * @throws Exception
 	 */
 
-	@PostMapping("/tempPay")
+	@PostMapping("/payAmount")
 	public void tempPay(@RequestBody TaskAtomDto taskAtomDto) throws Exception {
 		log.info("mq打款入参：{}", JSON.toJSONString(taskAtomDto));
 		if (null == taskAtomDto

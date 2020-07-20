@@ -21,6 +21,8 @@ public class GetBetDetailAO {
 	private LocalDateTime startDate;
 	//终止时间
 	private LocalDateTime endDate;
+	private String  plat;
+
 	//游戏编码
 	private String gameCode;
 	//游戏编码列表，2020-02-27加的，以前的返水等活动传递的值本来就是null，不影响

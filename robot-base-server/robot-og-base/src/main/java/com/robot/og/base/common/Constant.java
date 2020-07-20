@@ -2,13 +2,13 @@ package com.robot.og.base.common;
 
 /**
  * Created by mrt on 2019/12/27 0027 17:24
- * 九五的响应状态
+ * OG的响应状态
  */
 public class Constant {
-    // 九五棋牌响应成功状态
-    public static final String SUCCESS = "0";
+    // OG响应成功状态
+    public static final Boolean SUCCESS = true;
 
-    // 九五棋牌掉线
-    public static final String LOSE = "1";
+    // OG棋牌掉线
+    public static final Boolean LOSE = false;
 
 }

@@ -42,8 +42,8 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
     @Override
     public Response<PayBO> doFunction(ParamWrapper<PayAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
         Response<PayBO> response = super.doFunction(paramWrapper, robotWrapper);
-        PayAO payFinalAO = paramWrapper.getObj();
-        mqSenter.topicPublic("",payFinalAO.getExteralNo(),response,new BigDecimal(payFinalAO.getDepositMoney()));
+        PayAO payAO = paramWrapper.getObj();
+        mqSenter.topicPublic("",payAO.getExteralNo(),response,new BigDecimal(payAO.getDepositMoney()));
         return response;
     }
 
@@ -57,9 +57,9 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
     protected IEntity getEntity(PayAO ao, RobotWrapper robotWrapper) {
         return UrlEntity.custom(12)
                 .add("type", ao.getType())
-                .add("memberId", ao.getMemberId())  //todo
-                .add("depositMoney", ao.getDepositMoney())//todo
-                .add("depositPreStatus", "0")//todo
+                .add("memberId", ao.getMemberId())
+                .add("depositMoney", ao.getDepositMoney())
+                .add("depositPreStatus", "0")
                 .add("depositPre", "1")
                 .add("otherPreStatus", "0")
                 .add("otherPre", "0")
@@ -67,6 +67,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
                 .add("compBet", "1")
                 .add("normalStatus", "1")
                 .add("depositPro", "2存款优惠")
+                .add( "DepositMoneyRemark1",ao.getDepositMoneyRemark1())
                 .add("token", UUID.randomUUID().toString().replaceAll("-",""))  //生成随机token
 
                 ;
@@ -100,7 +101,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
                 log.info("打款未有任何响应");
                 return Response.FAIL("打款未有任何响应：" + result);
             }
-            if (Constant.SUCCESS.equals(payBO.getCode())) {
+            if (Constant.SUCCESS.equals(payBO.getSuccess())) {
                 return Response.SUCCESS("打款成功");
             } else {
                 return Response.FAIL("打款失败：" + result);

@@ -1,10 +1,12 @@
 
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>会员报表</title>
 
 
 
@@ -209,756 +211,2702 @@
     </script>
     <div id="onlinedialog" title='在线详情'></div>
 
-    <script type="text/javascript"
-            src="/common/js/jquery.pager_2.js"></script>
-    <link rel="stylesheet" type="text/css"
-          href="/jsp/agency/css/theme.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="/jsp/agency/css/style.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="/common/css/page.css">
-    <script type="text/javascript"
-            src="/common/js/My97DatePicker/WdatePicker.js"></script>
-    <script type="text/javascript">
-        var over = false;
-        $(function () {
-            //总控控制‘人工额度转换’是否显示
-            var menuList = eval('[{"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/InstantBettingServlet/queryInstantBettingInfo?pageGroupId=0","sort":"3","level":"0","authorityId":"218","isMenu":"0","authorityName":"即时注单","isEnabled":"1"}, {"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/CustomizeServlet?type=setList","sort":"5","level":"0","authorityId":"63","isMenu":"0","authorityName":"现金系统","isEnabled":"1"}, {"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/ReportServlet","sort":"8","level":"0","authorityId":"68","isMenu":"0","authorityName":"报表查询","isEnabled":"1"}, {"isDownLevel":"1","parentId":"-1","authorityUrl":"agent/AnnouncementServlet","sort":"9","level":"0","authorityId":"37","isMenu":"0","authorityName":"公告/讯息","isEnabled":"1"}, {"isDownLevel":"1","parentId":"37","authorityUrl":"agent/AnnouncementServlet","sort":"1","level":"1","authorityId":"38","isMenu":"0","authorityName":"公告信息","isEnabled":"1"}, {"isDownLevel":"1","parentId":"68","authorityUrl":"agent/MemberReport?type=showSelectPage","sort":"2","level":"1","authorityId":"117","isMenu":"0","authorityName":"会员报表","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/CompanyAccountServlet?op=query&shutdown=1&currencyId=1","sort":"4","level":"1","authorityId":"77","isMenu":"0","authorityName":"公司账号管理","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/DrawRecordServlet?type=queryPage","sort":"5","level":"1","authorityId":"78","isMenu":"0","authorityName":"出入款记录","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/ComRecordServlet?type=queryManDeposit","sort":"6","level":"1","authorityId":"79","isMenu":"0","authorityName":"人工线上存提","isEnabled":"1"}, {"isDownLevel":"1","parentId":"63","authorityUrl":"agent/BBRecordServlet?type=queryRecord","sort":"7","level":"1","authorityId":"81","isMenu":"0","authorityName":"子现金系统","isEnabled":"1"}, {"isDownLevel":"1","parentId":"79","authorityUrl":"/agent/ComRecordServlet?type=queryManDeposit","sort":"1","level":"2","authorityId":"135","isMenu":"0","authorityName":"人工存入","isEnabled":"1"}, {"isDownLevel":"1","parentId":"77","authorityUrl":"agent/companyAccount/readOnly","sort":"1","level":"2","authorityId":"162","isMenu":"0","authorityName":"只读权限","isEnabled":"1"}, {"isDownLevel":"1","parentId":"78","authorityUrl":"agent/agent/DrawRecordServlet?type=queryPage","sort":"1","level":"2","authorityId":"263","isMenu":"0","authorityName":"出款记录","isEnabled":"0"}, {"isDownLevel":"1","parentId":"263","authorityUrl":"agent/readOnly","sort":"1","level":"3","authorityId":"285","isMenu":"0","authorityName":"只读权限","isEnabled":"0"}, {"isDownLevel":"1","parentId":"263","authorityUrl":"agent/drawRecord/opreation","sort":"2","level":"3","authorityId":"286","isMenu":"0","authorityName":"操作权限","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=autoDraw","sort":"2","level":"4","authorityId":"288","isMenu":"0","authorityName":"自动出款","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=todraw","sort":"3","level":"4","authorityId":"289","isMenu":"0","authorityName":"确定","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=toCancel","sort":"4","level":"4","authorityId":"290","isMenu":"0","authorityName":"取消","isEnabled":"0"}, {"isDownLevel":"1","parentId":"286","authorityUrl":"agent/agent/DrawRecordServlet?type=toRefuse","sort":"5","level":"4","authorityId":"291","isMenu":"0","authorityName":"拒绝","isEnabled":"0"}]');
-            var isTra = false;
-            var isBatch = false;
-            if (menuList.length > 0) {
-                for (var i = 0; i < menuList.length; i++) {
-                    if (menuList[i].authorityName == "人工额度转换") isTra = true;
-                    if (menuList[i].authorityName == "批次处理") isBatch = true;
+    <script type="text/javascript" src="/common/js/jquery.pager_2.js"></script>
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/theme.css" />
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/style.css" />
+
+    <link rel="stylesheet" type="text/css" href="/common/css/jedate.css" />
+    <script type="text/javascript" src="/common/js/jquery.jedate.js"></script>
+    <script>
+
+        if("" != "")
+            alert("");
+        var isSeled = 0;
+        $(document).ready(function(){
+            var hgStatus = '';
+            var eaStatus = '';
+            var bbStatus = '';
+            var agStatus = '';
+            var count = "";
+            if(hgStatus!=0){
+                count = "HG";
+            }
+            if(eaStatus!=0){
+                if(count!=""){
+                    count += "、EA";
+                }else{
+                    count = "EA";
                 }
             }
-            if (isTra) $("#traConversion").show();
-            if (isBatch) $("#batchDeposit").show();
-
-
-            var maccount = $("#memAccount").val();
-            var memid = $("#memberId").val();
-            $("#memAccount").blur(function () {
-                $(this).val($(this).val().toLowerCase());
-            });
-            if (maccount != "" && memid == "") {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
+            if(bbStatus!=0){
+                if(count!=""){
+                    count += "、BBIN";
+                }else{
+                    count = "BBIN";
                 }
-                alert(i18n.others.userNotExist);
-                window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit";
             }
-            toCheck = function () {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
+            if(agStatus!=0){
+                if(count!=""){
+                    count += "、AG";
+                }else{
+                    count = "AG";
                 }
-                window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit&account=" + document.getElementById("memAccount").value.toLowerCase();
-            };
-
-            if (localStorage.manDepositTime) {
-                var timeDiff = Math.ceil((new Date() - Date.parse(localStorage.manDepositTime)) / 1000);
-                if (timeDiff && timeDiff < 10) {
-                    timeDiff = 10 - timeDiff;
-                    var timeInterval = setInterval(function () {
-                        if (timeDiff < 10 && timeDiff > 0) {
-                            timeDiff--;
-                            var conform = 确定 +" " + timeDiff;
-                            $("#saveBtn").val(conform);
-                        } else {
-                            $("#saveBtn").removeAttr("disabled")
-                            $("#saveBtn").val(确定);
-                            clearInterval(timeInterval);
-                            localStorage.removeItem('manDepositTime');
-                        }
-                    }, 1000);
-                } else {
-                    console.log("exit")
-                    $("#saveBtn").removeAttr("disabled")
-                    localStorage.removeItem('manDepositTime');
-                }
-            } else {
-                $("#saveBtn").removeAttr("disabled")
             }
-
-            saveSet = function () {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
-                }
-                over = true;
-                var memberId = $("#memberId").val();
-                if (null == memberId || memberId == "" || !memberId) {
-                    $("#accountmsgs").html("<font color=red>该用户不存在.</font>");
-                    over = false;
-                    return;
-                }
-
-                //新增测试线会员类型的判断 ，为了区分试玩会员与测试会员 纯提示作用 modify by robben on time 20171226
-                //用于区分用户不存在与测试线下的会员信息存在,但当前功能不对测试会员开发的限制
-                //---------------start
-                var memType = $('#memberType').val();
-                if (memType == '98') {
-                    over = false;
-                    alert(i18n.manDepositAndDraw.notAvailable);
-                    return;
-                }
-                //----------------end
-
-                var depositMoney = $("#depositMoney").val();
-                var otherPre = $("#otherPre").val();
-                var depositPre = $("#depositPre").val();
-                var typeid = $("#depositPro").val().substring(0, 1);
-
-                if (null == depositMoney || depositMoney == "") {
-                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountTips + "</font>");
-                    over = false;
-                    return;
-                }
-                if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(depositMoney))) {
-                    $("#depositMoneymsgs").html("<font color=red>" +  i18n.manDepositAndDraw.depositAmountFormatError + "</font>");
-                    over = false;
-                    return;
-                }
-                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositMoney))) {
-                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountLimit + "</font>");
-                    over = false;
-                    return;
-                }
-                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(otherPre)) && typeid == 1) {
-                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
-                    over = false;
-                    return;
-                }
-                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositPre)) && typeid == 1) {
-                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
-                    over = false;
-                    return;
-                }
-                var depositMoneyRemark = $("#depositMoneyRemark").val();
-                var depositMoneyRemark1 = $.trim($("#depositMoneyRemark1").val());
-                if (depositMoneyRemark.length > 100) {
-                    $("#depositMoneyRemarkmsgs").html("<font color=red>"+ i18n.manDepositAndDraw.depositAmountMaxLimit + "<br></font>");
-                    over = false;
-                    return;
-                }
-                var depositPreStatus = $("#depositPreStatus").attr('checked');
-                if ('checked' == depositPreStatus) {
-                    depositPreStatus = '1';
-                } else {
-                    depositPreStatus = '0';
-                }
-                var depositPre = $("#depositPre").val();
-
-                if (null != depositPre && depositPre != "") {
-
-                    if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(depositPre))) {
-                        $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositPromotionFormatError + "</font>");
-                        over = false;
-                        return;
-                    }
-                } else {
-                    depositPre = 0.0;
-                }
-                var depositPreRemark = $("#depositPreRemark").val();
-                var depositPreRemark1 = $.trim($("#depositPreRemark1").val());
-                if (depositPreRemark.length > 100) {
-                    $("#depositPreRemarkmsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositPromotionLimit + "</font>");
-                    over = false;
-                    return;
-                }
-                var otherPreStatus = $("#otherPreStatus").attr('checked');
-                if ('checked' == otherPreStatus) {
-                    otherPreStatus = '1';
-                } else {
-                    otherPreStatus = '0';
-                }
-                var otherPre = $("#otherPre").val();
-                if (null != otherPre && otherPre != "") {
-                    if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(otherPre))) {
-                        $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.remittanceFormatError + "</font>");
-                        over = false;
-                        return;
-                    }
-                } else {
-                    otherPre = 0.0;
-                }
-
-                var otherPreRemark = $("#otherPreRemark").val();
-                var otherPreRemark1 = $.trim($("#otherPreRemark1").val());
-                if (otherPreRemark.length > 100) {
-                    $("#otherPreRemarkmsgs").html("<font color=red>" + i18n.manDepositAndDraw.remittanceRemarkLimit + "</font>");
-                    over = false;
-                    return;
-                }
-                var compBetCheckStatus = $("#compBetCheckStatus").attr('checked');
-                var compBet = $("#compBet").val();
-                if ('checked' == compBetCheckStatus) {
-                    compBetCheckStatus = '1';
-                    if (compBet == null || compBet == '') {
-                        $("#compBetmsgs").html("<font color=red>" + i18n.manDepositAndDraw.pleaseEnterStake + "</font>");
-                        over = false;
-                        return;
-                    }
-                } else {
-                    compBetCheckStatus = '0';
-                }
-
-                if (compBetCheckStatus == "1" && null != compBet && compBet != "") {
-                    if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(compBet))) {
-                        $("#compBetmsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
-                        over = false;
-                        return;
-                    }
-                }
-                var normalStatus = $("#normalStatus").attr('checked');
-                if ('checked' == normalStatus) {
-                    normalStatus = '1';
-                } else {
-                    normalStatus = '0';
-                }
-                var depositPro = $("#depositPro").val();
-                if (!confirm(i18n.manDepositAndDraw.isSureDeposit)) {
-                    over = false;
-                    return false;
-                }
-                //var dynamicPassword = $("#dynamicPassword").val();
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'json',
-                    url: ctx + '/agent/ComRecordServlet',
-                    data: "type=saveSet" +
-                        "&memberId=" + memberId + "&depositMoney=" + depositMoney + "&depositMoneyRemark=" + encodeURIComponent(depositMoneyRemark) +
-                        "&depositPreStatus=" + depositPreStatus + "&depositPre=" + depositPre + "&depositPreRemark=" + encodeURIComponent(depositPreRemark) +
-                        "&otherPreStatus=" + otherPreStatus + "&otherPre=" + otherPre + "&otherPreRemark=" + encodeURIComponent(otherPreRemark) + /* "&dynamicPassword="+dynamicPassword+ */
-                        "&depositMoneyRemark1=" + encodeURIComponent(depositMoneyRemark1) + "&depositPreRemark1=" + encodeURIComponent(depositPreRemark1) +
-                        "&otherPreRemark1=" + encodeURIComponent(otherPreRemark1) +
-                        "&compBetCheckStatus=" + compBetCheckStatus + "&compBet=" + compBet + "&normalStatus=" + normalStatus + "&depositPro=" + depositPro + "&token=" + new Date().getTime(),
-                    success: function (data) {
-                        try {
-                            var login = $.parseJSON(data);
-                            if (typeof login == "object") {
-                                if (login && !login.success) {
-                                    alert(login.msg);
-                                    window.location.href = "/agent/agent?type=" + 'logOut';
-                                    return;
-                                }
-                            }
-                        }
-                        catch (e) {
-
-                        }
-
-                        if (data.success) {
-                            alert(i18n.manDepositAndDraw.operateSucceed);
-                            localStorage.manDepositTime = new Date();
-                            window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit&account=" + document.getElementById("memAccount").value;
-                            return;
-                        } else {
-                            alert(data.message);
-                            localStorage.manDepositTime = new Date();
-                            window.location.href = ctx + "/agent/ComRecordServlet?type=queryManDeposit&account=" + document.getElementById("memAccount").value;
-                            return;
-                        }
-
-                        /*if(data=='1'){
-                            alert("操作成功！");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else if(data=='2'){
-                            alert("大大股东余额不足，无法存入！");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else if(data=='7'){
-                            alert("上笔交易正在处理中，请不要重复提交！");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else if(data=='8'){
-                            alert("人工存提页面过期，请重新刷新页面！");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else if(data=='9'){
-                            alert("额度太高，无权操作，请联系上级！");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else if(data=='10'){
-                            alert("会员账号不正确，请重新输入并查询！");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else if(data=='9999'){
-                            alert("动态口令未填写或动态口令错误!");
-                            window.location.href =ctx+"/agent/ComRecordServlet?type=queryManDeposit&account="+document.getElementById("memAccount").value;
-                            return;
-                        }else{
-                            alert("系统繁忙,请稍后再试,谢谢！");
-                            return;
-                        }*/
-                    },
-                    error: function (err) {
-                        if (err && typeof(err) == 'string') {
-                            alert(err);
-                        }
-                        alert(i18n.manDepositAndDraw.systemBusy);
-                        return false;
-                    }, complete: function () {
-                        over = false;
+            if(count!=""){
+                alert(count+"平台网络异常，查询数据可能不完整！");
+            }
+            /* $("#pager").pager({isForm:true,form:"searchForm"}); */
+            $("tbody.tbody1>tr").click(function(){
+                if(isSeled==1)return;
+                isSeled=1;
+                $this =this;
+                $("tbody.tbody1>tr.isSel").each(function(){
+                    if($this!=this){
+                        $(this).removeClass("isSel");
+                        $(this).css("background","#fff");
+                        $(this).find("td").css("background","#fff");
+                        $(".shangjiStyle",this).css("background","#C3F8B8");
+                        $(".xiajiStyle",this).css("background","#b8f8e8");
                     }
                 });
-            };
-
-
-            setType = function () {
-                $("#depositPreStatus").removeAttr('disabled');
-                $("#compBetCheckStatus").removeAttr('disabled');
-                $("#depositPre").removeAttr('disabled');
-                $("#compBet").removeAttr('disabled');
-                $('#depositPreStatus').attr('checked', false);
-                $('#compBetCheckStatus').attr('checked', false);
-                var typeid = $("#depositPro").val().substring(0, 1);
-                if (typeid == 1) {
-                    $('#depositpre').show();
-                    $('#otherpre').show();
-                    $('#compbetcheck').show();
-                    $('#normalcheck').show();
-                } else if (typeid == 2) {
-                    $('#depositpre').hide();
-                    $('#otherpre').hide();
-                    $('#compbetcheck').show();
-                    $('#normalcheck').hide();
-                } else {
-                    $('#depositpre').hide();
-                    $('#otherpre').hide();
-                    $('#compbetcheck').hide();
-                    $('#normalcheck').show();
+                if($(this).hasClass("isSel")){
+                    $(this).removeClass("isSel");
+                    $(this).css("background","#fff");
+                    $(this).find("td").css("background","#fff");
+                    $(".shangjiStyle",this).css("background","#C3F8B8");
+                    $(".xiajiStyle",this).css("background","#b8f8e8");
+                }else{
+                    $(this).addClass("isSel");
+                    $(this).css("background","#c1ebff");
+                    $(this).find("td").css("background","#c1ebff");
                 }
-                changeByDepositMoney();
-            };
-
-            changeByDepositMoney = function () {
-                var typeid = $("#depositPro").val().substring(0, 1);
-                $("#depositPre").removeAttr('disabled');
-                $("#depositPreStatus").removeAttr('disabled');
-                $("#otherPre").removeAttr('disabled');
-                $("#otherPreStatus").removeAttr('disabled');
-                $("#compBetCheckStatus").removeAttr('disabled');
-                $('#depositPreStatus').attr('checked', false);
-                $("#compBet").removeAttr('disabled');
-                $('#compBetCheckStatus').attr('checked', false);
-                var depositMoney = $("#depositMoney").val();
-                var preStandardCompany = $("#preStandardCompany").val();
-                var prePerCompany = $("#prePerCompany").val();
-                var preUpCompany = $("#preUpCompany").val();
-
-                var opreStandardCompany = $("#opreStandardCompany").val();
-                var oprePerCompany = $("#oprePerCompany").val();
-                var opreUpCompany = $("#opreUpCompany").val();
-                //var numCompCompany = $("#numCompCompany").val();
-                //存入金额为空
-                if (null == depositMoney || depositMoney == "") {
-                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountTips + "</font>");
-                    return;
+                isSeled = 0;
+            });
+            $("tbody.tbody1>tr").hover(function(){
+                if(!$(this).hasClass("isSel")){
+                    //$(this).addClass("isSel");
+                    $(this).css("background","#c1ebff");
+                    $(this).find("td").css("background","#c1ebff");
                 }
-                if (!(/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/).test(depositMoney)) {
-                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
-                    return;
-                } else if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositMoney))) {
-                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
-                    return;
-                } else if (depositMoney <= 0) {
-                    $("#depositMoneymsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositAmountMinLimit + "</font>");
-                    return;
-                } else {
-                    $("#depositMoneymsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
+            },function(){
+                if(!$(this).hasClass("isSel")){
+                    $(this).css("background","#fff");
+                    $(this).find("td").css("background","#fff");
+                    $(".shangjiStyle",this).css("background","#C3F8B8");
+                    $(".xiajiStyle",this).css("background","#b8f8e8");
                 }
-                if (typeid == 1) {
-                    //存入金额小于优惠标准
-                    if (parseFloat(depositMoney) < parseFloat(preStandardCompany)) {
-                        $("#depositPre").val("0");
-                        $("#depositPre").attr('disabled', 'disabled');
-                        $("#depositPreStatus").attr('disabled', 'disabled');
-                        $("#compBet").val("0");
-                        $("#compBet").attr('disabled', 'disabled');
-                        $("#compBetCheckStatus").attr('disabled', 'disabled');
-                    } else {
-                        var res = parseFloat(depositMoney) * prePerCompany * 0.01;
-                        if (parseFloat(res) >= parseFloat(preUpCompany)) {
-                            res = preUpCompany;
-                        }
-                        $("#depositPre").val(parseFloat(res).toFixed(2));
-                        $("#compBet").val("0");
-                        $("#compBet").attr('disabled', 'disabled');
-                        $("#compBetCheckStatus").attr('disabled', 'disabled');
+            });
+            $("#platALL").click(function(){
+                $("input:checkbox[name='plat']").attr("checked",this.checked);
+            });
+            $("input:checkbox[name='plat'][id!='platALL']").click(function(){
+                var check=true;
+                if(!$("#platALL").attr("checked"))return;
+                $("input:checkbox[id!='platALL']").each(function(){
+                    if(!this.checked){
+                        check=false;
+                        return;
                     }
-                    //存入金额小于其他优惠标准
-                    if (parseFloat(depositMoney) < parseFloat(opreStandardCompany)) {
-                        $("#otherPre").val("0");
-                        $("#otherPre").attr('disabled', 'disabled');
-                        $("#otherPreStatus").attr('disabled', 'disabled');
+                });
+                if(!check||!this.checked){
+                    $("#platALL").attr("checked",false);
+                }
+            });
+
+            $("#accountId").blur(function(){
+                $(this).val($(this).val().toLowerCase());
+            });
+
+            var startDateMsg = {
+                format: "YYYY-MM-DD hh:mm:ss",
+                minDate: "2020-06-01 00:00:00",
+                maxDate: "2020-07-20 23:59:59",
+                isClear: false,
+                isToday: false,
+                onClose: false,
+                okfun: function(obj){
+                    var nowDateStr = obj.val;
+                    var nowDateTime = new Date(nowDateStr.replace(/-/g, "/")).getTime();
+
+                    var endDateStr = $("#lastDateId").val();
+                    var endDateTime = new Date(endDateStr.replace(/-/g, "/")).getTime();
+                    if(nowDateTime > endDateTime){
+                        endDateMsg.minDate = endDateStr;
+                        $("#startDateId").val(endDateStr);
+                    }else{
+                        endDateMsg.minDate = nowDateStr;
                     }
-                    if (parseFloat(depositMoney) < parseFloat(opreStandardCompany)) {
-                        $("#otherPre").val("0");
-                    } else {
-                        var result = parseFloat(depositMoney) * oprePerCompany * 0.01;
-                        if (result >= opreUpCompany) {
-                            $("#otherPre").val(parseFloat(opreUpCompany).toFixed(2));
-                        } else {
-                            $("#otherPre").val(parseFloat(result).toFixed(2));
-                        }
+                }
+            };
+
+            var endDateMsg = {
+                format: "YYYY-MM-DD hh:mm:ss",
+                minDate: "2020-07-19 00:00:00",
+                maxDate: "2020-07-20 23:59:59",
+                isClear: false,
+                isToday: false,
+                onClose: false,
+                okfun: function(obj){
+                    var nowDateStr = obj.val;
+                    var nowDateTime = new Date(nowDateStr.replace(/-/g, "/")).getTime();
+
+                    var startDateStr = $("#startDateId").val();
+                    var startDateTime = new Date(startDateStr.replace(/-/g, "/")).getTime();
+                    if(nowDateTime < startDateTime){
+                        startDateMsg.maxDate = startDateStr;
+                        $("#lastDateId").val(startDateStr);
+                    }else{
+                        startDateMsg.maxDate = nowDateStr;
                     }
-
-                }
-
-            };
-
-            manDeposit = function () {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
-                }
-                window.location.href = "/agent/ComRecordServlet?type=queryManDeposit";
-            };
-
-            manDraw = function () {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
-                }
-                window.location.href = "/agent/DrawRecordServlet?type=queryManDraw";
-            };
-
-            batchManDeposit = function () {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
-                }
-                window.location.href = "/agent/ComRecordServlet?type=batchManDeposit";
-            };
-
-            batchManConversion = function () {
-                if (over) {
-                    alert(i18n.manDepositAndDraw.submitting);
-                    return;
-                }
-                window.location.href = "/agent/ComRecordServlet?type=batchManConversion";
-            };
-            judgeDepositPre = function () {
-                var depositPre = $("#depositPre").val();
-                if (null == depositPre || depositPre == "") {
-                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.depositOfferTips + "</font>");
-                    return;
-                }
-                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(depositPre))) {
-                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
-                    return;
-                } else if ((/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(depositPre))) {
-                    $("#depositPremsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
-                    return;
-                } else {
-                    $("#depositPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
-                    return;
-                }
-            };
-            judgeOtherPre = function () {
-                var otherPre = $("#otherPre").val();
-                if (null == otherPre || otherPre == "") {
-                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.otherOfferTips + "</font>");
-                    return;
-                }
-                if (!(/(^[+]?[0-9]+([.]\d{1,2})?$)/.test(otherPre))) {
-                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.decimalLimit + "</font>");
-                    return;
-                } else if ((/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(otherPre))) {
-                    $("#otherPremsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
-                    return;
-                } else {
-                    $("#otherPremsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
-                    return;
                 }
             };
 
-            judgeCompBet = function () {
-                var compBet = $("#compBet").val();
-                if ((/(^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+]?[0-9]+)?$)/.test(compBet))) {
-                    $("#compBetmsgs").html("<font color=green>" + i18n.manDepositAndDraw.correct + "</font>");
-                    return;
-                } else {
-                    $("#compBetmsgs").html("<font color=red>" + i18n.manDepositAndDraw.wrongFormat + "</font>");
-                    return;
-                }
-            };
-
-            $("#depositMoneyRemark").keyup(function () {
-                var l = 100;
-                var sl = $("#depositMoneyRemark").val().length;
-
-                if (l - sl < 0) {
-                    $('#depositMoneyRemarkmsgs').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
-                    return;
-                } else {
-                    $('#depositMoneyRemarkmsgs').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
-                }
-            });
-            $("#depositMoneyRemark1").keyup(function () {
-                var l = 100;
-                var sl = $("#depositMoneyRemark1").val().length;
-                $('#depositMoneyRemarkmsgs1').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
-            });
-
-            $("#otherPreRemark").keyup(function () {
-                var l = 100;
-                var sl = $("#otherPreRemark").val().length;
-
-                if (l - sl < 0) {
-                    $('#otherPreRemarkmsgs').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
-                    return;
-                } else {
-                    $('#otherPreRemarkmsgs').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
-                }
-            });
-
-            $("#otherPreRemark1").keyup(function () {
-                var l = 100;
-                var sl = $("#otherPreRemark1").val().length;
-                $('#otherPreRemarkmsgs1').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
-            });
-
-            $("#depositPreRemark").keyup(function () {
-                var l = 100;
-                var sl = $("#depositPreRemark").val().length;
-
-                if (l - sl < 0) {
-                    $('#depositPreRemarkmsgs').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
-                    return;
-                } else {
-                    $('#depositPreRemarkmsgs').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
-                }
-            });
-
-            $("#depositPreRemark1").keyup(function () {
-                var l = 100;
-                var sl = $("#depositPreRemark1").val().length;
-
-                if (l - sl < 0) {
-                    $('#depositPreRemarkmsgs1').html('<font color=red>' + i18n.manDepositAndDraw.noteMaxLimit + '</font>');
-                    return;
-                } else {
-                    $('#depositPreRemarkmsgs1').html('<font color=blue>' + i18n.manDepositAndDraw.noteInputTips + " " + (l - sl) + " " + i18n.manDepositAndDraw.words + '</font>');
-                }
-            });
-            depositPreStatusCheckbox = function () {
-                $("#depositPreStatus").removeAttr('disabled');
-                $("#compBetCheckStatus").removeAttr('disabled');
-                $("#depositPre").removeAttr('disabled');
-                $("#compBet").removeAttr('disabled');
-                if ($('#depositPreStatus').attr('checked')) {
-                    $('#compBetCheckStatus').attr('checked', true);
-                    var depositMoney = $("#depositMoney").val();
-                    if (null == depositMoney || depositMoney == "") {
-                        depositMoney = 0.0;
-                    }
-                    var depositPre = $("#depositPre").val();
-                    if (null == depositPre || depositPre == "") {
-                        depositPre = 0.0;
-                    }
-                    var numCompCompany = $("#numCompCompany").val();
-                    var res = (parseFloat(depositMoney) + parseFloat(depositPre)) * numCompCompany;
-                    //$("#compBet").val(parseFloat(res).toFixed(2));
-                    $("#compBet").val((Math.floor(res * 100) / 100));
-                } else {
-                    $('#compBetCheckStatus').attr('checked', false);
-                    $("#compBet").val("0");
-                    $("#compBet").attr('disabled', 'disabled');
-                    $("#compBetCheckStatus").attr('disabled', 'disabled');
-                }
-            };
-
+            $("#startDateId").jeDate(startDateMsg);
+            $("#lastDateId").jeDate(endDateMsg);
+            //记住快选日期
+            if(timeId){
+                $("#quickDate").val(timeId);
+            }else{
+                $("#quickDate").eq(0).selected();
+            }
         });
 
+        function showDetail(accountId,platform) {
+            var startDate = encodeURI($("#startDate").val());
+            var lastDate = encodeURI($("#lastDate").val());
+            window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+accountId+"&platform="+platform+"&startDate="+startDate+"&lastDate="+lastDate;
+            /**	$( "#jackpotdialog" ).dialog({
+			autoOpen: false,
+			width:998,
+			height:520,
+	        buttons: {
+	            "关闭": function() {
+	                $( this ).dialog( "close" );
+	            }
+	        }
+		});
 
+             $( "#jackpotdialog" ).html("<iframe width=\"100%\" style=\"overflow-y:no;\" height=\"100%\" id=\"Meniframe\" name=\"Meniframe\"  frameborder=\"0\" scrolling=\"auto\"  src=\""+ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+accountId+"&parentId="+parentId+"&startDate="+startDate+"&lastDate="+lastDate+"\"></iframe>");
+             $( "#jackpotdialog" ).dialog( "open" );
+
+             **/
+        }
+
+        /* 	$(function() {
+                $("#allGameTypeId").click(function() {
+                    alert($(this).attr("checked"));
+                if ($(this).attr("checked") == true) { // 全选
+                   $("input[@name='gameType']").each(function() {
+                   $(this).attr("checked", true);
+                  });
+                } else { // 取消全选
+                   $("input[@name='gameType[]']").each(function() {
+                   $(this).attr("checked", false);
+                  });
+                }
+                });
+            }); */
+
+        function selectorcancel(){
+            //$("#allGameTypeId").attr("checked");jquery-1.6版本后取值返回的是checked，1.6前的版本返回的是true或false
+            //var test = document.getElementById("allGameTypeId").checked;
+            //alert(test);  这个取值后返回的是true或false
+            if($("#allGameTypeId").attr("checked")=="checked"){
+                $("#div1 :checkbox").attr("checked",true);
+            }else{
+                $("#div1 :checkbox").attr("checked",false);
+            }
+        }
+
+        function showDiv(){
+            document.getElementById('popDiv').style.display='block';
+            document.getElementById('bg').style.display='block';
+            document.getElementById('popIframe').style.display='block';
+            $("#load").show();
+        }
+        //GPO-8743 快选操作 add Ado
+        var quickDataList = new Array();
+
+        quickDataList.push("2020-07-20 00:00:00,2020-07-20 23:59:59");
+
+        quickDataList.push("2020-07-19 00:00:00,2020-07-19 23:59:59");
+
+        quickDataList.push("2020-07-20 00:00:00,2020-07-20 23:59:59");
+
+        quickDataList.push("2020-07-13 00:00:00,2020-07-19 23:59:59");
+
+        quickDataList.push("2020-07-01 00:00:00,2020-07-20 23:59:59");
+
+        quickDataList.push("2020-06-01 00:00:00,2020-06-30 23:59:59");
+
+        var timeId = "0";
+        function queryFast(id) {
+            var quickDate = quickDataList[id];
+            var dates = quickDate.split(",");
+            $("#startDateId").val(dates[0]);
+            $("#lastDateId").val(dates[1]);
+            $('#time_id').val(id);
+        }
     </script>
-<body style="background-image:none; background-color:#f4f9ff">
-<input type="hidden" id="preStandardCompany" name="preStandardCompany" value="1.00000"></input>
-<input type="hidden" id="prePerCompany" name="prePerCompany" value="0.5"></input>
-<input type="hidden" id="preUpCompany" name="preUpCompany" value="999999999.00000"></input>
-<input type="hidden" id="opreUpCompany" name="opreUpCompany" value="0.00000"></input>
-<input type="hidden" id="opreStandardCompany" name="opreStandardCompany" value="1000000.00000"></input>
-<input type="hidden" id="oprePerCompany" name="oprePerCompany" value="0.5"></input>
-<input type="hidden" id="numCompCompany" name="numCompCompany" value="1"></input>
-<input type="hidden" id="comRecordId" name="comRecordId" value=""></input>
-<input type="hidden" id="memberId" name="memberId" value="9750742"></input>
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+    <![endif]-->
+    <style type="text/css">
+        .shangjiStyle{
+            background-color: #B1D6FB;
+        }
+        .xiajiStyle{
+            background-color: #CAE4FD;
+        }
+    </style>
+    <style type="text/css">
+        <!--
+        html,body {height:100%; margin:0px; font-size:12px;}
+        .mydiv {
+            text-align: center;
+            line-height: 40px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index:999;
+            width: 500px;
+            height: 120px;
+            left:50%;
+            top:50%;
+            margin-left:-250px!important;/*FF IE7 该值为本身宽的一半 */
+            margin-top:-60px!important;/*FF IE7 该值为本身高的一半*/
+            margin-top:0px;
+            position:fixed!important;/* FF IE7*/
+            position:absolute;/*IE6*/
+            _top:       expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);/*IE5 IE5.5*/
+        }
+        .bg,.popIframe {
+            background-color: #666; display:none;
+            width: 100%;
+            height: 100%;
+            left:0;
+            top:0;/*FF IE7*/
+            filter:alpha(opacity=50);/*IE*/
+            opacity:0.5;/*FF*/
+            z-index:1;
+            position:fixed!important;/*FF IE7*/
+            position:absolute;/*IE6*/
+            _top:       expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);
+        }
+        .popIframe {
+            filter:alpha(opacity=0);/*IE*/
+            opacity:0;/*FF*/
+        }
+        -->
+    </style>
+</head>
 
-<!-- 新增针对测试线会员人工额度转换时,非用户区分提示 -->
-<input type="hidden" id="memberType" name="type" value="0"></input>
-
-
+<body class="hoverStyle" style="background-image:none; background-color:#f4f9ff">
+<div id="popDiv" class="mydiv" style="display:none;">
+    <div style="display: none;position: absolute;left: 40%;top:40%" id="load">
+        <img alt="" src="/jsp/agency/images/ajax-loader-white.gif"/><span style="color: blue; font: 22px;"></span>
+    </div>
+</div>
+<div id="bg" class="bg" style="display:none;"></div>
+<iframe id='popIframe' class='popIframe' frameborder='0' ></iframe>
+<div id="jackpotdialog" title="<font color='white'>会员报表详情</font>" style="display: none;"></div>
+<input type="hidden" name="startDate" id="startDate" value="2020-07-19 00:00:00"/>
+<input type="hidden" name="lastDate" id="lastDate" value="2020-07-20 23:59:59"/>
+<input type="hidden" name="account" id="account" value="zjq88888"/>
 <div id="container">
     <div id="wrapper">
         <div id="content1">
-            <form name="searchForm" id="searchForm" style="width: 660px;">
-                <div id="mnav">
-                    <input type="button" onclick="manDeposit()" class="them_02"
-                           value="人工存入 "
-                           style="cursor: pointer;"></input>
-                    <input type="button" onclick="manDraw()"
-                           value="人工提出"
-                           style="cursor: pointer;"></input>
-                    <input type="button" onclick="batchManDeposit()"
-                           value="批次处理"
-                           id="batchDeposit" style="cursor: pointer;display: none;"></input>
-                    <input type="button" onclick="batchManConversion()"
-                           value="人工额度转换"
-                           style="cursor: pointer;display:none;" id="traConversion"></input>
-                </div>
+            <div class="dgh" style="line-height: 30px;" id="div1">
+                <form action="/agent/MemberReport?type=queryMemberReport" method="post" name="form1">
+                    会员账号：<input name="account" id="accountId" value="zjq88888"/>
+                    日期：<input name="startDate" id="startDateId" readonly="readonly" value='2020-07-19 00:00:00'/>
+                    &nbsp;-&nbsp;
+                    <input name="lastDate" id="lastDateId" readonly="readonly" value='2020-07-20 23:59:59'/>&nbsp;
+
+                    <label >快选&nbsp;&nbsp;</label>
+                    <input type="hidden" name="timeId" id="time_id" value="0"/>
+                    <select id="quickDate" onchange="queryFast(this.value)">
+                        <option value="0">今日</option>
+                        <option value="1">昨日</option>
+                        <option value="2">本周</option>
+                        <option value="3">上周</option>
+                        <option value="4">本月</option>
+                        <option value="5">上月</option>
+                    </select>
+                    &nbsp;&nbsp;
+
+                    <input type="checkbox" id="platALL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"  value="ALL"/><label for="platALL">全部</label>
+
+                    <input type="checkbox" id="platCPCP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="CPCP" checked="checked"  pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"  value="CPCP"/><label for="platCPCP">传统彩票</label>
+
+                    <input type="checkbox" id="platBBSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BBSX"   pt_key="BBSX" checked="checked"  pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"  value="BBSX"/><label for="platBBSX">BB视讯</label>
+
+                    <input type="checkbox" id="platBBTY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY" checked="checked"  pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"  value="BBTY"/><label for="platBBTY">BB体育</label>
+
+                    <input type="checkbox" id="platBBCP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP" checked="checked"  pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"  value="BBCP"/><label for="platBBCP">BB彩票</label>
+
+                    <input type="checkbox" id="platBBJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL" checked="checked"  pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"  value="BBJL"/><label for="platBBJL">BB电子</label>
+
+                    <input type="checkbox" id="platAGSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX" checked="checked"  pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"  value="AGSX"/><label for="platAGSX">AG视讯</label>
+
+                    <input type="checkbox" id="platAGBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY" checked="checked"  pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"  value="AGBY"/><label for="platAGBY">AG捕鱼</label>
+
+                    <input type="checkbox" id="platAGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL" checked="checked"  pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"  value="AGJL"/><label for="platAGJL">AG电子</label>
+
+                    <input type="checkbox" id="platOGSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX" checked="checked"  pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"   pt_key="OGSX"  value="OGSX"/><label for="platOGSX">OG视讯</label>
+
+                    <input type="checkbox" id="platYOPLAYJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL" checked="checked"  pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"  value="YOPLAYJL"/><label for="platYOPLAYJL">YOPLAY电子</label>
+
+                    <input type="checkbox" id="platNMGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL" checked="checked"  pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"   pt_key="NMGJL"  value="NMGJL"/><label for="platNMGJL">MG电子</label>
+
+                    <input type="checkbox" id="platIBCTY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY" checked="checked"  pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"  value="IBCTY"/><label for="platIBCTY">沙巴体育</label>
+
+                    <input type="checkbox" id="platPTJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL" checked="checked"  pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"  value="PTJL"/><label for="platPTJL">PT电子</label>
+
+                    <input type="checkbox" id="platMWGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL" checked="checked"  pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"  value="MWGJL"/><label for="platMWGJL">MWG电子</label>
+
+                    <input type="checkbox" id="platMWGQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP" checked="checked"  pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"  value="MWGQP"/><label for="platMWGQP">MWG棋牌</label>
+
+                    <input type="checkbox" id="platLEBOSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX" checked="checked"  pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"  value="LEBOSX"/><label for="platLEBOSX">LEBO视讯</label>
+
+                    <input type="checkbox" id="platABSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX" checked="checked"  pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"  value="ABSX"/><label for="platABSX">AB视讯</label>
+
+                    <input type="checkbox" id="platPPJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL" checked="checked"  pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"  value="PPJL"/><label for="platPPJL">PP电子</label>
+
+                    <input type="checkbox" id="platCMDTY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY" checked="checked"  pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"  value="CMDTY"/><label for="platCMDTY">CMD体育</label>
+
+                    <input type="checkbox" id="platVGQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP" checked="checked"  pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"  value="VGQP"/><label for="platVGQP">VG棋牌</label>
+
+                    <input type="checkbox" id="platCQ9JL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL" checked="checked"  pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"  value="CQ9JL"/><label for="platCQ9JL">CQ9电子</label>
+
+                    <input type="checkbox" id="platBCTY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY" checked="checked"  pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"  value="BCTY"/><label for="platBCTY">OG体育</label>
+
+                    <input type="checkbox" id="platBGSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX" checked="checked"  pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"  value="BGSX"/><label for="platBGSX">BG视讯</label>
+
+                    <input type="checkbox" id="platBGBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY" checked="checked"  pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"  value="BGBY"/><label for="platBGBY">BG捕鱼</label>
+
+                    <input type="checkbox" id="platBGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL" checked="checked"  pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"  value="BGJL"/><label for="platBGJL">BG电子</label>
+
+                    <input type="checkbox" id="platPNGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL" checked="checked"  pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"  value="PNGJL"/><label for="platPNGJL">PNG电子</label>
+
+                    <input type="checkbox" id="platJDBJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL" checked="checked"  pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"  value="JDBJL"/><label for="platJDBJL">JDB电子</label>
+
+                    <input type="checkbox" id="platJDBQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP" checked="checked"  pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"  value="JDBQP"/><label for="platJDBQP">JDB棋牌</label>
+
+                    <input type="checkbox" id="platJDBBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY" checked="checked"  pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"   pt_key="JDBBY"  value="JDBBY"/><label for="platJDBBY">JDB捕鱼</label>
+
+                    <input type="checkbox" id="platFYDJ" style="vertical-align: middle" name="plat" checked="checked"  pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ" checked="checked"  pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"  value="FYDJ"/><label for="platFYDJ">FY电竞</label>
+
+                    <input type="checkbox" id="platFGQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP" checked="checked"  pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"  value="FGQP"/><label for="platFGQP">FG棋牌</label>
+
+                    <input type="checkbox" id="platFGBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY" checked="checked"  pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"  value="FGBY"/><label for="platFGBY">FG捕鱼</label>
+
+                    <input type="checkbox" id="platFGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL" checked="checked"  pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"  value="FGJL"/><label for="platFGJL">FG电子</label>
+
+                    <input type="checkbox" id="platKYQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP" checked="checked"  pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"  value="KYQP"/><label for="platKYQP">KY棋牌</label>
+
+                    <input type="checkbox" id="platSBSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX" checked="checked"  pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"   pt_key="SBSX"  value="SBSX"/><label for="platSBSX">申博视讯</label>
+
+                    <input type="checkbox" id="platNWQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP" checked="checked"  pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"  value="NWQP"/><label for="platNWQP">NW棋牌</label>
+
+                    <input type="checkbox" id="platLGQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP" checked="checked"  pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"  value="LGQP"/><label for="platLGQP">LG棋牌</label>
+
+                    <input type="checkbox" id="platDTQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP" checked="checked"  pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"  value="DTQP"/><label for="platDTQP">DT棋牌</label>
+
+                    <input type="checkbox" id="platDTJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL" checked="checked"  pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"  value="DTJL"/><label for="platDTJL">DT电子</label>
+
+                    <input type="checkbox" id="platWMJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL" checked="checked"  pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"  value="WMJL"/><label for="platWMJL">WM电子</label>
+
+                    <input type="checkbox" id="platSCSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX" checked="checked"  pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"  value="SCSX"/><label for="platSCSX">性感百家乐</label>
+
+                    <input type="checkbox" id="platBSPQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP" checked="checked"  pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"  value="BSPQP"/><label for="platBSPQP">BSP棋牌</label>
+
+                    <input type="checkbox" id="platBSPBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY" checked="checked"  pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"  value="BSPBY"/><label for="platBSPBY">BSP捕鱼</label>
+
+                    <input type="checkbox" id="platEBETSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX" checked="checked"  pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"  value="EBETSX"/><label for="platEBETSX">EBET视讯</label>
+
+                    <input type="checkbox" id="platSGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL" checked="checked"  pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"  value="SGJL"/><label for="platSGJL">SG电子</label>
+
+                    <input type="checkbox" id="platPGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL" checked="checked"  pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"  value="PGJL"/><label for="platPGJL">PG电子</label>
+
+                    <input type="checkbox" id="platMGPJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL" checked="checked"  pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"  value="MGPJL"/><label for="platMGPJL">新MG电子</label>
+
+                    <input type="checkbox" id="platTHQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP" checked="checked"  pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"  value="THQP"/><label for="platTHQP">TH棋牌</label>
+
+                    <input type="checkbox" id="platTHBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY" checked="checked"  pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"  value="THBY"/><label for="platTHBY">TH捕鱼</label>
+
+                    <input type="checkbox" id="platTHJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL" checked="checked"  pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"  value="THJL"/><label for="platTHJL">TH电子</label>
+
+                    <input type="checkbox" id="platSCGQP" style="vertical-align: middle" name="plat" checked="checked"  pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP" checked="checked"  pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"  value="SCGQP"/><label for="platSCGQP">SCG棋牌</label>
+
+                    <input type="checkbox" id="platSCGBY" style="vertical-align: middle" name="plat" checked="checked"  pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY" checked="checked"  pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"  value="SCGBY"/><label for="platSCGBY">SCG捕鱼</label>
+
+                    <input type="checkbox" id="platSCGJL" style="vertical-align: middle" name="plat" checked="checked"  pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL" checked="checked"  pt_key="SCGJL"   pt_key="SCGJL"  value="SCGJL"/><label for="platSCGJL">SCG电子</label>
+
+                    <input type="checkbox" id="platOGPSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX" checked="checked"  pt_key="OGPSX"  value="OGPSX"/><label for="platOGPSX">新OG视讯</label>
+
+                    <input type="submit" value="查询" class="button_1" style="cursor:pointer;width: 80px;" onclick="showDiv()"/>
+                </form>
+            </div>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">总计&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
 
 
-                <div>
-                    <table style="text-align: left;">
-                        <tr>
-                            <td align="left"
-                                style="border-bottom-style: none;border-left-style: none;border-right-style: none;border-top-style: none;">
-                                账号：<input type="text"
-                                          id="memAccount"
-                                          value="aaa9500"></input>
-                                <input type="button"
-                                       value="查询"
-                                       onclick="toCheck()" style="cursor: pointer;"></input>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="box"
-                     style="border-bottom-style: none;border-right-style: none;border-top-style: none;border-left-style: none;">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th colspan="2" height="30">人工存入</th>
-                            <th height="30" width="200">后台备注</th>
-                            <th height="30" width="200">前端备注</th>
-                        </tr>
-                        </thead>
 
-                        <tbody>
-                        <tr>
-                            <td height="30" width="159" align="center">账号</td>
-                            <td height="30" width="230" id="inputaccount">aaa9500<span id="accountmsgs"></span></td>
-                            <td height="30" width="159"></td>
-                            <td height="30" width="159"></td>
-                        </tr>
-                        <tr>
-                            <td height="30" align="center">现金余额</td>
-                            <td height="30">
-                                16120.45
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td height="30" align="center">存入金额</td>
-                            <td height="30"><input type="text" id="depositMoney" name="depositMoney"
-                                                   onblur="changeByDepositMoney()"/><span id="depositMoneymsgs"></span>
-                            </td>
-                            <td height="30"><span id="depositMoneyRemarkmsgs"></span><textarea id="depositMoneyRemark"
-                                                                                               maxlength="100"></textarea>
-                            </td>
-                            <td height="30"><span id="depositMoneyRemarkmsgs1"></span><textarea id="depositMoneyRemark1"
-                                                                                                maxlength="100"></textarea>
-                            </td>
-                        </tr>
-                        <tr id="depositpre">
-                            <td height="30" align="center">存款优惠</td>
-                            <td height="30"><input type="checkbox" name="depositPreStatus" id="depositPreStatus"
-                                                   value="1" onclick="depositPreStatusCheckbox();">
-                                存入，金额：
-                                <input type="text" id="depositPre" name="depositPre" onblur="judgeDepositPre()"></input><span
-                                        id="depositPremsgs"></span></td>
-                            <td height="30"><span id="depositPreRemarkmsgs"></span><br><textarea id="depositPreRemark"
-                                                                                                 maxlength="100"></textarea>
-                            </td>
-                            <td height="30"><span id="depositPreRemarkmsgs1"></span><br><textarea id="depositPreRemark1"
-                                                                                                  maxlength="100"></textarea>
-                            </td>
-                        </tr>
-                        <tr id="otherpre">
-                            <td height="30" align="center">汇款优惠</td>
-                            <td height="30"><input type="checkbox" name="otherPreStatus" id="otherPreStatus" value="1">
-                                存入，金额：
-                                <input type="text" id="otherPre" name="otherPre" onblur="judgeOtherPre()"></input><span
-                                        id="otherPremsgs"></span></td>
-                            <td height="30"><span id="otherPreRemarkmsgs"></span><br><textarea id="otherPreRemark"
-                                                                                               maxlength="100"></textarea>
-                            </td>
-                            <td height="30"><span id="otherPreRemarkmsgs1"></span><br><textarea id="otherPreRemark1"
-                                                                                                maxlength="100"></textarea>
-                            </td>
-                        </tr>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>950</td>
+                    <td>
 
-                        <tr height="30" id="compbetcheck">
-                            <td height="30" align="center">综合打码量稽核</td>
-                            <td height="30"><input type="checkbox" name="compBetCheckStatus" id="compBetCheckStatus">
-                                稽核，打码量
-                                <input type="text" id="compBet" name="compBet" onblur="judgeCompBet()"></input><span
-                                        id="compBetmsgs"></span></td>
-                            <td height="30"></td>
-                            <td height="30"></td>
-                        </tr>
-                        <tr height="30" id="normalcheck">
-                            <td height="30" align="center">常态性稽核</td>
-                            <td height="30"><input type="checkbox" name="normalStatus" id="normalStatus"
-                                                   checked="checked">
-                                稽核
-                            </td>
-                            <td height="30"></td>
-                            <td height="30"></td>
-                        </tr>
-                        <tr height="30">
-                            <td height="30" align="center">存入项目</td>
-                            <td height="30">
-                                <select id="depositPro" name="depositPro" onchange="setType()">
 
-                                    <option value="1人工存入"
+                        26120.00
 
-                                    >人工存入</option>
+                    </td>
+                    <td>26109.55</td>
+                    <td style="color:red">
+                        -2598.00
+                    </td>
 
-                                    <option value="2存款优惠"
 
-                                    >存款优惠</option>
 
-                                    <option value="3负数额度归零"
+                </tr>
+                </tbody>
+            </table>
 
-                                    >负数额度归零</option>
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">传统彩票&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
 
-                                    <option value="4取消出款"
 
-                                    >取消出款</option>
 
-                                    <option value="5其他"
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
 
-                                    >其他</option>
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'CPCP')">
 
-                                </select>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <!-- <tr>
-                            <td align="center">动态口令(操作人)</td>
-                            <td>
-                                <input type="text" name="dynamicPassword"  id="dynamicPassword" value="" onkeyup="if(isNaN(value))execCommand('undo')" maxlength="6" />
-                            </td>
-                            <td  height="30">（未绑定请留空）</td>
-                        </tr> -->
-                        <tr>
-                            <td height="30" colspan="4" align="center"><input id="saveBtn" type="button"
-                                                                              value="确定"
-                                                                              onclick="saveSet()" disabled
-                                                                              style="cursor: pointer;"></input><span
-                                    id="msgs"></span></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BB视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BBSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BB体育&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BBTY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BB彩票&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BBCP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BB电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>950</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BBJL')">
+
+
+                            26120.00
+                        </a>
+                    </td>
+                    <td>26109.55</td>
+                    <td style="color:red">
+                        -2598.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">AG视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'AGSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">AG捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'AGBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">AG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'AGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">OG视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'OGSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">YOPLAY电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'YOPLAYJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">MG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'NMGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">沙巴体育&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'IBCTY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">PT电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+                    <th height="30" width="14%">累计彩池</th>
+                    <th height="30" width="14%">累计彩金</th>
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'PTJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">MWG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'MWGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">MWG棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'MWGQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">LEBO视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'LEBOSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">AB视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'ABSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">PP电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'PPJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">CMD体育&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'CMDTY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">VG棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'VGQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">CQ9电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'CQ9JL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">OG体育&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BCTY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BG视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BGSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BG捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BGBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">PNG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'PNGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">JDB电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'JDBJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">JDB棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'JDBQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">JDB捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'JDBBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">FY电竞&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'FYDJ')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">FG棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'FGQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">FG捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'FGBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">FG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'FGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">KY棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'KYQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">申博视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'SBSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">NW棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'NWQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">LG棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'LGQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">DT棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'DTQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">DT电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'DTJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">WM电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'WMJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">性感百家乐&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'SCSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BSP棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BSPQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">BSP捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'BSPBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">EBET视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'EBETSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">SG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'SGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">PG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'PGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">新MG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+                    <th height="30" width="14%">Jackpot交收</th>
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'MGPJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+                    <td>0.00</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">TH棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'THQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">TH捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'THBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">TH电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'THJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">SCG棋牌&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'SCGQP')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">SCG捕鱼&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'SCGBY')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">SCG电子&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'SCGJL')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="100%" colspan="10" align="center">新OG视讯&nbsp;2020-07-19 00:00:00-2020-07-20 23:59:59</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" bgcolor="#FAFAF1" height="22">
+                    <th height="30" width="14%">会员</th>
+                    <th height="30" width="14%">单量</th>
+                    <th height="30" width="14%">投注额</th>
+                    <th height="30" width="14%">实际投注</th>
+                    <th height="30" width="14%">损益</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody class="tbody1">
+                <tr align="center" bgcolor="#FAFAF1" height="22" >
+                    <td>zjq88888</td>
+                    <td>0</td>
+                    <td>
+
+                        <a href="javascript:void(0);" onclick="showDetail(8238479,'OGPSX')">
+
+
+                            0.00
+                        </a>
+                    </td>
+                    <td>0.00</td>
+                    <td >
+                        0.00
+                    </td>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

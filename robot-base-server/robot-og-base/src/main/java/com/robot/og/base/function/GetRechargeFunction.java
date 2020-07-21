@@ -39,7 +39,7 @@ public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO, Strin
 
 	@Override
 	protected IEntity getEntity(QueryRechargeAO ao, RobotWrapper robotWrapper) {
-		return UrlEntity.custom(1)
+		return UrlEntity.custom(11)
 				.add("type", "queryRecord")
 				.add("tradeTypes", "31,12,15,")
 				.add("isPostback", "1")
@@ -89,7 +89,7 @@ public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO, Strin
 			List<Map<String, String>> list = Convert.parseListMap(ths, trs);
 			log.info("{}",list);
 			if (list.size() == 0) {
-				return Response.FAIL("该时间段会员未充值");
+				return Response.FAIL("未查询到充值信息");
 			}
 
 			return Response.SUCCESS(list);

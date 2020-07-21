@@ -135,7 +135,7 @@ public class OGcontroller extends ControllerBase {
 	//@ApiOperation("查询：获取充值信息")
 	public Response getRecharge(@RequestBody BreakThroughDTO incomeInfoDTO) throws Exception{
 		if (null == incomeInfoDTO
-				|| StringUtils.isEmpty(incomeInfoDTO.getUserName())
+				||StringUtils.isEmpty(incomeInfoDTO.getUserName().trim())
 				|| StringUtils.isEmpty(incomeInfoDTO.getBeginDate())
 				|| StringUtils.isEmpty(incomeInfoDTO.getEndDate())) {
 			return Response.FAIL("参数不全");

@@ -1,0 +1,741 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>会员报表</title>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+ 	var ctx="";
+ 	var MEMBER_DIR="ogmember";
+ 	var OG_MEMBER_DIR="ogmember";
+ 	var static_url = "//sj.ctshzl.cn/v21";
+	// 国际化参数
+	var systemLanguage = "zh_CN"
+</script>
+<script type="text/javascript" src="/common/js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="/common/js/yl.js"></script>
+<script type="text/javascript" src="/common/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/common/js/announment.js"></script>
+<script type="text/javascript" src="/common/js/onlineCommon.js" ></script>
+<script type="text/javascript" src="/common/js/jquery.form1.js"></script>
+<script type="text/javascript" src="/common/js/faqIcon.js"></script>
+<link rel="stylesheet" type="text/css" href="/common/css/ann.css" />
+<link rel="stylesheet" type="text/css" href="/jsp/agency/js/south-street/jquery-ui-1.9.1.custom.min.css">
+<link rel="stylesheet" type="text/css" href="/common/css/messageTip.css">
+<link rel="stylesheet" type="text/css" href="/common/css/faqIcon.css" />
+<script type="text/javascript" src="/common/js/i18n/message_zh_CN.js"></script>
+<script>
+/**
+ * 字符串占位符格式  'B在{0}与{1}之间'.format('A','C');
+ */
+String.prototype.format = function () {
+    // 数据长度为空，则直接返回
+    if (arguments.length == 0) {
+        return this;
+    }
+
+    // 使用正则表达式，循环替换占位符数据
+    for (var result = this, i = 0; i < arguments.length; i++) {
+        result = result.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+    }
+    return result;
+};
+/**
+ * 维护公告
+ * edit by  adaf
+ */
+var num = 0; 
+var time = 0;
+$(function() {
+    // 初始化弹出公告为未显示
+    window.localStorage.announcementWindowShow = 0;
+
+	$.ajax({
+		url:ctx+"/agent/GlobalAnnounceServlet",
+		cache:false,
+		dataType:'json',
+		type:'POST',
+		data:{
+			type:"3",
+			op:"queryMaintainDate"
+		},
+		success:function(data){
+			if(data&&data.maintainDate)
+				time = data.maintainDate;
+		}
+	});
+	num = 0; 
+	timingMaintain();
+	
+	var pageUrl = window.location.href;
+	//主页
+	if (pageUrl == "/" || pageUrl == "" || pageUrl.indexOf("/index.jsp")>0 || pageUrl.indexOf("/member/memberServlet")>0) {
+		setTimeout(function() {
+			ajaxAnnoument2();
+		},1000*5);
+		setTimeout(function() {
+			ajaxAnnoument();
+		},1000*11);
+	} else {
+		setTimeout(function() {
+			ajaxAnnoument();
+		},1000*5);
+	}
+});
+function annoumentData(result){
+	$(document.body).announment({
+		type : 1,
+		width : 200,
+		height : 80,
+		top :window.screen.availHeight-332,
+		left : document.body.clientWidth-205,
+		titleCls : 'anotitle',
+        containCls : 'anoContain',
+        btnCls : 'anoBtn',
+        contextCls : 'anoContext',
+        announcementId : result.id,
+        title : result.announcementname,
+        content : result.content,
+        sign : result.sign
+	});
+}
+function ajaxAnnoument() {
+	var url = ctx+"/agent/GlobalAnnounceServlet";
+		$.post(url,{type:'3'},function(result) {
+			if (result.content != "" && result.content!=undefined) {
+				$('#annoument_win').remove();//将层移除掉
+				annoumentData(result);
+			}
+	}, 'json'); 
+	
+}
+function ajaxAnnoument2() {
+	var url = ctx+"/agent/GlobalAnnounceServlet";
+		$.post(url,{type:'2'},function(result) {
+			if (result.content != "" && result.content!=undefined) {
+			$(document.body).announment({
+				type : 0,
+				top :window.screen.availHeight-500,
+				left : document.body.clientWidth-395,
+				content : result.content,
+				glAnoCls : 'glAnoCls'
+			});
+			}
+	}, 'json'); 
+	
+}
+function timingMaintain(){
+	if(time>0){
+		num++;
+		if(time<=600){ //当维护时间小于10分钟时进入判断
+			if(num==60){ //每分钟弹出一次维护公告
+				ajaxAnnoument(); //弹出维护公告
+				num=0;
+			}
+		}else{
+			if(num==300){//每五分钟弹出一次维护公告
+				ajaxAnnoument(); //弹出维护公告
+				num=0;
+			}
+		}
+		time--;
+	}
+	setTimeout(timingMaintain,1000);
+}
+function  operatePromptShow(msg){
+	var hideDiv=$('#_hideDiv');
+	var loading=$('#_loading');
+	var body=$("body");
+	if(!hideDiv[0]){
+		body.append('<div id="_hideDiv"></div>');
+	}
+	if(!loading[0]){
+		body.append('<div id="_loading"><img src="/jsp/agency/images/loaderc.gif"/><span style="font-weight: bold;">'+msg+'</span></div>');
+	}
+	$('#_hideDiv').show();
+	$('#_loading').show();
+}
+function  operatePromptHide(){
+	$('#_hideDiv').hide();
+	$('#_loading').hide();
+}
+function  T_MessageShow(msg){
+	$("body").prepend("<div class='msgbox_layer_wrap'><span id='mode_tips_v2' style='z-index: 10000;' class='msgbox_layer'><span class='gtl_ico_clear'></span><img alt='' src='/common/images/loading.gif'>"+msg+"<span class='gtl_end'></span></span></div>");
+	$(".msgbox_layer_wrap").show();
+}
+function  T_MessageHide(){
+	$(".msgbox_layer_wrap").hide();
+}
+
+
+
+
+// 中文对象
+var chineseName = {
+    '彩票': 'Lottery',
+    '视讯': 'Video',
+    '电子': 'Slot',
+    '捕鱼': 'Fishing',
+    '棋牌': 'Chess',
+    '体育': 'Sports',
+    '电竞': 'Esports',
+};
+// 通过中文获取对应的英文
+function getEnglishName(chinese){
+    // 如果当前环境选择是中文语言，直接返回中文
+    if(systemLanguage == 'zh_CN'){
+        return chinese;
+    }
+    var englishName = chineseName[chinese];
+    if(typeof englishName == 'undefined'){
+        return chinese
+    }else{
+        return ' ' + englishName + ' ';
+    }
+}
+
+
+</script>
+<div id="onlinedialog" title='在线详情'></div>
+
+<script type="text/javascript" src="/common/js/jquery.pager_2.js"></script>
+<link rel="stylesheet" type="text/css" href="/jsp/agency/css/theme.css" />
+<link rel="stylesheet" type="text/css" href="/jsp/agency/css/style.css" />
+
+<link rel="stylesheet" type="text/css" href="/common/css/jedate.css" />
+<script type="text/javascript" src="/common/js/jquery.jedate.js"></script>
+<script>
+
+	if("" != "")
+		alert("");
+	   var isSeled = 0;	
+   $(document).ready(function(){
+	   var hgStatus = '';
+	   var eaStatus = '';
+	   var bbStatus = '';
+	   var agStatus = '';
+	   var count = "";
+	   if(hgStatus!=0){
+		   count = "HG";
+	   }
+	   if(eaStatus!=0){
+		   if(count!=""){
+			   count += "、EA";
+		   }else{
+			   count = "EA";
+		   }			   
+	   }
+	   if(bbStatus!=0){
+		   if(count!=""){
+			   count += "、BBIN";
+		   }else{
+			   count = "BBIN";
+		   }
+	   }
+	   if(agStatus!=0){
+		   if(count!=""){
+			   count += "、AG";
+		   }else{
+			   count = "AG";
+		   }
+	   }
+	   if(count!=""){
+		   alert(count+"平台网络异常，查询数据可能不完整！");
+	   }
+	   /* $("#pager").pager({isForm:true,form:"searchForm"}); */
+		$("tbody.tbody1>tr").click(function(){
+			if(isSeled==1)return;
+			isSeled=1;
+			$this =this;
+			$("tbody.tbody1>tr.isSel").each(function(){
+				if($this!=this){
+					$(this).removeClass("isSel");
+					$(this).css("background","#fff");
+					$(this).find("td").css("background","#fff");
+					$(".shangjiStyle",this).css("background","#C3F8B8");
+					$(".xiajiStyle",this).css("background","#b8f8e8");
+				}
+			}); 
+			if($(this).hasClass("isSel")){
+				$(this).removeClass("isSel");
+				$(this).css("background","#fff");
+				$(this).find("td").css("background","#fff");
+				$(".shangjiStyle",this).css("background","#C3F8B8");
+				$(".xiajiStyle",this).css("background","#b8f8e8");
+			}else{
+				$(this).addClass("isSel");
+				$(this).css("background","#c1ebff");
+				$(this).find("td").css("background","#c1ebff");
+			}
+			isSeled = 0;
+		});
+		$("tbody.tbody1>tr").hover(function(){
+			if(!$(this).hasClass("isSel")){
+				//$(this).addClass("isSel");
+				$(this).css("background","#c1ebff");
+				$(this).find("td").css("background","#c1ebff");
+			}
+		},function(){
+			if(!$(this).hasClass("isSel")){
+				$(this).css("background","#fff");
+				$(this).find("td").css("background","#fff");
+				$(".shangjiStyle",this).css("background","#C3F8B8");
+				$(".xiajiStyle",this).css("background","#b8f8e8");
+			}
+		});
+		$("#platALL").click(function(){
+			$("input:checkbox[name='plat']").attr("checked",this.checked);
+		});
+		$("input:checkbox[name='plat'][id!='platALL']").click(function(){
+			var check=true;
+			if(!$("#platALL").attr("checked"))return;
+			$("input:checkbox[id!='platALL']").each(function(){
+				if(!this.checked){
+					check=false;
+					return;
+				}
+			});
+			if(!check||!this.checked){
+				$("#platALL").attr("checked",false);
+			}
+		});
+		
+		$("#accountId").blur(function(){
+		       $(this).val($(this).val().toLowerCase());	
+		});
+		
+	    var startDateMsg = {
+		    	format: "YYYY-MM-DD hh:mm:ss",
+		    	minDate: "2020-06-01 00:00:00",
+		    	maxDate: "2020-07-18 23:59:59",
+		    	isClear: false,
+		    	isToday: false,
+		    	onClose: false,
+		    	okfun: function(obj){
+		    		var nowDateStr = obj.val;
+		    		var nowDateTime = new Date(nowDateStr.replace(/-/g, "/")).getTime();
+		    		
+		    		var endDateStr = $("#lastDateId").val();
+		    		var endDateTime = new Date(endDateStr.replace(/-/g, "/")).getTime();
+		    		if(nowDateTime > endDateTime){
+		    			endDateMsg.minDate = endDateStr;
+		    			$("#startDateId").val(endDateStr);
+		    		}else{
+		    			endDateMsg.minDate = nowDateStr;
+		    		}
+		    	}
+	    };
+	    
+	    var endDateMsg = {
+		    	format: "YYYY-MM-DD hh:mm:ss",
+		    	minDate: "2020-07-17 00:00:00",
+		    	maxDate: "2020-07-21 23:59:59",
+		    	isClear: false,
+		    	isToday: false,
+		    	onClose: false,
+				okfun: function(obj){
+					var nowDateStr = obj.val;
+		    		var nowDateTime = new Date(nowDateStr.replace(/-/g, "/")).getTime();
+		    		
+		    		var startDateStr = $("#startDateId").val();
+		    		var startDateTime = new Date(startDateStr.replace(/-/g, "/")).getTime();
+		    		if(nowDateTime < startDateTime){
+		    			startDateMsg.maxDate = startDateStr;
+		    			$("#lastDateId").val(startDateStr);
+		    		}else{
+		    			startDateMsg.maxDate = nowDateStr;
+		    		}
+		    	}
+	    };
+	    
+	    $("#startDateId").jeDate(startDateMsg);
+	    $("#lastDateId").jeDate(endDateMsg);
+	   //记住快选日期
+	   if(timeId){
+		   $("#quickDate").val(timeId);
+	   }else{
+		   $("#quickDate").eq(0).selected();
+	   }
+	});
+	
+	function showDetail(accountId,platform) {
+		var startDate = encodeURI($("#startDate").val());
+		var lastDate = encodeURI($("#lastDate").val());
+			window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+accountId+"&platform="+platform+"&startDate="+startDate+"&lastDate="+lastDate;
+	/**	$( "#jackpotdialog" ).dialog({
+			autoOpen: false,
+			width:998,
+			height:520,
+	        buttons: {
+	            "关闭": function() {
+	                $( this ).dialog( "close" );
+	            }
+	        }
+		});
+	
+		$( "#jackpotdialog" ).html("<iframe width=\"100%\" style=\"overflow-y:no;\" height=\"100%\" id=\"Meniframe\" name=\"Meniframe\"  frameborder=\"0\" scrolling=\"auto\"  src=\""+ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+accountId+"&parentId="+parentId+"&startDate="+startDate+"&lastDate="+lastDate+"\"></iframe>");	
+		$( "#jackpotdialog" ).dialog( "open" );
+		
+		**/
+	}
+	
+/* 	$(function() {
+		$("#allGameTypeId").click(function() {
+			alert($(this).attr("checked"));
+		if ($(this).attr("checked") == true) { // 全选
+		   $("input[@name='gameType']").each(function() {
+		   $(this).attr("checked", true);
+		  });
+		} else { // 取消全选
+		   $("input[@name='gameType[]']").each(function() {
+		   $(this).attr("checked", false);
+		  });
+		}
+		});
+	}); */
+	
+	function selectorcancel(){
+		//$("#allGameTypeId").attr("checked");jquery-1.6版本后取值返回的是checked，1.6前的版本返回的是true或false
+		//var test = document.getElementById("allGameTypeId").checked;
+		//alert(test);  这个取值后返回的是true或false
+		if($("#allGameTypeId").attr("checked")=="checked"){
+			$("#div1 :checkbox").attr("checked",true);
+		}else{
+			$("#div1 :checkbox").attr("checked",false);
+		}
+	}
+	
+	function showDiv(){
+		document.getElementById('popDiv').style.display='block';
+		document.getElementById('bg').style.display='block';
+		document.getElementById('popIframe').style.display='block';
+		$("#load").show();
+	}
+    //GPO-8743 快选操作 add Ado
+	var quickDataList = new Array();
+	
+		quickDataList.push("2020-07-21 00:00:00,2020-07-21 23:59:59");
+	
+		quickDataList.push("2020-07-20 00:00:00,2020-07-20 23:59:59");
+	
+		quickDataList.push("2020-07-20 00:00:00,2020-07-21 23:59:59");
+	
+		quickDataList.push("2020-07-13 00:00:00,2020-07-19 23:59:59");
+	
+		quickDataList.push("2020-07-01 00:00:00,2020-07-21 23:59:59");
+	
+		quickDataList.push("2020-06-01 00:00:00,2020-06-30 23:59:59");
+	
+	var timeId = "";
+	function queryFast(id) {
+		var quickDate = quickDataList[id];
+		var dates = quickDate.split(",");
+		$("#startDateId").val(dates[0]);
+		$("#lastDateId").val(dates[1]);
+		$('#time_id').val(id);
+	}
+</script>
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+<![endif]-->
+<style type="text/css">
+	.shangjiStyle{
+		background-color: #B1D6FB;
+	}
+	.xiajiStyle{
+		background-color: #CAE4FD;
+	}
+</style>
+<style type="text/css">
+<!--
+html,body {height:100%; margin:0px; font-size:12px;}
+.mydiv {
+text-align: center;
+line-height: 40px;
+font-size: 12px;
+font-weight: bold;
+z-index:999;
+width: 500px;
+height: 120px;
+left:50%;
+top:50%;
+margin-left:-250px!important;/*FF IE7 该值为本身宽的一半 */
+margin-top:-60px!important;/*FF IE7 该值为本身高的一半*/
+margin-top:0px;
+position:fixed!important;/* FF IE7*/
+position:absolute;/*IE6*/
+_top:       expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);/*IE5 IE5.5*/
+}
+.bg,.popIframe {
+background-color: #666; display:none;
+width: 100%;
+height: 100%;
+left:0;
+top:0;/*FF IE7*/
+filter:alpha(opacity=50);/*IE*/
+opacity:0.5;/*FF*/
+z-index:1;
+position:fixed!important;/*FF IE7*/
+position:absolute;/*IE6*/
+_top:       expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);
+}
+.popIframe {
+filter:alpha(opacity=0);/*IE*/
+opacity:0;/*FF*/
+}
+-->
+</style>
+</head>
+
+<body class="hoverStyle" style="background-image:none; background-color:#f4f9ff">
+<div id="popDiv" class="mydiv" style="display:none;">
+	<div style="display: none;position: absolute;left: 40%;top:40%" id="load">
+		<img alt="" src="/jsp/agency/images/ajax-loader-white.gif"/><span style="color: blue; font: 22px;"></span>
+	</div>
+</div>
+<div id="bg" class="bg" style="display:none;"></div>
+<iframe id='popIframe' class='popIframe' frameborder='0' ></iframe>
+<div id="jackpotdialog" title="<font color='white'>会员报表详情</font>" style="display: none;"></div>
+<input type="hidden" name="startDate" id="startDate" value="2020-07-17 00:00:00"/>
+<input type="hidden" name="lastDate" id="lastDate" value="2020-07-18 23:59:59"/>
+<input type="hidden" name="account" id="account" value="zjq88888"/>
+<div id="container">
+	<div id="wrapper">
+		<div id="content1">
+			<div class="dgh" style="line-height: 30px;" id="div1">
+				<form action="/agent/MemberReport?type=queryMemberReport" method="post" name="form1">
+				会员账号：<input name="account" id="accountId" value="zjq88888"/>
+				 日期：<input name="startDate" id="startDateId" readonly="readonly" value='2020-07-17 00:00:00'/>
+			    &nbsp;-&nbsp;
+			    <input name="lastDate" id="lastDateId" readonly="readonly" value='2020-07-18 23:59:59'/>&nbsp;
+
+				<label >快选&nbsp;&nbsp;</label>
+				<input type="hidden" name="timeId" id="time_id" value=""/>
+				<select id="quickDate" onchange="queryFast(this.value)">
+					<option value="0">今日</option>
+					<option value="1">昨日</option>
+					<option value="2">本周</option>
+					<option value="3">上周</option>
+					<option value="4">本月</option>
+					<option value="5">上月</option>
+				</select>
+				&nbsp;&nbsp;
+			    
+			    	<input type="checkbox" id="platALL" style="vertical-align: middle" name="plat"   pt_key="ALL"  value="ALL"/><label for="platALL">全部</label>
+			    
+			    	<input type="checkbox" id="platCPCP" style="vertical-align: middle" name="plat"   pt_key="CPCP"  value="CPCP"/><label for="platCPCP">传统彩票</label>
+			    
+			    	<input type="checkbox" id="platBBSX" style="vertical-align: middle" name="plat"   pt_key="BBSX"  value="BBSX"/><label for="platBBSX">BB视讯</label>
+			    
+			    	<input type="checkbox" id="platBBTY" style="vertical-align: middle" name="plat"   pt_key="BBTY"  value="BBTY"/><label for="platBBTY">BB体育</label>
+			    
+			    	<input type="checkbox" id="platBBCP" style="vertical-align: middle" name="plat"   pt_key="BBCP"  value="BBCP"/><label for="platBBCP">BB彩票</label>
+			    
+			    	<input type="checkbox" id="platBBJL" style="vertical-align: middle" name="plat"   pt_key="BBJL"  value="BBJL"/><label for="platBBJL">BB电子</label>
+			    
+			    	<input type="checkbox" id="platAGSX" style="vertical-align: middle" name="plat"   pt_key="AGSX"  value="AGSX"/><label for="platAGSX">AG视讯</label>
+			    
+			    	<input type="checkbox" id="platAGBY" style="vertical-align: middle" name="plat"   pt_key="AGBY"  value="AGBY"/><label for="platAGBY">AG捕鱼</label>
+			    
+			    	<input type="checkbox" id="platAGJL" style="vertical-align: middle" name="plat"   pt_key="AGJL"  value="AGJL"/><label for="platAGJL">AG电子</label>
+			    
+			    	<input type="checkbox" id="platOGSX" style="vertical-align: middle" name="plat"   pt_key="OGSX"  value="OGSX"/><label for="platOGSX">OG视讯</label>
+			    
+			    	<input type="checkbox" id="platYOPLAYJL" style="vertical-align: middle" name="plat"   pt_key="YOPLAYJL"  value="YOPLAYJL"/><label for="platYOPLAYJL">YOPLAY电子</label>
+			    
+			    	<input type="checkbox" id="platNMGJL" style="vertical-align: middle" name="plat"   pt_key="NMGJL"  value="NMGJL"/><label for="platNMGJL">MG电子</label>
+			    
+			    	<input type="checkbox" id="platIBCTY" style="vertical-align: middle" name="plat"   pt_key="IBCTY"  value="IBCTY"/><label for="platIBCTY">沙巴体育</label>
+			    
+			    	<input type="checkbox" id="platPTJL" style="vertical-align: middle" name="plat"   pt_key="PTJL"  value="PTJL"/><label for="platPTJL">PT电子</label>
+			    
+			    	<input type="checkbox" id="platMWGJL" style="vertical-align: middle" name="plat"   pt_key="MWGJL"  value="MWGJL"/><label for="platMWGJL">MWG电子</label>
+			    
+			    	<input type="checkbox" id="platMWGQP" style="vertical-align: middle" name="plat"   pt_key="MWGQP"  value="MWGQP"/><label for="platMWGQP">MWG棋牌</label>
+			    
+			    	<input type="checkbox" id="platLEBOSX" style="vertical-align: middle" name="plat"   pt_key="LEBOSX"  value="LEBOSX"/><label for="platLEBOSX">LEBO视讯</label>
+			    
+			    	<input type="checkbox" id="platABSX" style="vertical-align: middle" name="plat"   pt_key="ABSX"  value="ABSX"/><label for="platABSX">AB视讯</label>
+			    
+			    	<input type="checkbox" id="platPPJL" style="vertical-align: middle" name="plat"   pt_key="PPJL"  value="PPJL"/><label for="platPPJL">PP电子</label>
+			    
+			    	<input type="checkbox" id="platCMDTY" style="vertical-align: middle" name="plat"   pt_key="CMDTY"  value="CMDTY"/><label for="platCMDTY">CMD体育</label>
+			    
+			    	<input type="checkbox" id="platVGQP" style="vertical-align: middle" name="plat"   pt_key="VGQP"  value="VGQP"/><label for="platVGQP">VG棋牌</label>
+			    
+			    	<input type="checkbox" id="platCQ9JL" style="vertical-align: middle" name="plat"   pt_key="CQ9JL"  value="CQ9JL"/><label for="platCQ9JL">CQ9电子</label>
+			    
+			    	<input type="checkbox" id="platBCTY" style="vertical-align: middle" name="plat"   pt_key="BCTY"  value="BCTY"/><label for="platBCTY">OG体育</label>
+			    
+			    	<input type="checkbox" id="platBGSX" style="vertical-align: middle" name="plat"   pt_key="BGSX"  value="BGSX"/><label for="platBGSX">BG视讯</label>
+			    
+			    	<input type="checkbox" id="platBGBY" style="vertical-align: middle" name="plat"   pt_key="BGBY"  value="BGBY"/><label for="platBGBY">BG捕鱼</label>
+			    
+			    	<input type="checkbox" id="platBGJL" style="vertical-align: middle" name="plat"   pt_key="BGJL"  value="BGJL"/><label for="platBGJL">BG电子</label>
+			    
+			    	<input type="checkbox" id="platPNGJL" style="vertical-align: middle" name="plat"   pt_key="PNGJL"  value="PNGJL"/><label for="platPNGJL">PNG电子</label>
+			    
+			    	<input type="checkbox" id="platJDBJL" style="vertical-align: middle" name="plat"   pt_key="JDBJL"  value="JDBJL"/><label for="platJDBJL">JDB电子</label>
+			    
+			    	<input type="checkbox" id="platJDBQP" style="vertical-align: middle" name="plat"   pt_key="JDBQP"  value="JDBQP"/><label for="platJDBQP">JDB棋牌</label>
+			    
+			    	<input type="checkbox" id="platJDBBY" style="vertical-align: middle" name="plat"   pt_key="JDBBY"  value="JDBBY"/><label for="platJDBBY">JDB捕鱼</label>
+			    
+			    	<input type="checkbox" id="platFYDJ" style="vertical-align: middle" name="plat"   pt_key="FYDJ"  value="FYDJ"/><label for="platFYDJ">FY电竞</label>
+			    
+			    	<input type="checkbox" id="platFGQP" style="vertical-align: middle" name="plat"   pt_key="FGQP"  value="FGQP"/><label for="platFGQP">FG棋牌</label>
+			    
+			    	<input type="checkbox" id="platFGBY" style="vertical-align: middle" name="plat"   pt_key="FGBY"  value="FGBY"/><label for="platFGBY">FG捕鱼</label>
+			    
+			    	<input type="checkbox" id="platFGJL" style="vertical-align: middle" name="plat"   pt_key="FGJL"  value="FGJL"/><label for="platFGJL">FG电子</label>
+			    
+			    	<input type="checkbox" id="platKYQP" style="vertical-align: middle" name="plat"   pt_key="KYQP"  value="KYQP"/><label for="platKYQP">KY棋牌</label>
+			    
+			    	<input type="checkbox" id="platSBSX" style="vertical-align: middle" name="plat"   pt_key="SBSX"  value="SBSX"/><label for="platSBSX">申博视讯</label>
+			    
+			    	<input type="checkbox" id="platNWQP" style="vertical-align: middle" name="plat"   pt_key="NWQP"  value="NWQP"/><label for="platNWQP">NW棋牌</label>
+			    
+			    	<input type="checkbox" id="platLGQP" style="vertical-align: middle" name="plat"   pt_key="LGQP"  value="LGQP"/><label for="platLGQP">LG棋牌</label>
+			    
+			    	<input type="checkbox" id="platDTQP" style="vertical-align: middle" name="plat"   pt_key="DTQP"  value="DTQP"/><label for="platDTQP">DT棋牌</label>
+			    
+			    	<input type="checkbox" id="platDTJL" style="vertical-align: middle" name="plat"   pt_key="DTJL"  value="DTJL"/><label for="platDTJL">DT电子</label>
+			    
+			    	<input type="checkbox" id="platWMJL" style="vertical-align: middle" name="plat"   pt_key="WMJL"  value="WMJL"/><label for="platWMJL">WM电子</label>
+			    
+			    	<input type="checkbox" id="platSCSX" style="vertical-align: middle" name="plat"   pt_key="SCSX"  value="SCSX"/><label for="platSCSX">性感百家乐</label>
+			    
+			    	<input type="checkbox" id="platBSPQP" style="vertical-align: middle" name="plat"   pt_key="BSPQP"  value="BSPQP"/><label for="platBSPQP">BSP棋牌</label>
+			    
+			    	<input type="checkbox" id="platBSPBY" style="vertical-align: middle" name="plat"   pt_key="BSPBY"  value="BSPBY"/><label for="platBSPBY">BSP捕鱼</label>
+			    
+			    	<input type="checkbox" id="platEBETSX" style="vertical-align: middle" name="plat"   pt_key="EBETSX"  value="EBETSX"/><label for="platEBETSX">EBET视讯</label>
+			    
+			    	<input type="checkbox" id="platSGJL" style="vertical-align: middle" name="plat"   pt_key="SGJL"  value="SGJL"/><label for="platSGJL">SG电子</label>
+			    
+			    	<input type="checkbox" id="platPGJL" style="vertical-align: middle" name="plat"   pt_key="PGJL"  value="PGJL"/><label for="platPGJL">PG电子</label>
+			    
+			    	<input type="checkbox" id="platMGPJL" style="vertical-align: middle" name="plat"   pt_key="MGPJL"  value="MGPJL"/><label for="platMGPJL">新MG电子</label>
+			    
+			    	<input type="checkbox" id="platTHQP" style="vertical-align: middle" name="plat"   pt_key="THQP"  value="THQP"/><label for="platTHQP">TH棋牌</label>
+			    
+			    	<input type="checkbox" id="platTHBY" style="vertical-align: middle" name="plat"   pt_key="THBY"  value="THBY"/><label for="platTHBY">TH捕鱼</label>
+			    
+			    	<input type="checkbox" id="platTHJL" style="vertical-align: middle" name="plat"   pt_key="THJL"  value="THJL"/><label for="platTHJL">TH电子</label>
+			    
+			    	<input type="checkbox" id="platSCGQP" style="vertical-align: middle" name="plat"   pt_key="SCGQP"  value="SCGQP"/><label for="platSCGQP">SCG棋牌</label>
+			    
+			    	<input type="checkbox" id="platSCGBY" style="vertical-align: middle" name="plat"   pt_key="SCGBY"  value="SCGBY"/><label for="platSCGBY">SCG捕鱼</label>
+			    
+			    	<input type="checkbox" id="platSCGJL" style="vertical-align: middle" name="plat"   pt_key="SCGJL"  value="SCGJL"/><label for="platSCGJL">SCG电子</label>
+			    
+			    	<input type="checkbox" id="platOGPSX" style="vertical-align: middle" name="plat"   pt_key="OGPSX"  value="OGPSX"/><label for="platOGPSX">新OG视讯</label>
+			    
+			    <input type="submit" value="查询" class="button_1" style="cursor:pointer;width: 80px;" onclick="showDiv()"/>
+			    </form>
+			</div>
+			
+				<table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+					<thead>
+						<tr align="center" bgcolor="#FAFAF1" height="22">
+							<th height="30" width="100%" colspan="10" align="center">总计&nbsp;2020-07-17 00:00:00-2020-07-18 23:59:59</th>
+						</tr>
+					</thead>
+					<thead>
+						<tr align="center" bgcolor="#FAFAF1" height="22">
+							<th height="30" width="14%">会员</th>
+							<th height="30" width="14%">单量</th>
+							<th height="30" width="14%">投注额</th>
+							<th height="30" width="14%">实际投注</th>
+							<th height="30" width="14%">损益</th>
+							
+							
+                            
+						</tr>
+					</thead>
+					<tbody class="tbody1">
+						<tr align="center" bgcolor="#FAFAF1" height="22" >
+							<td>zjq88888</td>
+							<td>0</td>
+							<td>
+								
+									
+										0.00
+										
+							</td>
+							<td>0.00</td>
+							<td >
+								0.00
+							</td>
+							
+							
+                            
+						</tr>
+					</tbody>
+				</table>
+			
+				<table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+					<thead>
+						<tr align="center" bgcolor="#FAFAF1" height="22">
+							<th height="30" width="100%" colspan="10" align="center">[BBJL]&nbsp;2020-07-17 00:00:00-2020-07-18 23:59:59</th>
+						</tr>
+					</thead>
+					<thead>
+						<tr align="center" bgcolor="#FAFAF1" height="22">
+							<th height="30" width="14%">会员</th>
+							<th height="30" width="14%">单量</th>
+							<th height="30" width="14%">投注额</th>
+							<th height="30" width="14%">实际投注</th>
+							<th height="30" width="14%">损益</th>
+							
+							
+                            
+						</tr>
+					</thead>
+					<tbody class="tbody1">
+						<tr align="center" bgcolor="#FAFAF1" height="22" >
+							<td>zjq88888</td>
+							<td>0</td>
+							<td>
+								
+								<a href="javascript:void(0);" onclick="showDetail(8238479,'[BBJL]')">
+									
+									
+										0.00
+										</a>
+							</td>
+							<td>0.00</td>
+							<td >
+								0.00
+							</td>
+							
+							
+                            
+						</tr>
+					</tbody>
+				</table>
+			
+		</div>
+	</div>
+</div>
+</body>
+</html>

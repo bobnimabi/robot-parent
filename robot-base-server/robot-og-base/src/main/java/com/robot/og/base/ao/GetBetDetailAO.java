@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- *
+ *  查询下注详情参数组装对象
  * </p>
  *
  * @author tank

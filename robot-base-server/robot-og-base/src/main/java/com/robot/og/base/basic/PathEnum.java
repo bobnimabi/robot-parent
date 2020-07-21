@@ -18,7 +18,7 @@ public enum PathEnum implements IPathEnum {
     GET_DETAIL("get_bet_detail", "查询下注详情"),
     GETTOTALAMOUNT("get_total_amount", "查询总打码量"),
     GETRECHARGE("get_recharge", "查询下注"),
-    GETLOST_DETAIL("get_lost_detail", "充值功能：充值"),
+    QUERY_RECORD("query_record", "充值功能：充值"),
     QUERY_BALANCE("query_balance", "查询余额"),
     QUERY_LEVEL("query_level", "查询层次"),
     QUERY_ODERNO("query_oderno", "查询注单号"),

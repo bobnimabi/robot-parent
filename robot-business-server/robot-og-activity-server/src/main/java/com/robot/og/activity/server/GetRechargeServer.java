@@ -11,6 +11,7 @@ import com.robot.og.base.ao.QueryRechargeAO;
 import com.robot.og.base.function.GetLostDetailFunction;
 import com.robot.og.base.function.GetRechargeFunction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -20,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author tank
  * @date 2020/7/13
  */
+
+@Service
 public class GetRechargeServer  implements IAssemFunction<BreakThroughDTO> {
 
 
@@ -49,15 +52,12 @@ public class GetRechargeServer  implements IAssemFunction<BreakThroughDTO> {
 		rechargeAO.setSelDate("0");
 		rechargeAO.setStartDate(breakThroughDTO.getBeginDate());
 		rechargeAO.setEndDate(breakThroughDTO.getEndDate());
-		rechargeAO.setActType("queryRecord");
-		rechargeAO.setType("0");
+		rechargeAO.setActType("0");
 		rechargeAO.setMemberNo(breakThroughDTO.getUserName());
 		rechargeAO.setPageSize("20");
 
-
 		return new ParamWrapper<QueryRechargeAO>(rechargeAO);
 	}
-
 
 
 }

@@ -6,6 +6,7 @@ import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.constant.RabbitMqConstants;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.dto.robot.BreakThroughDTO;
+import com.bbin.common.dto.robot.OGBreakThroughDTO;
 import com.bbin.common.pojo.CashDetailDTO;
 import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
@@ -34,7 +35,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 操作接口
+ * 操作接口  controller
  * </p>
  *
  * @author tank
@@ -47,7 +48,6 @@ public class OGcontroller extends ControllerBase {
 
 	/**
 	 * 获取图片验证码
-	 *
 	 * @param robotId
 	 * @return
 	 * @throws Exception
@@ -104,10 +104,6 @@ public class OGcontroller extends ControllerBase {
 	}
 
 
-
-
-
-
 	//	@ApiOperation("机器人：获取实际投注详细")
 	@PostMapping("/getBetDetail")
 	public Response getBetDetail(@RequestBody BetQueryDto dto) throws Exception {
@@ -124,14 +120,14 @@ public class OGcontroller extends ControllerBase {
 
 	//	@ApiOperation("机器人：获取投注和充值信息")    getBetDetail  getLostDetail
 	@PostMapping("/getTotalAmount")
-	public Response getTotalAmount(@RequestBody BreakThroughDTO dto) throws Exception {
+	public Response getTotalAmount(@RequestBody OGBreakThroughDTO dto) throws Exception {
 		if (StringUtils.isEmpty(dto.getUserName())
 		||StringUtils.isEmpty(dto.getBeginDate())
 		||StringUtils.isEmpty(dto.getEndDate())) {
 			return Response.FAIL("未传入参数");
 		}
 
-		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETDETAIL_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<OGBreakThroughDTO>(dto),FunctionEnum.GETDETAIL_SERVER);
 	}
 
 
@@ -172,13 +168,6 @@ public class OGcontroller extends ControllerBase {
 
 		return super.dispatcher.dispatch(new ParamWrapper<String>(userName),FunctionEnum.QUERY_USER_SERVER);
 	}
-
-	//查询层级信息    先不用了  出款的接口
-/*	@GetMapping("queryLevel")
-	public Response queryLevel() throws Exception {
-
-		return super.dispatcher.dispatch(new ParamWrapper<>(),FunctionEnum.QUERY_LEVEL_SERVER);
-	}*/
 
 
 

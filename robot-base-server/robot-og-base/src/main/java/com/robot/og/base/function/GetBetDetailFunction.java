@@ -1,8 +1,8 @@
 package com.robot.og.base.function;
 import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.dto.robot.BreakThroughDTO;
+import com.bbin.common.dto.robot.OGBreakThroughDTO;
 import com.bbin.common.util.DateUtils;
-import com.robot.center.util.DateUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -11,9 +11,7 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.og.base.ao.GetBetDetailAO;
 import com.robot.og.base.basic.PathEnum;
-import com.robot.og.base.bo.GetBetDetailBO;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,9 +20,8 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +30,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class GetBetDetailFunction extends AbstractFunction<BreakThroughDTO,String,Map<String, Map<String, String>>> {
+public class GetBetDetailFunction extends AbstractFunction<OGBreakThroughDTO, String, Map<String, Map<String, String>>> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -42,51 +39,18 @@ public class GetBetDetailFunction extends AbstractFunction<BreakThroughDTO,Strin
 
 
     @Override
-    protected IEntity getEntity(BreakThroughDTO dto, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(OGBreakThroughDTO dto, RobotWrapper robotWrapper) {
 
-        BetQueryDto betQueryDto = new BetQueryDto();
-        betQueryDto.setUserName(dto.getUserName());
-        betQueryDto.setStartDate(DateUtils.format(dto.getBeginDate()));
-        betQueryDto.setEndDate(DateUtils.format(dto.getEndDate()));
-        betQueryDto.setGameList( dto.getGameCodeList());
 
-        return UrlEntity.custom(34)
+
+        //gamelist可以为空
+        return  UrlEntity.custom(6)
                 .add("account", dto.getUserName())
-                .add("startDate",dto.getBeginDate())  // DateUtil.YEAR_MONTH_DAY_MORE.format(betQueryDto.getStartDate()
-                .add("lastDate",dto.getEndDate() )  //DateUtil.YEAR_MONTH_DAY_MORE.format(betQueryDto.getEndDate())
-                .add("plat", "CPCP")
-                .add("plat", "BBSX")
-                .add("plat", "BBJL")
-                .add("plat", "BBTY")
-                .add("plat", "BBCP")
-                .add("plat", "AGSX")
-                .add("plat", "AGBY")
-                .add("plat", "AGJL")
-                .add("plat", "NMGJL")
-                .add("plat", "PTJL")
-                .add("plat", "MWGJL")
-                .add("plat", "PPJL")
-                .add("plat", "CQ9JL")
-                .add("plat", "BGBY")
-                .add("plat", "BGJL")
-                .add("plat", "PNGJL")
-                .add("plat", "JDBJL")
-                .add("plat", "FGBY")
-                .add("plat", "FGJL")
-                .add("plat", "DTJL")
-                .add("plat", "WMJL")
-                .add("plat", "JDBBY")
-                .add("plat", "BSPBY")
-                .add("plat", "PGJL")
-                .add("plat", "SGJL")
-                .add("plat", "MGPJL")
-                .add("plat", "SCGBY")
-                .add("plat", "SCGJL")
-                .add("plat", "YOPLAYJL")
-                .add("plat", "THBY")
-                .add("plat", "THJL")
-                ;
+                .add("startDate",dto.getBeginDate())
+                .add("lastDate",dto.getEndDate() )
+                .add("plat",dto.getGameCodeList() )
 
+                ;
 
     }
 
@@ -109,7 +73,7 @@ public class GetBetDetailFunction extends AbstractFunction<BreakThroughDTO,Strin
             @Override
             public Response parse2Obj(StanderHttpResponse<String, Map<String, Map<String, String>>> shr) {
                 String result = shr.getOriginalEntity();
-                log.info("查询下注详情功能响应：{}", result);
+                log.info("查询下注详情功能响应：{}");
                 if (StringUtils.isEmpty(result)) {
                     return Response.FAIL("未查询到下注记录");
                 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * <p>
- *
+ *  查询充值参数对象
  * </p>
  *
  * @author tank
@@ -25,6 +25,7 @@ public class QueryRechargeAO {
         private String startDate;
         private String endDate;
         private String actType;
+        //等于会员账号
         private String memberNo;
         private String bettingCode;
         private String pageSize;

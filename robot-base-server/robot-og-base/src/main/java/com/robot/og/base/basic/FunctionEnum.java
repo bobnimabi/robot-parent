@@ -14,7 +14,7 @@ public enum FunctionEnum implements IFunctionEnum {
     GETDETAIL_SERVER("getBetDetailServer"),
     //------------------------------------//
 
-    GETTOTAL_AMOUNT_SERVER("getTotalAmountServer"),
+    GETTOTAL_AMOUNT_SERVER("getAmountServer"),
     GETRECHARGE_SERVER("getRechargeServer"),
     GETLOST_DETAIL_SERVER("getLostDetailServer"),
     QUERY_BALANCE_SERVER("queryBalanceServer"),

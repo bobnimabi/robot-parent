@@ -1,6 +1,7 @@
 package com.robot.og.base.function;
 
 import com.alibaba.fastjson.JSON;
+import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -20,6 +21,9 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +34,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO, String, String> {
+public class GetRechargeFunction extends AbstractFunction<BreakThroughDTO, String, String> {
 
 	@Override
 	protected IPathEnum getPathEnum() {
@@ -38,7 +42,7 @@ public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO, Strin
 	}
 
 	@Override
-	protected IEntity getEntity(QueryRechargeAO ao, RobotWrapper robotWrapper) {
+	protected IEntity getEntity(BreakThroughDTO ao, RobotWrapper robotWrapper) {
 		return UrlEntity.custom(11)
 				.add("type", "queryRecord")
 				.add("tradeTypes", "31,12,15,")
@@ -46,11 +50,11 @@ public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO, Strin
 				.add("orderField", "createDateTime")
 				.add("sortBy", "DESC")
 				.add("selDate", "0")
-				.add("startDate", ao.getStartDate())
+				.add("startDate", ao.getBeginDate())
 				.add("endDate", ao.getEndDate())
 				.add("actType", "0")
-				.add("memberNo", ao.getMemberNo()) //usename
-				.add("pageSize", "20")
+				.add("memberNo", ao.getUserName())
+				.add("pageSize", "50")
 				;
 
 
@@ -71,31 +75,28 @@ public class GetRechargeFunction extends AbstractFunction<QueryRechargeAO, Strin
 		private ResultHandler() {
 		}
 
+		/**
+		 * 查询总充值
+		 *
+		 * @param shr
+		 * @return
+		 */
+
 		@Override
 		public Response parse2Obj(StanderHttpResponse<String, String> shr) {
 			String result = shr.getOriginalEntity();
+			if(StringUtils.isEmpty(result)){
+				return Response.FAIL("未查询到充值金额");
+			}
 			log.info(" 查询结果响应   ");
+
 			Document doc = Jsoup.parse(result);
-			Elements th = doc.select("table[class=layui-table custom-table] thead tr");
-			List<String> ths = Convert.parseThs(th.get(0));
+			String totalRecharge = doc.getElementById("_countMoney").text();
 
-			//  <table border="1" cellspacing="0" class="layui-table custom-table">
-			Elements trs = doc.select("table[class=layui-table custom-table] tbody tr");
-
-			// 移除最后3行
-			for (int i = 0; i < 3; i++) {
-				trs.remove(trs.size() - 1);
-			}
-			List<Map<String, String>> list = Convert.parseListMap(ths, trs);
-			log.info("{}",list);
-			if (list.size() == 0) {
-				return Response.FAIL("未查询到充值信息");
-			}
-
-			return Response.SUCCESS(list);
-
+			return Response.SUCCESS(totalRecharge);
 
 		}
 	}
+
 
 }

@@ -81,26 +81,5 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
     }
 
 
-  /*  public static void main(String[] args) throws IOException {
 
-        File input = new File("E:\\project\\robot-parent\\robot-business-server\\robot-bbin-activity-server\\src\\main\\resources\\fail.html");
-        Document doc = Jsoup.parse(input, "UTF-8");
-        Element table = doc.select("table").get(1);// :eq(1)
-
-        Elements tbody_trs = table.select("tbody tr");
-
-        ArrayList<Object> list = new ArrayList<>();
-
-        for (Element tbody_tr : tbody_trs) {
-            Elements tds = tbody_tr.getElementsByTag("td");
-            if (tds.size() >= 2) {
-                Element td1 = tbody_tr.getElementsByTag("td").get(0);
-
-                if (NumberUtils.isDigits(td1.text())) {
-                    list.add(td1);
-                }
-            }
-        }
-        System.out.println(list.size()-1);
-    }*/
 }

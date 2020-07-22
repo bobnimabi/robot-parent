@@ -1,4 +1,3 @@
-E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetLostDetailFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\PayServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\common\Constant.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\QueryUserServer.java
@@ -9,11 +8,14 @@ E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\LoginResultVO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\PayFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryUserFunction.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\IncomeInfoVO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\LoginServer.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryUserAO.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\AmountBO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryLevelFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\PayBO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetBetDetailFunction.java
+E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\BetDetailBO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryAccountFunction.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryRechargeAO.java
 E:\project\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\basic\PathEnum.java

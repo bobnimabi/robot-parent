@@ -82,16 +82,6 @@ public class OGcontroller extends ControllerBase {
 		return Response.SUCCESS("登录成功");
 	}
 
-//	@ApiOperation("机器人：开启或停止工作")
-	@PostMapping("/robotStatus")
-//    @PreAuthorize("hasAuthority('robotStatus')")
-	public Response robotStatus(@RequestBody RobotWrapper robotDto) throws Exception {
-		if (null == robotDto
-				|| null == robotDto.getIsOnline()
-		) ExceptionCast.castFail("参数不全");
-		return super.dispatcher.dispatch(new ParamWrapper<RobotWrapper>(robotDto),FunctionEnum.GETDETAIL_SERVER);
-	}
-
 
 
 	//查询用户是否存在
@@ -120,14 +110,14 @@ public class OGcontroller extends ControllerBase {
 
 	//	@ApiOperation("机器人：获取投注和充值信息")    getBetDetail  getLostDetail
 	@PostMapping("/getTotalAmount")
-	public Response getTotalAmount(@RequestBody OGBreakThroughDTO dto) throws Exception {
+	public Response getTotalAmount(@RequestBody BreakThroughDTO dto) throws Exception {
 		if (StringUtils.isEmpty(dto.getUserName())
 		||StringUtils.isEmpty(dto.getBeginDate())
 		||StringUtils.isEmpty(dto.getEndDate())) {
 			return Response.FAIL("未传入参数");
 		}
 
-		return super.dispatcher.dispatch(new ParamWrapper<OGBreakThroughDTO>(dto),FunctionEnum.GETDETAIL_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETTOTAL_AMOUNT_SERVER);
 	}
 
 
@@ -140,6 +130,7 @@ public class OGcontroller extends ControllerBase {
 				|| StringUtils.isEmpty(incomeInfoDTO.getEndDate())) {
 			return Response.FAIL("参数不全");
 		}
+
 
 		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(incomeInfoDTO),FunctionEnum.GETRECHARGE_SERVER);
 	}
@@ -309,5 +300,27 @@ public class OGcontroller extends ControllerBase {
 		taskAtomDto.setUsername(taskAtomDto.getUsername().trim());
 		super.dispatcher.asyncDispatch(new ParamWrapper(taskAtomDto), taskAtomDto.getOutPayNo(), PathEnum.PAY, FunctionEnum.PAY_SERVER);
 	}
+
+
+
+
+
+
+
+
+
+
+
+	//	@ApiOperation("机器人：开启或停止工作")
+/*	@PostMapping("/robotStatus")
+//    @PreAuthorize("hasAuthority('robotStatus')")
+	public Response robotStatus(@RequestBody RobotWrapper robotDto) throws Exception {
+		if (null == robotDto
+				|| null == robotDto.getIsOnline()
+		) ExceptionCast.castFail("参数不全");
+		return super.dispatcher.dispatch(new ParamWrapper<RobotWrapper>(robotDto),FunctionEnum.GETDETAIL_SERVER);
+	}
+	*/
+
 
 }

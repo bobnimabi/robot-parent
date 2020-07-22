@@ -7,7 +7,7 @@ spring:
   jackson:
     default-property-inclusion: non_null #不返回空值和null
   redis:
-    host: redis.com
+    host: dev.redis.com
     password: admin1234
     port: 6379
     timeout: 5000 #连接超时 毫秒
@@ -51,7 +51,7 @@ spring:
     cache:
       channel:
         size: 500
-    addresses: node1:5672 , node2:5672 , node3:5672
+    addresses: dev.rabbitmq.com:5672 # node1:5672 , node2:5672 , node3:5672
 
 server:
   port: 8218
@@ -70,7 +70,7 @@ eureka:
     #表示是否从Eureka Server获取注册信息，默认为true。
     #    fetch-registry: false
     serviceUrl:
-      defaultZone: http://eureka.com:8761/eureka
+      defaultZone: http://dev.eureka.com:8761/eureka
 
 ribbon:
   ServerListRefreshInterval: 2  # ribbon cache时间

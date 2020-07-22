@@ -86,3 +86,9 @@ PERMIT_URL: /getVipAndTotalAmount,/QueryTotalRecharge,/tempPay,/isExist
 #日志文件路径
 logging:
   config: classpath:log4j2-dev.xml
+
+
+# 响应文本存放根路径
+html:
+  output:
+    root: e:html/

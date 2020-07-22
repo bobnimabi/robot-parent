@@ -34,8 +34,8 @@ spring:
 
 
   rabbitmq:
-    host: dev.rabbitmq.com
-    port: 5672
+  #  host: dev.rabbitmq.com
+  #  port: 5672
     username: user_admin
     password: admin123456
     publisher-returns: true

@@ -4,6 +4,8 @@ package com.robot.core.function.base;
 import com.robot.code.response.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 
+import java.io.IOException;
+
 /**
  * 结果处理器
  * Created by mrt on 10/28/2019 10:20 AM
@@ -17,5 +19,5 @@ public interface IResultHandler<T,E> {
      * @param shr
      * @return
      */
-    Response parse2Obj(StanderHttpResponse<T,E> shr);
+    Response parse2Obj(StanderHttpResponse<T,E> shr) throws IOException;
 }

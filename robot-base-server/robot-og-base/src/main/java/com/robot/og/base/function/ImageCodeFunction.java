@@ -1,6 +1,6 @@
 package com.robot.og.base.function;
-
-
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.apache.http.HttpEntity;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.ICheckLost;
@@ -14,8 +14,10 @@ import com.robot.og.base.basic.PathEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import java.util.UUID;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -23,10 +25,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
-public class ImageCodeFunction extends AbstractFunction<Object,String, Object> {
-
-
-
+public class ImageCodeFunction extends AbstractFunction<Object,String, byte[]>  {
     @Override
     protected IPathEnum getPathEnum() {
         return PathEnum.IMAGE_CODE;
@@ -37,13 +36,14 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, Object> {
     protected IEntity getEntity(Object object, RobotWrapper robotWrapper) {
         return UrlEntity.custom(1)
                 .add("type","agent") //
-                .add("t",""+Math.random()) // 图片验证码参数随意 UUID.randomUUID().toString().replace("-", ""
+                .add("t",""+Math.random())
                 ;
     }
 
-    /**
+/**
      * 注意：与登录相关的接口，返回null，不进行掉线检查
      */
+
     @Override
     protected ICheckLost getCHECK_LOST_SERVICE() {
         return null;
@@ -51,16 +51,17 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, Object> {
 
 
     @Override
-    protected IResultHandler<String, Object> getResultHandler() {
+    protected IResultHandler<String, byte[]> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
-    /**
+
+/**
      * 响应转换
-     * 登录响应：
      *
      */
-    private static final class ResultHandler implements IResultHandler<String, Object> {
+
+    private static final class ResultHandler implements IResultHandler<String, byte[]> {
 
         private static final ResultHandler INSTANCE = new ResultHandler();
 
@@ -68,15 +69,19 @@ public class ImageCodeFunction extends AbstractFunction<Object,String, Object> {
         }
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, byte[]> shr) throws IOException {
             Object result = shr.getOriginalEntity();
             log.info("图片验证码功能响应：{}", result);
 
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("图片验证码未响应：" + result);
             }
+
+
             return Response.SUCCESS(result);
         }
     }
+
+
 
 }

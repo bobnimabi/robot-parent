@@ -12,6 +12,7 @@ import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.DateUtils;
 import com.bbin.common.util.ThreadLocalUtils;
+import com.bbin.utils.MyHttpResult;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.ControllerBase;
@@ -29,6 +30,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -60,6 +63,7 @@ public class OGcontroller extends ControllerBase {
 		LoginDTO loginDTO = new LoginDTO();
 		loginDTO.setId(robotId);
 		return super.dispatcher.disPatcherLogin(new ParamWrapper<LoginDTO>(loginDTO), FunctionEnum.IMAGE_CODE_SERVER, true);
+
 
 	}
 

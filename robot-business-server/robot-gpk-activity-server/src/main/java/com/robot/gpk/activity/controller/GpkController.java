@@ -2,6 +2,7 @@ package com.robot.gpk.activity.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.constant.RabbitMqConstants;
+import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
 import com.rabbitmq.client.Channel;
@@ -52,6 +53,64 @@ public class GpkController extends ControllerBase {
     public Response isExist(@RequestParam String username) throws Exception {
         return super.dispatcher.dispatch(new ParamWrapper<String>(username), FunctionEnum.QUERY_USER_SERVER);
     }
+
+
+
+
+
+    /**
+     * 消消乐查询BBIN专用
+     */
+    @PostMapping("/getEliminateToLe2")
+    public Response getEliminateToLe2(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
+        if (null == queryDTO
+                || StringUtils.isEmpty(queryDTO.getOrderNo())
+                || null == queryDTO.getStartDate()
+                || null == queryDTO.getEndDate()
+                || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
+        ){ return Response.FAIL("参数不全");}
+        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_AND_BET_SERVER);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 机器人mq打款

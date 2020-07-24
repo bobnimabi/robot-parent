@@ -5,7 +5,7 @@
 <configuration status="WARN" monitorInterval="30">
     <!--这里进行日志的打印路径-->
     <Properties>
-        <Property name="log.path">/home/logs/robot-jiuwu-activity-server</Property>
+        <Property name="log.path">/home/logs/robot-xinhao-activity-server</Property>
     </Properties>
     <!--先定义所有的appender-->
     <appenders>

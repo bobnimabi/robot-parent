@@ -1,11 +1,7 @@
 package com.robot.og.base.function;
 
-import com.alibaba.fastjson.JSON;
-import com.bbin.common.client.BetQueryDto;
+
 import com.bbin.common.dto.robot.BreakThroughDTO;
-import com.bbin.common.dto.robot.OGBreakThroughDTO;
-import com.bbin.common.response.ResponseResult;
-import com.bbin.common.util.DateUtils;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -19,17 +15,11 @@ import com.robot.og.base.bo.BetDetailBO;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 /**
  * Created by tanke on 11/14/2019 8:06 PM

@@ -1,27 +1,22 @@
 package com.robot.og.activity.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.bbin.common.Exception.ExceptionCast;
 import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.constant.RabbitMqConstants;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.dto.robot.BreakThroughDTO;
-import com.bbin.common.dto.robot.OGBreakThroughDTO;
 import com.bbin.common.pojo.CashDetailDTO;
 import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.DateUtils;
 import com.bbin.common.util.ThreadLocalUtils;
-import com.bbin.utils.MyHttpResult;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.ControllerBase;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.response.Response;
-import com.robot.code.response.ResponseEnum;
 import com.robot.core.common.TContext;
 import com.robot.core.function.base.ParamWrapper;
-import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.FunctionEnum;
 import com.robot.og.base.basic.PathEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +25,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -110,6 +103,19 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto),FunctionEnum.GETDETAIL_SERVER);
 	}
 
+	//@ApiOperation("机器人：获取投注损益详细")
+	@PostMapping("/getLostDetail")
+	public Response getLostDetail(@RequestBody BetQueryDto dto) throws Exception {
+		if (null == dto
+				|| null == dto.getUserName()
+				|| null == dto.getStartDate()
+				|| null == dto.getEndDate()) {
+			return Response.FAIL("参数不全");
+
+		}
+		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto), FunctionEnum.GETDETAIL_SERVER);
+	}
+
 
 
 	//	@ApiOperation("机器人：获取投注和充值信息")    getBetDetail  getLostDetail
@@ -139,18 +145,6 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(incomeInfoDTO),FunctionEnum.GETRECHARGE_SERVER);
 	}
 
-	//@ApiOperation("机器人：获取投注损益详细")
-	@PostMapping("/getLostDetail")
-	public Response getLostDetail(@RequestBody BetQueryDto dto) throws Exception {
-		if (null == dto
-				|| null == dto.getUserName()
-				|| null == dto.getStartDate()
-				|| null == dto.getEndDate()) {
-			return Response.FAIL("参数不全");
-
-		}
-		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto), FunctionEnum.GETDETAIL_SERVER);
-	}
 
 
 

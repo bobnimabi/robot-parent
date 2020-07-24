@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-OG-activity-server
+    name: robot-xinhao-activity-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖
@@ -54,7 +54,7 @@ spring:
     addresses: node1:5672 , node2:5672 , node3:5672
 
 server:
-  port: 8214
+  port: 8086
   servlet:
     context-path: /xinhaoRobot
 

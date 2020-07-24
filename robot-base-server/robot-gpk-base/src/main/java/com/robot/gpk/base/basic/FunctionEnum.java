@@ -11,7 +11,10 @@ public enum FunctionEnum implements IFunctionEnum {
 	QUERY_USER_SERVER("queryUserServer"),
 	PAY_SERVER("payServer"),
 	/*-----------------------------以上是公用--------------------------------*/
+	//消消乐
 	BREAK_AND_BET_SERVER("breakAndBetServer"),
+	//幸运注单
+	ORDER_QUERY_SERVER("orderQueryServer"),
 	;
 
 	private final String serverName;

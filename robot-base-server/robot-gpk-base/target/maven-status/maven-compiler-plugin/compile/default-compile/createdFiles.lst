@@ -11,6 +11,7 @@ com\robot\gpk\base\bo\QueryBalanceBO.class
 com\robot\gpk\base\function\JuQueryDetailFunction.class
 com\robot\gpk\base\bo\GeneralBO.class
 com\robot\gpk\base\basic\FunctionEnum.class
+com\robot\gpk\base\bo\OrderPageData.class
 com\robot\gpk\base\basic\CheckLostImpl.class
 com\robot\gpk\base\function\QueryUserFunction.class
 com\robot\gpk\base\bo\JuQueryBO.class
@@ -19,6 +20,7 @@ com\robot\gpk\base\function\OrderQueryFunction.class
 com\robot\gpk\base\function\QueryBalanceFunction.class
 com\robot\gpk\base\server\LogInServer.class
 com\robot\gpk\base\ao\PayFinalAO.class
+com\robot\gpk\base\bo\OrderQueryBO.class
 com\robot\gpk\base\function\QueryUserFunction$ResultHandler.class
 com\robot\gpk\base\bo\JuQueryDetailBO.class
 com\robot\gpk\base\function\DepositTokenFunction.class

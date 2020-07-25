@@ -7,6 +7,7 @@ E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\DepositTokenFunction.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\QueryBalanceFunction.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\server\LogInServer.java
+E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\bo\OrderPageData.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\PayFunction.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\basic\PathEnum.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\bo\GeneralBO.java
@@ -16,6 +17,7 @@ E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\QueryUserFunction.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\LoginFunction.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\OrderQueryFunction.java
+E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\bo\OrderQueryBO.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\function\JuQueryDetailFunction.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\bo\JuQueryDetailBO.java
 E:\project\robot-parent\robot-base-server\robot-gpk-base\src\main\java\com\robot\gpk\base\ao\PayFinalAO.java

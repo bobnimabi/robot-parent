@@ -1,6 +1,9 @@
 package com.robot.og.activity.server;
 
+import com.bbin.common.client.BetQueryDto;
+import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.dto.robot.BreakThroughDTO;
+import com.bbin.common.util.DateUtils;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -45,7 +50,7 @@ public class GetAmountServer implements IAssemFunction<BreakThroughDTO> {
 		String reCharge = reChargeRsult.getObj();
 
 		//下注详情查询
-		Response<BetDetailBO> betDetailResponse = getBetDetailFunction.doFunction(paramWrapper, robotWrapper);
+		Response<BetDetailBO> betDetailResponse = getBetDetailFunction.doFunction(createBetParams(paramWrapper), robotWrapper);
 		if (!betDetailResponse.isSuccess()) {
 			return Response.FAIL("未查询到下注信息");
 		}
@@ -59,6 +64,22 @@ public class GetAmountServer implements IAssemFunction<BreakThroughDTO> {
 
 		return Response.SUCCESS(amountBO);
 
+	}
+
+	/**
+	 * 组装投注查询参数
+	 * @param paramWrapper
+	 * @return
+	 */
+	private ParamWrapper<BetQueryDto> createBetParams(ParamWrapper<BreakThroughDTO> paramWrapper) {
+		BreakThroughDTO dto = paramWrapper.getObj();
+		BetQueryDto betQueryDto = new BetQueryDto();
+		betQueryDto.setUserName(dto.getUserName());
+		betQueryDto.setStartDate(DateUtils.format(dto.getBeginDate()));
+		betQueryDto.setEndDate(DateUtils.format(dto.getEndDate()));
+		betQueryDto.setGameList(dto.getGameCodeList());
+
+		return new ParamWrapper<BetQueryDto>(betQueryDto);
 	}
 
 }

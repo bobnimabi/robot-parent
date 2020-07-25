@@ -1,7 +1,9 @@
 package com.robot.og.base.function;
 
 
+import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.dto.robot.BreakThroughDTO;
+import com.bbin.common.util.DateUtils;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -23,11 +25,11 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by tanke on 11/14/2019 8:06 PM
- * 下注详情
+ * 下注详情   BreakThroughDTO
  */
 @Slf4j
 @Service
-public class GetBetDetailFunction extends AbstractFunction<BreakThroughDTO, String, BetDetailBO> {
+public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, BetDetailBO> {
 
 	@Override
 	protected IPathEnum getPathEnum() {
@@ -36,15 +38,15 @@ public class GetBetDetailFunction extends AbstractFunction<BreakThroughDTO, Stri
 
 
 	@Override
-	protected IEntity getEntity(BreakThroughDTO dto, RobotWrapper robotWrapper) {
+	protected IEntity getEntity(BetQueryDto dto, RobotWrapper robotWrapper) {
 
 
 		//gamelist可以为空
 		return UrlEntity.custom(6)
 				.add("account", dto.getUserName())
-				.add("startDate", dto.getBeginDate())
-				.add("lastDate", dto.getEndDate())
-				.add("plat", dto.getGameCodeList().get(0))
+				.add("startDate", DateUtils.format(dto.getStartDate()))
+				.add("lastDate",DateUtils.format( dto.getEndDate()))
+				.add("plat", dto.getGameList().get(0))
 
 				;
 

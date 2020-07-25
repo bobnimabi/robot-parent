@@ -1,6 +1,7 @@
 package com.robot.og.activity.server;
 
 
+import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
@@ -23,13 +24,13 @@ import java.util.Map;
  */
 
 @Service
-public class GetBetDetailServer implements IAssemFunction<BreakThroughDTO> {
+public class GetBetDetailServer implements IAssemFunction<BetQueryDto> {
 
 	@Autowired
 	private GetBetDetailFunction getBetDetailFunction;
 
 	@Override
-	public Response doFunction(ParamWrapper<BreakThroughDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+	public Response doFunction(ParamWrapper<BetQueryDto> paramWrapper, RobotWrapper robotWrapper) throws Exception {
 		Response<BetDetailBO> getBetDetailBOResponse = getBetDetailFunction.doFunction(paramWrapper,robotWrapper);
 		if (!getBetDetailBOResponse.isSuccess()) {
 			return getBetDetailBOResponse;

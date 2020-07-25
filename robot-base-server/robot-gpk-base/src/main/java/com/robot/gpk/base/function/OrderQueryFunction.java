@@ -1,28 +1,20 @@
 package com.robot.gpk.base.function;
 
+import com.alibaba.fastjson.JSON;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
-import com.bbin.utils.UrlUtils;
-import com.bbin.utils.project.DateUtils;
-import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
-import com.robot.core.http.request.CustomHeaders;
 import com.robot.core.http.request.IEntity;
-import com.robot.core.http.request.UrlEntity;
+import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.gpk.base.basic.PathEnum;
 import com.robot.gpk.base.bo.JuQueryBO;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.robot.gpk.base.bo.OrderPageData;
+import com.robot.gpk.base.bo.OrderQueryBO;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Map;
 
 /**
  * 局查询：注单查询
@@ -42,28 +34,14 @@ public class OrderQueryFunction extends AbstractFunction<OrderNoQueryDTO, String
 
     @Override
     protected IEntity getEntity(OrderNoQueryDTO queryDTO, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(6)
-                .add("SearchData", "BetQuery")
-                .add("BarID", "2")
-                .add("GameKind", queryDTO.getGameCode())
-                .add("Wagersid", queryDTO.getOrderNo())
-                .add("Limit", "100")
-                .add("Sort", "DESC");
-    }
-
-    @Override
-    protected String getUrlSuffix(OrderNoQueryDTO params) {
-        return params.getGameCode();
+        return   JsonEntity.custom(7)
+                .add("","")
+                ;
 
     }
 
-    /**
-     * get不需要携带这个头，故意覆盖掉全局头
-     */
-    @Override
-    protected CustomHeaders getHeaders(RobotWrapper robotWrapper) {
-        return CustomHeaders.custom(4).add("X-Requested-With","");
-    }
+
+
 
     @Override
     protected IResultHandler<String, JuQueryBO> getResultHandler() {
@@ -80,32 +58,14 @@ public class OrderQueryFunction extends AbstractFunction<OrderNoQueryDTO, String
         @Override
         public Response parse2Obj(StanderHttpResponse<String, JuQueryBO> shr) {
             String result = shr.getOriginalEntity();
-            Document doc = Jsoup.parse(result);
-            // tbody为空表示没有
-            Elements tds = doc.select("table[class=table table-hover text-middle table-bordered] tbody tr td");
-            if (CollectionUtils.isEmpty(tds)) {
-               return Response.FAIL("记录不存在");
+
+            OrderQueryBO orderQueryBO = JSON.parseObject(result, OrderQueryBO.class);
+            if (null== orderQueryBO.getPageData()){
+                return Response.FAIL("会员账号或主单号有误");
             }
 
-            // 获取显示值table table-hover text-middle table-bordered
-            JuQueryBO juQueryVO = new JuQueryBO();
-            juQueryVO.setOrderTime(DateUtils.format(tds.get(0).text()));
-            juQueryVO.setPlatFormOrderNo(tds.get(1).text());
-            juQueryVO.setGameName(tds.get(2).text());
-            juQueryVO.setHall(tds.get(3).text());
-            juQueryVO.setUserName(tds.get(4).text());
-            juQueryVO.setResult(tds.get(5).text());
-            juQueryVO.setRebateAmount(MoneyUtil.formatYuan(tds.get(6).text()));
-            juQueryVO.setSendAmount(MoneyUtil.formatYuan(tds.get(7).text()));
+            return null;
 
-            // 获取隐藏值
-            String span = tds.get(6).select("span input").val();
-            if (!StringUtils.isEmpty(span)) {
-                Map<String, String> urlParams = UrlUtils.getUrlParams(span);
-                juQueryVO.setPageId(urlParams.get("id"));
-                juQueryVO.setKey(urlParams.get("key"));
-            }
-            return Response.SUCCESS(juQueryVO);
         }
     }
 

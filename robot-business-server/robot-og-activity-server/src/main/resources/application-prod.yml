@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-xinhao-activity-server
+    name: robot-xinhao-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖

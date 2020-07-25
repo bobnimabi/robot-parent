@@ -6,15 +6,12 @@ import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.gpk.base.bo.JuQueryBO;
-import com.robot.gpk.base.function.JuQueryFunction;
+import com.robot.gpk.base.function.OrderQueryFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 局查询（所有平台均可使用）
- * 使用：查询注单
- * 注意：局查询页面必须是：
- *      请选择：注单编码
+ *    查询注单
  * @Author mrt
  * @Date 2020/6/2 16:34
  * @Version 2.0
@@ -25,7 +22,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 
 
     @Autowired
-    private JuQueryFunction juQueryFunction;
+    private OrderQueryFunction orderQueryFunction;
 
 
     @Override
@@ -34,7 +31,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
         //局查询  
-        Response<JuQueryBO> response = juQueryFunction.doFunction(paramWrapper, robotWrapper);
+        Response<JuQueryBO> response = orderQueryFunction.doFunction(paramWrapper, robotWrapper);
         if (!response.isSuccess()) {
             return response;
         }

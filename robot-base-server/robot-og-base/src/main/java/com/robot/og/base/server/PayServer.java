@@ -76,10 +76,17 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         //是否稽核打码量
         if(moneyDTO.getIsAudit()){
             payAO.setCompBetCheckStatus(1);
-            payAO.setCompBet(moneyDTO.getMultipleTransaction());
+            payAO.setCompBet(1);
         }else {
-            payAO.setCompBetCheckStatus(0);
-            payAO.setCompBet(0);
+            if(moneyDTO.getMultipleTransaction()==null){
+                payAO.setCompBetCheckStatus(0);
+                payAO.setCompBet(0);
+            }else {
+
+                payAO.setCompBetCheckStatus(1);
+                payAO.setCompBet(moneyDTO.getMultipleTransaction());
+            }
+
         }
 
 

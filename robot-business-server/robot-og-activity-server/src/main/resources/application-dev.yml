@@ -1,13 +1,13 @@
 spring:
   application:
-    name: robot-xinhao-activity-server
+    name: robot-xinhao-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖
   jackson:
     default-property-inclusion: non_null #不返回空值和null
   redis:
-    host: dev.redis.com
+    host: redis.com
     password: admin1234
     port: 6379
     timeout: 5000 #连接超时 毫秒
@@ -22,7 +22,7 @@ spring:
     username: root
     password: '0PKpK0JJD?mM'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql.bbin.com/robot_og?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://database.com/robot_og?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500
@@ -51,7 +51,7 @@ spring:
     cache:
       channel:
         size: 500
-    addresses: dev.rabbitmq.com:5672  # , node2:5672 , node3:5672
+    addresses: node1:5672 , node2:5672 , node3:5672
 
 server:
   port: 8086
@@ -70,7 +70,7 @@ eureka:
     #表示是否从Eureka Server获取注册信息，默认为true。
     #    fetch-registry: false
     serviceUrl:
-      defaultZone: http://dev.eureka.com:8761/eureka
+      defaultZone: http://eureka.com:8761/eureka
 
 ribbon:
   ServerListRefreshInterval: 2  # ribbon cache时间
@@ -80,14 +80,13 @@ ribbon:
   ConnectTimeout: 5000  #请求连接的超时时间
   ReadTimeout: 6000 #请求处理的超时时间
 
-#日志文件路径
-logging:
-  config: classpath:log4j2-dev.xml
+#不检查长令牌的URL
 
 PERMIT_URL: /** #测试放行
 
-
-#打款url
+#日志文件路径
+logging:
+  config: classpath:log4j2-dev.xml
 
 
 # 响应文本存放根路径

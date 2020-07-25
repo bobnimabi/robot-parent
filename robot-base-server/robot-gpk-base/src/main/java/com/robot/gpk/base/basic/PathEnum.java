@@ -15,13 +15,13 @@ public enum PathEnum implements IPathEnum {
     DEPOSIT_TOKEN("deposit_token","充值功能：获取充值Token"),
     JU_QUERY_DETAIL("ju_query_detail","局查询:窗口信息"),
     JU_QUERY("ju_query","局查询"),
-    TOTAL_BET_BY_GAME("total_bet_by_game","查询消消除单个游戏投注总金额"),
-    BAR_ID("bar_id","局查询"),
+
+    ORDER_QUERY("order_query","查注单号"),
     GET_USERID("bar_id","局查询"),
     ;
 
 
-    private final String pathCode;
+	private final String pathCode;
     private final String message;
 
     private PathEnum(String pathCode, String message) {

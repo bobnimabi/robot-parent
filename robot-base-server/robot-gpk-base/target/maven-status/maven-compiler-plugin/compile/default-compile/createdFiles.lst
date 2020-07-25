@@ -1,6 +1,7 @@
 com\robot\gpk\base\function\PayFunction$ResultHandler.class
 com\robot\gpk\base\bo\GpsResponseParent.class
 com\robot\gpk\base\function\JuQueryFunction$ResultHandler.class
+com\robot\gpk\base\function\OrderQueryFunction$ResultHandler.class
 com\robot\gpk\base\ao\JuQueryDetailAO.class
 com\robot\gpk\base\function\PayFunction.class
 com\robot\gpk\base\function\JuQueryDetailFunction$ResultHandler.class
@@ -14,6 +15,7 @@ com\robot\gpk\base\basic\CheckLostImpl.class
 com\robot\gpk\base\function\QueryUserFunction.class
 com\robot\gpk\base\bo\JuQueryBO.class
 com\robot\gpk\base\server\QueryUserServer.class
+com\robot\gpk\base\function\OrderQueryFunction.class
 com\robot\gpk\base\function\QueryBalanceFunction.class
 com\robot\gpk\base\server\LogInServer.class
 com\robot\gpk\base\ao\PayFinalAO.class

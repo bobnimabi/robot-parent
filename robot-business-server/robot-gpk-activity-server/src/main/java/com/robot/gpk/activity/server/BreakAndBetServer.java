@@ -7,14 +7,12 @@ import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.gpk.base.bo.JuQueryDetailBO;
-import com.robot.gpk.base.bo.TotalBetGameBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import java.math.BigDecimal;
 
 /**
- * 使用：查询消消除游戏和其投注金额
+ * 使用：查询消消除游戏
  * @Author mrt
  * @Date 2020/6/2 16:34
  * @Version 2.0
@@ -24,9 +22,6 @@ public class BreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
     private BreakServer breakServer;
-
-    @Autowired
-    private GameBetServer gameBetServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -43,34 +38,18 @@ public class BreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
         breakerQueryVO.setUserName(detailBO.getUserName());
         breakerQueryVO.setGameCode(detailBO.getGameCode());
         breakerQueryVO.setRebateAmount(detailBO.getRebateAmount());
+        BigDecimal rebateAmount = detailBO.getRebateAmount();
 
-        Response<List<TotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
+        //BigDecimal转换成int类型做判断  金额大于2元才能申请
+        BigDecimal a=new BigDecimal(String.valueOf(rebateAmount));
+        int b=a.intValue();
+        System.out.println(b);
 
-        if (!betListResult.isSuccess()) {
-            return betListResult;
+        if(b <2){
+            return Response.FAIL("单注下注金额小于2元");
         }
-        List<TotalBetGameBO> list = betListResult.getObj();
-        TotalBetGameBO totalBetGameBO = filterByGameName(list, breakResult.getObj().getGameName());
-        if (null == totalBetGameBO) {
-            return Response.FAIL("未查询到游戏对应的总投注金额");
-        }
-        breakerQueryVO.setTotalBetAmount(totalBetGameBO.getTotalBetByGame());
         return Response.SUCCESS(breakerQueryVO);
     }
 
-    /**
-     * 筛选特定的游戏
-     * @param list
-     * @param gameName
-     * @return
-     */
-    private TotalBetGameBO filterByGameName(List<TotalBetGameBO> list, String gameName) {
-        for (TotalBetGameBO totalBetGameVO : list) {
-            if (gameName.equals(totalBetGameVO.getGameName())) {
-                return totalBetGameVO;
-            }
-        }
-        return null;
-    }
 
 }

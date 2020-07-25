@@ -1,4 +1,3 @@
-com\robot\gpk\base\bo\TotalBetGameBO.class
 com\robot\gpk\base\function\PayFunction$ResultHandler.class
 com\robot\gpk\base\bo\GpsResponseParent.class
 com\robot\gpk\base\function\JuQueryFunction$ResultHandler.class
@@ -8,20 +7,14 @@ com\robot\gpk\base\function\JuQueryDetailFunction$ResultHandler.class
 com\robot\gpk\base\function\DepositTokenFunction$ResultHandler.class
 com\robot\gpk\base\bo\SmsBO.class
 com\robot\gpk\base\bo\QueryBalanceBO.class
-com\robot\gpk\base\ao\TotalBetGameAO.class
 com\robot\gpk\base\function\JuQueryDetailFunction.class
 com\robot\gpk\base\bo\GeneralBO.class
 com\robot\gpk\base\basic\FunctionEnum.class
 com\robot\gpk\base\basic\CheckLostImpl.class
-com\robot\gpk\base\function\TotalBetGameFunction.class
 com\robot\gpk\base\function\QueryUserFunction.class
 com\robot\gpk\base\bo\JuQueryBO.class
 com\robot\gpk\base\server\QueryUserServer.class
-com\robot\gpk\base\function\BarIdFunction$ResultHandler.class
 com\robot\gpk\base\function\QueryBalanceFunction.class
-com\robot\gpk\base\function\BarIdFunction.class
-com\robot\gpk\base\function\TotalBetGameFunction$ResultHandler.class
-com\robot\gpk\base\ao\JuQueryAO.class
 com\robot\gpk\base\server\LogInServer.class
 com\robot\gpk\base\ao\PayFinalAO.class
 com\robot\gpk\base\function\QueryUserFunction$ResultHandler.class
@@ -31,6 +24,5 @@ com\robot\gpk\base\function\QueryBalanceFunction$ResultHandler.class
 com\robot\gpk\base\function\LoginFunction.class
 com\robot\gpk\base\function\JuQueryFunction.class
 com\robot\gpk\base\function\LoginFunction$ResultHandler.class
-com\robot\gpk\base\ao\BarIdAO.class
 com\robot\gpk\base\basic\PathEnum.class
 com\robot\gpk\base\server\PayServer.class

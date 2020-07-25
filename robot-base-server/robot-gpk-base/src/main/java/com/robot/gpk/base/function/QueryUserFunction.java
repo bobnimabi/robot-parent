@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 查询用户是否存在，和基本信息  todo
+ * 查询用户是否存在，和基本信息
  */
 @Slf4j
 @Service
@@ -41,10 +41,7 @@ public class QueryUserFunction extends AbstractFunction<String,String,Object> {
     /**
      * 响应结果转换：
      * 存在返回：
-     *      {"ReturnObject":1,"IsSuccess":true,"ErrorMessage":null}
-     * 不存在返回：
-     *      {"ReturnObject":0,"IsSuccess":true,"ErrorMessage":null}
-     */
+         */
     private static final class ResultHandler implements IResultHandler<String,Object>{
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler(){}

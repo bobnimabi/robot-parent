@@ -1,5 +1,6 @@
 package com.robot.gpk.base.function;
 
+import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.utils.UrlUtils;
 import com.bbin.utils.project.DateUtils;
 import com.robot.center.util.MoneyUtil;
@@ -12,7 +13,6 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.robot.gpk.base.ao.JuQueryAO;
 import com.robot.gpk.base.basic.PathEnum;
 import com.robot.gpk.base.bo.JuQueryBO;
 import org.jsoup.Jsoup;
@@ -33,7 +33,7 @@ import java.util.Map;
  * @Version 2.0
  */
 @Service
-public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQueryBO> {
+public class JuQueryFunction extends AbstractFunction<OrderNoQueryDTO, String, JuQueryBO> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -41,19 +41,19 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
     }
 
     @Override
-    protected IEntity getEntity(JuQueryAO juQueryAO, RobotWrapper robotWrapper) {
+    protected IEntity getEntity(OrderNoQueryDTO queryDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
-                .add("SearchData", juQueryAO.getSearchData())
-                .add("BarID", juQueryAO.getBarId())
-                .add("GameKind", juQueryAO.getGameKind())
-                .add("Wagersid", juQueryAO.getOrderNo())
-                .add("Limit", juQueryAO.getLimit())
-                .add("Sort", juQueryAO.getSort());
+                .add("SearchData", "BetQuery")
+                .add("BarID", "2")
+                .add("GameKind", queryDTO.getGameCode())
+                .add("Wagersid", queryDTO.getOrderNo())
+                .add("Limit", "100")
+                .add("Sort", "DESC");
     }
 
     @Override
-    protected String getUrlSuffix(JuQueryAO params) {
-        return params.getGameKind();
+    protected String getUrlSuffix(OrderNoQueryDTO params) {
+        return params.getGameCode();
 
     }
 
@@ -84,7 +84,7 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
             // tbody为空表示没有
             Elements tds = doc.select("table[class=table table-hover text-middle table-bordered] tbody tr td");
             if (CollectionUtils.isEmpty(tds)) {
-                return Response.FAIL("记录不存在");
+               return Response.FAIL("记录不存在");
             }
 
             // 获取显示值table table-hover text-middle table-bordered
@@ -108,4 +108,5 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
             return Response.SUCCESS(juQueryVO);
         }
     }
+
 }

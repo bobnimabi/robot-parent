@@ -55,11 +55,9 @@ public class GpkController extends ControllerBase {
     }
 
 
-
-
-
     /**
      * 消消乐查询
+     * 【糖果派对-极速版】【糖果派对】【糖果派对2】【糖果派对3】【连环夺宝】【连环夺宝2】
      */
     @PostMapping("/getEliminateToLe2")
     public Response getEliminateToLe2(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
@@ -88,57 +86,6 @@ public class GpkController extends ControllerBase {
         }
         return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.ORDER_QUERY_SERVER);
     }
-
-
-    /**
-     * 棋牌幸运注单
-     *
-     */
-    @PostMapping("/cardQueryOrderNo")
-    public Response cardQueryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
-        if (null == orderNoQueryDTO
-                || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
-                || StringUtils.isEmpty(orderNoQueryDTO.getGameCode()) // 平台编码
-        ) {
-            return Response.FAIL("参数不全");
-        }
-        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.ORDER_QUERY_SERVER);
-    }
-
-//捕鱼双重回归
-
-    //300倍注单 查询主单号
-      //超级奖上奖  查询派彩金额   ★【宝石派对】【糖果派对】【糖果派对2】【连环夺宝】【连环夺宝2】
-            //查询VIP
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

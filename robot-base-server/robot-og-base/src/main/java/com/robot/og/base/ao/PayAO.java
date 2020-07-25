@@ -28,8 +28,8 @@ public class PayAO extends PayCommonParams {
     private Double depositPre;
     private String otherPreStatus;
     private String otherPre;
-    private String compBetCheckStatus;
-    private String compBet;
+    private Integer compBetCheckStatus;
+    private Integer compBet;
     private String normalStatus;
 //    打款类型
     private String depositPro;

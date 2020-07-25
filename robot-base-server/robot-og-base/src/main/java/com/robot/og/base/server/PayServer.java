@@ -67,18 +67,26 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         PayAO payAO = new PayAO();
         payAO.setType("saveSet");
         payAO.setMemberId(queryUserBO.getMemberId());
-        payAO.setDepositMoney(moneyDTO.getPaidAmount().toString());   //Bigdecimal
+        payAO.setDepositMoney(moneyDTO.getPaidAmount().toString());
         payAO.setDepositMoneyRemark(moneyDTO.getMemo());
         payAO.setDepositPreStatus("0");
         payAO.setDepositPre(Math.random());
         payAO.setOtherPreStatus("0");
         payAO.setOtherPre("0");
-        payAO.setCompBetCheckStatus("1");
-        payAO.setCompBet("1");
+        //是否稽核打码量
+        if(moneyDTO.getIsAudit()){
+            payAO.setCompBetCheckStatus(1);
+            payAO.setCompBet(moneyDTO.getMultipleTransaction());
+        }else {
+            payAO.setCompBetCheckStatus(0);
+            payAO.setCompBet(0);
+        }
+
+
         payAO.setNormalStatus("1");
         payAO.setDepositPro("1");
         payAO.setToken(UUID.randomUUID().toString().replaceAll("-",""));
-        payAO.setDepositMoneyRemark1(moneyDTO.getMemo());  //todo
+        payAO.setDepositMoneyRemark1(moneyDTO.getMemo());  //todo 客户想传入订单号
 
         return new ParamWrapper<PayAO>(payAO);
 

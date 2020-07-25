@@ -1,0 +1,1925 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+ 	var ctx="";
+ 	var MEMBER_DIR="ogmember";
+ 	var OG_MEMBER_DIR="ogmember";
+ 	var static_url = "//sj.ctshzl.cn/v21";
+	// 国际化参数
+	var systemLanguage = "zh_CN"
+</script>
+<script type="text/javascript" src="/common/js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="/common/js/yl.js"></script>
+<script type="text/javascript" src="/common/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/common/js/announment.js"></script>
+<script type="text/javascript" src="/common/js/onlineCommon.js" ></script>
+<script type="text/javascript" src="/common/js/jquery.form1.js"></script>
+<script type="text/javascript" src="/common/js/faqIcon.js"></script>
+<link rel="stylesheet" type="text/css" href="/common/css/ann.css" />
+<link rel="stylesheet" type="text/css" href="/jsp/agency/js/south-street/jquery-ui-1.9.1.custom.min.css">
+<link rel="stylesheet" type="text/css" href="/common/css/messageTip.css">
+<link rel="stylesheet" type="text/css" href="/common/css/faqIcon.css" />
+<script type="text/javascript" src="/common/js/i18n/message_zh_CN.js"></script>
+<script>
+/**
+ * 字符串占位符格式  'B在{0}与{1}之间'.format('A','C');
+ */
+String.prototype.format = function () {
+    // 数据长度为空，则直接返回
+    if (arguments.length == 0) {
+        return this;
+    }
+
+    // 使用正则表达式，循环替换占位符数据
+    for (var result = this, i = 0; i < arguments.length; i++) {
+        result = result.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+    }
+    return result;
+};
+/**
+ * 维护公告
+ * edit by  adaf
+ */
+var num = 0; 
+var time = 0;
+$(function() {
+    // 初始化弹出公告为未显示
+    window.localStorage.announcementWindowShow = 0;
+
+	$.ajax({
+		url:ctx+"/agent/GlobalAnnounceServlet",
+		cache:false,
+		dataType:'json',
+		type:'POST',
+		data:{
+			type:"3",
+			op:"queryMaintainDate"
+		},
+		success:function(data){
+			if(data&&data.maintainDate)
+				time = data.maintainDate;
+		}
+	});
+	num = 0; 
+	timingMaintain();
+	
+	var pageUrl = window.location.href;
+	//主页
+	if (pageUrl == "/" || pageUrl == "" || pageUrl.indexOf("/index.jsp")>0 || pageUrl.indexOf("/member/memberServlet")>0) {
+		setTimeout(function() {
+			ajaxAnnoument2();
+		},1000*5);
+		setTimeout(function() {
+			ajaxAnnoument();
+		},1000*11);
+	} else {
+		setTimeout(function() {
+			ajaxAnnoument();
+		},1000*5);
+	}
+});
+function annoumentData(result){
+	$(document.body).announment({
+		type : 1,
+		width : 200,
+		height : 80,
+		top :window.screen.availHeight-332,
+		left : document.body.clientWidth-205,
+		titleCls : 'anotitle',
+        containCls : 'anoContain',
+        btnCls : 'anoBtn',
+        contextCls : 'anoContext',
+        announcementId : result.id,
+        title : result.announcementname,
+        content : result.content,
+        sign : result.sign
+	});
+}
+function ajaxAnnoument() {
+	var url = ctx+"/agent/GlobalAnnounceServlet";
+		$.post(url,{type:'3'},function(result) {
+			if (result.content != "" && result.content!=undefined) {
+				$('#annoument_win').remove();//将层移除掉
+				annoumentData(result);
+			}
+	}, 'json'); 
+	
+}
+function ajaxAnnoument2() {
+	var url = ctx+"/agent/GlobalAnnounceServlet";
+		$.post(url,{type:'2'},function(result) {
+			if (result.content != "" && result.content!=undefined) {
+			$(document.body).announment({
+				type : 0,
+				top :window.screen.availHeight-500,
+				left : document.body.clientWidth-395,
+				content : result.content,
+				glAnoCls : 'glAnoCls'
+			});
+			}
+	}, 'json'); 
+	
+}
+function timingMaintain(){
+	if(time>0){
+		num++;
+		if(time<=600){ //当维护时间小于10分钟时进入判断
+			if(num==60){ //每分钟弹出一次维护公告
+				ajaxAnnoument(); //弹出维护公告
+				num=0;
+			}
+		}else{
+			if(num==300){//每五分钟弹出一次维护公告
+				ajaxAnnoument(); //弹出维护公告
+				num=0;
+			}
+		}
+		time--;
+	}
+	setTimeout(timingMaintain,1000);
+}
+function  operatePromptShow(msg){
+	var hideDiv=$('#_hideDiv');
+	var loading=$('#_loading');
+	var body=$("body");
+	if(!hideDiv[0]){
+		body.append('<div id="_hideDiv"></div>');
+	}
+	if(!loading[0]){
+		body.append('<div id="_loading"><img src="/jsp/agency/images/loaderc.gif"/><span style="font-weight: bold;">'+msg+'</span></div>');
+	}
+	$('#_hideDiv').show();
+	$('#_loading').show();
+}
+function  operatePromptHide(){
+	$('#_hideDiv').hide();
+	$('#_loading').hide();
+}
+function  T_MessageShow(msg){
+	$("body").prepend("<div class='msgbox_layer_wrap'><span id='mode_tips_v2' style='z-index: 10000;' class='msgbox_layer'><span class='gtl_ico_clear'></span><img alt='' src='/common/images/loading.gif'>"+msg+"<span class='gtl_end'></span></span></div>");
+	$(".msgbox_layer_wrap").show();
+}
+function  T_MessageHide(){
+	$(".msgbox_layer_wrap").hide();
+}
+
+
+
+
+// 中文对象
+var chineseName = {
+    '彩票': 'Lottery',
+    '视讯': 'Video',
+    '电子': 'Slot',
+    '捕鱼': 'Fishing',
+    '棋牌': 'Chess',
+    '体育': 'Sports',
+    '电竞': 'Esports',
+};
+// 通过中文获取对应的英文
+function getEnglishName(chinese){
+    // 如果当前环境选择是中文语言，直接返回中文
+    if(systemLanguage == 'zh_CN'){
+        return chinese;
+    }
+    var englishName = chineseName[chinese];
+    if(typeof englishName == 'undefined'){
+        return chinese
+    }else{
+        return ' ' + englishName + ' ';
+    }
+}
+
+
+</script>
+<div id="onlinedialog" title='在线详情'></div>
+
+
+
+<script type="text/javascript"
+	src="/common/js/jquery.pager_13.js"></script>
+
+	<!-- 以下这几个链接是原有代理后台的文件，不需要拷贝到真实代理后台环境-->
+	<link rel="stylesheet" type="text/css" href="/common/css/ann.css">
+	<link rel="stylesheet" type="text/css" href="/common/css/messageTip.css">
+	<link rel="stylesheet" type="text/css" href="/common/css/faqIcon.css">
+	<script type="text/javascript" src="/common/layui/layui.js"></script>
+	<link rel="stylesheet" href="/common/layui/css/layui.css">
+	<link rel="stylesheet" href="/common/layui/css/add.css" media="all">
+	<link rel="stylesheet" href="/common/css/news/modifyLayui.css"><!-- *需要拷贝* -->
+	<link rel="stylesheet" href="/common/css/news/public.css"><!-- *需要拷贝* -->
+	<link rel="stylesheet" href="/common/css/promotions/promotion.css"> <!-- *需要拷贝* -->
+
+
+<link rel="stylesheet" type="text/css"
+	href="/jsp/agency/css/theme.css" />
+<link rel="stylesheet" type="text/css"
+	href="/jsp/agency/css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="/common/css/page.css" />
+<script type="text/javascript"
+	src="/common/js/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="/common/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+	var StyleFile = "theme" + document.cookie.charAt(6) + ".css";
+	document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
+</script>
+
+<style type="text/css">
+	.sortImgClass{
+		height: 16px;
+		cursor: pointer;
+		display: inline-block;
+		vertical-align: middle;
+		margin-top: -2px;
+		margin-left: 3px;
+	}
+
+	/*<!--重写新式，这个旧页面使用新样式不协调-->*/
+	.searchPromotion #selectLevelID2{
+		color: black;
+		border: 0px solid #BAD9F0;
+		background-color: #d2d2d2;
+	}
+	.searchPromotion #selectLevelID2:hover{
+		border-color: black;
+		color: black;
+	}
+	.layui-form .layui-table tr:hover{
+		background-color: unset;
+	}
+	.backwaterEdit .select-level-box .layui-table tr td .layui-inline .layui-form-checkbox span{
+		display: block;
+		display:inline-block;
+	}
+	.backwaterEdit .select-level-box .layui-table tr td .layui-inline .layui-form-checkbox span:hover{
+		color: #22a1ff
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		color: #979797;
+	}
+
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+		color: #979797;
+	}
+
+	input:-ms-input-placeholder,
+	textarea:-ms-input-placeholder {
+		color: #979797;
+	}
+
+	input::-webkit-input-placeholder,
+	textarea::-webkit-input-placeholder {
+		color: #979797;
+	}
+	#container{
+		width: auto;
+		padding: 10px 20px 20px 20px;
+		margin: 0 auto;
+	}
+	.yo-child-body{
+		padding: 0;
+	}
+	input[readonly="readonly"]{
+		background-color: #fff;
+	}
+
+	.layui-table th{
+		background: none;
+		text-align: center;
+	}
+	.layui-table td,.layui-table th{
+		border-color: #DBDBDB;
+	}
+	.ui-widget-header{
+		background-image: none;
+		background-color: #f2f2f2;
+
+	}
+	#tradeType{
+		margin-top: 4px;
+	}
+	#tradeType .layui-table{
+		margin-top: 0;
+	}
+	#tradeType .layui-table th{
+		background-color: #f2f2f2;
+	}
+	.ui-widget-content{
+		background: none;
+		border: none;
+		background-color: #fff;
+		border-radius: 0;
+	}
+	.ui-resizable-handle{
+		display: none;
+	}
+
+	.layui-table {
+		margin: 0;
+	}
+	.dgh{
+		/*height: 34px;*/
+		line-height: 28px;
+		padding-left: 0;
+		margin-bottom: 10px;
+		margin-top: -10px;
+	}
+
+
+	.dgh span{
+		float: none;
+		display: inline-block;
+		margin-top: 10px;
+	}
+	.dgh select,.dgh input{
+		height: 28px;
+		font-size: 14px;
+		line-height: 28px;
+		padding-left: 5px;
+		padding-right: 5px;
+		border: 1px solid #BAD9F0;
+		margin-right: 5px;
+		color: #343434;
+		outline: 0;
+		padding: 0;
+	}
+	.dgh input[type='text'],#lastDateID,#startDateID{
+		padding-left: 5px;
+	}
+	#lastDateID,#startDateID{
+		width: 165px;
+		background: #fff url(../../../../common/js/My97DatePicker/skin/dateicon.png) no-repeat 144px;
+	}
+	.dgh .search-btn,.dgh #selectLevelID{
+		cursor: pointer;
+		display: inline-block;
+		width: 100px;
+		height: 28px;
+		line-height: 28px;
+		background-color: #fff;
+		font-size: 14px;
+		color: #3E8EF0;
+		border: none;
+		text-align: center;
+		border: 1px solid #BAD9F0;
+		margin: 0 5px;
+		/*margin-bottom: 15px;*/
+		margin-top: 10px;
+	}
+	.dgh .search-btn2{
+		color: #fff;
+		background-color: #3E8EF0;
+	}
+
+	#pager {
+            background: none;
+            border: none;
+            margin-top: 20px;
+        }
+
+        /*pager_7.js样式开始*/
+        #pager a.can-click:hover{
+            background-color: #3e8ef0;
+            color: #fff!important;
+        }
+        #pager input[type="button"]:hover{
+            color: #cc00cc!important;
+        }
+        #pager input[type="button"]:focus{
+            border: none;
+            outline: medium;
+        }
+        #gotoPageNum,
+        #pageSize {
+            padding: 0;
+            text-align: center;
+            border: 1px solid #3e8ef0;
+            height: 20px;
+            line-height: 20px;
+        }
+        #pageSize {
+            background-color: #fff;
+            vertical-align: middle;
+            padding: 0px;
+        }
+        /*pager_7.js样式结束*/
+
+        #gotoPageBtn {
+            background-color: #fff!important;
+            border: none;
+            cursor: pointer;
+        }
+    .custom-table tr th, .custom-table tr td{
+        height: 24px;
+        line-height: 24px;
+        padding: 5px 0;
+    }
+    .custom-table tr td {
+        font-size: 12px;
+    }
+	.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{
+		float: none;
+		text-align: center;
+	}
+	.ui-widget-header{
+		background-image: none;
+		background-color: #f2f2f2;
+
+	}
+	.ui-dialog .ui-dialog-titlebar{
+		padding-top:10px;
+		padding-bottom:10px;
+	}
+	.ui-dialog{
+		padding: 0;
+	}
+	.ui-corner-all{
+		border-radius: 0px;
+	}
+	.ui-dialog-titlebar.ui-corner-all,.ui-dialog-titlebar .ui-corner-all{
+		border-radius: 0px;
+		border: none;
+	}
+	.ui-dialog .ui-dialog-content{
+		padding: 0.5em;
+	}
+	.ui-dialog .ui-dialog-buttonpane{
+		border:none;
+	}
+	.ui-widget-content .ui-dialog-buttonset button:nth-child(1) button:nth-child(2){
+		background-image: none;
+		background-color: #1e9fff;
+		color: #fff;
+		border-color: #1e9fff;
+	}
+	.ui-widget-content .ui-dialog-buttonset{
+		background-image: none;
+		background-color: #fff;
+		color: #312e25;
+		border-color: #f2f2f2;
+	}
+	.ui-dialog-titlebar-close.ui-corner-all.ui-state-hover{
+		background:none;
+	}
+	.ui-state-hover .ui-icon {
+		background-image: url('/jsp/agency/images/ui-icons_847e71_256x240.png');
+	}
+	.ui-dialog .ui-dialog-titlebar-close:hover{
+		padding: 1px;
+	}
+	a.ui-dialog-titlebar-close{
+		display: none;
+	}
+</style>
+<script type="text/javascript">
+    var total = "4";
+    var memberAccounts = "";
+    $(function(){
+        loadCount();
+		//由于点击查询的动作是属于表单提交。后台会对整个页面进行刷新所以查询条件会被刷新掉
+		//解决BUGZ XTGB-1610 GPO代理后台子现金系统，查询条件按照测试线会员进行查询，强制跳转到正式会员的页面
+		//modify by robben
+		var memType = "";
+		//if(memType!=null && memType!='' && typeof memType!='undefined'){
+			$("#memType").val(memType);
+		//}
+
+		queryMember = function(){
+			// showMask()
+			$('#queryMemberNames').val(memberAccounts);
+			$('#queryMemberNames').focus();
+			$('#queryMemberBefDialog').dialog("open");
+		};
+
+		$('#queryMemberDialog').dialog({
+			autoOpen: false,
+			title:'<font color=black>查询到的会员名单</font>',
+			width:1000,
+			height:620,
+			close: function() {
+				hideMask();
+				window.location.href = ctx+"/agent/levelManagementServlet?op=query&currencyId=1";
+			},
+			buttons: {
+				"关闭": function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+
+		$('#queryMemberBefDialog').dialog({
+			autoOpen: false,
+			title:i18n.levelManagement.queryMemberTitle,
+			width:600,
+			height:320,
+			buttons:{
+				'送出查询':function(){
+					if($('#queryMemberNames').val()==null || $('#queryMemberNames').val()==''){
+						alert(i18n.msg.inputAccountPlz);
+						$('#queryMemberNames').focus();
+						return false;
+					}else{
+						var ma = $('#queryMemberNames').val();
+						if(ma != ''){
+							ma = ma.replace(/[\s\r\n]+/g,'');
+						}
+
+						for (var i=0; i<ma.length; i++){
+							if(ma.charCodeAt(i)> 128){
+								alert(i18n.msg.inputInvaildCharacter);return false;
+							}
+						}
+						var strs= new Array(); //定义一数组用于限制查询量
+						strs=ma.split(","); //字符分割
+						if(strs.length>300){
+							alert("批量查询最多支持300个会员!");
+							$('#queryMemberNames').focus();
+							return false;
+						}
+
+						if(strs.length > 0){
+							var bool = false;
+							$.each(strs,function(i){
+								if($.trim(strs[i]).length > 12){
+									$('#queryMemberNames').focus();
+                                    layer.alert(i18n.levelManagement.errAccountFmt.replace('replaceName', strs[i]), {icon:2});
+									bool = true;
+									return false;
+								}
+							});
+							if(bool){
+								return false;
+							}
+						}
+						//设置查询开始结束时间
+						$("#memberQueryForm_startDateID").val($("#startDateID").val());
+						$("#memberQueryForm_lastDateID").val($("#lastDateID").val());
+
+						document.getElementById('memberAccounts').value = ma;
+						document.getElementById('memberQueryForm').submit();
+					}
+				},
+                '关闭': function() {
+					$(this).dialog("close");
+				}
+			},
+			close: function(){
+				hideMask();
+			}
+		});
+
+
+	})
+	function loadCount()
+	{
+		$.ajax({
+			type : "POST",
+			url : ctx + "/agent/BBRecordServlet?type=queryAllMoney",
+			data : null,
+			dataType:"json",
+			success : function(rs) {
+				//var rs = eval('(' + result + ')');
+				$("#_allMoney").html(parseFloat(rs.allMoney));//总金额
+			}
+
+		});
+	}
+
+    function oldCash(){
+    	window.location.href = "/agent/BBRecordServlet?type=oldSystem";
+    }
+
+    function newCash(){
+        window.location.href = "/agent/BBRecordServlet?type=queryRecord";
+    }
+
+	function OnCheckChange() {
+		checkType("tradeTypeId1", "tradeCls1");
+		checkType("tradeTypeId2", "tradeCls2");
+		checkType("tradeTypeId3", "tradeCls3");
+		checkType("tradeTypeId4", "tradeCls4");
+		checkType("tradeTypeId5", "tradeCls5");
+		checkType("tradeTypeId6", "tradeCls6");
+		checkType("tradeTypeId7", "tradeCls7");
+		checkType("tradeTypeId8", "tradeCls8");
+		checkType("tradeTypeId9", "tradeCls9");
+		checkType("tradeTypeId10", "tradeCls10");
+		checkIsAll();
+	}
+
+	function itemInArray(arr, item) {
+		if (!(arr instanceof Array))
+			return false;
+		item = item.split(",")[0];
+		for ( var i = 0; i < arr.length; i++)
+			if (arr[i] == item)
+				return true;
+		return false;
+	}
+
+	function initCheckbox() {
+		$("#tradeType").data("checkeds", null);
+
+		var typestr = '31,12,15,';
+		var typearr = typestr.split(",");
+
+		for ( var p = 1; p <= 7; p++) {
+			var elems = document.getElementsByName("tradeTypeId" + p);
+			for ( var i = 0; i < elems.length; i++) {
+				elems[i].onclick = OnCheckChange;
+				elems[i].checked = false;
+				if (itemInArray(typearr, elems[i].value))
+					elems[i].checked = true;
+			}
+		}
+
+		var arr = new Array();
+		var c = 0;
+
+		for ( var v = 1; v <= 4; v++) {
+			var elems = document.getElementsByName("tradeTypeId" + v);
+			for ( var i = 0; i < elems.length; i++) {
+				if (elems[i].checked) {
+					arr[c++] = elems[i].value;
+				}
+			}
+		}
+
+		$("#tradeType").data("checkeds", arr);
+		OnCheckChange();
+		//是否查询系统
+		var reportFlag = 'false';
+		//快选日期
+        var selDate = '0';
+        if (reportFlag == 'false' && selDate == 0) {
+            // 参数0:默认本月
+            onDateChange(0);
+        }
+        if(selDate == 1){
+            onDateChange(1);
+        }
+		//默认查询最后一天数据
+		document.getElementById("startDateID").value = '2020-07-11 00:00:00';
+		document.getElementById("lastDateID").value = '2020-07-13 23:59:59';
+
+	}
+
+	window.onload = initCheckbox;
+
+	function selectOnItems(name, cstate) {
+		var elems = document.getElementsByName(name);
+		for ( var i = 0; i < elems.length; i++) {
+			elems[i].checked = cstate;
+		}
+	}
+
+	function selectOnItem(id, cstate) {
+		var elem = document.getElementById(id);
+		elem.checked = cstate;
+	}
+
+	function checkType(typeName, t) {
+		var elems = document.getElementsByName(typeName);
+		for ( var i = 0; i < elems.length; i++) {
+			if (elems[i].checked) {
+				selectOnItem(t, true);
+				return;
+			}
+		}
+		selectOnItem(t, false);
+		//selectOnItem(t, true);
+	}
+
+	function checkIsAll() {
+		var elems = document.getElementsByName("tradeCls");
+		for ( var i = 0; i < elems.length; i++) {
+			if (!elems[i].checked) {
+				selectOnItem("tradeAll", false);
+				return;
+			}
+		}
+		selectOnItem("tradeAll", true);
+		var flag = false;
+		var elems = document.getElementsByName("tradeCls");
+		for ( var i = 0; i < elems.length; i++) {
+			if (elems[i].checked) {
+				flag = true;
+				break;
+			}
+		}
+
+		flag = false;
+		elems = document.getElementsByName("tradeCls5");
+		for ( var i = 0; i < elems.length; i++) {
+			if (elems[i].checked) {
+				flag = true;
+				break;
+			}
+		}
+
+		if (!flag)
+			selectOnItem("tradeAll2", false);
+	}
+
+	function buttonCheck() {
+		var allCheckbox = document.getElementById("tradeAll");
+		checkAll(allCheckbox);
+		if (document.getElementById("meberOptionTypes").style.display == 'none') {
+			return;
+		}
+	    var tradeAll2 = document.getElementById("tradeAll2");
+	    tradeAll2.checked = true;
+	    checkAll2(tradeAll2);
+	}
+
+	function checkAll(elem) {
+		selectOnItems("tradeTypeId1", elem.checked);
+		selectOnItems("tradeTypeId2", elem.checked);
+		selectOnItems("tradeTypeId3", elem.checked);
+		selectOnItems("tradeTypeId4", elem.checked);
+		selectOnItems("tradeTypeId8", elem.checked);
+		selectOnItems("tradeCls", elem.checked);
+		selectOnItems("tradeTypeId9", elem.checked);
+		selectOnItems("tradeTypeId10", elem.checked);
+	}
+
+	function checkAll2(elem) {
+		selectOnItems("tradeTypeId5", elem.checked);
+		selectOnItems("tradeTypeId6", elem.checked);
+		selectOnItems("tradeTypeId7", elem.checked);
+		selectOnItems("tradeCls5", elem.checked);
+	}
+
+	function checkRuKuan(elem) {
+		selectOnItems("tradeTypeId1", elem.checked);
+		checkIsAll();
+	}
+
+	function checkChuKuan(elem) {
+		selectOnItems("tradeTypeId2", elem.checked);
+		checkIsAll();
+	}
+
+	function checkRGTC(elem){
+        selectOnItems("tradeTypeId8", elem.checked);
+        checkIsAll();
+	}
+
+	function checkRGCR(elem) {
+		selectOnItems("tradeTypeId3", elem.checked);
+		checkIsAll();
+	}
+
+	function checkEDZH(elem) {
+		selectOnItems("tradeTypeId4", elem.checked);
+		checkIsAll();
+	}
+
+	function checkXZ(elem) {
+		selectOnItems("tradeTypeId5", elem.checked);
+		checkIsAll();
+	}
+
+	function checkJS(elem) {
+		selectOnItems("tradeTypeId6", elem.checked);
+		checkIsAll();
+	}
+
+	function checkZX(elem) {
+		selectOnItems("tradeTypeId7", elem.checked);
+		checkIsAll();
+	}
+
+	// 余额宝
+	function checkYEBRK(elem) {
+		selectOnItems("tradeTypeId9", elem.checked);
+		checkIsAll();
+	}
+
+	function checkYEBCK(elem) {
+		selectOnItems("tradeTypeId10", elem.checked);
+		checkIsAll();
+	}
+
+	function showTradeType() {
+		var mh = 550;
+		/*if (document.getElementById("meberOptionTypes").style.display == 'none')
+			mh = 430;
+		else
+			mh = 550;*/
+		$("#tradeType").dialog(
+				{
+					autoOpen : false,
+					show : "clip",
+//					hide: "explode",
+					width : 1200,
+					title:'选择交易类型',
+					dialogClass: "no-close",
+					height : mh,
+					modal: true,
+					buttons : {
+						"确定" : function() {
+							var arr = new Array();
+							var c = 0;
+							for ( var v = 1; v <= 7; v++) {
+								var elems = document.getElementsByName("tradeTypeId" + v);
+								for ( var i = 0; i < elems.length; i++) {
+									if (elems[i].checked) {
+										arr[c++] = elems[i].value;
+									}
+								}
+							}
+							$("#tradeType").data("checkeds", arr);
+							$(this).dialog("close");
+						},
+						"取消":function(){$(this).dialog('close');}
+					}
+				});
+		$("#tradeType").dialog("open");
+	}
+
+    function onInputMember(memberAccount) {
+		if (!memberAccount) {
+			selectOnItems("tradeTypeId5", false);
+			selectOnItems("tradeTypeId6", false);
+			selectOnItems("tradeTypeId7", false);
+			selectOnItems("tradeCls5", false);
+			var tradeAll2 = document.getElementById("tradeAll2");
+		    tradeAll2.checked = false;
+		} else if (obj.value == 1) {
+			document.getElementById("memberNoId").style.display = "";
+			//document.getElementById("meberOptionTypes").style.display = "";
+		}
+	}
+
+    var now = new Date('2020-07-25 04:41:19'.replace(/-/g,"/")); //当前日期
+	var month = now.getMonth();
+	function onDateChange(obj) {
+		var nowYear = now.getYear(); //当前年
+		nowYear += (nowYear < 2000) ? 1900 : 0;
+		var nowMonth = now.getMonth();
+		var maxDate;
+		var minDate;
+		if (obj == 0 || obj.value == 0) {
+			//当前月 1-当前日期
+			nowMonth += 1;
+			if (nowMonth < 10) {
+				nowMonth = "0" + nowMonth;
+			}
+			maxDate = '2020-07-25 23:59:59';
+			minDate = nowYear + "-" + nowMonth + "-01 00:00:00";
+		} else {
+            if(nowMonth=="0"){
+                nowYear=nowYear-1;
+                nowMonth=12;
+            }
+			//上个月
+			if (nowMonth < 10) {
+				nowMonth = "0" + nowMonth;
+			}
+			//每月最后一天不固定,有可能是28/30/31
+			var lastMonth = new Date('2020-07-25 04:41:19'.replace(/-/g, "/"));
+			lastMonth.setDate(0);
+			var days = lastMonth.getDate();
+			maxDate = nowYear + "-" + nowMonth + "-" + days + " 23:59:59";
+			minDate = '2020-06-01 00:00:00';
+		}
+		$("#startDateID").val(minDate);
+		$("#lastDateID").val(maxDate);
+		$("#startDateID").attr("onfocus","WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'"+maxDate+"',minDate:'"+minDate+"'});");
+		$("#lastDateID").attr("onfocus","WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'"+maxDate+"',minDate:'"+minDate+"'});");
+	}
+
+	function submitSearch() {
+		var types = '';
+		var start = document.getElementById("startDateID").value ;
+		var end = document.getElementById("lastDateID").value ;
+		if(!start||!end||start==""||end==""){
+			alert("请选择时间范围!");
+			return false;
+		}
+
+		if (start > end) {
+			alert("开始时间必须小于等于结束时间！");
+			return false;
+		}
+
+		$("#tradeType input[type='checkbox']").each(function(){
+			if($(this).prop("checked")&&$(this).prop("value")!="on"){
+				types += $(this).prop("value")+",";
+
+			}
+		});
+
+		var tradeTypes = document.getElementById("tradeTypesId");
+		tradeTypes.value = types;
+
+		//如果选择查询单个会员，清空批量会员参数
+		var actType = $("#actType").val();
+		var memberNoId = $("#memberNoId").val();
+		if (actType=="0" && memberNoId!=""){
+			$("#isBatchAccount").val("");
+		}
+		return true;
+	}
+
+	function getExplorer(obj) {
+	    if(total == 0){
+	        alert("该查询条件导出没有数据！");
+	        return false;
+        }
+		if(submitSearch() && window.confirm("您确定要导出吗？")){
+			$(obj).attr("disabled","disabled");
+			var param = $("#atCurform").serialize().replace("type=queryRecord", "")
+			setTimeout(function(){
+				$(obj).removeAttr("disabled");
+			},30000);
+			window.location.href = "/agent/BBRecordServlet?type=exportData" + param;
+		}
+	}
+
+	$(document).ready(function(){
+        //设置排序图标
+        var sortBy = "DESC";
+        var orderField = "createDateTime";
+        $("#"+orderField).attr("src","/common/images/lottery_report_"+sortBy+".png");
+        addTime();
+		$("#btnSearch").click(function(){
+			if(submitSearch()){
+				operatePromptShow(i18n.msg.searching);
+				this.form.submit();
+			}
+		});
+
+		$("#memberNoId").blur(function(){
+		       $(this).val($(this).val().trim().toLowerCase());
+		});
+	});
+
+	function findRemark(_val,dt){
+		if(_val != '' && _val.indexOf("~") > 0){
+			$("#remarkDialog").dialog({
+				autoOpen : false,
+				show : "clip",
+				width : 400,
+				height : 300,
+				title: i18n.boxTitle.viewDetails,
+				buttons : {
+					"确定" : function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+			var rkHtml = "";
+			var rks = _val.split(",");
+			for(i=0;i<rks.length;i++)
+			{
+				rkHtml +="<div>"+rks[i]+"</div>";
+			}
+			$("#remarkDialog").html(rkHtml);
+			$("#remarkDialog").dialog("open");
+			return;
+		}
+		if(_val == '' || _val.indexOf(",") < 0){
+			return;
+		}
+		var s = _val.split(",");
+		$.ajax({
+			type : "POST",
+			url : ctx + "/agent/BBRecordServlet?type=queryRecordDetail",
+			data : "eventUUID="+s[0]+"&detailsId="+s[1]+"&dataType="+dt,
+			success : function(result) {
+				$("#remarkDialog").dialog({
+					autoOpen : false,
+					show : "clip",
+					width : 400,
+					height : 300,
+					title: i18n.boxTitle.viewDetails,
+					buttons : {
+                        "确定" : function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+				var rkHtml = "";
+				var rks = result.split(",");
+				for(i=0;i<rks.length;i++)
+				{
+					rkHtml +="<div>"+rks[i]+"</div>";
+				}
+				$("#remarkDialog").html(rkHtml);
+				$("#remarkDialog").dialog("open");
+			},
+			error:function(){
+				alert("查询失败！");
+			}
+
+		});
+
+	};
+
+    function findRealtimeRemark(betcode, accountId, type){
+        if (!betcode || !accountId) {
+            return;
+        }
+        //betcode去掉ssfs_前缀和accountId后缀，中间部分就是领取记录ID
+        var recordId = betcode.substring(5, betcode.length - accountId.length);
+        $.ajax({
+            type : "POST",
+            url : ctx + "/agent/BBRecordServlet?type=queryRealtimeRecordDetail",
+            data : {"recordId": recordId, "dataType": type},
+            success : function(result) {
+                $("#remarkDialog").dialog({
+                    autoOpen: false,
+                    show: "clip",
+                    width: 400,
+                    height: 300,
+                    title: i18n.boxTitle.viewDetails,
+                    buttons: {
+                        "确定": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                var rkHtml = "";
+                var list = [];
+                if (result) {
+                    list = $.parseJSON(result);
+                    for (i = 0; i < list.length; i++) {
+                        rkHtml += "<div>" + list[i] + "</div>";
+                    }
+                }
+                $("#remarkDialog").html(rkHtml);
+                $("#remarkDialog").dialog("open");
+            },
+            error:function(){
+                alert("查询失败！");
+            }
+
+        });
+
+    };
+
+	function getHistoryNick(accountId) {
+		$.ajax({
+			type : "POST",
+			url : '/agent/AccountServlet?weixinnickh=history&accid='+accountId,
+			dataType : 'json',
+			success : function(data) {
+				if(data!=null && data.length!=0){
+					var str="历史微信昵称:\r\n";
+					for(var i=0;i<data.length;i++){
+						str += data[i].nickname + "\r\n";
+					}
+					alert(str);
+				}else
+                    alert("没有历史昵称信息!");
+			}
+		});
+	}
+
+    //增加查询的时间
+    function addTime(){
+        now.setSeconds(now.getSeconds()+1);
+        if (month && now && now.getMonth()!=month){//跨月了
+            if (confirm("当前美东时间已进入下一月份，是否重新查询?")){
+                window.location = "/agent/BBRecordServlet?type=queryRecord";
+            } else {
+                return;
+            }
+        }
+        setTimeout(addTime,1000);
+    }
+
+    //排序
+    function goSort(id){
+        var imgSrc = $("#"+id).attr("src");
+        $("input[name='orderField']").val(id);
+        if(imgSrc.indexOf("ASC") >= 0){//之前为升序，点击后设置为降序
+            $("input[name='sortBy']").val("DESC");
+        }else{
+            $("input[name='sortBy']").val("ASC");
+        }
+        $("#atCurform").submit();
+    }
+</script>
+
+</head>
+
+<body class="hoverStyle yo-child-body backwaterEdit" style="background-image:none; background-color:#fff">
+
+	<div id="container">
+		<div id="wrapper">
+			<div>
+			    <!-- 顶部导航  -->
+			    <div class="bread">
+			        <span class="layui-breadcrumb" lay-separator=">">
+			            <a ><cite>现金系统</cite></a>
+			            <a href="javascript:newCash();">子现金系统</a>
+			        </span>
+			    </div>
+				<!--<input type="button" onclick="newCash()" class="them_02" value="新现金系统"></input>-->
+				
+				<div id="tradeType" style="display: none;">
+					<table class="layui-table" >
+						<tr>
+							<th style="text-align: left;" colspan="7"><input type="checkbox" id="tradeAll" onclick="buttonCheck();"/>全选</th>
+						</tr>
+						<tr>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls1" onclick="checkRuKuan(this);" />入款</th>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls2" onclick="checkChuKuan(this);" />出款</th>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls8" onclick="checkRGTC(this);" />人工提出</th>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls3" onclick="checkRGCR(this);" />人工存入</th>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls4" onclick="checkEDZH(this);" />额度转换</th>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls9" onclick="checkYEBRK(this);" />余额宝入款</th>
+							<th align="left"><input type="checkbox" name="tradeCls"
+								id="tradeCls10" onclick="checkYEBCK(this);" />余额宝出款</th>
+						</tr>
+                        <tr>
+							<td><input type="checkbox" name="tradeTypeId1" value="60,61,62,63,64,65,66,67,68,69,10,11,20,50,52,80,87,98,101,5" />返点</td>
+							<td><input type="checkbox" name="tradeTypeId2" value="70,71,72,73,74,75,76,77,78,79,29,30,39,40,59,81,90,99,100,21" />冲销</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="22" />重复出款</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="31" checked="checked"/>人工存入</td>
+							<td><input type="checkbox" name="tradeTypeId4" value="57" />API存入</td>
+							<td><input type="checkbox" name="tradeTypeId9" value="154" />余额宝存入</td>
+							<td><input type="checkbox" name="tradeTypeId10" value="157" />申请转出至余额宝</td>
+                        </tr>
+                        <tr>
+							<td><input type="checkbox" name="tradeTypeId1" value="147" />自身佣金</td>
+							<td><input type="checkbox" name="tradeTypeId2" value="148" />自身佣金冲销</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="23" />手动申请出款</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="38" />人工存入-存款优惠</td>
+							<td><input type="checkbox" name="tradeTypeId4" value="58" />API取出</td>
+                        	<td><input type="checkbox" name="tradeTypeId9" value="155" />余额宝存入优惠</td>
+							<td><input type="checkbox" name="tradeTypeId10" value="156" />实际转出至余额宝</td>
+                        </tr>
+                        <tr>
+							<td><input type="checkbox" name="tradeTypeId1" value="151" />下级佣金</td>
+							<td><input type="checkbox" name="tradeTypeId2" value="152" />下级佣金冲销</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="24" />放弃存款优惠</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="34" />人工存入-汇款优惠</td>
+							<td><input type="checkbox" name="tradeTypeId4" value="46" />钱包存入</td>
+						    <td></td>
+						    <td><input type="checkbox" name="tradeTypeId10" value="159" />转出至余额宝扣除优惠</td>
+						</tr>
+                        <tr>
+							<td><input type="checkbox" name="tradeTypeId1" value="149" />自身充值佣金</td>
+							<td><input type="checkbox" name="tradeTypeId2" value="165" />损益佣金冲销</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="25" />公司入款误存</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="32" />取消出款</td>
+							<td><input type="checkbox" name="tradeTypeId4" value="47" />钱包取出</td>
+							<td></td>
+							<td><input type="checkbox" name="tradeTypeId10" value="158" />转出至余额宝扣除手续费</td>
+						</tr>
+                        <tr>
+							<td><input type="checkbox" name="tradeTypeId1" value="150" />下级充值佣金</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="153" />申请银行卡出款</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="26" />会员负数回冲</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="36" />负数额度归零</td>
+							<td><input type="checkbox" name="tradeTypeId4" value="88" />API存入异常</td>
+							<td></td>
+							<td><input type="checkbox" name="tradeTypeId10" value="160" />拒绝转出至余额宝</td>
+						</tr>
+                        <tr>
+							<td><input type="checkbox" name="tradeTypeId1" value="164" />损益佣金返佣</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="95" />实际银行卡出款</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="27" />扣除非法下注派彩</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="33" />存款优惠</td>
+							<td><input type="checkbox" name="tradeTypeId4" value="89" />API取出异常</td>
+							<td></td>
+							<td><input type="checkbox" name="tradeTypeId10" value="161" />取消申请转出至余额宝</td>
+						</tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="12" checked="checked"/>公司入款</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="96" />出款银行卡扣除手续费</td>
+							<td><input type="checkbox" name="tradeTypeId8" value="28" />其他</td>
+							<td><input type="checkbox" name="tradeTypeId3" value="37" />其他</td>
+							<td></td>
+                        	<td></td>
+                        	<td><input type="checkbox" name="tradeTypeId10" value="162" />取消转出至余额宝扣除手续费</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="13" />公司入款优惠</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="97" />出款银行卡扣除存款优惠</td>
+							<td></td><td></td><td></td><td></td>
+							<td><input type="checkbox" name="tradeTypeId10" value="163" />取消转出至余额宝扣除优惠</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="14" />公司汇款优惠</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="146" />拒绝银行卡出款</td>
+							<td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="15" checked="checked"/>线上存款</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="91" />取消申请银行卡出款</td>
+							<td></td><td></td><td></td><td></td><td></td>
+						</tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="16" />线上存款手续费</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="92" />取消银行卡出款扣除手续费</td>
+                            <td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="17" />线上存款优惠</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="93" />取消银行卡出款扣除存款优惠</td>
+                            <td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="167" />时时返水</td>
+                            <td><input type="checkbox" name="tradeTypeId2" value="168" />时时返水冲销</td>
+                            <td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="tradeTypeId1" value="166" />红包</td>
+                            
+                                <td><input type="checkbox" name="tradeTypeId2" value="169" />申请支付宝出款</td>
+                            
+                            
+                            <td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="170" />实际支付宝出款</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="171" />取消申请支付宝出款</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="172" />拒绝支付宝出款</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="173" />出款支付宝扣除手续费</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="174" />出款支付宝扣除存款优惠</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="175" />取消支付宝出款扣除手续费</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="checkbox" name="tradeTypeId2" value="176" />取消支付宝出款扣除存款优惠</td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                        
+
+						<tbody id="meberOptionTypes" style="display:none">
+							<tr>
+								<th valign="top" rowspan="9"><input type="checkbox" id="tradeAll2" onclick="checkAll2(this);" />投注交易</th>
+								<th align="left"><input type="checkbox" name="tradeCls5"
+								id="tradeCls5" onclick="checkXZ(this)" />下注</th>
+								<th align="left"><input type="checkbox" name="tradeCls5"
+								id="tradeCls6" onclick="checkJS(this)" />结算</th>
+								<th align="left"><input type="checkbox" name="tradeCls5"
+								id="tradeCls7" onclick="checkZX(this)" />注销</th>
+								<th></th>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="tradeTypeId5" value="4" />下注</td>
+								<td><input type="checkbox" name="tradeTypeId6" value="3" />派彩</td>
+								<td><input type="checkbox" name="tradeTypeId7" value="6" />取消注单（注销）</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="tradeTypeId5" value="53" />重建下注（重建）</td>
+								<td><input type="checkbox" name="tradeTypeId6" value="56" />手结派彩（手结）</td>
+								<td><input type="checkbox" name="tradeTypeId7" value="7" />取消结算</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="checkbox" name="tradeTypeId6" value="54" />重结派彩（重结）</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="checkbox" name="tradeTypeId6" value="55" />回结派彩（回结）</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<form action="BBRecordServlet" id="atCurform" method="post"
+					onsubmit="return submitSearch()">
+					<input type="hidden"  name="type" value="queryRecord"/>
+					<input name="tradeTypes" id="tradeTypesId" type="hidden"/>
+					<input name="isPostback" type="hidden" value="1" />
+					<input name="orderField" type="hidden" value="createDateTime"/>
+					<input name="sortBy" type="hidden" value="DESC"/>
+					<input name="levelManagementIds" id="levelManagementIds" value="" type="hidden"/>
+					<input type="hidden" name="memberAccounts" value="" >
+					<input type="hidden" name="isBatchAccount" id="isBatchAccount" value="">
+					<div class="dgh">
+						
+                            快选:&nbsp;
+							<select id="selDate" name="selDate" style="width: 95px" onchange="onDateChange(this);">
+									<option value="0" selected>本月</option>
+									<option value="1" >上个月</option>
+							</select>
+						
+						<!--新增测试线会员查询功能  modify by robben on time 20171224 -->
+                        数据类型:&nbsp;
+						<select id="memType" name="memType">
+							<option value="">全部</option>
+							<option value="0" selected="selected">正式会员</option>
+							<option value="98">测试线会员</option>
+						</select>
+
+                        日期:&nbsp;
+						<input name="startDate" id="startDateID" readonly="readonly" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'2020-07-25 23:59:59',minDate:'2020-06-01 00:00:00'})"/>
+						&nbsp;-&nbsp;
+						<input name="endDate" id="lastDateID" readonly="readonly" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'2020-07-25 23:59:59',minDate:'2020-06-01 00:00:00'})"/>
+
+						<i style="margin-left: 2px;margin-bottom: 5px;" class="icon-icon_message" msg="平台按美东时间查询"></i>
+						<input class="search-btn" type="button" value="选择交易类型" onclick="showTradeType();" style="width: 155px;">&nbsp;
+						<input class="search-btn" type="button" value="选择层级" id="selectLevelID" style="cursor: pointer;"/>&nbsp;
+                        账号类型:&nbsp;
+						<select id="actType" name="actType">
+							<option value="0" selected="selected" >会员</option>
+							
+							<option value="1"  >操作者</option>
+							
+						</select>
+						<input type="text" name="memberNo" id="memberNoId" placeholder="请输入账号"  onblur="onInputMember();" autocomplete="off" value="wkh0924" style="width: 135px;" />
+						&nbsp;&nbsp;
+                        单号:&nbsp;
+						<input type="text" id="bettingCode" name="bettingCode" value="" size="15"/>&nbsp;&nbsp;
+
+
+
+						<input class="search-btn search-btn2" type="button" value="查询" id="btnSearch" style="cursor: pointer;"/>&nbsp;&nbsp;
+						<input class="search-btn search-btn2" type="button" value="批量查询" id="batchSearch" onclick="queryMember()" style="cursor: pointer;"/>&nbsp;&nbsp;
+
+						
+							<input type="button" class="search-btn search-btn2" value="导出数据" onclick="getExplorer(this);"/>
+							<i style="margin-left: 2px;margin-bottom: 5px;" class="icon-icon_message"
+                               
+							   msg='导出功能使用时间为北京时间&nbsp;6:00-16:00&nbsp;30秒内不能重复操作'></i>
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="">查询时间：0.02秒</span>
+					</div>
+					<table border="1" cellspacing="0" class="layui-table custom-table">
+					<thead>
+						<tr>
+							<th width="4%">序号</th>
+							<th width="10%">会员账号</th>
+							<th width="10%">交易类型</th>
+							<th width="8%">交易金额</th>
+							<th width="8%">
+                                余额
+								<i style="margin-left: 2px;margin-bottom: 2px;" class="icon-icon_message" msg="现金余额/第三方平台余额"></i>
+							</th>
+							<th width="10%">交易日期<img title="点击排序" src="/common/images/lottery_report_default.png" class="sortImgClass" id="createDateTime" onclick="goSort('createDateTime')"/></th>
+							<th width="10%">单号</th>
+							<th width="30%">备注</th>
+						</tr>
+					</thead>
+						<tbody>
+						
+						
+							<tr onMouseMove="javascript:this.bgColor='#CLEBFF';"  onMouseOut="javascript:this.bgColor='#FFFFFF';">
+								<td height="30" align="center">1</td>
+								<td height="30" align="center">
+									wkh0924
+								</td>
+								<td height="30" align="center">线上存款
+									
+									
+									
+									
+								</td>
+								<td height="30" align="center">100.0</td>
+								<td height="30" align="center">100.8</td>
+								<td height="30" align="center">2020-07-13 21:46:02</td>
+								<td height="30" align="center">
+									
+										
+										
+											509990191419633664
+										
+									
+								<!--  -->
+								</td>
+								
+
+								
+									<td align="center">
+										
+											
+                                            
+											
+											微信APP存入:100.00
+										
+									</td>
+								
+							</tr>
+							
+						
+							<tr onMouseMove="javascript:this.bgColor='#CLEBFF';"  onMouseOut="javascript:this.bgColor='#FFFFFF';">
+								<td height="30" align="center">2</td>
+								<td height="30" align="center">
+									wkh0924
+								</td>
+								<td height="30" align="center">线上存款
+									
+									
+									
+									
+								</td>
+								<td height="30" align="center">50.0</td>
+								<td height="30" align="center">50.45</td>
+								<td height="30" align="center">2020-07-13 21:39:16</td>
+								<td height="30" align="center">
+									
+										
+										
+											509988445251178496
+										
+									
+								<!--  -->
+								</td>
+								
+
+								
+									<td align="center">
+										
+											
+                                            
+											
+											微信APP存入:50.00
+										
+									</td>
+								
+							</tr>
+							
+						
+							<tr onMouseMove="javascript:this.bgColor='#CLEBFF';"  onMouseOut="javascript:this.bgColor='#FFFFFF';">
+								<td height="30" align="center">3</td>
+								<td height="30" align="center">
+									wkh0924
+								</td>
+								<td height="30" align="center">线上存款
+									
+									
+									
+									
+								</td>
+								<td height="30" align="center">50.0</td>
+								<td height="30" align="center">50.19</td>
+								<td height="30" align="center">2020-07-12 20:26:53</td>
+								<td height="30" align="center">
+									
+										
+										
+											509607756513157120
+										
+									
+								<!--  -->
+								</td>
+								
+
+								
+									<td align="center">
+										
+											
+                                            
+											
+											微信APP存入:50.00
+										
+									</td>
+								
+							</tr>
+							
+						
+							<tr onMouseMove="javascript:this.bgColor='#CLEBFF';"  onMouseOut="javascript:this.bgColor='#FFFFFF';">
+								<td height="30" align="center">4</td>
+								<td height="30" align="center">
+									wkh0924
+								</td>
+								<td height="30" align="center">线上存款
+									
+									
+									
+									
+								</td>
+								<td height="30" align="center">50.0</td>
+								<td height="30" align="center">50.52</td>
+								<td height="30" align="center">2020-07-12 01:36:13</td>
+								<td height="30" align="center">
+									
+										
+										
+											509323032032980992
+										
+									
+								<!--  -->
+								</td>
+								
+
+								
+									<td align="center">
+										
+											
+                                            
+											
+											微信APP存入:50.00
+										
+									</td>
+								
+							</tr>
+							
+						
+						<tr>
+							<td colspan="3" align="center" height="30">小计：</td>
+							<td align="center" height="30"><span id="_countMoney">250.00</span></td>
+							<td colspan="4"></td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center" height="30">总计：</td>
+							<td align="center" height="30"><span id="_allMoney"></span></td>
+							<td colspan="4"></td>
+						</tr>
+						
+						<tr>
+							<td align="center" colspan="4"  align="right" height="30">可用余额：</td>
+							<td align="center" height="30">0.49</td>
+							<td colspan="4"></td>
+						</tr>
+						
+						</tbody>
+						<!--<tr>
+							<td colspan="9">
+
+							</td>
+						</tr>-->
+					</table>
+					<div id="pager" class="pager">
+						<span name="pageList" value="[20,50,100,200,300]"></span>
+						<span name="url" value='/agent/BBRecordServlet'></span>
+						<span name="totalCount" value="4"></span>
+						<span name="pageNo" value="1"></span>
+						<span name="pageSize" value="50"></span>
+						<span name="form" value="atCurform"></span>
+						<span name="isSearchById" value="true"></span>
+					</div>
+					<p style="color: #666;font-size: 12px;">温馨提示：交易类型为“人工存入/存款优惠”括号内的深紫色“是/否”，代表是/否对本次存款进行优惠稽核，深绿色“是/否”，代表是/否对本次存款进行常态性稽核；交易类型为“手动申请出款”括号内的深紫色“是/否”，代表是/否对清除该会员之前入款产生的优惠稽核，深绿色“是/否”，代表是/否清除该会员之前入款产生的常态性稽核。</p>
+				</form>
+				<div id="remarkDialog" style="display: none;">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="selectLevelBox" class="select-level-box">
+		<div class="layui-form">
+			<table class="layui-table">
+				<tbody>
+				<tr>
+					<td colspan="3">
+						<div class="layui-inline">
+							<input type="checkbox" name="" id="selectAll" lay-skin="primary" lay-filter="selectAll"
+								   title="全选">
+						</div>
+					</td>
+				</tr>
+
+				<tr><td colspan="3">
+					<div class="layui-col-space10">
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10732" title="未分层">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10774" title="信用卡">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10776" title="2016存款">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10777" title="第1期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10818" title="第2期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10853" title="第3期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10856" title="第4期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10867" title="第5期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10887" title="第6期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10889" title="第7期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10891" title="第8期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10893" title="新增每天存款">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10912" title="2020">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10922" title="首存50送50">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10941" title="电子88送88">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10960" title="新增38送38">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10961" title="38体验金">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10975" title="首存38元再存款">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="10977" title="刷水审核">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11015" title="点卡层级">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11075" title="不返水会员">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11076" title="黑名单">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11077" title="优惠套利">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11078" title="测试">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11079" title="未分层2">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11080" title="首存活动">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11088" title="8元赠送38">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11111" title="第9期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11112" title="第10期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11113" title="第11期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11114" title="第12期">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11124" title="新增存款58">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11127" title="2017存款">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11128" title="香港六合彩">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11129" title="VIP3">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11148" title="投诉专用">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11149" title="视讯1倍打码">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11150" title="桌面游戏不返水">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11151" title="首存1元赠送18元">
+						</div>
+					
+						<div class="layui-col-md4 layui-inline">
+							<input type="checkbox" name="levelManagementId" id="" lay-skin="primary" value="11152" title="2018存款">
+						</div>
+					
+					</div>
+				</td></tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!--会员批量查询form-->
+	<form action="/agent/BBRecordServlet" method="post" name="memberQueryForm" id="memberQueryForm">
+		<input type="hidden" name="type" value="queryRecord">
+		<input type="hidden" name="isBatchAccount" value="1">
+		<input type="hidden" name="memberAccounts" id="memberAccounts">
+		<input type="hidden" name="startDate" id="memberQueryForm_startDateID">
+		<input type="hidden" name="endDate" id="memberQueryForm_lastDateID">
+	</form>
+
+	<!-- 会员查询输入模块 -->
+	<div id="queryMemberBefDialog" style="display: none;">
+		<table>
+			<tr>
+				<td>
+					<textarea id="queryMemberNames" rows="10" style="width:98%;padding: 1%;border-radius: 5px;"></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<!-- 会员查询显示结果模块 -->
+	<div id="queryMemberDialog" style="display: none;"></div>
+
+</body>
+<script type="text/javascript">
+
+/**
+ * 获得该月的天数
+ * @param year年份
+ * @param month月份
+ * */
+ this.getMonthDays = function (year, month) {
+     //本月第一天 1-31
+     var relativeDate = new Date(year, month, 0);
+     //返回得到上月的最后一天,也就是本月总天数
+     return relativeDate.getDate();
+ };
+
+
+layui.use(['form', 'element', 'table', 'laydate', 'layer'], function () {
+	var form = layui.form,
+			element = layui.element,
+			table = layui.table,
+			laydate = layui.laydate,
+			layer = layui.layer;
+
+	$("#selectLevelID").click(function () {
+		layer.open({
+			type: 1,
+			btn: ["确定"],
+			yes: function (index, layero) {
+				var checkIds = new Array();
+				$("input[name='levelManagementId']:checked").each(function(i) {//把所有被选中的复选框的值存入数组
+					checkIds[i] = $(this).val();
+				});
+				console.log("checkID=",checkIds.join(","));
+				$("#levelManagementIds").val(checkIds.join(","));
+				layer.close(index);
+			},
+			closeBtn: 1,
+			shift: 2,
+			shadeClose: true,
+			title: '请选择要查询的层级',
+			btnAlign: 'c',
+			area: ['640px', 'auto'],
+			content: $("#selectLevelBox"),
+			success: function (layero, index) {
+				var levelManagementIds = $("#levelManagementIds").val()
+				if (levelManagementIds){
+					var arr = levelManagementIds.split(",");
+					$("input[name='levelManagementId']").each(function(i) {//把所有被选中的复选框的值存入数组
+						for (var k=0; k<arr.length; k++){
+							if ($(this).val()==arr[k]){
+								//console.log("checkbox value=",$(this).prop("checked"),arr[k]);
+								$(this).prop("checked", true);
+							}
+						}
+
+						layui.form.render();
+					});
+				}
+			},
+			end () {
+			  // 解决单号 GPO-9951 问题  用户快速多次点击用户名，遮罩层没有关闭的问题
+			  $("div[id^='layui-layer-shade']").remove()
+			}
+
+		});
+		if (screen.width <= 1366) {
+			$(".layui-layer.layui-layer-page").css({ top: 0 })
+		}
+	});
+	$("#selectLevelID2").click(function () {
+		layer.open({
+			type: 1,
+			btn: [i18n.btn.confirm],
+			yes: function (index, layero) {
+				// dosomething
+				layer.close(index);
+			},
+			closeBtn: 1,
+			shift: 2,
+			shadeClose: true,
+			title: '请选择要查询的层级',
+			btnAlign: 'c',
+			area: ['640px', 'auto'],
+			content: $("#selectLevelBox"),
+			end () {
+			  // 解决单号 GPO-9951 问题  用户快速多次点击用户名，遮罩层没有关闭的问题
+			  $("div[id^='layui-layer-shade']").remove()
+			}
+
+		});
+		if (screen.width <= 1366) {
+			$(".layui-layer.layui-layer-page").css({ top: 0 })
+		}
+	});
+	form.on('checkbox(selectAll)', function (data) {
+		if (data.elem.checked) {
+			$("#selectLevelBox input").prop("checked", true);
+		} else {
+			$("#selectLevelBox input").prop("checked", false);
+		}
+		form.render('checkbox');
+	});
+
+});
+
+</script>
+</html>

@@ -25,7 +25,7 @@ public class FlushTokenInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 							 HttpServletResponse response, Object handler) throws Exception {
-		if (environment.equals(CommonConstant.PROD) || environment.equals(CommonConstant.TEST)) {
+		if (environment.equals(CommonConstant.PROD) ) {  //|| environment.equals(CommonConstant.TEST)
 			String uid = XcCookieUtil.getTokenFormCookie(request);
 			AuthToken userToken = XcTokenUtil.getUserToken(uid, redis);
 			// 刷新JWT令牌过期时间

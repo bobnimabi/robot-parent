@@ -60,8 +60,8 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
                 .add("depositPre", "1")
                 .add("otherPreStatus", "0")
                 .add("otherPre", "0")
-                .add("compBetCheckStatus", "1")
-                .add("compBet", "1")
+                .add("compBetCheckStatus", ao.getCompBetCheckStatus().toString())
+                .add("compBet", ao.getCompBet().toString())
                 .add("normalStatus", "1")
                 .add("depositPro", "2存款优惠")
                 .add( "DepositMoneyRemark1",ao.getDepositMoneyRemark1())
@@ -78,11 +78,9 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
 
     /**
      * 响应转换
-     * 登录响应：
      *
      */
     private static final class ResultHandler implements IResultHandler<String, PayBO> {
-     //   private static final String SUCCESS = "true";
         private static final ResultHandler INSTANCE = new ResultHandler();
 
         private ResultHandler() {

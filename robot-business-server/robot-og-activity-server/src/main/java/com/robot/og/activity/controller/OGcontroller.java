@@ -9,7 +9,6 @@ import com.bbin.common.pojo.CashDetailDTO;
 import com.bbin.common.pojo.TaskAtomDto;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.util.DateUtils;
-import com.bbin.common.util.ThreadLocalUtils;
 import com.rabbitmq.client.Channel;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.controller.ControllerBase;

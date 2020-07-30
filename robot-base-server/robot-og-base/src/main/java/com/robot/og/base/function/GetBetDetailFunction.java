@@ -42,11 +42,11 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 
 
 		//gamelist可以为空
-		return UrlEntity.custom(6)
+		return UrlEntity.custom(4)
 				.add("account", dto.getUserName())
 				.add("startDate", DateUtils.format(dto.getStartDate()))
 				.add("lastDate",DateUtils.format( dto.getEndDate()))
-				.add("plat", dto.getGameList().get(0))
+				.add("plat", dto.getGameList().get(0))     //todo
 
 				;
 

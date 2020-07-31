@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +55,8 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
                 .add("startDate", DateUtils.format(ao.getStartDate()).toString())
                 .add("lastDate", DateUtils.format(ao.getLastDate()).toString())
                 .add("pageNo", "1")
-                .add("pageSize", "1000")   //todo 看能不能修改
+                .add("pageSize", "1000")
                 ;
-
 
 
     }
@@ -68,9 +69,6 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
     /**
      * 响应结果转换：
      * 存在返回：
-     *      {"code":0,"IsSuccess":true,}
-     * 不存在返回：
-     *      {"code":1,"IsSuccess":false,}
      */
     private static final class ResultHandler implements IResultHandler<String, String>{
         private static final ResultHandler INSTANCE = new ResultHandler();
@@ -107,5 +105,31 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
                 
         }
     }
+/*
+    public static void main(String[] args) throws IOException {
+
+        Document doc = Jsoup.parse(new File("E:\\project\\robot-parent666\\robot-business-server\\robot-og-activity-server\\src\\main\\resources\\test.html"), "utf-8");
+
+
+        Element table = doc.select("body table").get(0);
+        Elements ths = table.select("thead tr th");
+        Elements trs = table.select("tbody tr");
+
+        List<Map<String, String>> list = new ArrayList<>();
+        for (Element tr:trs) {
+            Elements tds = tr.getElementsByTag("td");
+            Map<String, String> mapInner = new HashMap<>();
+            for (int i = 0; i < tds.size(); i++) {
+                mapInner.put(ths.get(i).text(), tds.get(i).text());
+            }
+            list.add(mapInner);
+        }
+        //去除总计
+        if (!CollectionUtils.isEmpty(list)) {
+            list.remove(list.size() - 1);
+        }
+        System.out.println(list);
+
+    }*/
 
 }

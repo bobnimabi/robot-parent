@@ -6,6 +6,7 @@ import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.ao.QueryUserAO;
+import com.robot.og.base.bo.QueryUserBO;
 import com.robot.og.base.function.QueryUserFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class QueryUserServer implements IAssemFunction<String> {
 
     @Override
     public Response doFunction(ParamWrapper<String> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        return queryUserFunction.doFunction(creatParams(paramWrapper), robotWrapper);
+        Response<QueryUserBO> queryUserBOResponse = queryUserFunction.doFunction(creatParams(paramWrapper), robotWrapper);
+        return queryUserBOResponse;
     }
     /**
      * 查询用户参数组装

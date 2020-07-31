@@ -53,7 +53,7 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
 
 
     private SSLContext createSSLContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-        return SSLContexts.custom().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build();
+        return SSLContexts.custom().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build();   // TrustAllStrategy.INSTANCE
     }
 
     /**
@@ -75,7 +75,7 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
         trustAllCerts[0] = TrustCheck.INSTANCE;
         SSLContext sc = null;
         try {
-            sc = SSLContext.getInstance("TLS");
+            sc = SSLContext.getInstance("SSLv3");     //TLS
             sc.init(null, trustAllCerts, null);
             socketFactory = new SSLConnectionSocketFactory(sc, NoopHostnameVerifier.INSTANCE);
         } catch (NoSuchAlgorithmException e) {

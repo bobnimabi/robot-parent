@@ -46,7 +46,7 @@ public class BreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
         System.out.println(b);
 
         if(b <2){
-            return Response.FAIL("单注下注金额小于2元");
+            return Response.FAIL("单注下注金额小于2元无法申请");
         }
         return Response.SUCCESS(breakerQueryVO);
     }

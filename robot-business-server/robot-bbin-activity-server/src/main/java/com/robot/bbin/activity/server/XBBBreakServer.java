@@ -32,7 +32,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
     @Autowired
     private GetTokenServer tokenServer;
 
- //局查询获取游戏名字
+    //局查询获取游戏名字
 
     @Autowired
     private  XBBOrderQueryServer orderQueryServer;
@@ -56,12 +56,6 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
         // 组装局查询细节参数并校验
         JuQueryBO juQueryBO = response.getObj();
         XBBJuQueryDetailBO xbbJuQueryDetailBO = MyBeanUtil.copyProperties(juQueryBO, XBBJuQueryDetailBO.class);
-       /* Response<ParamWrapper<JuQueryDetailAO>> params = getjuQueryDetailAO(queryDTO, juQueryBO,juQueryDetailBO);
-        if (!params.isSuccess()) {
-            return params;
-        }*/
-
-
 
 
         // 局查询细节前置查询:获取Token
@@ -73,14 +67,11 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
         //组装查询层数并校验
         String token = tokenResult.getObj();
 
-         //   XBBJuQueryDetailBO xbbJuQueryDetailBO= MyBeanUtil.copyProperties(token,XBBJuQueryDetailBO.class);
 
         Response<ParamWrapper<XBBJuQueryDetailAO>> params1 = xbbDetailParams(token);
         if (!params1.isSuccess()) {
             return params1;
         }
-
-
 
 
 
@@ -91,7 +82,6 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
         }
 
         xbbJuQueryDetailBO.setLevel(detailResponse.getObj());
-//        xbbJuQueryDetailBO.setGameName(detailResponse.getObj());
         return Response.SUCCESS(xbbJuQueryDetailBO);
 
 
@@ -99,9 +89,8 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
 
 
-/*
-    *//**
-     * 这个写法正确
+/**
+     *
      * 查询 局查询细节参数组装
      */
 
@@ -114,7 +103,7 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
 
 
-   /* *//**
+/**
      * 局查询细节参数组装
      */
     private Response<ParamWrapper<JuQueryDetailAO>> getjuQueryDetailAO(OrderNoQueryDTO queryDTO, JuQueryBO juQueryBO, JuQueryDetailBO juQueryDetailBO) {

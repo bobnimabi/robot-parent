@@ -1,0 +1,1 @@
+{"result":true,"data":{"user":{"id":695413741,"username":"tanke02","role":7},"session_id":"c53bbc09b3aa9fc5d59a243a2b387c95f53b9b27","password_reset":false,"expire":false,"ws_url":{"domain":"ws11.bbauth.com","port":"3001","hasSSL":true},"device_id":"45D77463DDBC7A4D80D461732B61DD6F","token":"1644f6985883329c43c475abbd44163e"},"response_code":"U92IE1596095351"}

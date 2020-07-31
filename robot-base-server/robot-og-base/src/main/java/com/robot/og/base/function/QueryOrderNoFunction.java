@@ -34,7 +34,7 @@ import java.util.Map;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
- * 查询用户是否存在，和基本信息
+ * 查询主单号
  */
 @Slf4j
 @Service
@@ -42,7 +42,7 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
 
     @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.QUERY_USER;
+        return PathEnum.QUERY_ODERNO;
     }
 
     @Override
@@ -77,9 +77,9 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
         @Override
         public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
-            log.info("查询会员存在功能响应：{}", result);
+            log.info("查询主单号功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
-                return Response.FAIL("未响应");
+                return Response.FAIL("查询主单号功能未响应");
             }
             Document doc = Jsoup.parse(result);
             Element table = doc.select("body table").get(0);
@@ -99,37 +99,13 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
             if (!CollectionUtils.isEmpty(list)) {
                 list.remove(list.size() - 1);
             }
-            return Response.SUCCESS(list);
+            String bettingCode = doc.getElementById("bettingCode").attr("value");
 
+
+            return Response.SUCCESS("注单号为:"+ bettingCode);
 
                 
         }
     }
-/*
-    public static void main(String[] args) throws IOException {
-
-        Document doc = Jsoup.parse(new File("E:\\project\\robot-parent666\\robot-business-server\\robot-og-activity-server\\src\\main\\resources\\test.html"), "utf-8");
-
-
-        Element table = doc.select("body table").get(0);
-        Elements ths = table.select("thead tr th");
-        Elements trs = table.select("tbody tr");
-
-        List<Map<String, String>> list = new ArrayList<>();
-        for (Element tr:trs) {
-            Elements tds = tr.getElementsByTag("td");
-            Map<String, String> mapInner = new HashMap<>();
-            for (int i = 0; i < tds.size(); i++) {
-                mapInner.put(ths.get(i).text(), tds.get(i).text());
-            }
-            list.add(mapInner);
-        }
-        //去除总计
-        if (!CollectionUtils.isEmpty(list)) {
-            list.remove(list.size() - 1);
-        }
-        System.out.println(list);
-
-    }*/
 
 }

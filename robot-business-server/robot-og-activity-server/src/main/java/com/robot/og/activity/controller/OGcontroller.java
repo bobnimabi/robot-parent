@@ -175,13 +175,11 @@ public class OGcontroller extends ControllerBase {
 				|| null == orderNoQueryDTO.getEndDate()
 		){
 
-
-
 			return Response.FAIL("参数不全");
 		}
 
 
-		return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO),FunctionEnum.QUERY_ODERNO_SERVER);
+		return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO),FunctionEnum.ORDER_QUERYNO_SERVER);
 	}
 
 	/**

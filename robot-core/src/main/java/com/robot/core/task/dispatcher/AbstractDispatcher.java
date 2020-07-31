@@ -50,8 +50,6 @@ public abstract class AbstractDispatcher {
     }
 
 
-
-
     /**
      * 外部订单号重复性检查
      * @param externalNo 外部订单号

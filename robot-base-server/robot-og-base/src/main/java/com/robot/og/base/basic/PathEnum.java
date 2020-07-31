@@ -21,7 +21,7 @@ public enum PathEnum implements IPathEnum {
     QUERY_RECORD("query_record", "充值功能：充值"),
     QUERY_BALANCE("query_balance", "查询余额"),
     QUERY_LEVEL("query_level", "查询层次"),
-    QUERY_ODERNO("query_oderno", "查询注单号"),
+    QUERY_ODERNO("query_oder_no", "查询注单号"),
     QUERY_ACCOUNT("query_acount", "查询账户"),
     QUERY_USER_INFO("query_user_info", "查询用户信息"),
     QUERY_USERRECORD("query_user_record", "查询用户记录"),

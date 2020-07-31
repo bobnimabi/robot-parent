@@ -27,6 +27,8 @@ public class AssumFunctionHelper {
      * @return
      */
     protected final IAssemFunction getFunction(IFunctionEnum functionEnum) {
+        String name = functionEnum.getName();
+        log.info("function name="+name);
         IAssemFunction iFunction = functionMap.get(functionEnum.getName());
 
         if (null == iFunction) {

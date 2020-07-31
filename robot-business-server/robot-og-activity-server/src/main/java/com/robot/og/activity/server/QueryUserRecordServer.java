@@ -8,6 +8,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.ao.QueryRechargeAO;
 import com.robot.og.base.function.QueryUserRecordFunction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author tank
  * @date 2020/7/14
  */
+@Service
 public class QueryUserRecordServer implements IAssemFunction<BreakThroughDTO> {
 
 	@Autowired

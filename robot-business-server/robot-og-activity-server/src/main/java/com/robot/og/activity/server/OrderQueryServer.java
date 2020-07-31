@@ -13,16 +13,18 @@ import com.robot.og.base.function.QueryOrderNoFunction;
 import com.robot.og.base.function.QueryUserFunction;
 import com.robot.og.base.server.QueryUserServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *查询注单好
+ *查询注单
  * </p>
  *
  * @author tank
  * @date 2020/7/14
  */
-public class QueryOrderNoServer implements IAssemFunction<OrderNoQueryDTO> {
+@Service
+public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 
 	@Autowired
 	private QueryOrderNoFunction queryOrderNoFunction;
@@ -35,7 +37,7 @@ public class QueryOrderNoServer implements IAssemFunction<OrderNoQueryDTO> {
 
 		//查询用户是否存在获取 memberid   ==accountid
 		Response<QueryUserBO> responseResult = queryUserFunction.doFunction(creatQueryUserParams(paramWrapper), robotWrapper);
-		if(responseResult.isSuccess()){
+		if(!responseResult.isSuccess()){
 			return Response.FAIL("查询用户id失败");
 		}
 		QueryUserBO queryUserBO = responseResult.getObj();

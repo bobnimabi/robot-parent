@@ -6,7 +6,7 @@ com\robot\og\activity\interceptor\OGActivityTenant.class
 com\robot\og\activity\config\MybatisPlusConfig.class
 com\robot\og\activity\OGActivityStarter.class
 com\robot\og\activity\server\QueryAccountServer.class
-com\robot\og\activity\server\QueryOrderNoServer.class
+com\robot\og\activity\server\OrderQueryServer.class
 com\robot\og\activity\server\GetRechargeServer.class
 com\robot\og\activity\config\WebMvcConfig.class
 com\robot\og\activity\server\QueryUserRecordServer.class

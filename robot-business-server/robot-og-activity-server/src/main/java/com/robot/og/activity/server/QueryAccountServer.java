@@ -7,6 +7,7 @@ import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.function.QueryAccountFunction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author tank
  * @date 2020/7/14
  */
+@Service
 public class QueryAccountServer implements IAssemFunction<VipTotalAmountDTO> {
 
 	@Autowired

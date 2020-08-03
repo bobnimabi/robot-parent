@@ -11,16 +11,16 @@ import com.robot.code.response.ResponseEnum;
 import com.robot.code.service.ITenantRobotDomainService;
 import com.robot.core.function.base.*;
 import com.robot.core.http.request.IEntity;
+import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
-import com.sun.jndi.toolkit.url.Uri;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.CookieStore;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -50,12 +50,23 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
 
     @Override
     protected IPathEnum getPathEnum() {
+
         return PathEnum.LOGIN;
     }
 
     @Override
     protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot) {
-        UrlEntity entity = UrlEntity.custom(3)
+
+        //OG
+      /* return JsonEntity.custom(3)
+                .add("username", robot.getPlatformAccount())
+                .add("password", robot.getPlatformPassword());*/
+
+
+
+        //BBIN
+
+  UrlEntity entity = UrlEntity.custom(3)
                 .add("username", robot.getPlatformAccount())
                 .add("password", robot.getPlatformPassword());
         if (!StringUtils.isEmpty(loginDTO.getOpt())) {

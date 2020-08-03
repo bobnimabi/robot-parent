@@ -170,7 +170,7 @@ public class OGcontroller extends ControllerBase {
 		if (null == orderNoQueryDTO
 				|| StringUtils.isEmpty(orderNoQueryDTO.getUserName())
 				|| StringUtils.isEmpty(orderNoQueryDTO.getGameCode())
-				|| StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
+				|| StringUtils.isEmpty(orderNoQueryDTO.getOrderNo().trim())
 				|| null == orderNoQueryDTO.getStartDate()
 				|| null == orderNoQueryDTO.getEndDate()
 		){

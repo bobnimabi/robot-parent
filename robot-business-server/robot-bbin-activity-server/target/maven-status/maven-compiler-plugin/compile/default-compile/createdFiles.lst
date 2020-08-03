@@ -1,10 +1,10 @@
 com\robot\bbin\activity\server\OrderQueryServer.class
 com\robot\bbin\activity\server\QueryRechargeServer.class
+com\robot\bbin\activity\server\BreakerServer.class
 com\robot\bbin\activity\config\MybatisPlusConfig$1.class
 com\robot\bbin\activity\server\GetTokenServer.class
 com\robot\bbin\activity\server\XBBBreakServer.class
 com\robot\bbin\activity\server\XBBGameBetServer.class
-com\robot\bbin\activity\server\BreakServer.class
 com\robot\bbin\activity\server\XBBOrderQueryServer.class
 com\robot\bbin\activity\config\WebMvcConfig.class
 com\robot\bbin\activity\server\BetAmountAndRechargeServer.class

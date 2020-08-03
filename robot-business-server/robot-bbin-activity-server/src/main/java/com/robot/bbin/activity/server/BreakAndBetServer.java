@@ -23,7 +23,7 @@ import java.util.List;
 public class BreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Autowired
-    private BreakServer breakServer;
+    private BreakerServer breakServer;
 
     @Autowired
     private GameBetServer gameBetServer;

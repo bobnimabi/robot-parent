@@ -17,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.lang.model.SourceVersion;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,12 +53,14 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
     /**
      * 响应结果转换类
      */
-    private static final class ResultHandler implements IResultHandler<String,Integer> {
+    private static final class ResultHandler implements IResultHandler<String, Integer> {
         private static final ResultHandler INSTANCE = new ResultHandler();
-        private ResultHandler(){}
+
+        private ResultHandler() {
+        }
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String,Integer> srp) {
+        public Response parse2Obj(StanderHttpResponse<String, Integer> srp) {
             String result = srp.getOriginalEntity();
             Document doc = Jsoup.parse(result);
             Element table = doc.select("table").get(1);// :eq(1)
@@ -69,17 +72,47 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
                     Element td1 = tbody_tr.getElementsByTag("td").get(0);
 
                     if (NumberUtils.isDigits(td1.text())) {
-                        list.add(td1);
+                        list.add(td1.text());
                     }
                 }
             }
-            if (list.size()>=2){
-                return Response.SUCCESS(list.size()-1);
+            if (list.size() >= 2) {
+                Object o = list.get(list.size() - 2);
+
+                Integer level=Integer.parseInt(o.toString());
+
+                return Response.SUCCESS( level);
             }
             return Response.FAIL("未查询到消除层数");
         }
     }
 
+   public static void main(String[] args) throws IOException {
+
+        Document doc = Jsoup.parse(new File("E:\\project\\robot-parent\\robot-business-server\\robot-bbin-activity-server\\src\\main\\resources\\test.html"), "utf-8");
 
 
+        Element table = doc.select("table").get(1);// :eq(1)
+        Elements tbody_trs = table.select("tbody tr");
+        ArrayList<Object> list = new ArrayList<>();
+        for (Element tbody_tr : tbody_trs) {
+            Elements tds = tbody_tr.getElementsByTag("td");
+            if (tds.size() >= 2) {
+                Element td1 = tbody_tr.getElementsByTag("td").get(0);
+
+                if (NumberUtils.isDigits(td1.text())) {
+                    list.add(td1.text());
+                }
+
+            }
+        }
+        if (list.size() >= 2) {
+            Integer o = Integer.parseInt(list.get(list.size() - 2).toString())  ;
+
+            System.out.println("o = " + o);
+
+
+
+        }
+    }
 }

@@ -55,7 +55,8 @@ public class BreakerServer implements IAssemFunction<OrderNoQueryDTO> {
             return detailResponse;
         }
 
-        juQueryDetailBO.setLevel(detailResponse.getObj());
+
+        juQueryDetailBO.setAccumulativeWins(detailResponse.getObj());   //accumulativeWins
         return Response.SUCCESS(juQueryDetailBO);
 
     }

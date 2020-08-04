@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class JuQueryDetailBO extends JuQueryBO{
     // 消除次数
-    private Integer level;
+    private Integer accumulativeWins;   //accumulativeWins
 
     // 消消除:游戏编码,这个带上最好
     private String gameCode;

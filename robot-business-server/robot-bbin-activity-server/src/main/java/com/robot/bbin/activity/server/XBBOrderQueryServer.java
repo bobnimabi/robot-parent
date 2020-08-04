@@ -72,4 +72,5 @@ public class XBBOrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         return new ParamWrapper<JuQueryAO>(juQueryAO);
     }
 
+
 }

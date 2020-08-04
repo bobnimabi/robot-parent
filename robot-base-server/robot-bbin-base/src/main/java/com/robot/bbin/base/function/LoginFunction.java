@@ -59,7 +59,7 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
 
 
 
-  UrlEntity entity = UrlEntity.custom(3)
+ UrlEntity entity = UrlEntity.custom(3)
                 .add("username", robot.getPlatformAccount())
                 .add("password", robot.getPlatformPassword());
         if (!StringUtils.isEmpty(loginDTO.getOpt())) {

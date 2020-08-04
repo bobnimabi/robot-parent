@@ -1,0 +1,1 @@
+{"PageData":[{"Id":10334533060,"Account":"zss1729","GameCategoryEnum":4,"GameCategory":"BB 机率","GameType":"糖果派对","WagersTime":"\/Date(1596490300000)\/","BetAmount":2.00,"PayoffTime":"\/Date(1596490786273)\/","Payoff":-2.00,"Commissionable":1.99,"RawDataType":3,"RawDataId":2076443325,"Raw_Result":null,"Raw_GameType":null,"RawWagersId":null}],"IsSuccess":true}

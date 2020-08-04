@@ -55,20 +55,6 @@ public class GpkController extends ControllerBase {
     }
 
 
-    /**
-     * 消消乐查询
-     * 【糖果派对-极速版】【糖果派对】【糖果派对2】【糖果派对3】【连环夺宝】【连环夺宝2】
-     */
-    @PostMapping("/getEliminateToLe2")
-    public Response getEliminateToLe2(@RequestBody OrderNoQueryDTO queryDTO) throws Exception {
-        if (null == queryDTO
-                || StringUtils.isEmpty(queryDTO.getOrderNo())
-                || null == queryDTO.getStartDate()
-                || null == queryDTO.getEndDate()
-                || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
-        ){ return Response.FAIL("参数不全");}
-        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.BREAK_AND_BET_SERVER);
-    }
 
 
     /**
@@ -76,7 +62,7 @@ public class GpkController extends ControllerBase {
      * 1.会员在【PT电子、SG电子、RT电子、JDB电子、CQ9】中进行投注
      * 2.此活动仅限老虎机与经典老虎机游戏中产生的注单
      */
-    @PostMapping("/queryOrderNo")
+    @PostMapping("/luckyNo")
     public Response queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
         if (null == orderNoQueryDTO
                 || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
@@ -86,8 +72,6 @@ public class GpkController extends ControllerBase {
         }
         return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.ORDER_QUERY_SERVER);
     }
-
-
 
 
     /**

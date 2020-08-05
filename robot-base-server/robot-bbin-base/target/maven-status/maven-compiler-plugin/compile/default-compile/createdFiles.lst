@@ -9,6 +9,7 @@ com\robot\bbin\base\bo\JuQueryDetailBO.class
 com\robot\bbin\base\function\PayFunction$ResultHandler.class
 com\robot\bbin\base\function\BetFunction$ResultHandler.class
 com\robot\bbin\base\basic\PathEnum.class
+com\robot\bbin\base\function\LuckyNoFunction$ResultHandler.class
 com\robot\bbin\base\function\XBBJuQueryFunction.class
 com\robot\bbin\base\function\PomponFunction.class
 com\robot\bbin\base\basic\FunctionEnum.class
@@ -43,9 +44,11 @@ com\robot\bbin\base\function\XBBJuQueryFunction$ResultHandler.class
 com\robot\bbin\base\function\JuQueryFunction.class
 com\robot\bbin\base\ao\BarIdAO.class
 com\robot\bbin\base\function\QueryBalanceFunction$ResultHandler.class
+com\robot\bbin\base\bo\LuckyNoBO.class
 com\robot\bbin\base\dto\XBBJuQueryDetailDTO.class
 com\robot\bbin\base\function\LoginFunction$ResultHandler.class
 com\robot\bbin\base\bo\SessionBO.class
+com\robot\bbin\base\function\LuckyNoFunction.class
 com\robot\bbin\base\server\QueryUserServer.class
 com\robot\bbin\base\bo\TokenBO.class
 com\robot\bbin\base\function\BetFunction.class

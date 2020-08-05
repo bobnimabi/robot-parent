@@ -16,14 +16,20 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -34,6 +40,7 @@ import java.util.Map;
  * @Date 2020/6/2 14:58
  * @Version 2.0
  */
+@Slf4j
 @Service
 public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQueryBO> {
 
@@ -82,6 +89,7 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
         @Override
         public Response parse2Obj(StanderHttpResponse<String, JuQueryBO> shr) {
             String result = shr.getOriginalEntity();
+
             Document doc = Jsoup.parse(result);
             // tbody为空表示没有
             Elements tds = doc.select("table[class=table table-hover text-middle table-bordered] tbody tr td");
@@ -110,4 +118,9 @@ public class JuQueryFunction extends AbstractFunction<JuQueryAO, String, JuQuery
             return Response.SUCCESS(juQueryVO);
         }
     }
+
+
 }
+
+
+

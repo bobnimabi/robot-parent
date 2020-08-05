@@ -14,6 +14,7 @@ public enum FunctionEnum implements IFunctionEnum {
     BREAK_SERVER("breakerServer"),
 
     ORDER_QUERY_SERVER("orderQueryServer"),
+    LUCKY_NO_SERVER("luckyNoServer"),
     GAME_BET_SERVER("gameBetServer"),
     Query_User_Server("queryUserServer"),
     QUERY_RECHARGE_SERVER("queryRechargeServer"),
@@ -22,7 +23,7 @@ public enum FunctionEnum implements IFunctionEnum {
     LOGIN_SERVER("loginServer"),
     ;
 
-    private final String serverName;
+	private final String serverName;
 
     private FunctionEnum(String serverName) {
         this.serverName = serverName;

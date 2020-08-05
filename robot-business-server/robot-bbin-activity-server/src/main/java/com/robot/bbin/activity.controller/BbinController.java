@@ -55,9 +55,7 @@ public class BbinController extends ControllerBase {
     }
 
     /**
-     * 幸运注单
-     * 1.会员在【PT电子、SG电子、RT电子、JDB电子、CQ9】中进行投注
-     * 2.此活动仅限老虎机与经典老虎机游戏中产生的注单
+     * 查询注单号
      */
     @PostMapping("/queryOrderNo")
     public Response queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
@@ -68,6 +66,19 @@ public class BbinController extends ControllerBase {
             return Response.FAIL("参数不全");
         }
         return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.ORDER_QUERY_SERVER);
+    }
+    /**
+     * 查询注单号
+     */
+    @PostMapping("/lukyNo")
+    public Response lukyNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
+        if (null == orderNoQueryDTO
+                || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
+                || StringUtils.isEmpty(orderNoQueryDTO.getGameCode()) // 平台编码
+        ) {
+            return Response.FAIL("参数不全");
+        }
+        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(orderNoQueryDTO), FunctionEnum.LUCKY_NO_SERVER);
     }
 
     /**

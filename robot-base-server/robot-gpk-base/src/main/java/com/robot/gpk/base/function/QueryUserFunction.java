@@ -30,7 +30,7 @@ public class QueryUserFunction extends AbstractFunction<String,String,Object> {
 
     @Override
     protected IEntity getEntity(String gameid, RobotWrapper robotWrapper) {
-        return JsonEntity.custom(1).add("gameid", gameid);
+        return JsonEntity.custom(1).add("Account", gameid);
     }
 
     @Override

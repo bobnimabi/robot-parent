@@ -111,7 +111,7 @@ public class BbinController extends ControllerBase {
                 || StringUtils.isEmpty(queryDTO.getGameCode())//平台编码
         ) return Response.FAIL("参数不全");
         if (CollectionUtils.isEmpty(queryDTO.getChildren()) || CollectionUtils.isEmpty(queryDTO.getOrderNos())) {
-            return Response.FAIL("未传游戏种类或多个注单");
+            return Response.FAIL("未传游戏种类或注单");
         }
         return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(queryDTO), FunctionEnum.POMPON_AND_BETSERVER);
     }

@@ -27,10 +27,11 @@ import org.springframework.stereotype.Service;
 public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 
 	@Autowired
-	private QueryOrderNoFunction queryOrderNoFunction;
+	private QueryUserFunction queryUserFunction;
 
 	@Autowired
-	private QueryUserFunction queryUserFunction;
+	private QueryOrderNoFunction queryOrderNoFunction;
+
 
 	@Override
 	public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -58,10 +59,9 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 		ao.setAccountId(queryUserBO.getMemberId() );
 		ao.setBettingCode(noQueryDTO.getOrderNo());
 		ao.setPlatform(noQueryDTO.getGameCode());
-		ao.setStartDate(DateUtils.format(noQueryDTO.getStartDate()));
-		ao.setLastDate(DateUtils.format(noQueryDTO.getEndDate()));
-		ao.setPageNo("1");
-		ao.setPageSize("1000");
+		ao.setStartDate(noQueryDTO.getStartDate());
+		ao.setLastDate(noQueryDTO.getEndDate());
+
 
 
 

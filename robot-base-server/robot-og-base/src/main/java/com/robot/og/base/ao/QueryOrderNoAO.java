@@ -3,6 +3,8 @@ package com.robot.og.base.ao;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  *  查询注单参数
@@ -18,8 +20,8 @@ public class QueryOrderNoAO {
 	private String accountId;
 	private String bettingCode;
 	private String platform;
-	private String startDate;
-	private String lastDate;
+	private LocalDateTime startDate;
+	private LocalDateTime lastDate;
 	private String pageNo;
 	private String pageSize;
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>会员报表详情</title>
@@ -13,12 +14,10 @@
 
 
 
-    <link rel="stylesheet" type="text/css"	href="/common/js/south-street/jquery-ui-1.9.1.custom.css">
+    <link rel="stylesheet" type="text/css" href="/common/js/south-street/jquery-ui-1.9.1.custom.css">
 
-    <link rel="stylesheet" type="text/css"
-          href="/jsp/agency/css/theme.css" />
-    <link rel="stylesheet" type="text/css"
-          href="/jsp/agency/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/theme.css" />
+    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/style.css" />
 
     <script type="text/javascript" src="/common/js/jquery.pager_2.js"></script>
 
@@ -98,7 +97,7 @@
         searchCp = function (){
             var platform = $("#category option:selected").val();
             var bettingCode = $("#bettingCode").val();
-            window.self.location="MemberReport?type=queryMemberReportDetail&accountId=9750742&platform="+platform+"&startDate=2020-07-30T00:42:30&lastDate=2020-07-31T00:42:30&bettingCode="+bettingCode;
+            window.self.location="MemberReport?type=queryMemberReportDetail&accountId=15469009&platform="+platform+"&startDate=2020-08-06T00:00&lastDate=2020-08-06T23:59:59&bettingCode="+bettingCode;
         }
 
         //修改上一步按钮问题，修改后调到会员报表的首页,baron
@@ -114,27 +113,29 @@
         queryReportByBettingCode = function (){
             var bettingCode = $("#bettingCode").val();
             // DT平台会出现#字符，转义处理
-            var url = "MemberReport?type=queryMemberReportDetail&accountId=9750742&platform=KYQP&startDate=2020-07-30T00:42:30&lastDate=2020-07-31T00:42:30&bettingCode="+encodeURIComponent(bettingCode);
+            var url = "MemberReport?type=queryMemberReportDetail&accountId=15469009&platform=JDBBY&startDate=2020-08-06T00:00&lastDate=2020-08-06T23:59:59&bettingCode="+encodeURIComponent(bettingCode);
             window.self.location=url;
         }
 
         /* function showDetail(accountId,parentId) {
             var startDate = encodeURI($("#startDate").val());
             var lastDate = encodeURI($("#lastDate").val());
-                window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+9750742+"&parentId="+parentId+"&startDate="+2020-07-30T00:42:30+"&lastDate="+2020-07-31T00:42:30;
+                window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+15469009+"&parentId="+parentId+"&startDate="+2020-08-06T00:00+"&lastDate="+2020-08-06T23:59:59;
         }
-        <span name="startDate" value="2020-07-30T00:42:30"></span>
-        <span name="lastDate" value="2020-07-31T00:42:30"></span>
-        <span name="accountId" value="9750742"></span> */
+        <span name="startDate" value="2020-08-06T00:00"></span>
+        <span name="lastDate" value="2020-08-06T23:59:59"></span>
+        <span name="accountId" value="15469009"></span> */
     </script>
 
     <style type="text/css">
-        body{
+        body {
             background: repeat-x scroll center top #F7F6F0 !important;
         }
+
         table tr.trerror td {
             background: none repeat scroll 0 0 #FFCD20;
         }
+
         table td.tderror {
             color: red;
             text-decoration: line-through;
@@ -155,7 +156,7 @@
     </div>
     <div style="margin-bottom:10px;">
 
-        单号：<input type="text" name="bettingCode" id="bettingCode" value="1173460790"/>
+        单号：<input type="text" name="bettingCode" id="bettingCode" value="7295450415622"/>
         <input type="button" value=" 搜索 " style="width:50px;" onclick="queryReportByBettingCode()"/>
 
     </div>
@@ -172,8 +173,7 @@
         <script>
             var systemLanguage = "zh_CN";
         </script>
-        <table width="100%"
-               style="text-align: center; line-height: 20px; margin: 0; padding: 0; width: 100%">
+        <table width="100%" style="text-align: center; line-height: 20px; margin: 0; padding: 0; width: 100%">
             <thead>
             <tr bgcolor="#EFEEE7" align="center">
                 <th width="100">游戏编号</th>
@@ -201,13 +201,13 @@
             <span name="pageSize" value="20"></span>
             <span name="params">
 							<span name="type" value="queryMemberReportDetail"></span>
-							<span name="bettingCode" value="1173460790"></span>
-							<span name="startDate" value="2020-07-30T00:42:30"></span>
-							<span name="lastDate" value="2020-07-31T00:42:30"></span>
-							<span name="accountId" value="9750742"></span>
-							<span name="parentId" value=""></span>
-							<span name="platform" value="KYQP"></span>
-						</span>
+					<span name="bettingCode" value="7295450415622"></span>
+					<span name="startDate" value="2020-08-06T00:00"></span>
+					<span name="lastDate" value="2020-08-06T23:59:59"></span>
+					<span name="accountId" value="15469009"></span>
+					<span name="parentId" value=""></span>
+					<span name="platform" value="JDBBY"></span>
+					</span>
         </div>
 
     </div>
@@ -252,4 +252,5 @@
 </div>
 
 </body>
+
 </html>

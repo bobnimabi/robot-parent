@@ -100,7 +100,7 @@ public abstract class MybatisPlusConfigBase {
      * SQL执行效率插件
      */
     @Bean
-    @Profile({"dev", "test", "prod"})// 设置 dev test 环境开启
+    @Profile({"dev", "test"})// 设置 dev test 环境开启
     public PerformanceInterceptor performanceInterceptorProd() {
         return new PerformanceInterceptor().setWriteInLog(true).setMaxTime(500);
     }

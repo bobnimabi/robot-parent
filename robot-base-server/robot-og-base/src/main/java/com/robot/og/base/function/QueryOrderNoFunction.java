@@ -50,14 +50,11 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
         return UrlEntity.custom(1)
                 .add("type", "queryMemberReportDetail")
                 .add("accountId", ao.getAccountId())
-                .add("bettingCode", UrlUtils.getURLEncoderString(ao.getBettingCode()))
                 .add("platform", ao.getPlatform())
-                .add("startDate", DateUtils.format(ao.getStartDate()).toString())
-                .add("lastDate", DateUtils.format(ao.getLastDate()).toString())
-                .add("pageNo", "1")
-                .add("pageSize", "1000")
+                .add("startDate", DateUtils.format(ao.getStartDate()))
+                .add("lastDate", DateUtils.format(ao.getLastDate()))
+                .add("bettingCode", UrlUtils.getURLEncoderString(ao.getBettingCode()))
                 ;
-
 
     }
 
@@ -77,7 +74,6 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
         @Override
         public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
-            log.info("查询主单号功能响应：{}", result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("查询主单号功能未响应");
             }
@@ -85,6 +81,7 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
             Element table = doc.select("body table").get(0);
             Elements ths = table.select("thead tr th");
             Elements trs = table.select("tbody tr");
+
 
             List<Map<String, String>> list = new ArrayList<>();
             for (Element tr:trs) {
@@ -96,16 +93,51 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
                 list.add(mapInner);
             }
             //去除总计
-            if (!CollectionUtils.isEmpty(list)) {
+
+           if (!CollectionUtils.isEmpty(list)) {
                 list.remove(list.size() - 1);
+            }else
+            if (list.size()==0){
+                return Response.FAIL("注单号不存在");
             }
-            String bettingCode = doc.getElementById("bettingCode").attr("value");
 
 
-            return Response.SUCCESS("注单号为:"+ bettingCode);
+            return Response.SUCCESS(list);
+
 
                 
         }
+    }
+
+  public static void main(String[] args) throws IOException {
+
+        Document doc= Jsoup.parse(new File("E:\\project\\robot-parent\\robot-business-server\\robot-og-activity-server\\src\\main\\resources\\test.html"), "utf-8");
+
+        Element table = doc.select("body table").get(0);
+        Elements ths = table.select("thead tr th");
+        Elements trs = table.select("tbody tr");
+
+
+        List<Map<String, String>> list = new ArrayList<>();
+        for (Element tr:trs) {
+            Elements tds = tr.getElementsByTag("td");
+            Map<String, String> mapInner = new HashMap<>();
+            for (int i = 0; i < tds.size(); i++) {
+                mapInner.put(ths.get(i).text(), tds.get(i).text());
+            }
+            list.add(mapInner);
+        }
+        //去除总计
+        if (!CollectionUtils.isEmpty(list)) {
+            list.remove(list.size() - 1);
+        }else if (list.size()==0){
+    System.out.println("注单号有误");
+}
+
+
+        System.out.println(list);
+
+
     }
 
 }

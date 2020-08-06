@@ -53,9 +53,9 @@ public class LuckyNoFunction extends AbstractFunction<OrderNoQueryDTO, String, J
     protected IEntity getEntity(OrderNoQueryDTO queryDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(6)
                 .add("SearchData", "BetQuery")
-                .add("BarID", "4")
+                .add("BarID", "3")
                 .add("GameKind", queryDTO.getGameCode())
-                .add("Wagersid", queryDTO.getOrderNo())
+                .add("ReferenceID", queryDTO.getOrderNo())
                 .add("Limit", "50")
                 .add("Sort", "DESC");
 

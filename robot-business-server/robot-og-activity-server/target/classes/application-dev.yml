@@ -54,7 +54,7 @@ spring:
     addresses: dev.rabbitmq.com:5672  # , node2:5672 , node3:5672
 
 server:
-  port: 8086
+  port: 8087
   servlet:
     context-path: /xinhaoRobot
 

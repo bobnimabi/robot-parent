@@ -32,8 +32,7 @@ import java.time.LocalDateTime;
  * <p>
  * 操作接口  controller
  * </p>
- *
- * @author tank
+ * @author tanke
  * @date 2020/7/12
  */
 
@@ -79,7 +78,12 @@ public class OGcontroller extends ControllerBase {
 	}
 
 
-
+	/**
+	 * 查询用户是否存在
+	 * @param username
+	 * @return
+	 * @throws Exception
+	 */
 	//查询用户是否存在
 	@GetMapping("/isExist")
 	public Response isExist(@RequestParam String username) throws Exception {
@@ -89,6 +93,12 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<String>(username), FunctionEnum.QUERY_USER_SERVER);
 	}
 
+	/**
+	 * ：获取实际投注详细
+	 * @param dto
+	 * @return
+	 * @throws Exception
+	 */
 
 	//	@ApiOperation("机器人：获取实际投注详细")
 	@PostMapping("/getBetDetail")
@@ -102,6 +112,12 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto),FunctionEnum.GETDETAIL_SERVER);
 	}
 
+	/**
+	 * 获取投注损益详细
+	 * @param dto
+	 * @return
+	 * @throws Exception
+	 */
 	//@ApiOperation("机器人：获取投注损益详细")
 	@PostMapping("/getLostDetail")
 	public Response getLostDetail(@RequestBody BetQueryDto dto) throws Exception {
@@ -115,7 +131,12 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<BetQueryDto>(dto), FunctionEnum.GETDETAIL_SERVER);
 	}
 
-
+	/**
+	 * 获取投注和充值信息"
+	 * @param dto
+	 * @return
+	 * @throws Exception
+	 */
 
 	//	@ApiOperation("机器人：获取投注和充值信息")    getBetDetail  getLostDetail
 	@PostMapping("/getTotalAmount")
@@ -129,7 +150,12 @@ public class OGcontroller extends ControllerBase {
 		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(dto),FunctionEnum.GETTOTAL_AMOUNT_SERVER);
 	}
 
-
+	/**
+	 * 查询：获取充值信息
+	 * @param incomeInfoDTO
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/getRecharge")
 	//@ApiOperation("查询：获取充值信息")
 	public Response getRecharge(@RequestBody BreakThroughDTO incomeInfoDTO) throws Exception{
@@ -145,9 +171,13 @@ public class OGcontroller extends ControllerBase {
 	}
 
 
+	/**
+	 * 查询余额
+	 * @param userName
+	 * @return
+	 * @throws Exception
+	 */
 
-
-	//查询余额
 	@GetMapping("/queryBalance")
 	public Response queryBalance(@RequestParam String userName) throws Exception {
 		if(StringUtils.isEmpty(userName)){
@@ -191,14 +221,21 @@ public class OGcontroller extends ControllerBase {
 	 * @throws Exception
 	 */
 	@GetMapping("queryAccount")
-	public Response queryAccount(@RequestParam String userName, @RequestParam(required = false ) String beginTime, @RequestParam(required = false ) String endTime) throws Exception{
+	public Response queryAccount(@RequestParam String userName,
+								 @RequestParam(required = false ) String beginTime,
+								 @RequestParam(required = false ) String endTime) throws Exception{
 		if (StringUtils.isEmpty(userName)) {
 			return Response.FAIL("未传入会员账号");
 		}
 		return super.dispatcher.dispatch(new ParamWrapper<BreakThroughDTO>(),FunctionEnum.QUERY_ACCOUNT_SERVER);  //需修改
 	}
 
-
+	/**
+	 * 查询会员信息
+	 * @param userName
+	 * @return
+	 * @throws Exception
+	 */
 	//@ApiOperation("查询会员信息")
 	@GetMapping("/queryUserInfo")
 	public Response queryUserInfo(@RequestParam String userName) throws Exception {
@@ -299,15 +336,6 @@ public class OGcontroller extends ControllerBase {
 		taskAtomDto.setUsername(taskAtomDto.getUsername().trim());
 		super.dispatcher.asyncDispatch(new ParamWrapper(taskAtomDto), taskAtomDto.getOutPayNo(), PathEnum.PAY, FunctionEnum.PAY_SERVER);
 	}
-
-
-
-
-
-
-
-
-
 
 
 	//	@ApiOperation("机器人：开启或停止工作")

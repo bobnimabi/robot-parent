@@ -8,6 +8,7 @@ import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.ao.QueryOrderNoAO;
 import com.robot.og.base.ao.QueryUserAO;
+import com.robot.og.base.bo.QueryBetBO;
 import com.robot.og.base.bo.QueryUserBO;
 import com.robot.og.base.function.QueryOrderNoFunction;
 import com.robot.og.base.function.QueryUserFunction;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
  * <p>
  *查询注单
  * </p>
- *
  * @author tank
  * @date 2020/7/14
  */
@@ -43,7 +43,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 		}
 		QueryUserBO queryUserBO = responseResult.getObj();
 
-		Response<String> response = queryOrderNoFunction.doFunction(creatParams(paramWrapper,queryUserBO), robotWrapper);
+		Response<QueryBetBO> response = queryOrderNoFunction.doFunction(creatParams(paramWrapper,queryUserBO), robotWrapper);
 
 
 		return response;

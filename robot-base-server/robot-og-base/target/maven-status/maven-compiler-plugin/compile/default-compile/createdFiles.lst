@@ -8,6 +8,7 @@ com\robot\og\base\basic\FunctionEnum.class
 com\robot\og\base\basic\PathEnum.class
 com\robot\og\base\ao\QueryRechargeAO.class
 com\robot\og\base\function\LoginFunction$ResultHandler.class
+com\robot\og\base\bo\QueryBetBO.class
 com\robot\og\base\dto\VsGame.class
 com\robot\og\base\function\QueryUserFunction.class
 com\robot\og\base\bo\LoginResultVO.class

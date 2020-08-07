@@ -7,26 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="robot-bbin-activity-server" />
+        <module name="robot-bbin-base" />
+        <module name="robot-jiuwu-activity-server" />
+        <module name="robot-og-base" />
+        <module name="robot-jgpk-activity-server" />
+        <module name="robot-generator" />
         <module name="robot-og-activity-server" />
+        <module name="robot-gpk-base" />
+        <module name="robot-bbin-activity-server" />
+        <module name="robot-centre" />
+        <module name="robot-core" />
         <module name="robot-service" />
         <module name="robot-gpk-activity-server" />
-        <module name="robot-og-base" />
-        <module name="robot-bbin-base" />
-        <module name="robot-jgpk-activity-server" />
-        <module name="robot-bbin-activity-server (1)" />
-        <module name="robot-generator" />
         <module name="robot-jiuwu-base" />
-        <module name="robot-core" />
-        <module name="robot-jiuwu-activity-server" />
-        <module name="robot-centre" />
-        <module name="robot-gpk-base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="robot-base-server" target="1.8" />
       <module name="robot-bbin-activity-server" target="1.8" />
-      <module name="robot-bbin-activity-server (1)" target="1.8" />
       <module name="robot-bbin-base" target="1.8" />
       <module name="robot-business-server" target="1.8" />
       <module name="robot-centre" target="1.8" />
@@ -34,10 +32,10 @@
       <module name="robot-generator" target="1.8" />
       <module name="robot-gpk-activity-server" target="1.8" />
       <module name="robot-gpk-base" target="1.8" />
-      <module name="robot-jgpk-activity-server" target="1.8" />
+      <module name="robot-jgpk-activity-server" target="1.5" />
       <module name="robot-jiuwu-activity-server" target="1.8" />
       <module name="robot-jiuwu-base" target="1.8" />
-      <module name="robot-jiuwu-pay-server" target="1.8" />
+      <module name="robot-jiuwu-pay-server" target="1.5" />
       <module name="robot-og-activity-server" target="1.8" />
       <module name="robot-og-base" target="1.8" />
       <module name="robot-parent" target="1.8" />
@@ -47,17 +45,14 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="robot-bbin-activity-server" options="-parameters" />
-      <module name="robot-bbin-activity-server (1)" options="-parameters" />
       <module name="robot-bbin-base" options="-parameters" />
       <module name="robot-centre" options="-parameters" />
       <module name="robot-core" options="-parameters" />
       <module name="robot-generator" options="-parameters" />
       <module name="robot-gpk-activity-server" options="-parameters" />
       <module name="robot-gpk-base" options="-parameters" />
-      <module name="robot-jgpk-activity-server" options="-parameters" />
       <module name="robot-jiuwu-activity-server" options="-parameters" />
       <module name="robot-jiuwu-base" options="-parameters" />
-      <module name="robot-jiuwu-pay-server" options="-parameters" />
       <module name="robot-og-activity-server" options="-parameters" />
       <module name="robot-og-base" options="-parameters" />
       <module name="robot-service" options="-parameters" />

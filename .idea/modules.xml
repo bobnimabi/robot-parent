@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-base-server.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-base-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-bbin-activity-server/robot-bbin-activity-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-bbin-activity-server/robot-bbin-activity-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-complex-server/robot-bbin-activity-server (1).iml" filepath="$PROJECT_DIR$/robot-business-server/robot-complex-server/robot-bbin-activity-server (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-base-server/robot-bbin-base/robot-bbin-base.iml" filepath="$PROJECT_DIR$/robot-base-server/robot-bbin-base/robot-bbin-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-business-server/robot-business-server.iml" filepath="$PROJECT_DIR$/robot-business-server/robot-business-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/robot-centre/robot-centre.iml" filepath="$PROJECT_DIR$/robot-centre/robot-centre.iml" />

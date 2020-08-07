@@ -27,12 +27,11 @@ import java.util.List;
  */
 @Service
 public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
+    @Autowired
+    private QueryBalanceFunction queryBalanceServer;
 
     @Autowired
     private XBBTotalBetGameFunction totalBetGame;
-
-    @Autowired
-    private QueryBalanceFunction queryBalanceServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -72,7 +71,18 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
+        gameDTO.setGameType(queryDTO.getChildren().get(0).getGameCode());
         gameDTO.setBarId("1");
         return new ParamWrapper<XBBTotalBetGameAO>(gameDTO);
     }
+
+    /*   SearchData: MemberBets
+        BarID: 1
+        GameKind: 76
+        date_start: 2020-08-07
+        date_end: 2020-08-07
+        GameType: 76073
+        Limit: 50
+        Sort: DESC
+        UserID: 617241636*/
 }

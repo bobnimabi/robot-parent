@@ -20,8 +20,8 @@ public class XBBTotalBetGameAO {
     private String dateStart;
     // 结束日期
     private String dateEnd;
-
-    //  private String  GameType
+    //当前游戏
+    private String  GameType;
     // 会员的userID
     private String userID;
 

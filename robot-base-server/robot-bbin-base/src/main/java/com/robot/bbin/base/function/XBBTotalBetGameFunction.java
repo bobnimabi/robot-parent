@@ -38,24 +38,18 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
         return PathEnum.TOTAL_BET_BY_GAME;
     }
 
-    /**
-     * 注释掉的参数，点击“查询”按钮的时候会全部带上，点击“BB电子”是没有的，为了方便临时先去掉
-     * .add("BarID", gameDTO.getBarId())
-     * .add("GameKind", gameDTO.getGameKind())
-     * .add("GameType", "-1") // -1表示全部
-     * .add("Limit", "100")
-     * .add("Sort", "DESC")
-     */
+
     @Override
     protected IEntity getEntity(XBBTotalBetGameAO gameDTO, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(4)
+        return UrlEntity.custom(7)
                 .add("SearchData", gameDTO.getSearchData())
                 .add("BarID", gameDTO.getBarId())
                 .add("date_start", gameDTO.getDateStart())
                 .add("date_end", gameDTO.getDateEnd())
+                .add("GameKind", gameDTO.getGameKind())
+                .add("GameType", gameDTO.getGameType())
                 .add("UserID", gameDTO.getUserID());
 
-//                .add("gameKind",gameDTO.getGameKind())
 
     }
 

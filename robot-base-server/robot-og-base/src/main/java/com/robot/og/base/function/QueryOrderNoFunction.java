@@ -97,7 +97,6 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
 
             queryBetBO.setOrderTime(time);
            return Response.SUCCESS(queryBetBO);
-
         }
     }
 

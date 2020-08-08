@@ -99,20 +99,55 @@ public class LuckyNoFunction extends AbstractFunction<OrderNoQueryDTO, String, J
                 return Response.FAIL("记录不存在");
             }
             LuckyNoBO bo = new LuckyNoBO();
-
             bo.setOrderTime(DateUtils.format(tds.get(0).text()));
-            bo.setPlatFormOrderNo(tds.get(1).text());
             bo.setGameName(tds.get(2).text());
             bo.setHall(tds.get(3).text());
             bo.setUserName(tds.get(4).text());
             bo.setResult(tds.get(5).text());
             bo.setRebateAmount(MoneyUtil.formatYuan(tds.get(6).text()));
             bo.setSendAmount(MoneyUtil.formatYuan(tds.get(7).text()));
-            bo.setThirdPlatNo(tds.get(8).text());
+
+            String thirdPlatNo = tds.get(8).text();
+
+            if(StringUtils.isEmpty(thirdPlatNo)){
+                bo.setPlatFormOrderNo(tds.get(1).text());
+            }else {
+                bo.setPlatFormOrderNo(thirdPlatNo);
+            }
 
             return Response.SUCCESS(bo);
         }
     }
+
+  /*  public static void main(String[] args) throws IOException {
+
+            Document doc= Jsoup.parse(new File("C:\\Users\\8888\\IdeaProjects\\robot-parent\\robot-business-server\\robot-bbin-activity-server\\src\\main\\resources\\test.html"), "utf-8");
+
+        Elements tds = doc.select("tbody>tr>td");
+        if (CollectionUtils.isEmpty(tds)) {
+            System.out.println(" = 记录不存在" );
+        }
+        LuckyNoBO bo = new LuckyNoBO();
+        bo.setOrderTime(DateUtils.format(tds.get(0).text()));
+        bo.setGameName(tds.get(2).text());
+        bo.setHall(tds.get(3).text());
+        bo.setUserName(tds.get(4).text());
+        bo.setResult(tds.get(5).text());
+        bo.setRebateAmount(MoneyUtil.formatYuan(tds.get(6).text()));
+        bo.setSendAmount(MoneyUtil.formatYuan(tds.get(7).text()));
+
+        String thirdPlatNo = tds.get(8).text();
+
+        if(StringUtils.isEmpty(thirdPlatNo)){
+            bo.setPlatFormOrderNo(tds.get(1).text());
+        }else {
+            bo.setPlatFormOrderNo(thirdPlatNo);
+        }
+
+        System.out.println(bo);
+
+
+    }*/
 
 }
 

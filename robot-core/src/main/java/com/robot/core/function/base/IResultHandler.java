@@ -5,6 +5,7 @@ import com.robot.code.response.Response;
 import com.robot.core.http.response.StanderHttpResponse;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * 结果处理器
@@ -19,5 +20,5 @@ public interface IResultHandler<T,E> {
      * @param shr
      * @return
      */
-    Response parse2Obj(StanderHttpResponse<T,E> shr) throws IOException;
+    Response parse2Obj(StanderHttpResponse<T,E> shr) throws Exception;
 }

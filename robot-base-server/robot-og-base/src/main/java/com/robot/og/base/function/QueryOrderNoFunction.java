@@ -1,37 +1,32 @@
 package com.robot.og.base.function;
 
-import com.alibaba.fastjson.JSON;
 
+import com.robot.center.util.DateUtils;
 import com.bbin.utils.UrlUtils;
-import com.bbin.utils.project.DateUtils;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
 import com.robot.core.function.base.IResultHandler;
 import com.robot.core.http.request.IEntity;
-import com.robot.core.http.request.JsonEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.ao.QueryOrderNoAO;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.QueryBetBO;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by mrt on 11/14/2019 8:06 PM
@@ -72,7 +67,7 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, QueryBetBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, QueryBetBO> shr) throws Exception {
             String result = shr.getOriginalEntity();
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("查询主单号功能未响应");
@@ -87,11 +82,20 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
             }
 
             QueryBetBO queryBetBO = new QueryBetBO();
-            queryBetBO.setOrderTime(td.get(2).text());
+
             queryBetBO.setPlatFormOrderNo(td.get(1).text());
             queryBetBO.setRebateAmount(td.get(9).text());
             queryBetBO.setUserName(td.get(4).text());
 
+            //解析获取时间
+            Elements align = doc.getElementsByAttribute("align");
+
+            Elements allElements = align.get(1).getAllElements();
+
+            String oderTime = allElements.get(5).text();
+            String time =DateUtils.format(DateUtils.gmtStrToTime(oderTime));
+
+            queryBetBO.setOrderTime(time);
            return Response.SUCCESS(queryBetBO);
 
         }
@@ -106,18 +110,24 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
      Elements ths = table.select("thead tr th");
      Elements td = table.select("tbody tr td");
         if(td.size()  ==0){
-            System.out.println("注单号有误");
+          //  System.out.println("注单号有误");
         }
-     System.out.println("td = " + td);
+     //System.out.println("td = " + td);
      String text = td.get(1).text();
-     System.out.println("text = " + text);
+    // System.out.println("text = " + text);
 
      QueryBetBO queryBetBO = new QueryBetBO();
-     queryBetBO.setOrderTime(td.get(2).text());
+
      queryBetBO.setPlatFormOrderNo(td.get(1).text());
      queryBetBO.setRebateAmount(td.get(9).text());
      queryBetBO.setUserName(td.get(4).text());
 
-     System.out.println(queryBetBO);
+     Elements align = doc.getElementsByAttribute("align");
+    // System.out.println(align);
+     Elements allElements = align.get(1).getAllElements();
+     //System.out.println("allElements = " + allElements);
+     String text1 = allElements.get(5).text();
+     System.out.println("text1 = " + text1);
+     // System.out.println(queryBetBO);
  }*/
 }

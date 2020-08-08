@@ -106,7 +106,7 @@
         searchCp = function (){
             var platform = $("#category option:selected").val();
             var bettingCode = $("#bettingCode").val();
-            window.self.location="MemberReport?type=queryMemberReportDetail&accountId=15469009&platform="+platform+"&startDate=2020-08-06 00:00:00&lastDate=2020-08-06 23:59:59&bettingCode="+bettingCode;
+            window.self.location="MemberReport?type=queryMemberReportDetail&accountId=12233840&platform="+platform+"&startDate=2020-08-06 00:00:00&lastDate=2020-08-06 23:59:59&bettingCode="+bettingCode;
         }
 
         //修改上一步按钮问题，修改后调到会员报表的首页,baron
@@ -122,18 +122,18 @@
         queryReportByBettingCode = function (){
             var bettingCode = $("#bettingCode").val();
             // DT平台会出现#字符，转义处理
-            var url = "MemberReport?type=queryMemberReportDetail&accountId=15469009&platform=BBJL&startDate=2020-08-06 00:00:00&lastDate=2020-08-06 23:59:59&bettingCode="+encodeURIComponent(bettingCode);
+            var url = "MemberReport?type=queryMemberReportDetail&accountId=12233840&platform=NMGJL&startDate=2020-08-06 00:00:00&lastDate=2020-08-06 23:59:59&bettingCode="+encodeURIComponent(bettingCode);
             window.self.location=url;
         }
 
         /* function showDetail(accountId,parentId) {
             var startDate = encodeURI($("#startDate").val());
             var lastDate = encodeURI($("#lastDate").val());
-                window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+15469009+"&parentId="+parentId+"&startDate="+2020-08-06 00:00:00+"&lastDate="+2020-08-06 23:59:59;
+                window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+12233840+"&parentId="+parentId+"&startDate="+2020-08-06 00:00:00+"&lastDate="+2020-08-06 23:59:59;
         }
         <span name="startDate" value="2020-08-06 00:00:00"></span>
         <span name="lastDate" value="2020-08-06 23:59:59"></span>
-        <span name="accountId" value="15469009"></span> */
+        <span name="accountId" value="12233840"></span> */
     </script>
 
     <style type="text/css">
@@ -163,7 +163,7 @@
     </div>
     <div style="margin-bottom:10px;">
 
-        单号：<input type="text" name="bettingCode" id="bettingCode" value="52298842818"/>
+        单号：<input type="text" name="bettingCode" id="bettingCode" value="10710088630"/>
         <input type="button" value=" 搜索 " style="width:50px;" onclick="queryReportByBettingCode()"/>
 
     </div>
@@ -199,22 +199,79 @@
             </thead>
             <tbody style="background: #ffffff;">
 
+            <tr align="center">
+                <td><span style="color: green;">10206-40300</span></td>
+                <td><span style="color: green;">10710088630</span></td>
+                <td>2020-08-06 03:09:59</td>
+                <td>2020-08-06 03:09:59</td>
+                <td>dudu5211</td>
+                <td></td>
+                <td>
+
+
+                    冰球突破
+
+                </td>
+                <td>
+
+
+
+
+                    nmg
+
+                </td>
+                <td><font color="red"></font></td>
+                <td>1.5</td>
+                <td>
+                    5.25
+                </td>
+            </tr>
+
+            <tr align="center">
+                <td><span style="color: green;"></span></td>
+                <td><span style="color: green;"></span></td>
+                <td></td>
+                <td></td>
+                <td>总共累计</td>
+                <td></td>
+                <td>
+
+
+
+
+
+                </td>
+                <td>
+
+
+
+
+
+
+                </td>
+                <td><font color="red"></font></td>
+                <td>1.5</td>
+                <td>
+                    5.25
+                </td>
+            </tr>
+
             </tbody>
         </table>
         <div id="pg" class="pager">
             <span name="pageList" value="[10,20,50,100]"></span>
             <span name="url" value='/agent/MemberReport'></span>
-            <span name="totalCount" value="0"></span>
+            <span name="totalCount" value="1"></span>
             <span name="pageNo" value="1"></span>
             <span name="pageSize" value="20"></span>
             <span name="params">
 							<span name="type" value="queryMemberReportDetail"></span>
-							<span name="bettingCode" value="52298842818"></span>
+							<span name="bettingCode" value="10710088630"></span>
 							<span name="startDate" value="2020-08-06 00:00:00"></span>
 							<span name="lastDate" value="2020-08-06 23:59:59"></span>
-							<span name="accountId" value="15469009"></span>
+							<span name="accountId" value="12233840"></span>
 							<span name="parentId" value=""></span>
-							<span name="platform" value="BBJL"></span>
+							<span name="platform" value="NMGJL"></span>
 						</span>
         </div>
 

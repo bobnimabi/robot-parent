@@ -1,6 +1,7 @@
 package com.robot.og.base.function;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.bbin.common.util.DateUtils;
@@ -14,13 +15,17 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.BetDetailBO;
+import com.robot.og.base.dto.VsGame;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 
 
 /**
@@ -42,14 +47,17 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 
 
 		//gamelist可以为空
-		return UrlEntity.custom(4)
+		UrlEntity entity = UrlEntity.custom(4)
 				.add("account", dto.getUserName())
 				.add("startDate", DateUtils.format(dto.getStartDate()))
-				.add("lastDate",DateUtils.format( dto.getEndDate()))
-				.add("plat", dto.getGameList().get(0))     //todo
-
+				.add("lastDate", DateUtils.format(dto.getEndDate()))
 				;
+		List<String> gameList = dto.getGameList();
+		for (String s : gameList) {
+			entity.add("plat",s);
+		}
 
+		return entity;
 	}
 
 	@Override

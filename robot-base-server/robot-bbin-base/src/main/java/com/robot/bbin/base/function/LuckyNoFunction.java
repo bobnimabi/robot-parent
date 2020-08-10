@@ -1,12 +1,9 @@
 package com.robot.bbin.base.function;
 
 import com.bbin.common.dto.order.OrderNoQueryDTO;
-import com.bbin.utils.UrlUtils;
 import com.bbin.utils.project.DateUtils;
-import com.robot.bbin.base.ao.JuQueryAO;
 import com.robot.bbin.base.basic.PathEnum;
 import com.robot.bbin.base.bo.JuQueryBO;
-import com.robot.bbin.base.bo.LuckyNoBO;
 import com.robot.center.util.MoneyUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -20,7 +17,6 @@ import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -28,9 +24,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 局查询：注单查询
@@ -98,7 +91,7 @@ public class LuckyNoFunction extends AbstractFunction<OrderNoQueryDTO, String, J
             if (CollectionUtils.isEmpty(tds)) {
                 return Response.FAIL("记录不存在");
             }
-            LuckyNoBO bo = new LuckyNoBO();
+            JuQueryBO bo = new JuQueryBO();
             bo.setOrderTime(DateUtils.format(tds.get(0).text()));
             bo.setGameName(tds.get(2).text());
             bo.setHall(tds.get(3).text());
@@ -119,7 +112,7 @@ public class LuckyNoFunction extends AbstractFunction<OrderNoQueryDTO, String, J
         }
     }
 
-  /*  public static void main(String[] args) throws IOException {
+  /* public static void main(String[] args) throws IOException {
 
             Document doc= Jsoup.parse(new File("C:\\Users\\8888\\IdeaProjects\\robot-parent\\robot-business-server\\robot-bbin-activity-server\\src\\main\\resources\\test.html"), "utf-8");
 
@@ -127,7 +120,7 @@ public class LuckyNoFunction extends AbstractFunction<OrderNoQueryDTO, String, J
         if (CollectionUtils.isEmpty(tds)) {
             System.out.println(" = 记录不存在" );
         }
-        LuckyNoBO bo = new LuckyNoBO();
+       JuQueryBO bo = new JuQueryBO();
         bo.setOrderTime(DateUtils.format(tds.get(0).text()));
         bo.setGameName(tds.get(2).text());
         bo.setHall(tds.get(3).text());

@@ -44,7 +44,6 @@ public class LuckyNoServer implements IAssemFunction<OrderNoQueryDTO> {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
 
-
         //局查询
         Response<JuQueryBO> response = luckyNoFunction.doFunction(paramWrapper, robotWrapper);
         if (!response.isSuccess()) {

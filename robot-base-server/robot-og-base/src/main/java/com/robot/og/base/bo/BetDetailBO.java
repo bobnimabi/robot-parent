@@ -11,17 +11,25 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class BetDetailBO implements Serializable {
-    //用户信息
-    private String userName;
-    //当前游戏投注
-    private String tenantBets;
-    //总下注
-    private String totalBet;
+    //余额
+    private BigDecimal balance;
+    //详细
+    private List<TenanteBetBO> tenantBets = new ArrayList<>();
     //总损益
-    private String totalLoss;
+    private BigDecimal totalLoss;
+
+    //用户信息
+    private TenantChannelUserVo tenantChannelUser;
+    //总实际投注
+   private BigDecimal totalBet;
+    //存款详细
+    private IncomeInfoVO incomeInfoVO;
 
 }
+
+

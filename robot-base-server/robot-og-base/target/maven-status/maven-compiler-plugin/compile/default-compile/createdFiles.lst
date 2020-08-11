@@ -1,4 +1,5 @@
 com\robot\og\base\function\QueryUserFunction$ResultHandler.class
+com\robot\og\base\bo\TatolLossBO.class
 com\robot\og\base\function\PayFunction$ResultHandler.class
 com\robot\og\base\function\QueryOrderNoFunction$ResultHandler.class
 com\robot\og\base\function\GetBetDetailFunction.class
@@ -23,6 +24,7 @@ com\robot\og\base\function\QueryLevelFunction$ResultHandler.class
 com\robot\og\base\common\Constant.class
 com\robot\og\base\ao\QueryUserAO.class
 com\robot\og\base\basic\CheckLostImpl.class
+com\robot\og\base\bo\TenanteBetBO.class
 com\robot\og\base\function\ImageCodeFunction.class
 com\robot\og\base\function\QueryLevelFunction.class
 com\robot\og\base\ao\QueryOrderNoAO.class

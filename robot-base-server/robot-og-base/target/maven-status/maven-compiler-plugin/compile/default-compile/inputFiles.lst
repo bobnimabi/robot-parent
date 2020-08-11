@@ -11,11 +11,13 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\ao\QueryRechargeAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\ImageCodeFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\QueryAccountFunction.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\TenanteBetBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\dto\Convert.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetRechargeFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\basic\PathEnum.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\User.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\server\ImageCodeServer.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\TatolLossBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\GetBetDetailFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\function\LoginFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-og-base\src\main\java\com\robot\og\base\bo\Roles.java

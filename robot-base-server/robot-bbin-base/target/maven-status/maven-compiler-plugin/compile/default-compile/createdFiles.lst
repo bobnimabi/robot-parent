@@ -44,7 +44,6 @@ com\robot\bbin\base\function\XBBJuQueryFunction$ResultHandler.class
 com\robot\bbin\base\function\JuQueryFunction.class
 com\robot\bbin\base\ao\BarIdAO.class
 com\robot\bbin\base\function\QueryBalanceFunction$ResultHandler.class
-com\robot\bbin\base\bo\LuckyNoBO.class
 com\robot\bbin\base\dto\XBBJuQueryDetailDTO.class
 com\robot\bbin\base\function\LoginFunction$ResultHandler.class
 com\robot\bbin\base\bo\SessionBO.class

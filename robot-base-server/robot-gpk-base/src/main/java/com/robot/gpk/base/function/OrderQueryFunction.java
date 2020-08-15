@@ -12,6 +12,7 @@ import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.gpk.base.ao.OrderQueryAO;
 import com.robot.gpk.base.basic.PathEnum;
 import com.robot.gpk.base.bo.OrderQueryBO;
+import com.robot.gpk.base.bo.QueryNoBO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -62,18 +63,19 @@ public class OrderQueryFunction extends AbstractFunction<OrderQueryAO, String, O
         private ResultHandler(){}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, OrderQueryBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, OrderQueryBO > shr) {
             String result = shr.getOriginalEntity();
 
             OrderQueryBO orderQueryBO = JSON.parseObject(result, OrderQueryBO.class);
 
             if(orderQueryBO.getPageData().size()==0){
                 return Response.FAIL("会员账号或主单号有误,请核实后再申请哦!");
-            }else if(orderQueryBO.getPageData().get(0).getBetAmount()<=2){
-                return Response.FAIL("下注金额小于2元不符合申请条件,谢谢!");
-            }
+            }else if(orderQueryBO.getPageData().get(0).getBetAmount()<3){
+                return Response.FAIL("下注金额小于3元不符合申请条件");
 
-            return Response.SUCCESS(orderQueryBO);
+            }else {
+                return Response.SUCCESS(orderQueryBO);
+            }
 
         }
     }

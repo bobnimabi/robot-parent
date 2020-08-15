@@ -1,6 +1,8 @@
 package com.robot.og.base.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -11,29 +13,15 @@ import lombok.Data;
  * @date 2020/7/10
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PayBO {
-	private boolean success;
+	private Boolean success;
 	private String message;
-	private int data;
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-	public boolean getSuccess() {
-		return success;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	public String getMessage() {
-		return message;
-	}
-
-	public void setData(int data) {
-		this.data = data;
-	}
-	public int getData() {
-		return data;
-	}
+	private Integer data;
+	//机器人订单号
+	private String robotRecordNo;
+	//外部订单号
+	private String outPayNo;
 
 }

@@ -9,12 +9,15 @@ import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.gpk.base.ao.OrderQueryAO;
 import com.robot.gpk.base.bo.OrderQueryBO;
+import com.robot.gpk.base.bo.QueryNoBO;
 import com.robot.gpk.base.function.OrderQueryFunction;
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
+import jdk.nashorn.internal.ir.WhileNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * 局查询（所有平台均可使用）
@@ -41,18 +44,24 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
-        Response<OrderQueryBO> orderQueryBOResult = orderQueryFunction.doFunction(juQueryAOParams(queryDTO), robotWrapper);
-        OrderQueryBO orderQueryBO = orderQueryBOResult.getObj();
-        // 校验日期     todo
-       /* JuQueryBO juQueryBO = response.getObj();
-        if (juQueryBO.getOrderTime().isBefore(queryDTO.getStartDate())) {
-            return Response.FAIL("订单已过期,订单号："+juQueryBO.getPlatFormOrderNo());
-        }*/
-        // 校验会员账号
-       /* if (!orderQueryBO.getPageData().get(0).getAccount().equals(queryDTO.getUserName())) {
-            return Response.FAIL("会员账号不匹配，传入：" + queryDTO.getUserName() + " 实际：" + orderQueryBO.getPageData().get(0).getAccount());
-        }*/
-        return  orderQueryBOResult;
+        Response<OrderQueryBO> queryNoBOResult = orderQueryFunction.doFunction(juQueryAOParams(queryDTO), robotWrapper);
+        if(!queryNoBOResult.isSuccess()){
+            return Response.FAIL("不符合申请条件");
+        }
+        OrderQueryBO orderQueryBO = queryNoBOResult.getObj();
+
+        QueryNoBO queryNoBO = new QueryNoBO();
+        queryNoBO.setPlatFormOrderNo(queryDTO.getOrderNo());
+        queryNoBO.setUserName(queryDTO.getUserName());
+        queryNoBO.setRebateAmount(String.valueOf(orderQueryBO.getPageData().get(0).getBetAmount()));
+        queryNoBO.setOrderTime(orderQueryBO.getPageData().get(0).getPayoffTime());
+
+
+      /*  if (DateUtils.format(queryNoBO.getOrderTime()).isBefore(queryDTO.getStartDate()) ) {  //
+            return Response.FAIL("订单已过期,订单号："+queryDTO.getOrderNo());
+        }    校验时间
+*/
+        return   Response.SUCCESS(queryNoBO);
 
     }
     /**
@@ -72,5 +81,33 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
 
 
     }
+
+
+    public static void main(String[] args) {
+        Collection arraylisr = new ArrayList();
+        arraylisr.add(1);
+        arraylisr.add(223.34);
+        arraylisr.add("str");
+
+        arraylisr.size();
+        arraylisr.clear();
+        arraylisr.contains(1);
+        arraylisr.remove(1);
+        arraylisr.isEmpty();
+        Object[] objects = arraylisr.toArray();
+        for (int i = 0; i < objects.length; i++) {
+
+            Object object = objects[i];
+
+            System.out.println("object = " + object);
+        }
+        Iterator iterator = arraylisr.iterator();
+
+    while (iterator.hasNext()){
+        Object next = iterator.next();
+    }
+
+    }
+
 
 }

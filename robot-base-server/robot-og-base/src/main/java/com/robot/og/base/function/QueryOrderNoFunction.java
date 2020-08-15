@@ -22,12 +22,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 /**
  * Created by mrt on 11/14/2019 8:06 PM
  * 查询主单号
@@ -100,33 +94,4 @@ public class QueryOrderNoFunction extends AbstractFunction<QueryOrderNoAO,String
         }
     }
 
- /*public static void main(String[] args) throws IOException {
-
-        Document doc= Jsoup.parse(new File("C:\\Users\\8888\\IdeaProjects\\robot-parent\\robot-business-server\\robot-og-activity-server\\src\\main\\resources\\test.html"), "utf-8");
-
-     Element table = doc.select("body table").get(0);
-
-     Elements ths = table.select("thead tr th");
-     Elements td = table.select("tbody tr td");
-        if(td.size()  ==0){
-          //  System.out.println("注单号有误");
-        }
-     //System.out.println("td = " + td);
-     String text = td.get(1).text();
-    // System.out.println("text = " + text);
-
-     QueryBetBO queryBetBO = new QueryBetBO();
-
-     queryBetBO.setPlatFormOrderNo(td.get(1).text());
-     queryBetBO.setRebateAmount(td.get(9).text());
-     queryBetBO.setUserName(td.get(4).text());
-
-     Elements align = doc.getElementsByAttribute("align");
-    // System.out.println(align);
-     Elements allElements = align.get(1).getAllElements();
-     //System.out.println("allElements = " + allElements);
-     String text1 = allElements.get(5).text();
-     System.out.println("text1 = " + text1);
-     // System.out.println(queryBetBO);
- }*/
 }

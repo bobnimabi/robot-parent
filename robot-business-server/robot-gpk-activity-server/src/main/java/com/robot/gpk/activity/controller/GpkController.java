@@ -66,7 +66,7 @@ public class GpkController extends ControllerBase {
     public Response queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
         if (null == orderNoQueryDTO
                 || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())
-                || StringUtils.isEmpty(orderNoQueryDTO.getGameCode()) // 平台编码
+
         ) {
             return Response.FAIL("参数不全");
         }

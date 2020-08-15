@@ -18,6 +18,7 @@ com\robot\gpk\base\server\LogInServer.class
 com\robot\gpk\base\ao\PayFinalAO.class
 com\robot\gpk\base\bo\OrderQueryBO.class
 com\robot\gpk\base\function\QueryUserFunction$ResultHandler.class
+com\robot\gpk\base\bo\QueryNoBO.class
 com\robot\gpk\base\function\DepositTokenFunction.class
 com\robot\gpk\base\function\QueryBalanceFunction$ResultHandler.class
 com\robot\gpk\base\function\LoginFunction.class

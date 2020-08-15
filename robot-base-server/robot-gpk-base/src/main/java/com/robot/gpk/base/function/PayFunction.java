@@ -60,6 +60,7 @@ public class PayFunction extends AbstractFunction<PayFinalAO,String,Object> {
                 .add("Audit",params.getAudit());
     }
 
+
     @Override
     protected IResultHandler<String, Object> getResultHandler() {
         return ResultHandler.INSTANCE;

@@ -22,7 +22,7 @@ spring:
     username: root
     password: '0PKpK0JJD?mM'
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql.bbin.com/second_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql.com/second_robot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     hikari:
       minimum-idle: 5
       maximum-pool-size: 500

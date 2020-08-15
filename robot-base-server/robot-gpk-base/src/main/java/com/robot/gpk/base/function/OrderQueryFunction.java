@@ -70,8 +70,8 @@ public class OrderQueryFunction extends AbstractFunction<OrderQueryAO, String, O
 
             if(orderQueryBO.getPageData().size()==0){
                 return Response.FAIL("会员账号或主单号有误,请核实后再申请哦!");
-            }else if(orderQueryBO.getPageData().get(0).getBetAmount()<3){
-                return Response.FAIL("下注金额小于3元不符合申请条件");
+            }else if(orderQueryBO.getPageData().get(0).getBetAmount()<2){
+                return Response.FAIL("下注金额小于2元不符合申请条件");
 
             }else {
                 return Response.SUCCESS(orderQueryBO);

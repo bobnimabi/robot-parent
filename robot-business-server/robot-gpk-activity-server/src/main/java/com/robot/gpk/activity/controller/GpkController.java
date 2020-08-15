@@ -62,7 +62,7 @@ public class GpkController extends ControllerBase {
      * 1.会员在【PT电子、SG电子、RT电子、JDB电子、CQ9】中进行投注
      * 2.此活动仅限老虎机与经典老虎机游戏中产生的注单
      */
-    @PostMapping("/luckyNo")
+    @PostMapping("/queryOrderNo")
     public Response queryOrderNo(@RequestBody OrderNoQueryDTO orderNoQueryDTO) throws Exception{
         if (null == orderNoQueryDTO
                 || StringUtils.isEmpty(orderNoQueryDTO.getOrderNo())

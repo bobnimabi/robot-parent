@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-bbin-server
+    name: robot-gpk-activity-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖
@@ -52,7 +52,7 @@ spring:
 server:
   port: 8212
   servlet:
-    context-path: /bbinRobot
+    context-path: /gpkActivityRobot
 
 eureka:
   instance:

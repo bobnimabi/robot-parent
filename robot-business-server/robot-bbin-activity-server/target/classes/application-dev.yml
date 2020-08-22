@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-bbin-server-tanke
+    name: robot-bbin-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖
@@ -55,9 +55,9 @@ spring:
         size: 500
     addresses: dev.rabbitmq.com:5672 #, node2:5672 , node3:5672
 server:
-  port: 8212
+  port: 8213
   servlet:
-    context-path: /bbinRobot
+    context-path: /gpkActivityRobot
 
 eureka:
   instance:

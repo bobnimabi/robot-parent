@@ -56,16 +56,19 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
 
     @Override
     protected IEntity getEntity(LoginDTO loginDTO, RobotWrapper robot) {
+        return JsonEntity.custom(3)
+                .add("username", robot.getPlatformAccount())
+                .add("password", robot.getPlatformPassword())
+                .add("otp", loginDTO.getOpt());
 
 
-
- UrlEntity entity = UrlEntity.custom(3)
+/* UrlEntity entity = UrlEntity.custom(3)
                 .add("username", robot.getPlatformAccount())
                 .add("password", robot.getPlatformPassword());
         if (!StringUtils.isEmpty(loginDTO.getOpt())) {
             entity.add("otp", loginDTO.getOpt());
         }
-        return entity;
+        return entity;*/
     }
 
     /**

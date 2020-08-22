@@ -4,12 +4,14 @@ import com.bbin.common.client.BetQueryDto;
 import com.bbin.common.dto.order.OrderNoQueryDTO;
 import com.bbin.common.dto.robot.BreakThroughDTO;
 import com.bbin.common.util.DateUtils;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.og.base.bo.BetDetailBO;
 import com.robot.og.base.bo.AmountBO;
+import com.robot.og.base.bo.TenantBetDetailBO;
 import com.robot.og.base.function.GetBetDetailFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ import java.util.Date;
  * 查询充值和下注详情
  * </p>
  *
- * @author tank
+ * @author tanke
  * @date 2020/7/13
  */
 
@@ -54,16 +56,16 @@ public class GetAmountServer implements IAssemFunction<BreakThroughDTO> {
 		String reCharge = reChargeRsult.getObj();
 
 		//下注详情查询
-		Response<BetDetailBO> betDetailResponse = getBetDetailFunction.doFunction(createBetParams(paramWrapper), robotWrapper);
+		Response<TenantBetDetailBO> betDetailResponse = getBetDetailFunction.doFunction(createBetParams(paramWrapper), robotWrapper);
 		if (!betDetailResponse.isSuccess()) {
 			return Response.FAIL("未查询到下注信息");
 		}
-		BetDetailBO betDetailBO = betDetailResponse.getObj();
+		TenantBetDetailBO betDetailBO = betDetailResponse.getObj();
 
 		AmountBO amountBO = new AmountBO();
-		amountBO.setInome(reCharge);
-		amountBO.setTenantBets(betDetailBO.getTenantBets());
+		amountBO.setIncome(new BigDecimal(reCharge));
 		amountBO.setTotalBet(betDetailBO.getTotalBet());
+		amountBO.setTenantBets(betDetailBO.getTenantBets());
 		amountBO.setTotalLoss(betDetailBO.getTotalLoss());
 
 		return Response.SUCCESS(amountBO);

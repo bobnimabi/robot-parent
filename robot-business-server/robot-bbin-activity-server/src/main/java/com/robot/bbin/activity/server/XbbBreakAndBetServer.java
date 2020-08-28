@@ -31,6 +31,7 @@ public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+
         //查询消消除游戏,会查询出来消除的level和gameCode
         Response<XBBJuQueryDetailBO> breakResult = xBBBreakServer.doFunction(paramWrapper, robotWrapper);
         if (!breakResult.isSuccess()) {
@@ -47,31 +48,30 @@ public class XbbBreakAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
         breakerQueryVO.setRebateAmount(detailBO.getRebateAmount());
 
         //查询投注金额
-        Response<List<XBBTotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
+        Response<XBBTotalBetGameBO> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
 
         if (!betListResult.isSuccess()) {
             return betListResult;
         }
-        List<XBBTotalBetGameBO> list = betListResult.getObj();
-        XBBTotalBetGameBO totalBetGameBO = filterByGameName(list, breakResult.getObj().getGameName());
-        if (null == totalBetGameBO) {
+        XBBTotalBetGameBO betGameBO = betListResult.getObj();
+        XBBTotalBetGameBO totalBetGameBO = filterByGameName(betGameBO,breakerQueryVO.getGameName());
+       if (null == totalBetGameBO) {
             return Response.FAIL("未查询到游戏对应的总投注金额");
         }
-        breakerQueryVO.setTotalBetAmount(totalBetGameBO.getTotalBetByGame());
+        breakerQueryVO.setTotalBetAmount(betGameBO.getTotalBetByGame());
         return Response.SUCCESS(breakerQueryVO);
     }
 
     /**
      * 筛选特定的游戏
-     * @param list
+     * @param betGameBO
      * @param gameName
      * @return
      */
-    private XBBTotalBetGameBO filterByGameName(List<XBBTotalBetGameBO> list, String gameName) {
-        for (XBBTotalBetGameBO totalBetGameVO : list) {
-            if (gameName.equals(totalBetGameVO.getGameName())) {
-                return totalBetGameVO;
-            }
+    private XBBTotalBetGameBO filterByGameName(XBBTotalBetGameBO betGameBO, String gameName) {
+
+            if (gameName.equals(betGameBO.getGameName())) {
+                return betGameBO;
         }
         return null;
     }

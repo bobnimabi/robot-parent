@@ -15,7 +15,7 @@ public class BbinActivityTenant extends TenantInterceptor {
 
     @Override
     protected void setDevVariable() {
-        TContext.setTenantId("5");
+        TContext.setTenantId("2");
         TContext.setChannelId("2");
     }
 

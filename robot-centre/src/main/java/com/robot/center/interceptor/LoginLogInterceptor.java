@@ -30,4 +30,6 @@ public class LoginLogInterceptor extends HandlerInterceptorAdapter {
 		log.info("IP:" + RequestUtils.getIpAddress(request) + " 管理员:" + userInfo.getUsername() + " 动作：" + request.getRequestURI());
 		return true;
 	}
+
+
 }

@@ -44,7 +44,6 @@ public class XBBBreakServer implements IAssemFunction<OrderNoQueryDTO> {
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-       OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
 
         // 局查询

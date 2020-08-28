@@ -52,7 +52,7 @@ spring:
 server:
   port: 8212
   servlet:
-    context-path: /gpkActivityRobot
+    context-path: /bbinRobot
 
 eureka:
   instance:

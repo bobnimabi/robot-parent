@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,String,List<XBBTotalBetGameBO>> {
+public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,String,XBBTotalBetGameBO> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -67,50 +67,49 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
     }
 
     @Override
-    protected IResultHandler<String, List<XBBTotalBetGameBO>> getResultHandler() {
+    protected IResultHandler<String, XBBTotalBetGameBO> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
     /**
      * 响应结果转换类
      */
-    private static final class ResultHandler implements IResultHandler<String, List<XBBTotalBetGameBO>> {
+    private static final class ResultHandler implements IResultHandler<String,XBBTotalBetGameBO> {
         private static final ResultHandler INSTANCE = new ResultHandler();
 
         private ResultHandler() {
         }
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, List<XBBTotalBetGameBO>> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, XBBTotalBetGameBO> shr) {
 
             String html = shr.getOriginalEntity();
+
             Document document = Jsoup.parse(html);
-            List<XBBTotalBetGameBO> totalbetBo = new ArrayList<>();
+
+
             Elements bg999 = document.getElementsByClass("bg-999");
 
             Elements th = bg999.select("th");
 
             Elements tbody = document.getElementsByTag("tbody");
             Elements td = tbody.select("td");
-           /* String element2 = td.get(2).text();
-            System.out.println("element2 = " + element2);*/
-
 
             for (int i = 0; i < th.size(); i++) {
 
-                XBBTotalBetGameBO gameVO = new XBBTotalBetGameBO(
+                XBBTotalBetGameBO  totalbetBo = new XBBTotalBetGameBO(
                         td.get(2).text(),
                         Integer.parseInt(th.get(1).text().replaceAll(",", "")),
                         new BigDecimal(th.get(11).text().replaceAll(",", "")),
                         new BigDecimal(th.get(4).text().replaceAll(",", ""))
 
                 );
-                // System.out.println("ths  " +i+ th.get(11).text());
-                totalbetBo.add(gameVO);
+                return Response.SUCCESS(totalbetBo);
+
             }
 
 
-            return Response.SUCCESS(totalbetBo);
+           return Response.FAIL("查询下注总额失败");
         }
     }
 

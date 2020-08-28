@@ -6,10 +6,10 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBJuQueryDetailBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\JuQueryAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\SessionData.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\OGResponseHandler.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBTotalBetGameBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BarIdAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\TotalBetGameFunction.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\XBBGetGameCodeFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetDetailAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\JuQueryDetailAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\TokenBO.java
@@ -41,6 +41,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\basic\CheckLostImpl.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\LoginFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\JuQueryFunction.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBGetGameCodeAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\QueryUserServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\ResponseBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBJuQueryDetailAO.java

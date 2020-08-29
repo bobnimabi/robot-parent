@@ -1,8 +1,8 @@
 package com.robot.og.base.function;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bbin.common.client.BetQueryDto;
-import com.bbin.common.client.TenantBetVo;
 import com.bbin.common.util.DateUtils;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -12,35 +12,35 @@ import com.robot.core.http.request.IEntity;
 import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
+import com.robot.code.entity.VsGame;
 import com.robot.og.base.basic.PathEnum;
-import com.robot.og.base.bo.BetDetailBO;
-import com.robot.og.base.bo.TatolLossBO;
 import com.robot.og.base.bo.TenantBetDetailBO;
 import com.robot.og.base.bo.TenanteBetBO;
+import com.robot.og.base.common.Constant;
+import com.robot.code.service.impl.VsGameServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by tanke on 11/14/2019 8:06 PM
- * 下注详情   BreakThroughDTO
+ * Created by tanke
+ * 下注详情
  */
 @Slf4j
 @Service
 public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, TenantBetDetailBO> {
+
+	@Autowired
+	private VsGameServiceImpl gameService;
+
 
 	@Override
 	protected IPathEnum getPathEnum() {
@@ -52,14 +52,23 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 	protected IEntity getEntity(BetQueryDto dto, RobotWrapper robotWrapper) {
 
 
+
 		//gamelist可以为空
 		UrlEntity entity = UrlEntity.custom(4)
 				.add("account", dto.getUserName())
 				.add("startDate", DateUtils.format(dto.getStartDate()))
 				.add("lastDate", DateUtils.format(dto.getEndDate()));
-		List<String> gameList = dto.getGameList();
-		for (String s : gameList) {
-			entity.add("plat", s);
+
+
+		if (CollectionUtils.isEmpty(dto.getGameList())) {
+			List<VsGame> gameList2 = gameService.list(new QueryWrapper<VsGame>().select("game_code").eq("status", Constant.YES));
+			for (VsGame game : gameList2) {
+				entity.add("plat", game.getGameCode());
+			}
+		} else {
+			for (String game : dto.getGameList()) {
+				entity.add("plat", game);
+			}
 		}
 
 		return entity;
@@ -88,75 +97,64 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 				return Response.FAIL("未查询到下注记录");
 			}
 			Document doc = Jsoup.parse(result);
+
 			Elements tds = doc.select("tbody>tr>td");
 			Elements tbody = doc.select("tbody");
-			Element element = tbody.get(0);
-			Elements select = element.select("tbody>tr>td");
-				//解析得到总下注
-			String totalbett = select.get(3).text();
-
+			Elements tby1 = tbody.get(0).select("tbody>tr>td");
+			String totalbett = tby1.get(3).text();
 			TenantBetDetailBO tenantBetDetailBO = new TenantBetDetailBO();
-
 			tenantBetDetailBO.setBalance(new BigDecimal(0));
 			tenantBetDetailBO.setTotalBet(new BigDecimal(totalbett));
-
 			tenantBetDetailBO.setTotalLoss(new BigDecimal(tds.get(4).text()));
-
-
-			TenanteBetBO tenantBetVo = new TenanteBetBO();
-			for (int i = 1; i < tbody.size() - 1; i++) {
-				Element element1 = tbody.get(i);
-				Elements td = element1.select("tr>td");
+			ArrayList<TenanteBetBO> betBolist = new ArrayList<>();
+			for (int i = 1; i < tbody.size(); i++) {
+				TenanteBetBO tenantBetVo = new TenanteBetBO();
+				Elements tdss = tbody.get(i).select("tr>td");
 				tenantBetVo.setTenantId(1L);
-				//数字多少没有关系
 				tenantBetVo.setGameId(1L);
-				tenantBetVo.setLossAmount(new BigDecimal(td.get(4).text()));
-				List<TenanteBetBO> list = (List<TenanteBetBO>) Arrays.asList(tenantBetVo);
-				if (tenantBetVo.getLossAmount().intValue() != 0) {
-					tenantBetDetailBO.setTenantBets(list);
-				}
-
+				tenantBetVo.setLossAmount(new BigDecimal(tdss.get(4).text()));
+				tenantBetVo.setBetAmount(new BigDecimal(tdss.get(3).text()));
+				if (tenantBetVo.getBetAmount().compareTo(BigDecimal.ZERO)!=0)
+				betBolist.add(tenantBetVo);
 			}
 
+			tenantBetDetailBO.setTenantBets(betBolist);
 			return Response.SUCCESS(tenantBetDetailBO);
 		}
+
 	}
 
 /*	public static void main(String[] args) throws IOException {
 
 		Document doc= Jsoup.parse(new File("test.html"), "utf-8");
-
 		Elements tds = doc.select("tbody>tr>td");
 		Elements tbody = doc.select("tbody");
-
-		Element element = tbody.get(0);
-		Elements select = element.select("tbody>tr>td");
-
-		String totalbett = select.get(3).text();
-
-
+	//	System.out.println("tbody = " + tbody);
+		Elements tby1 = tbody.get(0).select("tbody>tr>td");
+		String totalbett = tby1.get(3).text();
 		TenantBetDetailBO tenantBetDetailBO = new TenantBetDetailBO();
-
 		tenantBetDetailBO.setBalance(new BigDecimal(0));
-		tenantBetDetailBO.setTotalBet(new BigDecimal(tds.get(4).text()));
-
+		tenantBetDetailBO.setTotalBet(new BigDecimal(totalbett));
 		tenantBetDetailBO.setTotalLoss(new BigDecimal(tds.get(4).text()));
-
-
-		TenanteBetBO tenantBetVo = new TenanteBetBO();
-		for (int i = 1; i < tbody.size() - 1; i++) {
-			Element element1 = tbody.get(i);
-			Elements td = element1.select("tr>td");
+		//System.out.println(tenantBetDetailBO);
+		ArrayList<TenanteBetBO> betBolist = new ArrayList<>();
+		for (int i = 1; i < tbody.size() ; i++) {
+			TenanteBetBO tenantBetVo = new TenanteBetBO();
+			Elements tdss = tbody.get(i).select("tr>td");
+			String lossamount = tdss.get(4).text();
+			String betamount = tdss.get(3).text();
 			tenantBetVo.setTenantId(1L);
-			//数字多少没有关系
 			tenantBetVo.setGameId(1L);
-			tenantBetVo.setLossAmount(new BigDecimal(td.get(4).text()));
-			List<TenanteBetBO> list = (List<TenanteBetBO>) Arrays.asList(tenantBetVo);
-			if (tenantBetVo.getLossAmount().intValue() != 0) {
-				tenantBetDetailBO.setTenantBets(list);
-			}
+			tenantBetVo.setLossAmount(new BigDecimal(tdss.get(4).text()));
+			tenantBetVo.setBetAmount(new BigDecimal(tdss.get(3).text()));
+			//System.out.println(tenantBetVo);
+
+			betBolist.add(tenantBetVo);
+
 
 		}
+		tenantBetDetailBO.setTenantBets(betBolist);
+		System.out.println(tenantBetDetailBO);
 
 	}*/
 

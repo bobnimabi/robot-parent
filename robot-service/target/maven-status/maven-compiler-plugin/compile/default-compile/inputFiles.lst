@@ -2,10 +2,12 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\co
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\entity\TenantRobotProxy.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\entity\TenantRobotTemplate.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\mapper\HttpRequestConfigMapper.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\impl\VsGameServiceImpl.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\impl\HttpRequestConfigServiceImpl.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\ITenantRobotTemplateService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\vo\TenantRobotVO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\dto\TenantRobotDTO.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\entity\VsGame.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\impl\AsyncRequestConfigServiceImpl.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\IRequestRecordService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\ITenantRobotConfigService.java
@@ -17,6 +19,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\co
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\IResponseRecordService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\mapper\TenantRobotHeadMapper.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\impl\TenantRobotConfigServiceImpl.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\IVsGameService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\ITenantRobotProxyService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\mapper\TenantRobotMapper.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\mapper\TenantRobotPathMapper.java
@@ -45,6 +48,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\co
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\entity\TenantRobotPath.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\dto\LoginDTO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\impl\TenantRobotPathServiceImpl.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\mapper\VsGameMapper.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\IPlatformService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\service\ITenantRobotDictService.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-service\src\main\java\com\robot\code\mapper\TenantRobotTemplateMapper.java

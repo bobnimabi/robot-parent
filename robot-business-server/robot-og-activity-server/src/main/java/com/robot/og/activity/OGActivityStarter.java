@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
                 "com.robot.center",
                 "com.robot.og.base",
                 "com.robot.og.activity",
+
             }
         )
 @MapperScan("com.robot.code.mapper")

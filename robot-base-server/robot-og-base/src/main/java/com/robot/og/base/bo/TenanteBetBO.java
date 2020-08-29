@@ -20,6 +20,8 @@ public class TenanteBetBO implements Serializable {
     private Long gameId;
 
     private BigDecimal lossAmount;
+    //实际投注
+    private BigDecimal betAmount;
 
     private Long tenantId;
 

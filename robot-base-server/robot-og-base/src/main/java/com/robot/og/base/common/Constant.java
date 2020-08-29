@@ -10,5 +10,7 @@ public class Constant {
 
     // OG棋牌掉线
     public static final Boolean LOSE = false;
+    //OG上线游戏状态
+    public static final int YES = 1;
 
 }

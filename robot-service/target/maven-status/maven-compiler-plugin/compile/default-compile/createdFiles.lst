@@ -1,5 +1,6 @@
 com\robot\code\mapper\HttpRequestConfigMapper.class
 com\robot\code\mapper\PlatformMapper.class
+com\robot\code\service\impl\VsGameServiceImpl.class
 com\robot\code\service\ITenantRobotDictService.class
 com\robot\code\dto\LoginDTO.class
 com\robot\code\service\ITenantRobotProxyService.class
@@ -12,9 +13,12 @@ com\robot\code\response\Response.class
 com\robot\code\mapper\RequestRecordMapper.class
 com\robot\code\entity\ResponseRecord.class
 com\robot\code\service\impl\AsyncRequestConfigServiceImpl.class
+com\robot\code\service\IVsGameService.class
 com\robot\code\service\IPlatformService.class
+com\robot\code\entity\VsGame.class
 com\robot\code\service\IAsyncRequestConfigService.class
 com\robot\code\service\IConnectionPoolConfigService.class
+com\robot\code\mapper\VsGameMapper.class
 com\robot\code\service\impl\TenantRobotProxyServiceImpl.class
 com\robot\code\mapper\TenantRobotDictMapper.class
 com\robot\code\entity\Platform.class

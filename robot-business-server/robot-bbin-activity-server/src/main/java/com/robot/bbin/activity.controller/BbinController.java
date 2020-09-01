@@ -159,6 +159,27 @@ public class BbinController extends ControllerBase {
     }
 
     /**
+     * 机器人：获取投注、亏损、充值信息   新亏损补贴活动
+     */
+    @PostMapping("/getTotalAmount2")
+    public Response getTotalAmount2(@RequestBody OrderNoQueryDTO dto) throws Exception {
+        if (StringUtils.isEmpty(dto.getUserName())) {
+            return Response.FAIL("userName为空");
+        }
+        if (StringUtils.isEmpty(dto.getStartDate().toString())) {
+            return Response.FAIL("起始时间为空");
+        }
+        if (StringUtils.isEmpty(dto.getGameCode())) {
+            return Response.FAIL("起始时间为空");
+        }
+        if (StringUtils.isEmpty(dto.getEndDate().toString())) {
+            return Response.FAIL("结束时间为空");
+        }
+        return super.dispatcher.dispatch(new ParamWrapper<OrderNoQueryDTO>(dto), FunctionEnum.BET_AMOUNT_RECHARGE_LOSS_SERVER);
+    }
+
+
+    /**
      * 机器人mq打款
      */
     @RabbitListener(queues = RabbitMqConstants.REMIT_QUEUE_BBIN)

@@ -6,10 +6,12 @@ com\robot\bbin\activity\server\GetTokenServer.class
 com\robot\bbin\activity\server\XBBBreakServer.class
 com\robot\bbin\activity\server\XBBGameBetServer.class
 com\robot\bbin\activity\server\XBBOrderQueryServer.class
+com\robot\bbin\activity\server\RechargeServer.class
 com\robot\bbin\activity\config\WebMvcConfig.class
 com\robot\bbin\activity\server\BetAmountAndRechargeServer.class
 com\robot\bbin\activity\server\BreakAndBetServer.class
 com\robot\bbin\activity\server\XbbBreakAndBetServer.class
+com\robot\bbin\activity\server\BetAmountRechargeLossServer.class
 com\robot\bbin\activity\controller\BbinController.class
 com\robot\bbin\activity\BbinActivityStarter.class
 com\robot\bbin\activity\interceptor\BbinActivityTenant.class

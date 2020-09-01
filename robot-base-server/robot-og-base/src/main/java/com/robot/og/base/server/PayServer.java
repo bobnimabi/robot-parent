@@ -1,6 +1,8 @@
 package com.robot.og.base.server;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.bbin.common.pojo.TaskAtomDto;
+import com.bbin.utils.project.MyBeanUtil;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.IAssemFunction;
 import com.robot.core.function.base.ParamWrapper;
@@ -8,6 +10,8 @@ import com.robot.core.robot.manager.RobotWrapper;
 
 import com.robot.og.base.ao.PayAO;
 import com.robot.og.base.ao.QueryUserAO;
+import com.robot.og.base.bo.PayBO;
+import com.robot.og.base.bo.PayVo;
 import com.robot.og.base.bo.QueryUserBO;
 import com.robot.og.base.function.PayFunction;
 import com.robot.og.base.function.QueryUserFunction;
@@ -39,7 +43,13 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         if (!response.isSuccess()) {
             return response;
         }
-        return payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj()), robotWrapper);
+        Response<PayBO> payBOResponse = payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj()), robotWrapper);
+        PayBO bo = payBOResponse.getObj();
+        PayVo payVo = MyBeanUtil.copyProperties(bo, PayVo.class);
+        payVo.setOutPayNo(paramWrapper.getObj().getOutPayNo());
+        String idStr = IdWorker.getIdStr();
+        payVo.setRobotRecordNo(idStr);
+        return Response.SUCCESS(payVo);
     }
 
     /**
@@ -88,7 +98,6 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
             }
 
         }
-
 
         payAO.setNormalStatus("1");
         payAO.setDepositPro("1");

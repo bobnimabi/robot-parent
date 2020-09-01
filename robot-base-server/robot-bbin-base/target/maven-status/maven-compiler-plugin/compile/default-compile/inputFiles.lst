@@ -32,6 +32,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\InOutCashFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\TotalBetGameAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\LuckOrderQueryBO.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BetDetailFunction2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\basic\PathEnum.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\BetBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\InOutCashAO.java
@@ -40,6 +41,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\PomponFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\basic\CheckLostImpl.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\LoginFunction.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetDetailAO2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\JuQueryFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBGetGameCodeAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\QueryUserServer.java
@@ -48,9 +50,11 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\TotalBetGameBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBJuQueryBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BarIdFunction.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BetFunction2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\LoginServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BetDetailFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\PayAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\InOutCashData.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetAO2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\BreakerQueryBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\QueryBalanceBO.java

@@ -268,8 +268,6 @@ public class OGcontroller extends ControllerBase {
 
 
 
-
-
 	/**
 	 * 打款
 	 *

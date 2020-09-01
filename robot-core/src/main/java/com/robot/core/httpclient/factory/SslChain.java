@@ -9,8 +9,10 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.springframework.stereotype.Service;
 import javax.net.ssl.SSLContext;
@@ -19,6 +21,7 @@ import javax.net.ssl.X509TrustManager;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 /**
@@ -42,7 +45,13 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
     public void dofilter(Object params, HttpClientBuilder result, Invoker<Object, HttpClientBuilder> invoker) throws Exception {
         result.setConnectionManager(SslHttpClientBuild());
         log.info("配置：SSL策略：放行所有自制证书，加载完成");
-        result.setSSLContext(createSSLContext());//设置不生效，以后解决
+        result.setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy()
+        {
+            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException
+            {
+                return true;
+            }
+        }).build());//设置不生效，以后解决  替换 createSSLContext()
         invoker.invoke(params, result);
     }
 
@@ -52,7 +61,7 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
     }
 
 
-    private SSLContext createSSLContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+ private SSLContext createSSLContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         return SSLContexts.custom().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build();   // TrustAllStrategy.INSTANCE
     }
 
@@ -60,6 +69,8 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
      * 跳过https的证书检验，允许自制证书
      * @return
      */
+
+
     public static PoolingHttpClientConnectionManager SslHttpClientBuild() {
         Registry<ConnectionSocketFactory> socketFactoryRegistry =
                 RegistryBuilder.<ConnectionSocketFactory>create()
@@ -103,4 +114,6 @@ public class SslChain extends BuilderFilter<Object,HttpClientBuilder> {
             //don't check
         }
     }
+
+
 }

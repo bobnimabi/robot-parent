@@ -47,11 +47,8 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 		return PathEnum.GET_DETAIL;
 	}
 
-
 	@Override
 	protected IEntity getEntity(BetQueryDto dto, RobotWrapper robotWrapper) {
-
-
 
 		//gamelist可以为空
 		UrlEntity entity = UrlEntity.custom(4)
@@ -86,11 +83,13 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 	private static final class ResultHandler implements IResultHandler<String, TenantBetDetailBO> {
 		private static final ResultHandler INSTANCE = new ResultHandler();
 
+
 		private ResultHandler() {
 		}
 
 		@Override
 		public Response parse2Obj(StanderHttpResponse<String, TenantBetDetailBO> shr) {
+
 			String result = shr.getOriginalEntity();
 			log.info("查询下注详情功能响应：{}");
 			if (StringUtils.isEmpty(result)) {
@@ -111,7 +110,7 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 				TenanteBetBO tenantBetVo = new TenanteBetBO();
 				Elements tdss = tbody.get(i).select("tr>td");
 				tenantBetVo.setTenantId(1L);
-				tenantBetVo.setGameId(1L);
+				tenantBetVo.setGameId(8L);
 				tenantBetVo.setLossAmount(new BigDecimal(tdss.get(4).text()));
 				tenantBetVo.setBetAmount(new BigDecimal(tdss.get(3).text()));
 				if (tenantBetVo.getBetAmount().compareTo(BigDecimal.ZERO)!=0)
@@ -124,39 +123,8 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 
 	}
 
-/*	public static void main(String[] args) throws IOException {
-
-		Document doc= Jsoup.parse(new File("test.html"), "utf-8");
-		Elements tds = doc.select("tbody>tr>td");
-		Elements tbody = doc.select("tbody");
-	//	System.out.println("tbody = " + tbody);
-		Elements tby1 = tbody.get(0).select("tbody>tr>td");
-		String totalbett = tby1.get(3).text();
-		TenantBetDetailBO tenantBetDetailBO = new TenantBetDetailBO();
-		tenantBetDetailBO.setBalance(new BigDecimal(0));
-		tenantBetDetailBO.setTotalBet(new BigDecimal(totalbett));
-		tenantBetDetailBO.setTotalLoss(new BigDecimal(tds.get(4).text()));
-		//System.out.println(tenantBetDetailBO);
-		ArrayList<TenanteBetBO> betBolist = new ArrayList<>();
-		for (int i = 1; i < tbody.size() ; i++) {
-			TenanteBetBO tenantBetVo = new TenanteBetBO();
-			Elements tdss = tbody.get(i).select("tr>td");
-			String lossamount = tdss.get(4).text();
-			String betamount = tdss.get(3).text();
-			tenantBetVo.setTenantId(1L);
-			tenantBetVo.setGameId(1L);
-			tenantBetVo.setLossAmount(new BigDecimal(tdss.get(4).text()));
-			tenantBetVo.setBetAmount(new BigDecimal(tdss.get(3).text()));
-			//System.out.println(tenantBetVo);
-
-			betBolist.add(tenantBetVo);
 
 
-		}
-		tenantBetDetailBO.setTenantBets(betBolist);
-		System.out.println(tenantBetDetailBO);
-
-	}*/
 
 
 }

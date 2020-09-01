@@ -83,31 +83,5 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
     }
 
 
-    public static void main(String[] args) {
-        Collection arraylisr = new ArrayList();
-        arraylisr.add(1);
-        arraylisr.add(223.34);
-        arraylisr.add("str");
-
-        arraylisr.size();
-        arraylisr.clear();
-        arraylisr.contains(1);
-        arraylisr.remove(1);
-        arraylisr.isEmpty();
-        Object[] objects = arraylisr.toArray();
-        for (int i = 0; i < objects.length; i++) {
-
-            Object object = objects[i];
-
-            System.out.println("object = " + object);
-        }
-        Iterator iterator = arraylisr.iterator();
-
-    while (iterator.hasNext()){
-        Object next = iterator.next();
-    }
-
-    }
-
 
 }

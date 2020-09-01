@@ -18,12 +18,15 @@ public enum FunctionEnum implements IFunctionEnum {
     GAME_BET_SERVER("gameBetServer"),
     Query_User_Server("queryUserServer"),
     QUERY_RECHARGE_SERVER("queryRechargeServer"),
+    //新亏损查询下注充值和亏损
+    BET_AMOUNT_RECHARGE_LOSS_SERVER("betAmountRechargeLossServer"),
     PAY_SERVER("payServer"),
 
     LOGIN_SERVER("loginServer"),
     ;
 
-	private final String serverName;
+
+    private final String serverName;
 
     private FunctionEnum(String serverName) {
         this.serverName = serverName;

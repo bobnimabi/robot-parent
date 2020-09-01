@@ -1,6 +1,7 @@
 package com.robot.og.base.function;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.robot.center.mq.MqSenter;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
@@ -69,6 +70,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
 
                 ;
 
+
     }
 
     @Override
@@ -91,18 +93,24 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
             String result = shr.getOriginalEntity();
             log.info("打款功能响应：{}", result);
             PayBO payBO = JSON.parseObject(result, PayBO.class);
-
+            payBO.setOutPayNo(UUID.randomUUID().toString().replace("-","") +":");
+            String idStr = IdWorker.getIdStr();
+            payBO.setRobotRecordNo(idStr);
             if (StringUtils.isEmpty(result)) {
                 log.info("打款未有任何响应");
                 return Response.FAIL("打款未有任何响应：" + result);
             }
-            if (Constant.SUCCESS.equals(payBO.getSuccess())) {
-                return Response.SUCCESS(payBO);
-            } else {
+            if (!Constant.SUCCESS.equals(payBO.getSuccess())) {
                 return Response.FAIL("打款失败：" + result);
+            } else {
+
+
+
+                return Response.SUCCESS(payBO);
             }
         }
     }
+
 
 
 }

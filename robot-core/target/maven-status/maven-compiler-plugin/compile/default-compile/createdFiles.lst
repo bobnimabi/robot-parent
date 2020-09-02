@@ -65,6 +65,7 @@ com\robot\core\httpclient\factory\SslChain$TrustCheck.class
 com\robot\core\robot\manager\Token.class
 com\robot\core\task\execute\HttpClientWrapper.class
 com\robot\core\common\HttpConsts.class
+com\robot\core\httpclient\factory\SslChain$1.class
 com\robot\core\task\dispatcher\AsyncTask.class
 com\robot\core\task\execute\AfterCheckLostChain.class
 com\robot\core\function\base\FunctionProperty.class

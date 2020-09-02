@@ -128,11 +128,10 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
                 gameDTO.setGameType(queryDTO.getChildren().get(4).getGameCode());
 
                 break;
+            default:
+                gameDTO.setGameType("0");
+                break;
         }
-
-
-
-
 
         return new ParamWrapper<XBBTotalBetGameAO>(gameDTO);
     }

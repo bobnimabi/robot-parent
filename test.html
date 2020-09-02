@@ -1,819 +1,610 @@
-
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>会员报表</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>【会员下注纪录】</title>
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/lib/cust/bootstrap.base.css?20181128">
+    <link rel="stylesheet" type="text/css" href="/assets/lib/cust/bootstrap.cust.css">
 
-
-
-
-
-
-
-
-
-
-    <script type="text/javascript">
-        var ctx="";
-        var MEMBER_DIR="ogmember";
-        var OG_MEMBER_DIR="ogmember";
-        var static_url = "//sj.ctshzl.cn/v21";
-        // 国际化参数
-        var systemLanguage = "zh_CN"
-    </script>
-    <script type="text/javascript" src="/common/js/jquery-1.8.2.js"></script>
-    <script type="text/javascript" src="/common/js/yl.js"></script>
-    <script type="text/javascript" src="/common/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="/common/js/announment.js"></script>
-    <script type="text/javascript" src="/common/js/onlineCommon.js" ></script>
-    <script type="text/javascript" src="/common/js/jquery.form1.js"></script>
-    <script type="text/javascript" src="/common/js/faqIcon.js"></script>
-    <link rel="stylesheet" type="text/css" href="/common/css/ann.css" />
-    <link rel="stylesheet" type="text/css" href="/jsp/agency/js/south-street/jquery-ui-1.9.1.custom.min.css">
-    <link rel="stylesheet" type="text/css" href="/common/css/messageTip.css">
-    <link rel="stylesheet" type="text/css" href="/common/css/faqIcon.css" />
-    <script type="text/javascript" src="/common/js/i18n/message_zh_CN.js"></script>
-    <script>
-        /**
-         * 字符串占位符格式  'B在{0}与{1}之间'.format('A','C');
-         */
-        String.prototype.format = function () {
-            // 数据长度为空，则直接返回
-            if (arguments.length == 0) {
-                return this;
-            }
-
-            // 使用正则表达式，循环替换占位符数据
-            for (var result = this, i = 0; i < arguments.length; i++) {
-                result = result.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
-            }
-            return result;
-        };
-        /**
-         * 维护公告
-         * edit by  adaf
-         */
-        var num = 0;
-        var time = 0;
-        $(function() {
-            // 初始化弹出公告为未显示
-            window.localStorage.announcementWindowShow = 0;
-
-            $.ajax({
-                url:ctx+"/agent/GlobalAnnounceServlet",
-                cache:false,
-                dataType:'json',
-                type:'POST',
-                data:{
-                    type:"3",
-                    op:"queryMaintainDate"
-                },
-                success:function(data){
-                    if(data&&data.maintainDate)
-                        time = data.maintainDate;
-                }
-            });
-            num = 0;
-            timingMaintain();
-
-            var pageUrl = window.location.href;
-            //主页
-            if (pageUrl == "/" || pageUrl == "" || pageUrl.indexOf("/index.jsp")>0 || pageUrl.indexOf("/member/memberServlet")>0) {
-                setTimeout(function() {
-                    ajaxAnnoument2();
-                },1000*5);
-                setTimeout(function() {
-                    ajaxAnnoument();
-                },1000*11);
-            } else {
-                setTimeout(function() {
-                    ajaxAnnoument();
-                },1000*5);
-            }
-        });
-        function annoumentData(result){
-            $(document.body).announment({
-                type : 1,
-                width : 200,
-                height : 80,
-                top :window.screen.availHeight-332,
-                left : document.body.clientWidth-205,
-                titleCls : 'anotitle',
-                containCls : 'anoContain',
-                btnCls : 'anoBtn',
-                contextCls : 'anoContext',
-                announcementId : result.id,
-                title : result.announcementname,
-                content : result.content,
-                sign : result.sign
-            });
-        }
-        function ajaxAnnoument() {
-            var url = ctx+"/agent/GlobalAnnounceServlet";
-            $.post(url,{type:'3'},function(result) {
-                if (result.content != "" && result.content!=undefined) {
-                    $('#annoument_win').remove();//将层移除掉
-                    annoumentData(result);
-                }
-            }, 'json');
-
-        }
-        function ajaxAnnoument2() {
-            var url = ctx+"/agent/GlobalAnnounceServlet";
-            $.post(url,{type:'2'},function(result) {
-                if (result.content != "" && result.content!=undefined) {
-                    $(document.body).announment({
-                        type : 0,
-                        top :window.screen.availHeight-500,
-                        left : document.body.clientWidth-395,
-                        content : result.content,
-                        glAnoCls : 'glAnoCls'
-                    });
-                }
-            }, 'json');
-
-        }
-        function timingMaintain(){
-            if(time>0){
-                num++;
-                if(time<=600){ //当维护时间小于10分钟时进入判断
-                    if(num==60){ //每分钟弹出一次维护公告
-                        ajaxAnnoument(); //弹出维护公告
-                        num=0;
-                    }
-                }else{
-                    if(num==300){//每五分钟弹出一次维护公告
-                        ajaxAnnoument(); //弹出维护公告
-                        num=0;
-                    }
-                }
-                time--;
-            }
-            setTimeout(timingMaintain,1000);
-        }
-        function  operatePromptShow(msg){
-            var hideDiv=$('#_hideDiv');
-            var loading=$('#_loading');
-            var body=$("body");
-            if(!hideDiv[0]){
-                body.append('<div id="_hideDiv"></div>');
-            }
-            if(!loading[0]){
-                body.append('<div id="_loading"><img src="/jsp/agency/images/loaderc.gif"/><span style="font-weight: bold;">'+msg+'</span></div>');
-            }
-            $('#_hideDiv').show();
-            $('#_loading').show();
-        }
-        function  operatePromptHide(){
-            $('#_hideDiv').hide();
-            $('#_loading').hide();
-        }
-        function  T_MessageShow(msg){
-            $("body").prepend("<div class='msgbox_layer_wrap'><span id='mode_tips_v2' style='z-index: 10000;' class='msgbox_layer'><span class='gtl_ico_clear'></span><img alt='' src='/common/images/loading.gif'>"+msg+"<span class='gtl_end'></span></span></div>");
-            $(".msgbox_layer_wrap").show();
-        }
-        function  T_MessageHide(){
-            $(".msgbox_layer_wrap").hide();
-        }
-
-
-
-
-        // 中文对象
-        var chineseName = {
-            '彩票': 'Lottery',
-            '视讯': 'Video',
-            '电子': 'Slot',
-            '捕鱼': 'Fishing',
-            '棋牌': 'Chess',
-            '体育': 'Sports',
-            '电竞': 'Esports',
-        };
-        // 通过中文获取对应的英文
-        function getEnglishName(chinese){
-            // 如果当前环境选择是中文语言，直接返回中文
-            if(systemLanguage == 'zh_CN'){
-                return chinese;
-            }
-            var englishName = chineseName[chinese];
-            if(typeof englishName == 'undefined'){
-                return chinese
-            }else{
-                return ' ' + englishName + ' ';
-            }
-        }
-
-
-    </script>
-    <div id="onlinedialog" title='在线详情'></div>
-
-    <script type="text/javascript" src="/common/js/jquery.pager_2.js"></script>
-    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/theme.css" />
-    <link rel="stylesheet" type="text/css" href="/jsp/agency/css/style.css" />
-
-    <link rel="stylesheet" type="text/css" href="/common/css/jedate.css" />
-    <script type="text/javascript" src="/common/js/jquery.jedate.js"></script>
-    <script>
-
-        if("" != "")
-            alert("");
-        var isSeled = 0;
-        $(document).ready(function(){
-            var hgStatus = '';
-            var eaStatus = '';
-            var bbStatus = '';
-            var agStatus = '';
-            var count = "";
-            if(hgStatus!=0){
-                count = "HG";
-            }
-            if(eaStatus!=0){
-                if(count!=""){
-                    count += "、EA";
-                }else{
-                    count = "EA";
-                }
-            }
-            if(bbStatus!=0){
-                if(count!=""){
-                    count += "、BBIN";
-                }else{
-                    count = "BBIN";
-                }
-            }
-            if(agStatus!=0){
-                if(count!=""){
-                    count += "、AG";
-                }else{
-                    count = "AG";
-                }
-            }
-            if(count!=""){
-                alert(count+"平台网络异常，查询数据可能不完整！");
-            }
-            /* $("#pager").pager({isForm:true,form:"searchForm"}); */
-            $("tbody.tbody1>tr").click(function(){
-                if(isSeled==1)return;
-                isSeled=1;
-                $this =this;
-                $("tbody.tbody1>tr.isSel").each(function(){
-                    if($this!=this){
-                        $(this).removeClass("isSel");
-                        $(this).css("background","#fff");
-                        $(this).find("td").css("background","#fff");
-                        $(".shangjiStyle",this).css("background","#C3F8B8");
-                        $(".xiajiStyle",this).css("background","#b8f8e8");
-                    }
-                });
-                if($(this).hasClass("isSel")){
-                    $(this).removeClass("isSel");
-                    $(this).css("background","#fff");
-                    $(this).find("td").css("background","#fff");
-                    $(".shangjiStyle",this).css("background","#C3F8B8");
-                    $(".xiajiStyle",this).css("background","#b8f8e8");
-                }else{
-                    $(this).addClass("isSel");
-                    $(this).css("background","#c1ebff");
-                    $(this).find("td").css("background","#c1ebff");
-                }
-                isSeled = 0;
-            });
-            $("tbody.tbody1>tr").hover(function(){
-                if(!$(this).hasClass("isSel")){
-                    //$(this).addClass("isSel");
-                    $(this).css("background","#c1ebff");
-                    $(this).find("td").css("background","#c1ebff");
-                }
-            },function(){
-                if(!$(this).hasClass("isSel")){
-                    $(this).css("background","#fff");
-                    $(this).find("td").css("background","#fff");
-                    $(".shangjiStyle",this).css("background","#C3F8B8");
-                    $(".xiajiStyle",this).css("background","#b8f8e8");
-                }
-            });
-            $("#platALL").click(function(){
-                $("input:checkbox[name='plat']").attr("checked",this.checked);
-            });
-            $("input:checkbox[name='plat'][id!='platALL']").click(function(){
-                var check=true;
-                if(!$("#platALL").attr("checked"))return;
-                $("input:checkbox[id!='platALL']").each(function(){
-                    if(!this.checked){
-                        check=false;
-                        return;
-                    }
-                });
-                if(!check||!this.checked){
-                    $("#platALL").attr("checked",false);
-                }
-            });
-
-            $("#accountId").blur(function(){
-                $(this).val($(this).val().toLowerCase());
-            });
-
-            var startDateMsg = {
-                format: "YYYY-MM-DD hh:mm:ss",
-                minDate: "2020-07-01 00:00:00",
-                maxDate: "2020-08-28 23:59:59",
-                isClear: false,
-                isToday: false,
-                onClose: false,
-                okfun: function(obj){
-                    var nowDateStr = obj.val;
-                    var nowDateTime = new Date(nowDateStr.replace(/-/g, "/")).getTime();
-
-                    var endDateStr = $("#lastDateId").val();
-                    var endDateTime = new Date(endDateStr.replace(/-/g, "/")).getTime();
-                    if(nowDateTime > endDateTime){
-                        endDateMsg.minDate = endDateStr;
-                        $("#startDateId").val(endDateStr);
-                    }else{
-                        endDateMsg.minDate = nowDateStr;
-                    }
-                }
-            };
-
-            var endDateMsg = {
-                format: "YYYY-MM-DD hh:mm:ss",
-                minDate: "2020-08-20 00:00:00",
-                maxDate: "2020-08-29 23:59:59",
-                isClear: false,
-                isToday: false,
-                onClose: false,
-                okfun: function(obj){
-                    var nowDateStr = obj.val;
-                    var nowDateTime = new Date(nowDateStr.replace(/-/g, "/")).getTime();
-
-                    var startDateStr = $("#startDateId").val();
-                    var startDateTime = new Date(startDateStr.replace(/-/g, "/")).getTime();
-                    if(nowDateTime < startDateTime){
-                        startDateMsg.maxDate = startDateStr;
-                        $("#lastDateId").val(startDateStr);
-                    }else{
-                        startDateMsg.maxDate = nowDateStr;
-                    }
-                }
-            };
-
-            $("#startDateId").jeDate(startDateMsg);
-            $("#lastDateId").jeDate(endDateMsg);
-            //记住快选日期
-            if(timeId){
-                $("#quickDate").val(timeId);
-            }else{
-                $("#quickDate").eq(0).selected();
-            }
-        });
-
-        function showDetail(accountId,platform) {
-            var startDate = encodeURI($("#startDate").val());
-            var lastDate = encodeURI($("#lastDate").val());
-            window.location.href = ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+accountId+"&platform="+platform+"&startDate="+startDate+"&lastDate="+lastDate;
-            /**	$( "#jackpotdialog" ).dialog({
-			autoOpen: false,
-			width:998,
-			height:520,
-	        buttons: {
-	            "关闭": function() {
-	                $( this ).dialog( "close" );
-	            }
-	        }
-		});
-
-             $( "#jackpotdialog" ).html("<iframe width=\"100%\" style=\"overflow-y:no;\" height=\"100%\" id=\"Meniframe\" name=\"Meniframe\"  frameborder=\"0\" scrolling=\"auto\"  src=\""+ctx+"/agent/MemberReport?type=queryMemberReportDetail&accountId="+accountId+"&parentId="+parentId+"&startDate="+startDate+"&lastDate="+lastDate+"\"></iframe>");
-             $( "#jackpotdialog" ).dialog( "open" );
-
-             **/
-        }
-
-        /* 	$(function() {
-                $("#allGameTypeId").click(function() {
-                    alert($(this).attr("checked"));
-                if ($(this).attr("checked") == true) { // 全选
-                   $("input[@name='gameType']").each(function() {
-                   $(this).attr("checked", true);
-                  });
-                } else { // 取消全选
-                   $("input[@name='gameType[]']").each(function() {
-                   $(this).attr("checked", false);
-                  });
-                }
-                });
-            }); */
-
-        function selectorcancel(){
-            //$("#allGameTypeId").attr("checked");jquery-1.6版本后取值返回的是checked，1.6前的版本返回的是true或false
-            //var test = document.getElementById("allGameTypeId").checked;
-            //alert(test);  这个取值后返回的是true或false
-            if($("#allGameTypeId").attr("checked")=="checked"){
-                $("#div1 :checkbox").attr("checked",true);
-            }else{
-                $("#div1 :checkbox").attr("checked",false);
-            }
-        }
-
-        function showDiv(){
-            document.getElementById('popDiv').style.display='block';
-            document.getElementById('bg').style.display='block';
-            document.getElementById('popIframe').style.display='block';
-            $("#load").show();
-        }
-        //GPO-8743 快选操作 add Ado
-        var quickDataList = new Array();
-
-        quickDataList.push("2020-08-29 00:00:00,2020-08-29 23:59:59");
-
-        quickDataList.push("2020-08-28 00:00:00,2020-08-28 23:59:59");
-
-        quickDataList.push("2020-08-24 00:00:00,2020-08-29 23:59:59");
-
-        quickDataList.push("2020-08-17 00:00:00,2020-08-23 23:59:59");
-
-        quickDataList.push("2020-08-01 00:00:00,2020-08-29 23:59:59");
-
-        quickDataList.push("2020-07-01 00:00:00,2020-07-31 23:59:59");
-
-        var timeId = "1";
-        function queryFast(id) {
-            var quickDate = quickDataList[id];
-            var dates = quickDate.split(",");
-            $("#startDateId").val(dates[0]);
-            $("#lastDateId").val(dates[1]);
-            $('#time_id').val(id);
-        }
-    </script>
-    <!--[if IE]>
-    <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
-    <![endif]-->
-    <style type="text/css">
-        .shangjiStyle{
-            background-color: #B1D6FB;
-        }
-        .xiajiStyle{
-            background-color: #CAE4FD;
-        }
-    </style>
-    <style type="text/css">
-        <!--
-        html,body {height:100%; margin:0px; font-size:12px;}
-        .mydiv {
-            text-align: center;
-            line-height: 40px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index:999;
-            width: 500px;
-            height: 120px;
-            left:50%;
-            top:50%;
-            margin-left:-250px!important;/*FF IE7 该值为本身宽的一半 */
-            margin-top:-60px!important;/*FF IE7 该值为本身高的一半*/
-            margin-top:0px;
-            position:fixed!important;/* FF IE7*/
-            position:absolute;/*IE6*/
-            _top:       expression(eval(document.compatMode &&
-document.compatMode=='CSS1Compat') ?
-documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
-document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);/*IE5 IE5.5*/
-        }
-        .bg,.popIframe {
-            background-color: #666; display:none;
-            width: 100%;
-            height: 100%;
-            left:0;
-            top:0;/*FF IE7*/
-            filter:alpha(opacity=50);/*IE*/
-            opacity:0.5;/*FF*/
-            z-index:1;
-            position:fixed!important;/*FF IE7*/
-            position:absolute;/*IE6*/
-            _top:       expression(eval(document.compatMode &&
-document.compatMode=='CSS1Compat') ?
-documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
-document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);
-        }
-        .popIframe {
-            filter:alpha(opacity=0);/*IE*/
-            opacity:0;/*FF*/
-        }
-        -->
-    </style>
 </head>
+<body class=cust>
 
-<body class="hoverStyle" style="background-image:none; background-color:#f4f9ff">
-<div id="popDiv" class="mydiv" style="display:none;">
-    <div style="display: none;position: absolute;left: 40%;top:40%" id="load">
-        <img alt="" src="/jsp/agency/images/ajax-loader-white.gif"/><span style="color: blue; font: 22px;"></span>
-    </div>
-</div>
-<div id="bg" class="bg" style="display:none;"></div>
-<iframe id='popIframe' class='popIframe' frameborder='0' ></iframe>
-<div id="jackpotdialog" title="<font color='white'>会员报表详情</font>" style="display: none;"></div>
-<input type="hidden" name="startDate" id="startDate" value="2020-08-20 00:00:00"/>
-<input type="hidden" name="lastDate" id="lastDate" value="2020-08-28 23:59:59"/>
-<input type="hidden" name="account" id="account" value="aaa9500"/>
-<div id="container">
-    <div id="wrapper">
-        <div id="content1">
-            <div class="dgh" style="line-height: 30px;" id="div1">
-                <form action="/agent/MemberReport?type=queryMemberReport" method="post" name="form1">
-                    会员账号：<input name="account" id="accountId" value="aaa9500"/>
-                    日期：<input name="startDate" id="startDateId" readonly="readonly" value='2020-08-20 00:00:00'/>
-                    &nbsp;-&nbsp;
-                    <input name="lastDate" id="lastDateId" readonly="readonly" value='2020-08-28 23:59:59'/>&nbsp;
+<link rel="stylesheet" type="text/css" href="/css/game/game_betrecord_kind5.css">
+<div class="container-fluid">
+    <h3>会员下注纪录</h3>
+    <input type="button" value="◄回上一页" class="btn btn-default" onclick="javascript:history.go(-1);">
+    <ul class="nav nav-tabs">
+        <li><a href="/game/betrecord_search/kind3?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB视讯</a></li>
+        <li><a href="/live/honorpoint_record/honorpoint?SearchData=MemberBets&UserID=671949487&date_start=&date_end=">BB视讯积分</a></li>
+        <li><a href="/game/betrecord_search/kind99?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB小费</a></li>
+        <li><a href="/game/betrecord_search/kind19?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">AG视讯</a></li>
+        <li><a href="/game/betrecord_search/kind22?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">欧博视讯</a></li>
+        <li><a href="/game/betrecord_search/kind36?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BG视讯</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=47&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">EVO视讯</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=54&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">eBET视讯</a></li>
+        <li><a href="/game/betrecord_search/kind72?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">MG视讯</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=75&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">XBB视讯</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=89&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">EG视讯</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=93&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">NBB区块链</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=97&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">完美视讯</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=98&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">SSG视讯</a></li>
+        <li><a href="/game/betrecord_search/kind5?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB电子</a></li>
+        <li><a href="/game/betrecord_search/kind38?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB捕鱼大师</a></li>
+        <li><a href="/game/betrecord_search/kind30?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB捕鱼达人</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=20&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">PT电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=28&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">GNS电子</a></li>
+        <li><a href="/game/betrecord_search/kind29?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">ISB电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=32&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">HB电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=37&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">PP电子</a></li>
+        <li><a href="/game/betrecord_search/kind39?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">JDB电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=40&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">AG电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=41&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">大满贯电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=44&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">SG电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=46&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">SW电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=50&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">WM电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=51&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">Gti电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=52&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">CQ9电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=53&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">KA电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=56&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">AW电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=58&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">PG电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=59&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">FG电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=67&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">易游电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=71&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">MT电子</a></li>
+        <li class="active"><a>XBB电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=78&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">ACE电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=79&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">PS电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=82&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">MG电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=85&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">DF电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=90&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">EG电子</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=95&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BNG电子</a></li>
+        <li><a href="/game/betrecord_search/kind1?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB体育</a></li>
+        <li><a href="/game/betrecord_search/kind4?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">沙巴体育</a></li>
+        <li><a href="/game/betrecord_search/kind31?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">New BB体育</a></li>
+        <li><a href="/game/betrecord_search/kind55?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">波音体育</a></li>
+        <li><a href="/game/betrecord_search/kind65?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">皇冠体育</a></li>
+        <li><a href="/game/betrecord_search/kind12?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB彩票</a></li>
+        <li><a href="/game/betrecord_search/kind45?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">VR彩票</a></li>
+        <li><a href="/game/betrecord_search/kind73?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">XBB彩票</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=49&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">开元棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=62&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">易游棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=64&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">MT棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=66&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">BB天豪棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=68&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">JDB棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=69&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">FG棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=77&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">ACE棋牌</a></li>
+        <li><a href="/game/betrecord_search/kind81?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">幸运棋牌</a></li>
+        <li><a href="/game/betrecord/kind?SearchData=MemberBets&GameKind=83&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487">乐游棋牌</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <div class="alert alert-info alert-minpadding">
+                <form id="rallydata" name="rallydata" method="GET" action="/game/wagersip_search" autocomplete="off" class="form-inline HideForm">
+                    <div class="form-group">
+                        <label>请选择：</label>
+                        <select id="functionselects" name="functionselects" class="form-control">
+                            <option value="1" selected="selected" >日期查询</option>
+                            <option value="3" >连消查询</option>
+                            <option value="4" >注单编号</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="gametype">
+                        <label>游戏类别：</label>
+                        <select id="gametypelist" name="gametypelist" class="form-control">
+                            <option value="0" >全部</option>
+                            <option value="76001" >阿努比斯</option>
+                            <option value="76002" >齐天大圣</option>
+                            <option value="76003" >黄金之鹰</option>
+                            <option value="76004" >海神</option>
+                            <option value="76005" >草原之王</option>
+                            <option value="76006" >祥龙献瑞</option>
+                            <option value="76007" >摇钱树</option>
+                            <option value="76008" >加勒比海</option>
+                            <option value="76009" >弥勒佛</option>
+                            <option value="76010" >老虎发发发</option>
+                            <option value="76011" >闹花灯</option>
+                            <option value="76012" >银行大盗</option>
+                            <option value="76013" >花开富贵</option>
+                            <option value="76014" >迎春纳福</option>
+                            <option value="76015" >花木兰</option>
+                            <option value="76016" >延禧心计</option>
+                            <option value="76017" >大秘宝</option>
+                            <option value="76018" >大魔术师</option>
+                            <option value="76019" >糖果王国</option>
+                            <option value="76020" >消除者联盟</option>
+                            <option value="76021" >软糖世界</option>
+                            <option value="76022" >纵横赌场</option>
+                            <option value="76023" >成吉思汗</option>
+                            <option value="76024" >龙凤呈祥</option>
+                            <option value="76025" >三只小猪</option>
+                            <option value="76026" >角斗士</option>
+                            <option value="76027" >叶问</option>
+                            <option value="76028" >一网打尽</option>
+                            <option value="76029" >百变悟空</option>
+                            <option value="76030" >鱼跃龙门</option>
+                            <option value="76031" >宙斯</option>
+                            <option value="76032" >霓虹水果盘</option>
+                            <option value="76033" >萌菌大爆发</option>
+                            <option value="76034" >舞狮迎福</option>
+                            <option value="76035" >钻石派对</option>
+                            <option value="76036" >财神到</option>
+                            <option value="76037" >阿拉丁</option>
+                            <option value="76038" >表情消消乐</option>
+                            <option value="76044" >五虎上将</option>
+                            <option value="76045" >淘金客</option>
+                            <option value="76047" >忍者水果</option>
+                            <option value="76049" >祖玛</option>
+                            <option value="76050" >寻龙夺宝</option>
+                            <option value="76051" >恐龙世界</option>
+                            <option value="76052" >AV派对</option>
+                            <option value="76053" >欢乐水果镇</option>
+                            <option value="76054" >南极大陆</option>
+                            <option value="76055" >圣诞乐园</option>
+                            <option value="76056" >七龙争霸DELUXE</option>
+                            <option value="76057" >七龙争霸GOLD</option>
+                            <option value="76058" >哪吒</option>
+                            <option value="76059" >发发发</option>
+                            <option value="76060" >疾速曲棍球</option>
+                            <option value="76061" >黄金圣兽</option>
+                            <option value="76062" >捕鱼大圣</option>
+                            <option value="76068" >亚瑟王</option>
+                            <option value="76069" >狂欢夜</option>
+                            <option value="76070" >银楼抢匪</option>
+                            <option value="76071" >袋鼠来宝</option>
+                            <option value="76072" >川剧</option>
+                            <option value="76073" selected="selected" >糖果派对</option>
+                            <option value="76074" >糖果派对2</option>
+                            <option value="76075" >连环夺宝</option>
+                            <option value="76076" >连环夺宝2</option>
+                            <option value="76077" >黄金玛雅</option>
+                            <option value="76078" >亚马逊历险</option>
+                            <option value="76079" >爆利金刚</option>
+                            <option value="76080" >喜福鼠年</option>
+                            <option value="76081" >鲨鱼总动员</option>
+                            <option value="76082" >永利皇宫</option>
+                            <option value="76083" >双龙抢珠</option>
+                            <option value="76084" >三倍巨猩</option>
+                            <option value="76085" >月宫秘宝</option>
+                            <option value="76086" >家有囍事</option>
+                            <option value="76087" >CBA全明星</option>
+                            <option value="76088" >多金熊猫</option>
+                            <option value="76089" >捕鱼财神</option>
+                            <option value="76090" >狄仁杰</option>
+                            <option value="76091" >聚宝盆</option>
+                            <option value="76092" >富贵成双</option>
+                            <option value="76093" >森林舞会</option>
+                            <option value="76094" >极速赛车</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="timezone">
+                        <label>时间：</label>
+                        <input id="datepicker01" name="datepicker01" class="form-control" size="10" value="2020-09-02">
+                        <span id="datechoice">~</span>
+                        <input id="datepicker02" name="datepicker02" class="form-control" size="10" value="2020-09-02">
+                    </div>
+                    <div class="form-group" id="wagersiddiv">
+                        <label> 注单编号 :</label>
+                        <input type="text" class="form-control" id="wagersid" value="">
+                    </div>
+                    <div class="form-group" id="pagecount">
+                        <label>每页笔数：</label>
 
-                    <label >快选&nbsp;&nbsp;</label>
-                    <input type="hidden" name="timeId" id="time_id" value="1"/>
-                    <select id="quickDate" onchange="queryFast(this.value)">
-                        <option value="0">今日</option>
-                        <option value="1">昨日</option>
-                        <option value="2">本周</option>
-                        <option value="3">上周</option>
-                        <option value="4">本月</option>
-                        <option value="5">上月</option>
-                    </select>
-                    &nbsp;&nbsp;
-
-                    <input type="checkbox" id="platALL" style="vertical-align: middle" name="plat"   pt_key="ALL"   pt_key="ALL"   pt_key="ALL"  value="ALL"/><label for="platALL">全部</label>
-
-                    <input type="checkbox" id="platCPCP" style="vertical-align: middle" name="plat"   pt_key="CPCP"   pt_key="CPCP"   pt_key="CPCP"  value="CPCP"/><label for="platCPCP">传统彩票</label>
-
-                    <input type="checkbox" id="platBBSX" style="vertical-align: middle" name="plat"   pt_key="BBSX"   pt_key="BBSX"   pt_key="BBSX"  value="BBSX"/><label for="platBBSX">BB视讯</label>
-
-                    <input type="checkbox" id="platBBTY" style="vertical-align: middle" name="plat"   pt_key="BBTY"   pt_key="BBTY"   pt_key="BBTY"  value="BBTY"/><label for="platBBTY">BB体育</label>
-
-                    <input type="checkbox" id="platBBCP" style="vertical-align: middle" name="plat"   pt_key="BBCP"   pt_key="BBCP"   pt_key="BBCP"  value="BBCP"/><label for="platBBCP">BB彩票</label>
-
-                    <input type="checkbox" id="platBBJL" style="vertical-align: middle" name="plat"   pt_key="BBJL"   pt_key="BBJL"   pt_key="BBJL"  value="BBJL"/><label for="platBBJL">BB电子</label>
-
-                    <input type="checkbox" id="platAGSX" style="vertical-align: middle" name="plat" checked="checked"  pt_key="AGSX"   pt_key="AGSX"   pt_key="AGSX"  value="AGSX"/><label for="platAGSX">AG视讯</label>
-
-                    <input type="checkbox" id="platAGBY" style="vertical-align: middle" name="plat"   pt_key="AGBY"   pt_key="AGBY"   pt_key="AGBY"  value="AGBY"/><label for="platAGBY">AG捕鱼</label>
-
-                    <input type="checkbox" id="platAGJL" style="vertical-align: middle" name="plat"   pt_key="AGJL"   pt_key="AGJL"   pt_key="AGJL"  value="AGJL"/><label for="platAGJL">AG电子</label>
-
-                    <input type="checkbox" id="platYOPLAYJL" style="vertical-align: middle" name="plat"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"   pt_key="YOPLAYJL"  value="YOPLAYJL"/><label for="platYOPLAYJL">YOPLAY电子</label>
-
-                    <input type="checkbox" id="platNMGJL" style="vertical-align: middle" name="plat"   pt_key="NMGJL" checked="checked"  pt_key="NMGJL"   pt_key="NMGJL"  value="NMGJL"/><label for="platNMGJL">MG电子</label>
-
-                    <input type="checkbox" id="platIBCTY" style="vertical-align: middle" name="plat"   pt_key="IBCTY"   pt_key="IBCTY"   pt_key="IBCTY"  value="IBCTY"/><label for="platIBCTY">沙巴体育</label>
-
-                    <input type="checkbox" id="platPTJL" style="vertical-align: middle" name="plat"   pt_key="PTJL"   pt_key="PTJL"   pt_key="PTJL"  value="PTJL"/><label for="platPTJL">PT电子</label>
-
-                    <input type="checkbox" id="platMWGJL" style="vertical-align: middle" name="plat"   pt_key="MWGJL"   pt_key="MWGJL"   pt_key="MWGJL"  value="MWGJL"/><label for="platMWGJL">MWG电子</label>
-
-                    <input type="checkbox" id="platMWGQP" style="vertical-align: middle" name="plat"   pt_key="MWGQP"   pt_key="MWGQP"   pt_key="MWGQP"  value="MWGQP"/><label for="platMWGQP">MWG棋牌</label>
-
-                    <input type="checkbox" id="platLEBOSX" style="vertical-align: middle" name="plat"   pt_key="LEBOSX"   pt_key="LEBOSX"   pt_key="LEBOSX"  value="LEBOSX"/><label for="platLEBOSX">LEBO视讯</label>
-
-                    <input type="checkbox" id="platABSX" style="vertical-align: middle" name="plat"   pt_key="ABSX"   pt_key="ABSX"   pt_key="ABSX"  value="ABSX"/><label for="platABSX">AB视讯</label>
-
-                    <input type="checkbox" id="platPPJL" style="vertical-align: middle" name="plat"   pt_key="PPJL"   pt_key="PPJL"   pt_key="PPJL"  value="PPJL"/><label for="platPPJL">PP电子</label>
-
-                    <input type="checkbox" id="platCMDTY" style="vertical-align: middle" name="plat"   pt_key="CMDTY"   pt_key="CMDTY"   pt_key="CMDTY"  value="CMDTY"/><label for="platCMDTY">CMD体育</label>
-
-                    <input type="checkbox" id="platVGQP" style="vertical-align: middle" name="plat"   pt_key="VGQP"   pt_key="VGQP"   pt_key="VGQP"  value="VGQP"/><label for="platVGQP">VG棋牌</label>
-
-                    <input type="checkbox" id="platCQ9JL" style="vertical-align: middle" name="plat"   pt_key="CQ9JL"   pt_key="CQ9JL"   pt_key="CQ9JL"  value="CQ9JL"/><label for="platCQ9JL">CQ9电子</label>
-
-                    <input type="checkbox" id="platBCTY" style="vertical-align: middle" name="plat"   pt_key="BCTY"   pt_key="BCTY"   pt_key="BCTY"  value="BCTY"/><label for="platBCTY">OG体育</label>
-
-                    <input type="checkbox" id="platBGSX" style="vertical-align: middle" name="plat"   pt_key="BGSX"   pt_key="BGSX"   pt_key="BGSX"  value="BGSX"/><label for="platBGSX">BG视讯</label>
-
-                    <input type="checkbox" id="platBGBY" style="vertical-align: middle" name="plat"   pt_key="BGBY"   pt_key="BGBY"   pt_key="BGBY"  value="BGBY"/><label for="platBGBY">BG捕鱼</label>
-
-                    <input type="checkbox" id="platBGJL" style="vertical-align: middle" name="plat"   pt_key="BGJL"   pt_key="BGJL"   pt_key="BGJL"  value="BGJL"/><label for="platBGJL">BG电子</label>
-
-                    <input type="checkbox" id="platPNGJL" style="vertical-align: middle" name="plat"   pt_key="PNGJL"   pt_key="PNGJL"   pt_key="PNGJL"  value="PNGJL"/><label for="platPNGJL">PNG电子</label>
-
-                    <input type="checkbox" id="platJDBJL" style="vertical-align: middle" name="plat"   pt_key="JDBJL"   pt_key="JDBJL"   pt_key="JDBJL"  value="JDBJL"/><label for="platJDBJL">JDB电子</label>
-
-                    <input type="checkbox" id="platJDBQP" style="vertical-align: middle" name="plat"   pt_key="JDBQP"   pt_key="JDBQP"   pt_key="JDBQP"  value="JDBQP"/><label for="platJDBQP">JDB棋牌</label>
-
-                    <input type="checkbox" id="platJDBBY" style="vertical-align: middle" name="plat"   pt_key="JDBBY"   pt_key="JDBBY" checked="checked"  pt_key="JDBBY"  value="JDBBY"/><label for="platJDBBY">JDB捕鱼</label>
-
-                    <input type="checkbox" id="platFYDJ" style="vertical-align: middle" name="plat"   pt_key="FYDJ"   pt_key="FYDJ"   pt_key="FYDJ"  value="FYDJ"/><label for="platFYDJ">FY电竞</label>
-
-                    <input type="checkbox" id="platFGQP" style="vertical-align: middle" name="plat"   pt_key="FGQP"   pt_key="FGQP"   pt_key="FGQP"  value="FGQP"/><label for="platFGQP">FG棋牌</label>
-
-                    <input type="checkbox" id="platFGBY" style="vertical-align: middle" name="plat"   pt_key="FGBY"   pt_key="FGBY"   pt_key="FGBY"  value="FGBY"/><label for="platFGBY">FG捕鱼</label>
-
-                    <input type="checkbox" id="platFGJL" style="vertical-align: middle" name="plat"   pt_key="FGJL"   pt_key="FGJL"   pt_key="FGJL"  value="FGJL"/><label for="platFGJL">FG电子</label>
-
-                    <input type="checkbox" id="platKYQP" style="vertical-align: middle" name="plat"   pt_key="KYQP"   pt_key="KYQP"   pt_key="KYQP"  value="KYQP"/><label for="platKYQP">KY棋牌</label>
-
-                    <input type="checkbox" id="platNWQP" style="vertical-align: middle" name="plat"   pt_key="NWQP"   pt_key="NWQP"   pt_key="NWQP"  value="NWQP"/><label for="platNWQP">NW棋牌</label>
-
-                    <input type="checkbox" id="platLGQP" style="vertical-align: middle" name="plat"   pt_key="LGQP"   pt_key="LGQP"   pt_key="LGQP"  value="LGQP"/><label for="platLGQP">LG棋牌</label>
-
-                    <input type="checkbox" id="platDTQP" style="vertical-align: middle" name="plat"   pt_key="DTQP"   pt_key="DTQP"   pt_key="DTQP"  value="DTQP"/><label for="platDTQP">DT棋牌</label>
-
-                    <input type="checkbox" id="platDTJL" style="vertical-align: middle" name="plat"   pt_key="DTJL"   pt_key="DTJL"   pt_key="DTJL"  value="DTJL"/><label for="platDTJL">DT电子</label>
-
-                    <input type="checkbox" id="platWMJL" style="vertical-align: middle" name="plat"   pt_key="WMJL"   pt_key="WMJL"   pt_key="WMJL"  value="WMJL"/><label for="platWMJL">WM电子</label>
-
-                    <input type="checkbox" id="platSCSX" style="vertical-align: middle" name="plat"   pt_key="SCSX"   pt_key="SCSX"   pt_key="SCSX"  value="SCSX"/><label for="platSCSX">性感百家乐</label>
-
-                    <input type="checkbox" id="platBSPQP" style="vertical-align: middle" name="plat"   pt_key="BSPQP"   pt_key="BSPQP"   pt_key="BSPQP"  value="BSPQP"/><label for="platBSPQP">BSP棋牌</label>
-
-                    <input type="checkbox" id="platBSPBY" style="vertical-align: middle" name="plat"   pt_key="BSPBY"   pt_key="BSPBY"   pt_key="BSPBY"  value="BSPBY"/><label for="platBSPBY">BSP捕鱼</label>
-
-                    <input type="checkbox" id="platEBETSX" style="vertical-align: middle" name="plat"   pt_key="EBETSX"   pt_key="EBETSX"   pt_key="EBETSX"  value="EBETSX"/><label for="platEBETSX">EBET视讯</label>
-
-                    <input type="checkbox" id="platSGJL" style="vertical-align: middle" name="plat"   pt_key="SGJL"   pt_key="SGJL"   pt_key="SGJL"  value="SGJL"/><label for="platSGJL">SG电子</label>
-
-                    <input type="checkbox" id="platPGJL" style="vertical-align: middle" name="plat"   pt_key="PGJL"   pt_key="PGJL"   pt_key="PGJL"  value="PGJL"/><label for="platPGJL">PG电子</label>
-
-                    <input type="checkbox" id="platMGPJL" style="vertical-align: middle" name="plat"   pt_key="MGPJL"   pt_key="MGPJL"   pt_key="MGPJL"  value="MGPJL"/><label for="platMGPJL">新MG电子</label>
-
-                    <input type="checkbox" id="platTHQP" style="vertical-align: middle" name="plat"   pt_key="THQP"   pt_key="THQP"   pt_key="THQP"  value="THQP"/><label for="platTHQP">TH棋牌</label>
-
-                    <input type="checkbox" id="platTHBY" style="vertical-align: middle" name="plat"   pt_key="THBY"   pt_key="THBY"   pt_key="THBY"  value="THBY"/><label for="platTHBY">TH捕鱼</label>
-
-                    <input type="checkbox" id="platTHJL" style="vertical-align: middle" name="plat"   pt_key="THJL"   pt_key="THJL"   pt_key="THJL"  value="THJL"/><label for="platTHJL">TH电子</label>
-
-                    <input type="checkbox" id="platSCGQP" style="vertical-align: middle" name="plat"   pt_key="SCGQP"   pt_key="SCGQP"   pt_key="SCGQP"  value="SCGQP"/><label for="platSCGQP">SCG棋牌</label>
-
-                    <input type="checkbox" id="platSCGBY" style="vertical-align: middle" name="plat"   pt_key="SCGBY"   pt_key="SCGBY"   pt_key="SCGBY"  value="SCGBY"/><label for="platSCGBY">SCG捕鱼</label>
-
-                    <input type="checkbox" id="platSCGJL" style="vertical-align: middle" name="plat"   pt_key="SCGJL"   pt_key="SCGJL"   pt_key="SCGJL"  value="SCGJL"/><label for="platSCGJL">SCG电子</label>
-
-                    <input type="checkbox" id="platOGPSX" style="vertical-align: middle" name="plat"   pt_key="OGPSX"   pt_key="OGPSX"   pt_key="OGPSX"  value="OGPSX"/><label for="platOGPSX">新OG视讯</label>
-
-                    <input type="submit" value="查询" class="button_1" style="cursor:pointer;width: 80px;" onclick="showDiv()"/>
+                        <select id="pagenum" name="pagenum" class="form-control">
+                            <option value="50" selected="selected" >50</option>
+                            <option value="100" >100</option>
+                            <option value="200" >200</option>
+                            <option value="500" >500</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="sorttype">
+                        <label> 时间排序 :</label>
+                        <select id="sort" name="sort" class="form-control">
+                            <option value="ASC" >升幂(由小到大)</option>
+                            <option value="DESC" selected="selected" >降幂(由大到小)</option>
+                        </select>
+                    </div>
+                    <button id="startsearch" type="button" class="btn btn-info" value=""> 查询 </button>
                 </form>
             </div>
-
-            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="100%" colspan="10" align="center">总计&nbsp;2020-08-20 00:00:00-2020-08-28 23:59:59</th>
-                </tr>
-                </thead>
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="14%">会员</th>
-                    <th height="30" width="14%">单量</th>
-                    <th height="30" width="14%">投注额</th>
-                    <th height="30" width="14%">实际投注</th>
-                    <th height="30" width="14%">损益</th>
-
-
-
-                </tr>
-                </thead>
-                <tbody class="tbody1">
-                <tr align="center" bgcolor="#FAFAF1" height="22" >
-                    <td>aaa9500</td>
-                    <td>298</td>
-                    <td>
-
-
-                        14896.74
-
-                    </td>
-                    <td>14896.74</td>
-                    <td style="color:red">
-                        -6751.54
-                    </td>
-
-
-
-                </tr>
-                </tbody>
-            </table>
-
-            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="100%" colspan="10" align="center">AG视讯&nbsp;2020-08-20 00:00:00-2020-08-28 23:59:59</th>
-                </tr>
-                </thead>
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="14%">会员</th>
-                    <th height="30" width="14%">单量</th>
-                    <th height="30" width="14%">投注额</th>
-                    <th height="30" width="14%">实际投注</th>
-                    <th height="30" width="14%">损益</th>
-
-
-
-                </tr>
-                </thead>
-                <tbody class="tbody1">
-                <tr align="center" bgcolor="#FAFAF1" height="22" >
-                    <td>aaa9500</td>
-                    <td>2</td>
-                    <td>
-
-                        <a href="javascript:void(0);" onclick="showDetail(9750742,'AGSX')">
-
-
-                            40.00
-                        </a>
-                    </td>
-                    <td>40.00</td>
-                    <td >
-                        0.00
-                    </td>
-
-
-
-                </tr>
-                </tbody>
-            </table>
-
-            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="100%" colspan="10" align="center">MG电子&nbsp;2020-08-20 00:00:00-2020-08-28 23:59:59</th>
-                </tr>
-                </thead>
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="14%">会员</th>
-                    <th height="30" width="14%">单量</th>
-                    <th height="30" width="14%">投注额</th>
-                    <th height="30" width="14%">实际投注</th>
-                    <th height="30" width="14%">损益</th>
-
-
-
-                </tr>
-                </thead>
-                <tbody class="tbody1">
-                <tr align="center" bgcolor="#FAFAF1" height="22" >
-                    <td>aaa9500</td>
-                    <td>285</td>
-                    <td>
-
-                        <a href="javascript:void(0);" onclick="showDetail(9750742,'NMGJL')">
-
-
-                            6528.84
-                        </a>
-                    </td>
-                    <td>6528.84</td>
-                    <td style="color:red">
-                        -3863.64
-                    </td>
-
-
-
-                </tr>
-                </tbody>
-            </table>
-
-            <table width="98%" height="auto" border="0" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="100%" colspan="10" align="center">JDB捕鱼&nbsp;2020-08-20 00:00:00-2020-08-28 23:59:59</th>
-                </tr>
-                </thead>
-                <thead>
-                <tr align="center" bgcolor="#FAFAF1" height="22">
-                    <th height="30" width="14%">会员</th>
-                    <th height="30" width="14%">单量</th>
-                    <th height="30" width="14%">投注额</th>
-                    <th height="30" width="14%">实际投注</th>
-                    <th height="30" width="14%">损益</th>
-
-
-
-                </tr>
-                </thead>
-                <tbody class="tbody1">
-                <tr align="center" bgcolor="#FAFAF1" height="22" >
-                    <td>aaa9500</td>
-                    <td>11</td>
-                    <td>
-
-                        <a href="javascript:void(0);" onclick="showDetail(9750742,'JDBBY')">
-
-
-                            8327.90
-                        </a>
-                    </td>
-                    <td>8327.90</td>
-                    <td style="color:red">
-                        -2887.90
-                    </td>
-
-
-
-                </tr>
-                </tbody>
-            </table>
-
         </div>
     </div>
+    <div class="alert alert-success noticeform">    帐号: te123456 | 币别 : 人民币 |
+        总共:30注单
+        <div class="pull-right refreshcss HideForm" id="refresh">
+            <label> 更新秒数 :</label>
+            <select id="freshtime" name="freshtime" class="form-control " >
+                <option value="N" selected="selected"  >N</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="pagination-all"><ul class="pagination" target="_blank">
+        <li class="active"><span>1</span></li>
+    </ul></div>
+    <div class="panel panel-default">
+        <table class="table table-hover text-middle table-bordered">
+            <thead>
+            <tr>
+                <th class="text-center">时间</th>
+                <th class="text-center">注单编号</th>
+                <th class="text-center">游戏类别</th>
+                <th class="text-center">结果</th>
+                <th class="text-center">总投注</th>
+                <th class="text-center">总派彩</th>
+                <th class="text-center">备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--//時間    注單編號    遊戲類別    廳主  帳號  結果  總投注 總派彩 備註-->
+            <tr>
+                <td class="text-center">2020-09-02 02:46:04</td>
+                <td class="text-center">231009926</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009926' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:55</td>
+                <td class="text-center">231009873</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009873' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:47</td>
+                <td class="text-center">231009817</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009817' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:40</td>
+                <td class="text-center">231009771</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009771' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.10</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:32</td>
+                <td class="text-center">231009717</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009717' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.50</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:27</td>
+                <td class="text-center">231009686</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009686' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:21</td>
+                <td class="text-center">231009641</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009641' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.60</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:18</td>
+                <td class="text-center">231009621</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009621' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:14</td>
+                <td class="text-center">231009593</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009593' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:45:03</td>
+                <td class="text-center">231009543</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009543' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.10</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:58</td>
+                <td class="text-center">231009515</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009515' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:53</td>
+                <td class="text-center">231009478</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009478' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:48</td>
+                <td class="text-center">231009437</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009437' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:34</td>
+                <td class="text-center">231009335</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009335' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">1.70</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:27</td>
+                <td class="text-center">231009297</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009297' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.60</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:22</td>
+                <td class="text-center">231009261</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009261' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.50</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:13</td>
+                <td class="text-center">231009202</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009202' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">2.20</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:44:08</td>
+                <td class="text-center">231009175</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009175' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:57</td>
+                <td class="text-center">231009128</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009128' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">0.30</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:51</td>
+                <td class="text-center">231009080</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009080' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">0.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:44</td>
+                <td class="text-center">231009041</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009041' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">0.20</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:40</td>
+                <td class="text-center">231009016</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231009016' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:35</td>
+                <td class="text-center">231008983</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008983' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:31</td>
+                <td class="text-center">231008962</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008962' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:24</td>
+                <td class="text-center">231008914</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008914' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">0.50</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:15</td>
+                <td class="text-center">231008844</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008844' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.50</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:43:07</td>
+                <td class="text-center">231008800</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008800' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">0.40</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:42:41</td>
+                <td class="text-center">231008643</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008643' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class=" ">7.60</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:42:30</td>
+                <td class="text-center">231008576</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">输</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008576' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-1.00</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2020-09-02 02:42:21</td>
+                <td class="text-center">231008521</td>
+                <td class="text-center">糖果派对</td>
+                <td class="text-center">赢</td>
+                <td class="text-center modal-btn" onclick="show_popup_by_size( 76, '671949487', '231008521' ,900 ,700 );"><span class=""> 1.00</span></td>
+                <td class="text-center"><span class="text-red  ">-0.20</span></td>
+                <td class="text-center">
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr  class="bg-999">
+                <th class="text-center"> 小计 <img src="/tpl/default/images/flag/cn.gif" alt="flag" width="26" height="15"> </th>
+                <th class="text-center">30</th>
+                <th></th>
+                <th></th>
+                <th class="text-center">30.00</th>
+                <th class="text-center"><span class="text-red ">-4.20</span></th>
+                <th></th>
+            </tr>
+            <tr  class="bg-999">
+                <th class="text-center"> 总计 <img src="/tpl/default/images/flag/cn.gif" alt="flag" width="26" height="15"> </th>
+                <th class="text-center">30</th>
+                <th></th>
+                <th></th>
+                <th class="text-center">30.00</th>
+                <th class="text-center"><span class="text-red ">-4.20</span></th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="pagination-all"><ul class="pagination" target="_blank">
+        <li class="active"><span>1</span></li>
+    </ul></div>
 </div>
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor/jquery-ui-plugin/jquery-ui-combobox.js"></script>
+<script src="/assets/vendor/jquery-ui-plugin/datepicker-i18n/datepicker-cn.js"></script>
+<script src="/assets/lib/cust/jquery.cust.js"></script>
+<script language="JavaScript">
+    var Terminal = 'N';
+    var selectwebsite = '请选择站别'; //請選擇站別
+    var selectgametype = '请选择游戏类别'; //請選擇遊戲類別
+    var wagersid = '请务必输入注单编号!!'; //注單編號
+    var noserial = '请务必输入局号!!'; //請務必輸入局號!!
+    var formatincorrect = '格式不正确'; //格式不正確
+    var notable = '没有桌号'; //沒有桌號
+    var dateerror = '日期验证错误'; //日期驗證錯誤
+    var overday = '查询日期区间不可超过7天!!'; //超過七天
+    var setdateerror = '查询日期区间不可超过7天!!'; //日期區間錯誤
+    var warning = '警告'; //警告
+    var confirm = '确定'; //確定
+    var cancel = '取消'; //取消
+    var alldict = '全部'; //全部
+    var BarID = '1';
+    var SearchData = 'MemberBets';
+    var UserID = '671949487';
+    var GameKind = '76';
+    var renovate = '线路维护'; //線路維護
+    var amenu = '{"3":{"title":"BB\u89c6\u8baf","url":"\/game\/betrecord_search\/kind3?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"999":{"title":"BB\u89c6\u8baf\u79ef\u5206","url":"\/live\/honorpoint_record\/honorpoint?SearchData=MemberBets&UserID=671949487&date_start=&date_end=","now":0,"close":0,"renovate":0},"99":{"title":"BB\u5c0f\u8d39","url":"\/game\/betrecord_search\/kind99?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"35":{"title":"\u8d4c\u795e\u5385","url":"\/game\/betrecord_search\/kind35?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"19":{"title":"AG\u89c6\u8baf","url":"\/game\/betrecord_search\/kind19?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"22":{"title":"\u6b27\u535a\u89c6\u8baf","url":"\/game\/betrecord_search\/kind22?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"27":{"title":"GD\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=27&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"36":{"title":"BG\u89c6\u8baf","url":"\/game\/betrecord_search\/kind36?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"47":{"title":"EVO\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=47&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"54":{"title":"eBET\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=54&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"72":{"title":"MG\u89c6\u8baf","url":"\/game\/betrecord_search\/kind72?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"75":{"title":"XBB\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=75&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"89":{"title":"EG\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=89&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"93":{"title":"NBB\u533a\u5757\u94fe","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=93&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"96":{"title":"BC\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=96&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"97":{"title":"\u5b8c\u7f8e\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=97&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"98":{"title":"SSG\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=98&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"104":{"title":"N2\u89c6\u8baf","url":"\/game\/betrecord_search\/kind104?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"105":{"title":"AE\u89c6\u8baf","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=105&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"5":{"title":"BB\u7535\u5b50","url":"\/game\/betrecord_search\/kind5?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"38":{"title":"BB\u6355\u9c7c\u5927\u5e08","url":"\/game\/betrecord_search\/kind38?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"30":{"title":"BB\u6355\u9c7c\u8fbe\u4eba","url":"\/game\/betrecord_search\/kind30?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"20":{"title":"PT\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=20&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"28":{"title":"GNS\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=28&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"29":{"title":"ISB\u7535\u5b50","url":"\/game\/betrecord_search\/kind29?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"32":{"title":"HB\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=32&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"37":{"title":"PP\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=37&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"39":{"title":"JDB\u7535\u5b50","url":"\/game\/betrecord_search\/kind39?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"40":{"title":"AG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=40&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"41":{"title":"\u5927\u6ee1\u8d2f\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=41&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"44":{"title":"SG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=44&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"46":{"title":"SW\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=46&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"50":{"title":"WM\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=50&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"51":{"title":"Gti\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=51&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"52":{"title":"CQ9\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=52&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"53":{"title":"KA\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=53&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"56":{"title":"AW\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=56&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"58":{"title":"PG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=58&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"59":{"title":"FG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=59&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"67":{"title":"\u6613\u6e38\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=67&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"71":{"title":"MT\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=71&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"76":{"title":"XBB\u7535\u5b50","url":"\/game\/betrecord_search\/kind76?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":1,"close":0,"renovate":0},"78":{"title":"ACE\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=78&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"79":{"title":"PS\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=79&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"82":{"title":"MG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=82&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"85":{"title":"DF\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=85&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"90":{"title":"EG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=90&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"94":{"title":"TP\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=94&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"95":{"title":"BNG\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=95&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"107":{"title":"BBP\u7535\u5b50","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=107&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"1":{"title":"BB\u4f53\u80b2","url":"\/game\/betrecord_search\/kind1?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"4":{"title":"\u6c99\u5df4\u4f53\u80b2","url":"\/game\/betrecord_search\/kind4?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"31":{"title":"New BB\u4f53\u80b2","url":"\/game\/betrecord_search\/kind31?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"43":{"title":"IN\u4f53\u80b2","url":"\/game\/betrecord_search\/kind43?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"55":{"title":"\u6ce2\u97f3\u4f53\u80b2","url":"\/game\/betrecord_search\/kind55?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"65":{"title":"\u7687\u51a0\u4f53\u80b2","url":"\/game\/betrecord_search\/kind65?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"84":{"title":"BR\u865a\u62df","url":"\/game\/betrecord_search\/kind84?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"102":{"title":"MG\u865a\u62df","url":"\/game\/betrecord_search\/kind102?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"108":{"title":"IM\u7535\u7ade","url":"\/game\/betrecord_search\/kind108?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"109":{"title":"XBB\u4f53\u80b2","url":"\/game\/betrecord_search\/kind109?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0},"12":{"title":"BB\u5f69\u7968","url":"\/game\/betrecord_search\/kind12?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"45":{"title":"VR\u5f69\u7968","url":"\/game\/betrecord_search\/kind45?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"73":{"title":"XBB\u5f69\u7968","url":"\/game\/betrecord_search\/kind73?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"49":{"title":"\u5f00\u5143\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=49&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"62":{"title":"\u6613\u6e38\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=62&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"64":{"title":"MT\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=64&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"66":{"title":"BB\u5929\u8c6a\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=66&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"68":{"title":"JDB\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=68&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"69":{"title":"FG\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=69&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"77":{"title":"ACE\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=77&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"81":{"title":"\u5e78\u8fd0\u68cb\u724c","url":"\/game\/betrecord_search\/kind81?SearchData=MemberBets&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"83":{"title":"\u4e50\u6e38\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=83&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":0,"renovate":0},"112":{"title":"BBP\u68cb\u724c","url":"\/game\/betrecord\/kind?SearchData=MemberBets&GameKind=112&date_start=2020-09-02&date_end=2020-09-02&UserID=671949487","now":0,"close":1,"renovate":0}}';
+    var freshtime = '';
+</script>
+<script src="/script/game/game_refreshtime.js"></script>
+<script src="/script/game/game_betrecord_renovate.js"></script>
+<script src="/script/game/game_betrecord.js"></script>
+<script src="/script/game/game_betrecord_kind76.js"></script>
+<script src="/script/game/game_betrecord_extend.js"></script>
+
+
 </body>
 </html>

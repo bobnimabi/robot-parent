@@ -87,4 +87,6 @@ public class JuQueryDetailFunction extends AbstractFunction<JuQueryDetailAO,Stri
         }
     }
 
+
+
 }

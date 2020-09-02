@@ -21,6 +21,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,9 +95,9 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
             Elements th = bg999.select("th");
 
             Elements tbody = document.getElementsByTag("tbody");
+            if(null== tbody)
+                return Response.FAIL("查询下注总额失败");
             Elements td = tbody.select("td");
-
-            for (int i = 0; i < th.size(); i++) {
 
                 XBBTotalBetGameBO  totalbetBo = new XBBTotalBetGameBO(
                         td.get(2).text(),
@@ -106,12 +108,8 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
                 );
                 return Response.SUCCESS(totalbetBo);
 
-            }
-
-
-           return Response.FAIL("查询下注总额失败");
         }
     }
 
 
-}
+        }

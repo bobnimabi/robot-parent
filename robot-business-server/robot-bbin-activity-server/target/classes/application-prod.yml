@@ -1,6 +1,6 @@
 spring:
   application:
-    name: robot-gpk-activity-server
+    name: robot-bbin-server
   cloud:
     refresh:
       refreshable: none #防止循环依赖
@@ -45,7 +45,7 @@ spring:
         acknowledge-mode: manual
         enabled: true #是否开启消费者重试（为false时关闭消费者重试，这时消费端代码异常会一直重复收到消息）
         max-attempts: 1    #最大重试次数
-        initial-interval: 5000  #重试间隔时间（单位毫秒）
+        initial-interval: 15000  #重试间隔时间（单位毫秒）
         max-interval: 1200000 #重试最大时间间隔（单位毫秒）
         multiplier: 5 #应用于前一重试间隔的乘法器
 
@@ -68,8 +68,8 @@ ribbon:
   MaxAutoRetries: 2 #最大重试次数，当Eureka中可以找到服务，但是服务连不上时将会重试
   MaxAutoRetriesNextServer: 3 #切换实例的重试次数
   OkToRetryOnAllOperations: false  #对所有操作请求都进行重试，如果是get则可以，如果是post，put等操作没有实现幂等的情况下是很危险的,所以设置为false
-  ConnectTimeout: 5000  #请求连接的超时时间
-  ReadTimeout: 60000 #请求处理的超时时间
+  ConnectTimeout: 15000  #请求连接的超时时间
+  ReadTimeout: 40000 #请求处理的超时时间
 
 
 #不检查长令牌的URL

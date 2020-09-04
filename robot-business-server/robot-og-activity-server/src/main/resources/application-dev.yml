@@ -54,7 +54,7 @@ spring:
     addresses: dev.rabbitmq.com:5672  # , node2:5672 , node3:5672
 
 server:
-  port: 8087
+  port: 8088
   servlet:
     context-path: /xinhaoRobot
 
@@ -85,11 +85,7 @@ logging:
   config: classpath:log4j2-dev.xml
 
 PERMIT_URL: /** #测试放行
-
-
 #打款url
-
-
 # 响应文本存放根路径
 html:
   output:

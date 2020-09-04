@@ -99,33 +99,34 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
         gameDTO.setBarId("1");
+        //固定游戏对应的gamecode
         switch (gameName) {
 
             case "糖果派对":
 
-                gameDTO.setGameType(queryDTO.getChildren().get(0).getGameCode());
+                gameDTO.setGameType(String.valueOf(76073));
 
                 break;
 
             case "连环夺宝":
 
-                gameDTO.setGameType(queryDTO.getChildren().get(1).getGameCode());
+                gameDTO.setGameType(String.valueOf(76075));
 
                 break;
 
             case "连环夺宝2":
 
-                gameDTO.setGameType(queryDTO.getChildren().get(2).getGameCode());
+                gameDTO.setGameType(String.valueOf(76076));  //queryDTO.getChildren().get(2).getGameCode()
 
                 break;
             case "糖果派对2":
 
-                gameDTO.setGameType(queryDTO.getChildren().get(3).getGameCode());
+                gameDTO.setGameType(String.valueOf(76074));
 
                 break;
             case "糖果王国":
 
-                gameDTO.setGameType(queryDTO.getChildren().get(4).getGameCode());
+                gameDTO.setGameType(String.valueOf(76019));
 
                 break;
             default:

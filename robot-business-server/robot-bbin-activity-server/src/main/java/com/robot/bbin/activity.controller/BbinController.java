@@ -159,7 +159,7 @@ public class BbinController extends ControllerBase {
     }
 
     /**
-     * 机器人：获取投注、亏损、充值信息   新亏损补贴活动
+     * 机器人：获取投注、亏损、充值信息  优惠活动总额   新亏损补贴活动
      */
     @PostMapping("/getTotalAmount2")
     public Response getTotalAmount2(@RequestBody OrderNoQueryDTO dto) throws Exception {

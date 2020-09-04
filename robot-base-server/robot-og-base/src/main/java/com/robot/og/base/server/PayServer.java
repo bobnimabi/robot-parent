@@ -43,13 +43,8 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         if (!response.isSuccess()) {
             return response;
         }
-        Response<PayBO> payBOResponse = payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj()), robotWrapper);
-        PayBO bo = payBOResponse.getObj();
-        PayVo payVo = MyBeanUtil.copyProperties(bo, PayVo.class);
-        payVo.setOutPayNo(paramWrapper.getObj().getOutPayNo());
-        String idStr = IdWorker.getIdStr();
-        payVo.setRobotRecordNo(idStr);
-        return Response.SUCCESS(payVo);
+        return payFunction.doFunction(createPayParams(paramWrapper.getObj(), response.getObj()), robotWrapper);
+
     }
 
     /**
@@ -103,6 +98,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         payAO.setDepositPro("1");
         payAO.setToken(UUID.randomUUID().toString().replaceAll("-",""));
         payAO.setDepositMoneyRemark1(moneyDTO.getMemo());  //todo 客户想传入订单号
+        payAO.setExteralNo(moneyDTO.getOutPayNo());
 
         return new ParamWrapper<PayAO>(payAO);
 

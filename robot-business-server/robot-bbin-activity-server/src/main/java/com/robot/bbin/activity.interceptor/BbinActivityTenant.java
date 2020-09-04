@@ -3,6 +3,8 @@ package com.robot.bbin.activity.interceptor;
 import com.robot.center.constant.RobotConsts;
 import com.robot.center.interceptor.TenantInterceptor;
 import com.robot.core.common.TContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +17,7 @@ public class BbinActivityTenant extends TenantInterceptor {
 
     @Override
     protected void setDevVariable() {
-        TContext.setTenantId("2");
+        TContext.setTenantId("6");
         TContext.setChannelId("2");
     }
 

@@ -31,15 +31,15 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
-public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
+public class PayFunction extends AbstractFunction<PayAO,String, Object> {
 
     @Autowired
     private MqSenter mqSenter;
 
 
     @Override
-    public Response<PayBO> doFunction(ParamWrapper<PayAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<PayBO> response = super.doFunction(paramWrapper, robotWrapper);
+    public Response<Object> doFunction(ParamWrapper<PayAO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        Response<Object> response = super.doFunction(paramWrapper, robotWrapper);
         PayAO payAO = paramWrapper.getObj();
         mqSenter.topicPublic("",payAO.getExteralNo(),response,new BigDecimal(payAO.getDepositMoney()));
         return response;
@@ -74,7 +74,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
     }
 
     @Override
-    protected IResultHandler<String, PayBO> getResultHandler() {
+    protected IResultHandler<String, Object> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
@@ -82,20 +82,18 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
      * 响应转换
      *
      */
-    private static final class ResultHandler implements IResultHandler<String, PayBO> {
+    private static final class ResultHandler implements IResultHandler<String, Object> {
         private static final ResultHandler INSTANCE = new ResultHandler();
 
         private ResultHandler() {
         }
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, PayBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, Object> shr) {
             String result = shr.getOriginalEntity();
             log.info("打款功能响应：{}", result);
             PayBO payBO = JSON.parseObject(result, PayBO.class);
-            payBO.setOutPayNo(UUID.randomUUID().toString().replace("-","") +":");
-            String idStr = IdWorker.getIdStr();
-            payBO.setRobotRecordNo(idStr);
+
             if (StringUtils.isEmpty(result)) {
                 log.info("打款未有任何响应");
                 return Response.FAIL("打款未有任何响应：" + result);
@@ -104,9 +102,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, PayBO> {
                 return Response.FAIL("打款失败：" + result);
             } else {
 
-
-
-                return Response.SUCCESS(payBO);
+                return Response.SUCCESS();  //payBO
             }
         }
     }

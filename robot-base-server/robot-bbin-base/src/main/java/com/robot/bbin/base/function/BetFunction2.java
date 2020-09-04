@@ -67,7 +67,7 @@ public class BetFunction2 extends AbstractFunction<BetAO2,String,List<BetBO> > {
             }
          List<BetBO>  betBOs = JSON.parseArray(result, BetBO.class);
             if(CollectionUtils.isEmpty(betBOs)){
-                return Response.FAIL("为查询到下注信息");
+                return Response.FAIL("未查询到下注信息");
             }
             return Response.SUCCESS(betBOs);
         }

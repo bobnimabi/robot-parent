@@ -29,6 +29,7 @@ public enum PathEnum implements IPathEnum {
     BET_ANALYSIS("bet_analysis","下注分析"),
     BET_ANALYSIS_DETAIL("bet_analysis_detail","下注分析详细"),
     IN_OUT_CASH("in_out_cash","出入款统计"),
+    GET_REBATE("get_rebate","查询已申请的优惠活动金额"),
     GET_GAMECODE("get_gamecode","出入款统计")
 
     ;

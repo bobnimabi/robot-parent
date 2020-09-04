@@ -1,12 +1,9 @@
 package com.robot.bbin.base.function;
 
 import com.alibaba.fastjson.JSON;
-import com.robot.bbin.base.ao.BetAO2;
 import com.robot.bbin.base.ao.RebateAO;
 import com.robot.bbin.base.basic.PathEnum;
-import com.robot.bbin.base.bo.rebate.Premium_data;
-import com.robot.bbin.base.bo.rebate.Rebate;
-import com.robot.bbin.base.bo.rebate.RebateBean;
+import com.robot.bbin.base.bo.rebate.X;
 import com.robot.code.response.Response;
 import com.robot.core.function.base.AbstractFunction;
 import com.robot.core.function.base.IPathEnum;
@@ -17,8 +14,10 @@ import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by mrt on 11/15/2019 12:29 PM
@@ -26,16 +25,16 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service
-public class RebateFunction extends AbstractFunction<RebateAO,String, String> {
+public class RebateFunction extends AbstractFunction<RebateAO, String, String> {
 
     @Override
     protected IPathEnum getPathEnum() {
-        return PathEnum.BET_ANALYSIS;
+        return PathEnum.GET_REBATE;
     }
 
     @Override
     protected IEntity getEntity(RebateAO dto, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(8)
+        return UrlEntity.custom(15)
                 .add("start", dto.getStart())
                 .add("end", dto.getEnd())
                 .add("premium", "0")
@@ -54,28 +53,37 @@ public class RebateFunction extends AbstractFunction<RebateAO,String, String> {
     }
 
     @Override
-    protected IResultHandler<String,String > getResultHandler() {
+    protected IResultHandler<String, String> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
     /**
      * 结果转换
      */
-    private static final class ResultHandler implements IResultHandler<String,String> {
+    private static final class ResultHandler implements IResultHandler<String, String> {
         private static final ResultHandler INSTANCE = new ResultHandler();
-        private ResultHandler(){}
+
+        private ResultHandler() {
+        }
 
         @Override
         public Response parse2Obj(StanderHttpResponse<String, String> shr) {
             String result = shr.getOriginalEntity();
-            log.info( result);
+            log.info(result);
             if (StringUtils.isEmpty(result)) {
-                return Response.FAIL("优惠查询:未响应结果");
+                return Response.FAIL("优惠查询:未响应结果" + result);
             }
-            RebateBean  rebateBean = JSON.parseObject(result, RebateBean.class);
-            String premiumAmount;
-            premiumAmount=null== rebateBean.getRebate()? "0":rebateBean.getRebate().getPremium_data().get(0).getPremiumAmount();
-            return Response.SUCCESS(premiumAmount);
+            Pattern P = Pattern.compile("premiumAmount\":\"(.*?)\"}]}}");
+            Matcher m = P.matcher(result);
+            String amout = null;
+            while (m.find()) {
+                String amouts = m.group(1);
+                if (null != amouts) {
+                    amout = amouts;
+                }
+            }
+            return Response.SUCCESS(amout);
+
         }
     }
 }

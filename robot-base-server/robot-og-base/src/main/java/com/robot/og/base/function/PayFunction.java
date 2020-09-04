@@ -107,6 +107,4 @@ public class PayFunction extends AbstractFunction<PayAO,String, Object> {
         }
     }
 
-
-
 }

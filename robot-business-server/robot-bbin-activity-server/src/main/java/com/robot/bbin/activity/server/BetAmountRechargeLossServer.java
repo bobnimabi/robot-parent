@@ -56,6 +56,7 @@ public class BetAmountRechargeLossServer implements IAssemFunction<OrderNoQueryD
         Response<String> rebateBeanResponse = rebateFunction.doFunction(creatRebatAOparams(queryDTO),robotWrapper);
         String amount = rebateBeanResponse.getObj();
         betAndLoss.setTotalLoss(betBO.get(0).getPayoff().add(new BigDecimal(amount)));
+
         // 查询充值金额
         Response<InOutCashBO> inOutCashBOResponse = queryRecharge.doFunction(paramWrapper, robotWrapper);
         InOutCashBO inOutCashBO = inOutCashBOResponse.getObj();

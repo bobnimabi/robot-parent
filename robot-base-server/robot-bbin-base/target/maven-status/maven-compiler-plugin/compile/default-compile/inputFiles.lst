@@ -6,6 +6,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBJuQueryDetailBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\JuQueryAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\SessionData.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\X.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBTotalBetGameBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BarIdAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\TotalBetGameFunction.java
@@ -15,7 +16,6 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\TokenBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\JuQueryDetailFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\JuQueryRoundFunction.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\Rebate.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\PayFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\XBBJuQueryDetailFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetAO.java
@@ -60,6 +60,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BetDetailFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\PayAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\InOutCashData.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\RebateData.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetAO2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\BreakerQueryBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\QueryBalanceBO.java

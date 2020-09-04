@@ -2,6 +2,7 @@ com\robot\bbin\base\ao\InOutCashAO.class
 com\robot\bbin\base\bo\TotalBetGameBO.class
 com\robot\bbin\base\ao\BetDetailAO.class
 com\robot\bbin\base\server\PayServer.class
+com\robot\bbin\base\bo\rebate\X.class
 com\robot\bbin\base\function\XBBGetGameCodeFunction$ResultHandler.class
 com\robot\bbin\base\bo\XBBJuQueryDetailBO.class
 com\robot\bbin\base\bo\rebate\Premium_data.class
@@ -30,7 +31,6 @@ com\robot\bbin\base\bo\XBBJuQueryBO.class
 com\robot\bbin\base\bo\Cq9BO.class
 com\robot\bbin\base\function\JuQueryRoundFunction.class
 com\robot\bbin\base\ao\XBBTotalBetGameAO.class
-com\robot\bbin\base\bo\rebate\Rebate.class
 com\robot\bbin\base\ao\JuQueryDetailAO.class
 com\robot\bbin\base\ao\PayAO.class
 com\robot\bbin\base\function\PomponFunction$ResultHandler.class
@@ -71,6 +71,7 @@ com\robot\bbin\base\function\XBBGetGameCodeFunction.class
 com\robot\bbin\base\ao\XBBJuQueryDetailAO.class
 com\robot\bbin\base\function\BetDetailFunction.class
 com\robot\bbin\base\bo\BreakerQueryBO.class
+com\robot\bbin\base\bo\rebate\RebateData.class
 com\robot\bbin\base\bo\rebate\RebateBean.class
 com\robot\bbin\base\bo\XBBTotalBetGameBO.class
 com\robot\bbin\base\function\BetFunction2.class

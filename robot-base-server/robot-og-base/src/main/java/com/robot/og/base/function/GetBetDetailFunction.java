@@ -13,6 +13,7 @@ import com.robot.core.http.request.UrlEntity;
 import com.robot.core.http.response.StanderHttpResponse;
 import com.robot.core.robot.manager.RobotWrapper;
 import com.robot.code.entity.VsGame;
+import com.robot.og.base.basic.GameIdEnum;
 import com.robot.og.base.basic.PathEnum;
 import com.robot.og.base.bo.TenantBetDetailBO;
 import com.robot.og.base.bo.TenanteBetBO;
@@ -21,14 +22,21 @@ import com.robot.code.service.impl.VsGameServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by tanke
@@ -39,8 +47,8 @@ import java.util.List;
 public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, TenantBetDetailBO> {
 
 	@Autowired
+	@Lazy
 	private VsGameServiceImpl gameService;
-
 
 	@Override
 	protected IPathEnum getPathEnum() {
@@ -99,6 +107,9 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 
 			Elements tds = doc.select("tbody>tr>td");
 			Elements tbody = doc.select("tbody");
+				if(tbody.size()==0){
+					return Response.FAIL("未查询到下注记录,请检查您的会员账号或下注记录");
+				}
 			Elements tby1 = tbody.get(0).select("tbody>tr>td");
 			String totalbett = tby1.get(3).text();
 			TenantBetDetailBO tenantBetDetailBO = new TenantBetDetailBO();
@@ -110,9 +121,27 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 				TenanteBetBO tenantBetVo = new TenanteBetBO();
 				Elements tdss = tbody.get(i).select("tr>td");
 				tenantBetVo.setTenantId(1L);
-				tenantBetVo.setGameId(8L);
+
 				tenantBetVo.setLossAmount(new BigDecimal(tdss.get(4).text()));
 				tenantBetVo.setBetAmount(new BigDecimal(tdss.get(3).text()));
+
+
+				//获取游戏名称  根据游戏名称设置gameid
+				Elements tdssa = tbody.get(i).select("tr>td>a");
+				String onclick = tdssa.attr("onclick").substring(9);
+
+				Pattern P= Pattern.compile("[A-Z]{4,}");
+				Matcher m=P.matcher(onclick);
+				String names=null;
+				while (m.find()) {
+					String name = m.group(0);
+
+
+					if(null!=name){
+						names=name;
+						 tenantBetVo.setGameId(names);
+					}
+				}
 				if (tenantBetVo.getBetAmount().compareTo(BigDecimal.ZERO)!=0)
 				betBolist.add(tenantBetVo);
 			}
@@ -122,9 +151,6 @@ public class GetBetDetailFunction extends AbstractFunction<BetQueryDto, String, 
 		}
 
 	}
-
-
-
 
 
 }

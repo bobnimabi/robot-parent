@@ -29,6 +29,7 @@ com\robot\og\base\ao\GetBetDetailAO.class
 com\robot\og\base\basic\FunctionEnum.class
 com\robot\og\base\basic\PathEnum.class
 com\robot\og\base\bo\QueryBetBO.class
+com\robot\og\base\basic\GameIdEnum.class
 com\robot\og\base\function\QueryUserFunction.class
 com\robot\og\base\bo\TenantBetDetailBO.class
 com\robot\og\base\bo\GetBetDetailBO.class

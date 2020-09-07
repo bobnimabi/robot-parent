@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Slf4j
+@Lazy
 public class AsyncSelector extends AbstractDispatcher implements ISelector, Runnable, InitializingBean {
     /**
      * 外部订单号缓存前缀

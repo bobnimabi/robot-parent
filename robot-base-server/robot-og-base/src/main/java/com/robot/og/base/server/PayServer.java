@@ -97,7 +97,7 @@ public class PayServer implements IAssemFunction<TaskAtomDto> {
         payAO.setNormalStatus("1");
         payAO.setDepositPro("1");
         payAO.setToken(UUID.randomUUID().toString().replaceAll("-",""));
-        payAO.setDepositMoneyRemark1(moneyDTO.getMemo());  //todo 客户想传入订单号
+        payAO.setDepositMoneyRemark1(moneyDTO.getFrontMemo());  //todo 客户想传入订单号
         payAO.setExteralNo(moneyDTO.getOutPayNo());
 
         return new ParamWrapper<PayAO>(payAO);

@@ -17,7 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class TenanteBetBO implements Serializable {
 
-    private Long gameId;
+    private String gameId;
 
     private BigDecimal lossAmount;
     //实际投注

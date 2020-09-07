@@ -64,6 +64,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\
 C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\robot\manager\CookieSerializeHelper.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\task\dispatcher\ISyncDispatcher.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\task\execute\BeforeHttpProtocalChain.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\function\base\IGameIdEnum.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\common\RedisConsts.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\chain\Invoker.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-core\src\main\java\com\robot\core\httpclient\factory\BuilderFilter.java

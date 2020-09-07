@@ -6,7 +6,6 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBJuQueryDetailBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\JuQueryAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\SessionData.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\X.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\XBBTotalBetGameBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BarIdAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\TotalBetGameFunction.java
@@ -25,7 +24,6 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\PayServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\XBBTotalBetGameFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBTotalBetGameAO.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\RebateBean.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\Cq9BO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\JuQueryDetailBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\InOutCashBO.java
@@ -47,7 +45,6 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetDetailAO2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\JuQueryFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBGetGameCodeAO.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\Premium_data.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\server\QueryUserServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\ResponseBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\XBBJuQueryDetailAO.java
@@ -60,7 +57,6 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\ma
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\function\BetDetailFunction.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\PayAO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\InOutCashData.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\rebate\RebateData.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\ao\BetAO2.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\BreakerQueryBO.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-base-server\robot-bbin-base\src\main\java\com\robot\bbin\base\bo\QueryBalanceBO.java

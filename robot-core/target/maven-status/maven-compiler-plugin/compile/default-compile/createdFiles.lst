@@ -81,6 +81,7 @@ com\robot\core\http\request\MethodEnum.class
 com\robot\core\robot\manager\ICloudIdCard.class
 com\robot\core\httpclient\factory\IHttpClientFactory.class
 com\robot\core\httpclient\factory\HttpClientFactory.class
+com\robot\core\function\base\IGameIdEnum.class
 com\robot\core\function\base\ParamWrapper.class
 com\robot\core\http\response\AbstractResponseHandler.class
 com\robot\core\function\base\IAssemFunction.class

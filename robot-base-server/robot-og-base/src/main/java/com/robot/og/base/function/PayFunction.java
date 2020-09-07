@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.imageio.ImageIO;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -53,19 +54,20 @@ public class PayFunction extends AbstractFunction<PayAO,String, Object> {
 
     @Override
     protected IEntity getEntity(PayAO ao, RobotWrapper robotWrapper) {
-        return UrlEntity.custom(12)
+        return UrlEntity.custom(18)
                 .add("type", ao.getType())
                 .add("memberId", ao.getMemberId())
                 .add("depositMoney", ao.getDepositMoney())
+                .add("depositMoneyRemark", ao.getDepositMoneyRemark())
                 .add("depositPreStatus", "0")
                 .add("depositPre", "1")
                 .add("otherPreStatus", "0")
                 .add("otherPre", "0")
+                .add( "DepositMoneyRemark1",ao.getDepositMoneyRemark1())
                 .add("compBetCheckStatus", ao.getCompBetCheckStatus().toString())
                 .add("compBet", ao.getCompBet().toString())
                 .add("normalStatus", "1")
                 .add("depositPro", "2存款优惠")
-                .add( "DepositMoneyRemark1",ao.getDepositMoneyRemark1())
                 .add("token", UUID.randomUUID().toString().replaceAll("-",""))  //生成随机token
 
                 ;
@@ -102,7 +104,7 @@ public class PayFunction extends AbstractFunction<PayAO,String, Object> {
                 return Response.FAIL("打款失败：" + result);
             } else {
 
-                return Response.SUCCESS();  //payBO
+                return Response.SUCCESS("打款成功");
             }
         }
     }

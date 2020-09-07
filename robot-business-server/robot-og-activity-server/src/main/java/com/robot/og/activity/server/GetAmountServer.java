@@ -40,8 +40,10 @@ public class GetAmountServer implements IAssemFunction<BreakThroughDTO> {
 	@Autowired
 	private GetRechargeServer getRechargeServer;
 
+	/*@Autowired
+	private GetBetDetailFunction getBetDetailFunction;*/
 	@Autowired
-	private GetBetDetailFunction getBetDetailFunction;
+	private GetBetDetailServer getBetDetailServer;
 
 
 	@Override
@@ -55,8 +57,7 @@ public class GetAmountServer implements IAssemFunction<BreakThroughDTO> {
 		}
 		String reCharge = reChargeRsult.getObj();
 
-		//下注详情查询
-		Response<TenantBetDetailBO> betDetailResponse = getBetDetailFunction.doFunction(createBetParams(paramWrapper), robotWrapper);
+		Response<TenantBetDetailBO> betDetailResponse = getBetDetailServer.doFunction(createBetParams(paramWrapper),robotWrapper);
 		if (!betDetailResponse.isSuccess()) {
 			return Response.FAIL("未查询到下注信息");
 		}

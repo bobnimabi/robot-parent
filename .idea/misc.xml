@@ -6,6 +6,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/robot-business-server/robot-jiuwu-activity-server/pom.xml" />
         <option value="$PROJECT_DIR$/robot-business-server/robot-gpk-activity-server/pom.xml" />
+        <option value="$PROJECT_DIR$/robot-business-server/robot-gbkbbin-activity-server/pom.xml" />
       </list>
     </option>
   </component>

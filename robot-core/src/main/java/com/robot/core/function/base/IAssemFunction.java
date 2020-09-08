@@ -19,4 +19,5 @@ public interface IAssemFunction<T> {
      * @throws Exception
      */
     Response doFunction(ParamWrapper<T> paramWrapper, RobotWrapper robotWrapper) throws Exception;
+
 }

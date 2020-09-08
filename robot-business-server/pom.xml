@@ -15,6 +15,7 @@
         <module>robot-bbin-activity-server</module>
         <module>robot-gpk-activity-server</module>
         <module>robot-og-activity-server</module>
+        <module>robot-gbkbbin-activity-server</module>
     </modules>
     <dependencies>
         <dependency>

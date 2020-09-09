@@ -59,7 +59,9 @@ public class BetAmountRechargeLossServer implements IAssemFunction<OrderNoQueryD
         InOutCashBO inOutCashBO = inOutCashBOResponse.getObj();
         if (null==inOutCashBO) {
             return Response.FAIL("未查询到充值金额");
-        }else {
+        }else if(inOutCashBO.getList().get(0).getDep_amount().compareTo(BigDecimal.valueOf(100)) < 0){
+            return Response.FAIL("7天内充值金额小于100");
+        } else {
             betAndLoss.setIncome(inOutCashBO.getList().get(0).getDep_amount());
         }
 

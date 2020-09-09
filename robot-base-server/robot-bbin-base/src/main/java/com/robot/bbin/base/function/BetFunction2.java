@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -68,6 +69,9 @@ public class BetFunction2 extends AbstractFunction<BetAO2,String,List<BetBO> > {
          List<BetBO>  betBOs = JSON.parseArray(result, BetBO.class);
             if(CollectionUtils.isEmpty(betBOs)){
                 return Response.FAIL("未查询到下注信息");
+            }else if(betBOs.get(0).getPayoff().compareTo( BigDecimal.valueOf(-100L))==BigDecimal.ROUND_DOWN){
+                //亏损金额小于100时不满足申请条件
+                return Response.FAIL("亏损金额小于100");
             }
             return Response.SUCCESS(betBOs);
         }

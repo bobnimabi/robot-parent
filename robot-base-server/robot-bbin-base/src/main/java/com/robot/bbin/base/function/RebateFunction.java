@@ -71,16 +71,20 @@ public class RebateFunction extends AbstractFunction<RebateAO, String, String> {
             log.info(result);
             if (StringUtils.isEmpty(result)) {
                 return Response.FAIL("优惠查询:未响应结果" + result);
+            }else if(result.contains("error")){
+                return Response.FAIL("优惠查询失败" + result);
             }
             Pattern P = Pattern.compile("premiumAmount\":\"(.*?)\"}]}}");
             Matcher m = P.matcher(result);
             String amout = null;
             while (m.find()) {
                 String amouts = m.group(1);
-                if (null != amouts) {
                     amout = amouts;
-                }
             }
+            if(null==amout){
+                amout="0";
+            }
+
             return Response.SUCCESS(amout);
 
         }

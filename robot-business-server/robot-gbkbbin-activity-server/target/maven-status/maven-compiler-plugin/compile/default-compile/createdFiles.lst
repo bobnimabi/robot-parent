@@ -1,5 +1,6 @@
 com\robot\bbin\activity\server\OrderQueryServer.class
 com\robot\bbin\activity\server\QueryRechargeServer.class
+com\robot\bbin\activity\GpkBbinActivityStarter.class
 com\robot\bbin\activity\server\BreakerServer.class
 com\robot\bbin\activity\config\MybatisPlusConfig$1.class
 com\robot\bbin\activity\server\GetTokenServer.class
@@ -13,7 +14,6 @@ com\robot\bbin\activity\server\BreakAndBetServer.class
 com\robot\bbin\activity\server\XbbBreakAndBetServer.class
 com\robot\bbin\activity\server\BetAmountRechargeLossServer.class
 com\robot\bbin\activity\controller\BbinController.class
-com\robot\bbin\activity\BbinActivityStarter.class
 com\robot\bbin\activity\interceptor\BbinActivityTenant.class
 com\robot\bbin\activity\server\LuckyNoServer.class
 com\robot\bbin\activity\server\PomponServer.class

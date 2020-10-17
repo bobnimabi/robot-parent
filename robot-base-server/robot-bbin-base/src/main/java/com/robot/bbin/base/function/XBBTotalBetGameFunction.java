@@ -46,12 +46,11 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
         return UrlEntity.custom(7)
                 .add("SearchData", gameDTO.getSearchData())
                 .add("BarID", gameDTO.getBarId())
-                .add("date_start", gameDTO.getDateStart())
+                .add("date_start", gameDTO.getDateEnd())    //查询时间为注单号产生时间
                 .add("date_end", gameDTO.getDateEnd())
                 .add("GameKind", gameDTO.getGameKind())
                 .add("GameType", gameDTO.getGameType())
                 .add("UserID", gameDTO.getUserID());
-
 
     }
 
@@ -65,7 +64,7 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
      */
     @Override
     protected CustomHeaders getHeaders(RobotWrapper robotWrapper) {
-        return CustomHeaders.custom(4).add("X-Requested-With", "");
+        return CustomHeaders.custom(1).add("X-Requested-With", "");
     }
 
     @Override

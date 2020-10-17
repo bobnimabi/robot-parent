@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 查询游戏总投注
- * @Author mrt
- * @Date 2020/6/3 12:05
- * @Version 2.0
+ * @author Tanke
+ * @date  2020/10/17
+ * @desc :
  */
 @Service
-public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
+public class PomGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
+
 
     @Autowired
     private TotalBetGameFunction totalBetGameFunction;
@@ -61,7 +61,7 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
      * @param balanceBO
      * @return
      */
-    private ParamWrapper<TotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO) {
+    private ParamWrapper<TotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper, QueryBalanceBO balanceBO) {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
         TotalBetGameAO gameDTO = new TotalBetGameAO();
@@ -73,3 +73,5 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         return new ParamWrapper<TotalBetGameAO>(gameDTO);
     }
 }
+
+ 

@@ -30,7 +30,6 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
     private QueryBalanceFunction queryBalanceServer;
     @Autowired
     private XBBGetGameCodeFunction getGameCodeFunction;
-
     @Autowired
     private XBBTotalBetGameFunction totalBetGame;
 
@@ -46,6 +45,7 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         //根据注单号查询游戏名称 获取gamecode
         Response<String> gameNameResult = getGameCodeFunction.doFunction(createGameCodeParams(paramWrapper, balanceBO), robotWrapper);
         String gameName = gameNameResult.getObj();
+
 
         // 查询游戏总投注
         Response<XBBTotalBetGameBO> betResult = totalBetGame.doFunction(createBetParams(paramWrapper, balanceBO,gameName), robotWrapper);

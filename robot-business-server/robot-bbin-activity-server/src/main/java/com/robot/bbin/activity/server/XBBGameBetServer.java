@@ -5,6 +5,7 @@ import com.bbin.utils.project.DateUtils;
 import com.robot.bbin.base.ao.TotalBetGameAO;
 import com.robot.bbin.base.ao.XBBGetGameCodeAO;
 import com.robot.bbin.base.ao.XBBTotalBetGameAO;
+import com.robot.bbin.base.bo.JuQueryBO;
 import com.robot.bbin.base.bo.QueryBalanceBO;
 import com.robot.bbin.base.bo.TotalBetGameBO;
 import com.robot.bbin.base.bo.XBBTotalBetGameBO;
@@ -37,6 +38,10 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
     private XBBGetGameCodeFunction getGameCodeFunction;
 
     @Autowired
+    private OrderQueryServer orderQueryServer;
+
+
+    @Autowired
     private XBBTotalBetGameFunction totalBetGame;
 
     @Override
@@ -52,8 +57,17 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         Response<String> gameNameResult = getGameCodeFunction.doFunction(createGameCodeParams(paramWrapper, balanceBO), robotWrapper);
         String gameName = gameNameResult.getObj();
 
+
+        //局查询获取订单产生时间
+
+        // 局查询
+        Response<JuQueryBO> response = orderQueryServer.doFunction(paramWrapper, robotWrapper);
+        if (!response.isSuccess()) {
+            return response;
+        }
+
         // 查询游戏总投注
-        Response<XBBTotalBetGameBO> betResult = totalBetGame.doFunction(createBetParams(paramWrapper, balanceBO,gameName), robotWrapper);
+        Response<XBBTotalBetGameBO> betResult = totalBetGame.doFunction(createBetParams(paramWrapper, balanceBO,gameName,response.getObj().getOrderTime().toString().substring(0,10)), robotWrapper);
         return betResult;
     }
 
@@ -90,12 +104,12 @@ public class XBBGameBetServer implements IAssemFunction<OrderNoQueryDTO> {
      * @param balanceBO
      * @return
      */
-    private ParamWrapper<XBBTotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO,String gameName) {
+    private ParamWrapper<XBBTotalBetGameAO> createBetParams(ParamWrapper<OrderNoQueryDTO> paramWrapper,QueryBalanceBO balanceBO,String gameName,String endDate) {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
         XBBTotalBetGameAO gameDTO = new XBBTotalBetGameAO();
-        gameDTO.setDateStart(queryDTO.getStartDate().format(DateUtils.DF_3));
-        gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
+       // gameDTO.setDateStart(queryDTO.getStartDate().format(DateUtils.DF_3));
+        gameDTO.setDateEnd(endDate);
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
         gameDTO.setBarId("1");

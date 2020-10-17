@@ -19,6 +19,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String,List<TotalBetGameBO>> {
+public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO, String, List<TotalBetGameBO>> {
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -38,17 +41,17 @@ public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String
 
     /**
      * 注释掉的参数，点击“查询”按钮的时候会全部带上，点击“BB电子”是没有的，为了方便临时先去掉
-     *      .add("BarID", gameDTO.getBarId())
-     *      .add("GameKind", gameDTO.getGameKind())
-     *      .add("GameType", "-1") // -1表示全部
-     *      .add("Limit", "100")
-     *      .add("Sort", "DESC")
+     * .add("BarID", gameDTO.getBarId())
+     * .add("GameKind", gameDTO.getGameKind())
+     * .add("GameType", "-1") // -1表示全部
+     * .add("Limit", "100")
+     * .add("Sort", "DESC")
      */
     @Override
     protected IEntity getEntity(TotalBetGameAO gameDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(4)
                 .add("SearchData", gameDTO.getSearchData())
-                .add("date_start", gameDTO.getDateStart())
+                .add("date_start", gameDTO.getDateEnd())
                 .add("date_end", gameDTO.getDateEnd())
                 .add("UserID", gameDTO.getUserID());
     }
@@ -63,7 +66,7 @@ public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String
      */
     @Override
     protected CustomHeaders getHeaders(RobotWrapper robotWrapper) {
-        return CustomHeaders.custom(4).add("X-Requested-With","");
+        return CustomHeaders.custom(4).add("X-Requested-With", "");
     }
 
     @Override
@@ -74,9 +77,11 @@ public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String
     /**
      * 响应结果转换类
      */
-    private static final class ResultHandler implements IResultHandler<String,List<TotalBetGameBO>> {
+    private static final class ResultHandler implements IResultHandler<String, List<TotalBetGameBO>> {
         private static final ResultHandler INSTANCE = new ResultHandler();
-        private ResultHandler(){}
+
+        private ResultHandler() {
+        }
 
         @Override
         public Response parse2Obj(StanderHttpResponse<String, List<TotalBetGameBO>> shr) {
@@ -89,12 +94,15 @@ public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO,String
                 Elements tds = tr.select("td");
                 TotalBetGameBO gameVO = new TotalBetGameBO(
                         tds.get(0).text(),
-                        Integer.parseInt(tds.get(1).text().replaceAll(",","")),
-                        new BigDecimal(tds.get(2).text().replaceAll(",","")),
-                        new BigDecimal(tds.get(3).text().replaceAll(",","")));
+                        Integer.parseInt(tds.get(1).text().replaceAll(",", "")),
+                        new BigDecimal(tds.get(2).text().replaceAll(",", "")),
+                        new BigDecimal(tds.get(3).text().replaceAll(",", "")));
                 list.add(gameVO);
             }
             return Response.SUCCESS(list);
         }
     }
+
 }
+
+

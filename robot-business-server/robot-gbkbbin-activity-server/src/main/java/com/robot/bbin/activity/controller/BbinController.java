@@ -171,7 +171,7 @@ public class BbinController extends ControllerBase {
             return Response.FAIL("起始时间为空");
         }
         if (StringUtils.isEmpty(dto.getGameCode())) {
-            return Response.FAIL("起始时间为空");
+            return Response.FAIL("GameCode为空");
         }
         if (StringUtils.isEmpty(dto.getEndDate().toString())) {
             return Response.FAIL("结束时间为空");

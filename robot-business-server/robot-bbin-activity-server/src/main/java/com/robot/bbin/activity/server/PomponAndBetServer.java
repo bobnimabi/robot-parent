@@ -33,7 +33,7 @@ public class PomponAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
     private PomponServer pomponServer;
 
     @Autowired
-    private GameBetServer gameBetServer;
+    private PomGameBetServer pomGameBetServer;
 
     @Override
     public Response doFunction(ParamWrapper<OrderNoQueryDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
@@ -51,7 +51,7 @@ public class PomponAndBetServer implements IAssemFunction<OrderNoQueryDTO> {
             breakerQueryVO.setBallNumber(breakerQueryVO.getBallNumber() + detailBO.getBallNumber());
         }
 
-        Response<List<TotalBetGameBO>> betListResult = gameBetServer.doFunction(paramWrapper, robotWrapper);
+        Response<List<TotalBetGameBO>> betListResult = pomGameBetServer.doFunction(paramWrapper, robotWrapper);
 
         if (!betListResult.isSuccess()) {
             return betListResult;

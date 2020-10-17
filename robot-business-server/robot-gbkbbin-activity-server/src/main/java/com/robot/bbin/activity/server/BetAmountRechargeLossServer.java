@@ -52,6 +52,9 @@ public class BetAmountRechargeLossServer implements IAssemFunction<OrderNoQueryD
 
             //派彩金额为负数时候，为亏损金额，需要加上优惠活动金额
         Response<String> rebateBeanResponse = rebateFunction.doFunction(creatRebatAOparams(queryDTO),robotWrapper);
+        if(!rebateBeanResponse.isSuccess()){
+            return rebateBeanResponse;
+        }
         String amount = rebateBeanResponse.getObj();
         betAndLoss.setTotalLoss(betBO.get(0).getPayoff().add(new BigDecimal(amount)));
 
@@ -60,7 +63,9 @@ public class BetAmountRechargeLossServer implements IAssemFunction<OrderNoQueryD
         InOutCashBO inOutCashBO = inOutCashBOResponse.getObj();
         if (null==inOutCashBO) {
             return Response.FAIL("未查询到充值金额");
-        }else {
+        }else if(inOutCashBO.getList().get(0).getDep_amount().compareTo(BigDecimal.valueOf(100)) < 0){
+            return Response.FAIL("7天内充值金额小于100");
+        } else {
             betAndLoss.setIncome(inOutCashBO.getList().get(0).getDep_amount());
         }
 

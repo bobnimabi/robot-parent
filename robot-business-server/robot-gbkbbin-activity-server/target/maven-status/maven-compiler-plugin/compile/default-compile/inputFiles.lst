@@ -9,6 +9,7 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-acti
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\RechargeServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\XBBGameBetServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\XBBOrderQueryServer.java
+C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\GpkBbinActivityStarter.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\QueryRechargeServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\BreakerServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\controller\BbinController.java
@@ -17,5 +18,4 @@ C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-acti
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\GameBetServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\BreakAndBetServer.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\BetAmountRechargeLossServer.java
-C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\BbinActivityStarter.java
 C:\Users\8888\IdeaProjects\robot-parent\robot-business-server\robot-gbkbbin-activity-server\src\main\java\com\robot\bbin\activity\server\OrderQueryServer.java

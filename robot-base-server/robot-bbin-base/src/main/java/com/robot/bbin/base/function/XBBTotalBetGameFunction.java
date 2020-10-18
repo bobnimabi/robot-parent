@@ -51,7 +51,6 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
                 .add("GameKind", gameDTO.getGameKind())
                 .add("GameType", gameDTO.getGameType())
                 .add("UserID", gameDTO.getUserID());
-
     }
 
     @Override
@@ -110,5 +109,4 @@ public class XBBTotalBetGameFunction extends AbstractFunction<XBBTotalBetGameAO,
         }
     }
 
-
-        }
+}

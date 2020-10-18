@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Map;
 
 /**
@@ -58,7 +60,7 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         }
         // 校验日期
         JuQueryBO juQueryBO = response.getObj();
-        if (juQueryBO.getOrderTime().isBefore(queryDTO.getStartDate())) {
+        if (juQueryBO.getOrderTime().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.MIN))) {
             return Response.FAIL("订单已过期,订单号："+juQueryBO.getPlatFormOrderNo());
         }
         // 校验会员账号
@@ -89,5 +91,6 @@ public class OrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         juQueryAO.setBarId(barID);
         return new ParamWrapper<JuQueryAO>(juQueryAO);
     }
+
 
 }

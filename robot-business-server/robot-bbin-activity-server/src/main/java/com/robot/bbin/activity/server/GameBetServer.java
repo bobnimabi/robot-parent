@@ -17,6 +17,9 @@ import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -28,8 +31,7 @@ import java.util.List;
 @Service
 public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
 
-    @Autowired
-    private JuQueryFunction juQueryFunction;
+
     @Autowired
     private TotalBetGameFunction totalBetGameFunction;
     @Autowired
@@ -44,9 +46,6 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
             return balanceResult;
         }
         QueryBalanceBO balanceBO = balanceResult.getObj();
-
-        Response<JuQueryBO> juResponse = this.juQueryFunction.doFunction(juQueryAO(queryDTO), robotWrapper);
-
 
         // 查询游戏总投注
         Response<List<TotalBetGameBO>> betResult = totalBetGameFunction.doFunction(createBetParams(paramWrapper, balanceBO), robotWrapper);
@@ -64,15 +63,6 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
     }
 
 
-
-    private ParamWrapper<JuQueryAO> juQueryAO(OrderNoQueryDTO queryDTO) {
-        JuQueryAO juQueryAO = new JuQueryAO();
-        juQueryAO.setGameKind(queryDTO.getGameCode());
-        juQueryAO.setOrderNo(queryDTO.getOrderNo());
-        juQueryAO.setBarId("2");
-        return new ParamWrapper(juQueryAO);
-    }
-
     /**
      * 组装投注查询参数
      * @param paramWrapper
@@ -83,9 +73,7 @@ public class GameBetServer implements IAssemFunction<OrderNoQueryDTO> {
         OrderNoQueryDTO queryDTO = paramWrapper.getObj();
 
         TotalBetGameAO gameDTO = new TotalBetGameAO();
-        gameDTO.setDateStart(queryDTO.getStartDate().format(DateUtils.DF_3));
-
-        gameDTO.setDateEnd(queryDTO.getEndDate().format(DateUtils.DF_3));
+        gameDTO.setDateEnd(LocalDateTime.of(LocalDate.now(), LocalTime.MIN).toString());  //查询当天时间
         gameDTO.setUserID(balanceBO.getUser_id());
         gameDTO.setGameKind(queryDTO.getGameCode());
         return new ParamWrapper<TotalBetGameAO>(gameDTO);

@@ -15,7 +15,9 @@ import com.robot.core.robot.manager.RobotWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Map;
 
 /**
@@ -50,7 +52,7 @@ public class XBBOrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         }
         // 校验日期
         JuQueryBO juQueryBO = response.getObj();
-        if (juQueryBO.getOrderTime().isBefore(queryDTO.getStartDate())) {
+        if (juQueryBO.getOrderTime().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.MIN))) {
             return Response.FAIL("订单已过期,订单号："+juQueryBO.getPlatFormOrderNo());
         }
         // 校验会员账号
@@ -71,6 +73,5 @@ public class XBBOrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         juQueryAO.setBarId("4");
         return new ParamWrapper<JuQueryAO>(juQueryAO);
     }
-
 
 }

@@ -29,9 +29,11 @@ com\robot\bbin\base\bo\XBBJuQueryBO.class
 com\robot\bbin\base\bo\Cq9BO.class
 com\robot\bbin\base\function\JuQueryRoundFunction.class
 com\robot\bbin\base\ao\XBBTotalBetGameAO.class
+com\robot\bbin\base\function\PomTotalBetGameFunction.class
 com\robot\bbin\base\ao\JuQueryDetailAO.class
 com\robot\bbin\base\ao\PayAO.class
 com\robot\bbin\base\function\PomponFunction$ResultHandler.class
+com\robot\bbin\base\function\PomTotalBetGameFunction$ResultHandler.class
 com\robot\bbin\base\ao\RebateAO.class
 com\robot\bbin\base\function\BarIdFunction.class
 com\robot\bbin\base\bo\LuckOrderQueryBO.class

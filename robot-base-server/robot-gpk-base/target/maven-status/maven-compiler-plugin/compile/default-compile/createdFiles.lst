@@ -10,6 +10,7 @@ com\robot\gpk\base\bo\GeneralBO.class
 com\robot\gpk\base\basic\FunctionEnum.class
 com\robot\gpk\base\bo\OrderPageData.class
 com\robot\gpk\base\basic\CheckLostImpl.class
+com\robot\gpk\base\function\CaiJinLeFuction.class
 com\robot\gpk\base\function\QueryUserFunction.class
 com\robot\gpk\base\server\QueryUserServer.class
 com\robot\gpk\base\function\OrderQueryFunction.class
@@ -22,6 +23,7 @@ com\robot\gpk\base\bo\QueryNoBO.class
 com\robot\gpk\base\function\DepositTokenFunction.class
 com\robot\gpk\base\function\QueryBalanceFunction$ResultHandler.class
 com\robot\gpk\base\function\LoginFunction.class
+com\robot\gpk\base\function\CaiJinLeFuction$ResultHandler.class
 com\robot\gpk\base\function\LoginFunction$ResultHandler.class
 com\robot\gpk\base\basic\PathEnum.class
 com\robot\gpk\base\server\PayServer.class

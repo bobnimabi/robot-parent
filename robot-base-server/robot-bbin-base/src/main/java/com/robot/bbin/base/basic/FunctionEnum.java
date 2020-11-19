@@ -12,7 +12,6 @@ public enum FunctionEnum implements IFunctionEnum {
     POMPON_AND_BETSERVER("pomponAndBetServer"),
     XBB_BREAK_AND_BET_SERVER("xbbBreakAndBetServer"),
     BREAK_SERVER("breakerServer"),
-
     ORDER_QUERY_SERVER("orderQueryServer"),
     LUCKY_NO_SERVER("luckyNoServer"),
     GAME_BET_SERVER("gameBetServer"),

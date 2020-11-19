@@ -1,5 +1,6 @@
 package com.robot.core.task.execute;
 
+import com.bbin.utils.IpUtil;
 import com.robot.code.entity.HttpRequestConfig;
 import com.robot.code.entity.TenantRobotPath;
 import com.robot.code.entity.TenantRobotProxy;
@@ -102,8 +103,8 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<FunctionProper
      */
     private void setTimeout(HttpRequestConfig config, ExecuteProperty result) {
         RequestConfig.Builder builder = result.getRequestConfigBuilder();
-        builder.setConnectionRequestTimeout(config.getConnectRequestTimeout() * 1000);
-        builder.setConnectTimeout(config.getConnectTimeout() * 1000);
+        builder.setConnectionRequestTimeout(config.getConnectRequestTimeout() * 10000);
+        builder.setConnectTimeout(config.getConnectTimeout() * 10000);
         // 5.0版本将ResponseTimeOut加上，现在暂时暂时
     }
 
@@ -122,7 +123,6 @@ public class BeforeRequestConfigChain extends ExecuteBeforeFilter<FunctionProper
             Assert.notNull(port, "执行前拦截：Proxy:Port 为空,robotID："+robotId);
             Assert.isTrue(InetAddressUtils.isIPv4Address(proxy.getProxyIp()), "执行前拦截：Proxy:Ip 格式有误,robotID："+robotId);
             Assert.isTrue(port>=0 && port<=65535,"执行前拦截：Proxy:Port 不在0-65535范围内,robotID："+robotId);
-
             RequestConfig.Builder builder = result.getRequestConfigBuilder();
             builder.setProxy(new HttpHost(proxy.getProxyIp(), proxy.getProxyPort()));
             log.info("请求拦截：使用代理：IP：{},PORT:{}", ip, port);

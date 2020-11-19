@@ -3,6 +3,7 @@ package com.robot.bbin.base.function;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.robot.bbin.base.basic.PathEnum;
+import com.robot.bbin.base.bo.NewResponsBo;
 import com.robot.bbin.base.bo.ResponseBO;
 import com.robot.code.dto.LoginDTO;
 import com.robot.code.entity.TenantRobotDomain;
@@ -31,22 +32,22 @@ import java.net.URL;
  */
 @Slf4j
 @Service
-public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO> {
+public class LoginFunction extends AbstractFunction<LoginDTO, String, NewResponsBo> {
     @Autowired
     private ITenantRobotDomainService domainService;
 
     /**
      * 这里重写的原因是：登录完成后，需要手动添加特定cookie
      */
-    @Override
-    public Response<ResponseBO> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
-        Response<ResponseBO> response = super.doFunction(paramWrapper, robotWrapper);
-        ResponseBO loginResp = response.getObj();
+/*    @Override
+    public Response<NewResponsBo> doFunction(ParamWrapper<LoginDTO> paramWrapper, RobotWrapper robotWrapper) throws Exception {
+        Response<NewResponsBo> response = super.doFunction(paramWrapper, robotWrapper);
+        NewResponsBo loginResp = response.getObj();
         if (response.isSuccess()) {
             this.addCookies(robotWrapper,loginResp.getData().getSession_id());
         }
         return response;
-    }
+    }*/
 
     @Override
     protected IPathEnum getPathEnum() {
@@ -77,16 +78,16 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
     }
 
     @Override
-    protected IResultHandler<String, ResponseBO> getResultHandler() {
+    protected IResultHandler<String, NewResponsBo> getResultHandler() {
         return ResultHandler.INSTANCE;
     }
 
-    private static final class ResultHandler implements IResultHandler<String, ResponseBO> {
+    private static final class ResultHandler implements IResultHandler<String, NewResponsBo> {
         private static final ResultHandler INSTANCE = new ResultHandler();
         private ResultHandler() {}
 
         @Override
-        public Response parse2Obj(StanderHttpResponse<String, ResponseBO> shr) {
+        public Response parse2Obj(StanderHttpResponse<String, NewResponsBo> shr) {
             String result = shr.getOriginalEntity();
             log.info("登录响应：{}", result);
             JSONObject jsonObject = JSON.parseObject(result);
@@ -94,8 +95,8 @@ public class LoginFunction extends AbstractFunction<LoginDTO, String, ResponseBO
             if (!isSuccess) {
                 return Response.FAIL(jsonObject.getString("message"));
             }
-            ResponseBO responseBO = JSON.parseObject(result, ResponseBO.class);
-            return Response.SUCCESS(ResponseEnum.LOGIN_SUCCESS, responseBO);
+            NewResponsBo newResponsBo = JSON.parseObject(result, NewResponsBo.class);
+            return Response.SUCCESS(newResponsBo);
         }
     }
 

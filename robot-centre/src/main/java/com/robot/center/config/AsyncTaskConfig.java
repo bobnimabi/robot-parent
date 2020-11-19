@@ -42,7 +42,7 @@ public class AsyncTaskConfig implements AsyncConfigurer {
         // 线程池对拒绝任务(无线程可用)的处理策略
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         //任务超时时间，超过这个时间就会强制销毁
-        taskExecutor.setAwaitTerminationSeconds(60);
+        taskExecutor.setAwaitTerminationSeconds(60000);
  
         taskExecutor.initialize();
         log.info("线程池初始化完成...");

@@ -10,6 +10,7 @@ public enum PathEnum implements IPathEnum {
     /*-------------------------公共部分，请勿删除-------------------------*/
     FLUSH_SESSION("flush_session","刷新Session"),
     LOGIN("login","登录"),
+    SECLOGIN("sec_login","BBin二次登录"),
     IMAGE_CODE("image_code","图片验证码"),
     SMS("sms","短信验证码"),
 
@@ -33,6 +34,7 @@ public enum PathEnum implements IPathEnum {
     GET_GAMECODE("get_gamecode","出入款统计")
 
     ;
+
 
     private final String pathCode;
     private final String message;

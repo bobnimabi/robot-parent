@@ -30,6 +30,23 @@ import java.math.BigDecimal;
 @Slf4j
 @RestController
 public class GpkController extends ControllerBase {
+
+
+
+//   https://www.caijinle.com/
+
+
+
+    @PostMapping("/caijinle")
+    public Response caijinle(String ss) throws Exception {
+
+        Response response = super.dispatcher.dispatch(new ParamWrapper(ss), FunctionEnum.CAIJINLE_SERVER);
+        if (!response.isSuccess()) {
+            return response;
+        }
+        return Response.SUCCESS("刷新成功");
+    }
+
     /**
      * 机器人登录
      * 注意：登录的第一个接口isNewCookie：true

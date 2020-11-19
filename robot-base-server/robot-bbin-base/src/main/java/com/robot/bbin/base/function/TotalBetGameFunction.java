@@ -39,14 +39,7 @@ public class TotalBetGameFunction extends AbstractFunction<TotalBetGameAO, Strin
         return PathEnum.TOTAL_BET_BY_GAME;
     }
 
-    /**
-     * 注释掉的参数，点击“查询”按钮的时候会全部带上，点击“BB电子”是没有的，为了方便临时先去掉
-     * .add("BarID", gameDTO.getBarId())
-     * .add("GameKind", gameDTO.getGameKind())
-     * .add("GameType", "-1") // -1表示全部
-     * .add("Limit", "100")
-     * .add("Sort", "DESC")
-     */
+
     @Override
     protected IEntity getEntity(TotalBetGameAO gameDTO, RobotWrapper robotWrapper) {
         return UrlEntity.custom(4)

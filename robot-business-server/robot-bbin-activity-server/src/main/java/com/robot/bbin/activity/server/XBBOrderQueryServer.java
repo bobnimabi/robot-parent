@@ -52,7 +52,7 @@ public class XBBOrderQueryServer implements IAssemFunction<OrderNoQueryDTO> {
         }
         // 校验日期
         JuQueryBO juQueryBO = response.getObj();
-        if (juQueryBO.getOrderTime().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.MIN))) {
+        if (juQueryBO.getOrderTime().isBefore(LocalDateTime.of(LocalDate.from(LocalDateTime.now().minusHours(12L)), LocalTime.MIN))) {
             return Response.FAIL("订单已过期,订单号："+juQueryBO.getPlatFormOrderNo());
         }
         // 校验会员账号

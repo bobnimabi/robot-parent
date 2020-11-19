@@ -69,7 +69,7 @@
         <!--打印sql语句-->
         <logger name="com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor" level="DEBUG"></logger>
         <!--<logger name="org.apache.http" level="DEBUG"></logger>-->
-        <root level="INFO">
+        <root level="info">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>

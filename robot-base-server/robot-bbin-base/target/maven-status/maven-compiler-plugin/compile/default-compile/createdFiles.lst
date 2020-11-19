@@ -1,3 +1,4 @@
+com\robot\bbin\base\bo\Ws_url.class
 com\robot\bbin\base\ao\InOutCashAO.class
 com\robot\bbin\base\bo\TotalBetGameBO.class
 com\robot\bbin\base\ao\BetDetailAO.class
@@ -19,16 +20,20 @@ com\robot\bbin\base\ao\GameChild.class
 com\robot\bbin\base\function\XBBGetTokenFunction.class
 com\robot\bbin\base\function\XBBTotalBetGameFunction.class
 com\robot\bbin\base\bo\SessionData.class
+com\robot\bbin\base\bo\slogin\SecUser.class
 com\robot\bbin\base\function\JuQueryDetailFunction.class
+com\robot\bbin\base\function\SecondLoginFunction$ResultHandler.class
 com\robot\bbin\base\function\XBBJuQueryDetailFunction$ResultHandler.class
 com\robot\bbin\base\function\BetDetailFunction$ResultHandler.class
 com\robot\bbin\base\bo\InOutCashData.class
+com\robot\bbin\base\bo\LoginUser.class
 com\robot\bbin\base\function\TotalBetGameFunction$ResultHandler.class
 com\robot\bbin\base\ao\TokenAO.class
 com\robot\bbin\base\bo\XBBJuQueryBO.class
 com\robot\bbin\base\bo\Cq9BO.class
 com\robot\bbin\base\function\JuQueryRoundFunction.class
 com\robot\bbin\base\ao\XBBTotalBetGameAO.class
+com\robot\bbin\base\bo\slogin\SecResponseBo.class
 com\robot\bbin\base\function\PomTotalBetGameFunction.class
 com\robot\bbin\base\ao\JuQueryDetailAO.class
 com\robot\bbin\base\ao\PayAO.class
@@ -51,6 +56,7 @@ com\robot\bbin\base\function\BetDetailFunction2$ResultHandler.class
 com\robot\bbin\base\ao\BetDetailAO2.class
 com\robot\bbin\base\bo\InOutCashBO.class
 com\robot\bbin\base\function\TotalBetGameFunction.class
+com\robot\bbin\base\bo\slogin\SecData.class
 com\robot\bbin\base\function\XBBJuQueryFunction$ResultHandler.class
 com\robot\bbin\base\function\JuQueryFunction.class
 com\robot\bbin\base\ao\BarIdAO.class
@@ -61,6 +67,7 @@ com\robot\bbin\base\bo\SessionBO.class
 com\robot\bbin\base\function\LuckyNoFunction.class
 com\robot\bbin\base\server\QueryUserServer.class
 com\robot\bbin\base\bo\TokenBO.class
+com\robot\bbin\base\bo\LoginData.class
 com\robot\bbin\base\function\BetFunction.class
 com\robot\bbin\base\function\InOutCashFunction$ResultHandler.class
 com\robot\bbin\base\function\InOutCashFunction.class
@@ -74,6 +81,7 @@ com\robot\bbin\base\bo\BreakerQueryBO.class
 com\robot\bbin\base\bo\XBBTotalBetGameBO.class
 com\robot\bbin\base\function\BetFunction2.class
 com\robot\bbin\base\server\LoginServer.class
+com\robot\bbin\base\function\SecondLoginFunction.class
 com\robot\bbin\base\function\XBBJuQueryDetailFunction.class
 com\robot\bbin\base\function\JuQueryDetailFunction$ResultHandler.class
 com\robot\bbin\base\bo\ResponseBO.class
@@ -82,4 +90,5 @@ com\robot\bbin\base\function\QueryBalanceFunction.class
 com\robot\bbin\base\function\BetDetailFunction2.class
 com\robot\bbin\base\ao\JuQueryAO.class
 com\robot\bbin\base\function\LoginFunction.class
+com\robot\bbin\base\bo\NewResponsBo.class
 com\robot\bbin\base\function\PayFunction.class

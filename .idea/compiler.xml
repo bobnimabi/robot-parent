@@ -7,23 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="robot-core" />
-        <module name="robot-gbkbbin-activity-server" />
-        <module name="robot-og-activity-server" />
-        <module name="robot-service" />
         <module name="robot-bbin-activity-server" />
+        <module name="robot-service" />
+        <module name="robot-og-activity-server" />
+        <module name="robot-gpk-activity-server" />
         <module name="robot-og-base" />
         <module name="robot-bbin-base" />
         <module name="robot-jgpk-activity-server" />
         <module name="robot-generator" />
         <module name="robot-jiuwu-base" />
-        <module name="robot-gpk-base" />
-        <module name="robot-gpk-activity-server" />
+        <module name="robot-core" />
         <module name="robot-jiuwu-activity-server" />
+        <module name="robot-gbkbbin-activity-server" />
         <module name="robot-centre" />
+        <module name="robot-gpk-base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="caijinle-server" target="1.5" />
       <module name="robot-base-server" target="1.8" />
       <module name="robot-bbin-activity-server" target="1.8" />
       <module name="robot-bbin-base" target="1.8" />
@@ -46,6 +47,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="caijinle-server" options="-parameters" />
       <module name="robot-bbin-activity-server" options="-parameters" />
       <module name="robot-bbin-base" options="-parameters" />
       <module name="robot-centre" options="-parameters" />

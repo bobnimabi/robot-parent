@@ -4,5 +4,6 @@ com\robot\gpk\activity\interceptor\GpkActivityTenant.class
 com\robot\gpk\activity\config\MybatisPlusConfig$1.class
 com\robot\gpk\activity\config\MybatisPlusConfig$2.class
 com\robot\gpk\activity\server\OrderQueryServer.class
+com\robot\gpk\activity\server\CaiJinLeServer.class
 com\robot\gpk\activity\controller\GpkController.class
 com\robot\gpk\activity\config\MybatisPlusConfig.class
